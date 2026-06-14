@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMD — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,77,94,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,77,94,.14),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--red)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.high{color:var(--red);border-color:var(--red);background:rgba(255,77,94,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:14px;position:relative}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:8px}
+.marker{position:absolute;top:-9px;transform:translateX(-50%);transition:left .3s}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid #fff;margin:0 auto}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--bg);margin:-2px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:22px 0 8px}
+.rating-bar .rm{position:absolute;top:-8px;transform:translateX(-50%)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff}
+.rating-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">AMD</div>
+      <div class="name">Advanced Micro Devices, Inc. · Nasdaq · Semi-conducteurs</div>
+      <div class="price">521,54 $ &nbsp;<span class="up">+3,04 % (1J)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">38</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge high">RISQUE ÉLEVÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:38%"><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-labels">
+      <span>0 · Risque très élevé</span><span>25</span><span>50</span><span>75</span><span>100 · Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché début juin 2026</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~880 G$</div><div class="d up">leader semi #2</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">~165×</div><div class="d down">extrêmement élevé</div></div>
+  <div class="kpi"><div class="l">PER prévis.</div><div class="v">~58×</div><div class="d down">&gt; Nvidia (~25×)</div></div>
+  <div class="kpi"><div class="l">Beta</div><div class="v">~2,0</div><div class="d down">très volatil</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">aucun dividende</div></div>
+  <div class="kpi"><div class="l">Perf. 52 sem.</div><div class="v">+~320 %</div><div class="d up">rallye IA</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois</div>
+    <div class="r">Plage : <span class="down">~115 $</span> — <span class="up">~533 $</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ff4d5e" stop-opacity="0.30"/>
+          <stop offset="100%" stop-color="#ff4d5e" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- ~115 -> ~533 : plat puis envolée post-accord OpenAI (oct 25) et résultats (mai 26) -->
+      <path d="M0,236 L73,232 L146,228 L219,224 L292,214 L365,150 L438,140 L511,120 L584,96 L657,60 L730,30 L800,40"
+            fill="none" stroke="#ff4d5e" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,236 L73,232 L146,228 L219,224 L292,214 L365,150 L438,140 L511,120 L584,96 L657,60 L730,30 L800,40 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="40" r="5" fill="#ff4d5e"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Juin 25</span><span>Sep 25</span><span>Déc 25</span><span>Mars 26</span><span>Juin 26</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime extrême — le marché price une exécution IA parfaite.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">~165×</div><div class="cd">Bénéfices GAAP encore faibles vs cours.</div><span class="tag rd">EXTRÊME</span></div>
+  <div class="card"><div class="cl">PER prévisionnel</div><div class="cv">~58×</div><div class="cd">Suppose une croissance &gt;35 %/an sans accroc.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">PEG (forward)</div><div class="cv">~1,1</div><div class="cd">Sous la médiane secteur (~1,45).</div><span class="tag go">CORRECT</span></div>
+  <div class="card"><div class="cl">VE / EBITDA</div><div class="cv">~très élevé</div><div class="cd">Riche même pour une valeur IA.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">vs Nvidia (fwd PER)</div><div class="cv">~58× / ~25×</div><div class="cd">Plus cher que le n°1 du secteur.</div><span class="tag rd">PARADOXE</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~480 $</div><div class="cd">Sous le cours spot — léger downside.</div><span class="tag am">PRUDENCE</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle (Semi-conducteurs IA)</div>
+  <div class="mcomp"><div class="mk">PER forward AMD</div><div class="mvals"><b>~58×</b><span class="sep">vs</span>~37× médiane</div></div>
+  <div class="mcomp"><div class="mk">vs Nvidia</div><div class="mvals"><b>~58×</b><span class="sep">vs</span>~25×</div></div>
+  <div class="mcomp"><div class="mk">vs Broadcom</div><div class="mvals"><b>~58×</b><span class="sep">vs</span>~38×</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi AMD plus cher que Nvidia est-il un signal de risque ?</summary>
+  <div class="body">Le PER (cours / bénéfice) mesure combien on paie pour 1 $ de profit. AMD se paie ~58× les bénéfices attendus, contre ~25× pour Nvidia — alors que Nvidia croît plus vite, garde de meilleures marges (~70 % vs ~52 %) et domine le logiciel (CUDA vs ROCm). Payer le « numéro 2 » plus cher que le « numéro 1 » n'a de sens que si AMD réduit fortement l'écart. À ce niveau, la moindre déception de croissance peut faire chuter le multiple brutalement.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Bilan solide — c'est le point fort du dossier.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Ratio courant</div><div class="cv">~2,7</div><div class="cd">Liquidité confortable.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Dette / Capitaux</div><div class="cv">~0,06</div><div class="cd">Endettement très faible.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Trésorerie</div><div class="cv">10,6 G$</div><div class="cd">vs 5,1 G$ fin 2024.</div><span class="tag gr">EN HAUSSE</span></div>
+  <div class="card"><div class="cl">Marge brute n-GAAP</div><div class="cv">55 %</div><div class="cd">+170 bps sur un an (mix Data Center).</div><span class="tag gr">EN HAUSSE</span></div>
+  <div class="card"><div class="cl">FCF T1 2026</div><div class="cv">2,6 G$</div><div class="cd">x3 sur un an — record.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">ROIC</div><div class="cv">~8 %</div><div class="cd">Encore modeste malgré la croissance.</div><span class="tag am">À AMÉLIORER</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le bilan est-il rassurant mais le ROIC décevant ?</summary>
+  <div class="body">AMD a très peu de dette (ratio 0,06) et 10,6 G$ de trésorerie : aucun risque de solvabilité, et de quoi financer sa croissance. En revanche, le rendement du capital investi (ROIC, ~8 %) reste modeste — héritage du goodwill massif de l'acquisition Xilinx (~49 G$). Autrement dit : le bilan est sain, mais AMD n'a pas encore prouvé qu'il transforme tout son capital en profits aussi efficacement que Nvidia.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Explosive, portée par le Data Center et l'IA.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA T1 2026</div><div class="cv">+38 %</div><div class="cd">10,25 G$ · au-dessus du consensus.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Data Center</div><div class="cv">+57 %</div><div class="cd">5,8 G$ · &gt;50 % du CA total.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Guidance T2</div><div class="cv">~11,2 G$</div><div class="cd">~+45 % YoY, au-dessus du consensus.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Client &amp; Gaming</div><div class="cv">+51 %</div><div class="cd">FY2025 · Ryzen, consoles, Radeon.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Embedded</div><div class="cv">−3 %</div><div class="cd">FY2025 · demande industrielle molle.</div><span class="tag am">FAIBLE</span></div>
+  <div class="card"><div class="cl">BPA n-GAAP T1</div><div class="cv">+43 %</div><div class="cd">1,37 $ · levier opérationnel.</div><span class="tag gr">FORT</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:18%;background:var(--red)"></div></div>
+    <div class="bd-score">18 / 100 — prime extrême, plus cher que Nvidia</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:72%;background:var(--green)"></div></div>
+    <div class="bd-score">72 / 100 — bilan solide, FCF record, ROIC modeste</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:30%;background:var(--amber)"></div></div>
+    <div class="bd-score">30 / 100 — explosive mais déjà price + dépendance capex IA</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×18 + 0,35×72 + 0,30×30</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:38%;background:var(--red)"></div></div>
+    <div class="bd-score" style="color:var(--red)">~38 / 100 — Risque élevé</div>
+  </div>
+</div>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : la croissance est notée bas non pour sa faiblesse (elle est exceptionnelle) mais parce qu'elle est <b>déjà intégralement intégrée dans le cours</b> et dépend du maintien du capex IA des hyperscalers — un facteur de risque, pas de sécurité.</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en amélioration · Rouge = en dégradation</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Trimestre</th><th>CA</th><th>Croiss. CA</th><th>Data Center</th><th>Marge brute n-GAAP</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>T1 2026</td><td>10,25 G$</td><td>+38 %</td><td>5,8 G$</td><td>55 %</td><td><span class="flag gr">▲ Amélior.</span></td></tr>
+    <tr class="imp"><td>T4 2025</td><td>10,3 G$</td><td>+~28 %</td><td>5,4 G$</td><td>57 %*</td><td><span class="flag gr">▲ Amélior.</span></td></tr>
+    <tr class="imp"><td>T3 2025</td><td>~9,2 G$</td><td>+~36 %</td><td>—</td><td>~54 %</td><td><span class="flag gr">▲ Amélior.</span></td></tr>
+    <tr class="dec"><td>T1 2025</td><td>7,44 G$</td><td>+36 %</td><td>3,7 G$</td><td>54 %</td><td><span class="flag rd">▼ Base basse</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : *la marge T4 2025 inclut une reprise de provision MI308 (~360 M$) ; hors effet, ~55 %. La croissance reste forte et soutenue, le Data Center pèse désormais plus de la moitié du CA.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Derniers résultats &amp; jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">Résultats T1 2026 (5 mai)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev">10,25 G$</span></div>
+    <div class="eline"><span>Croissance YoY</span><span class="ev up">+38 %</span></div>
+    <div class="eline"><span>BPA non-GAAP</span><span class="ev">1,37 $</span></div>
+    <div class="eline"><span>BPA GAAP</span><span class="ev up">0,84 $ (+91 %)</span></div>
+    <div class="eline"><span>Marge brute n-GAAP</span><span class="ev">55 %</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Jalons produits / IA</div>
+    <div class="eline"><span>Accord OpenAI</span><span class="ev">6 GW</span></div>
+    <div class="eline"><span>Warrant OpenAI</span><span class="ev">160 M actions</span></div>
+    <div class="eline"><span>MI450 / Helios</span><span class="ev">S2 2026</span></div>
+    <div class="eline"><span>TAM serveur CPU 2030</span><span class="ev">&gt;120 G$</span></div>
+    <div class="eline"><span>Prochains résultats</span><span class="ev">4 août 2026</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi l'accord OpenAI est-il à la fois un atout et un risque ?</summary>
+  <div class="body">OpenAI s'est engagé à déployer 6 gigawatts de GPU AMD (potentiel ~100 G$ de CA), et AMD lui a accordé un warrant pouvant représenter ~10 % du capital. C'est un atout : validation d'AMD comme alternative crédible à Nvidia. Mais c'est aussi un risque : cela <b>dilue</b> les actionnaires existants, lie le sort d'AMD à un client encore déficitaire dont le financement dépend de levées de fonds, et concentre encore plus le chiffre d'affaires Data Center sur quelques gros acheteurs.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Montée en charge MI450 / Helios</div><div class="id">Déploiement S2 2026 ; rampe vers des « dizaines de milliards » de CA IA.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Accord OpenAI 6 GW</div><div class="id">Potentiel ~100 G$ de CA cumulé, relutif au BPA non-GAAP.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Parts de marché prises à Intel</div><div class="id">EPYC continue de grignoter le serveur ; TAM CPU relevé à ~35 %/an.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">IA agentique = demande CPU additive</div><div class="id">L'inférence dope le besoin en CPU en plus du GPU.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Valorisation extrême</div><div class="id">PER fwd ~58× &gt; Nvidia ~25× ; quasi aucune marge en cas de déception.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Domination CUDA de Nvidia</div><div class="id">~85 % de parts IA ; ROCm encore en rattrapage — moat logiciel manquant.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Dépendance TSMC / HBM</div><div class="id">Capacité 2nm et HBM4 limitée — peut plafonner les expéditions.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Digestion du capex IA</div><div class="id">Une pause hyperscaler comprimerait directement le Data Center.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque élevé (38/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:38%"><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span>Risque extrême</span><span>Élevé</span><span>Modéré</span><span>Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> AMD est une <b>entreprise exceptionnelle</b>, dotée d'un <b>bilan très solide</b> (dette quasi nulle, 10,6 G$ de trésorerie, FCF record) et d'une <b>croissance explosive</b> (CA +38 %, Data Center +57 %) portée par le supercycle IA et l'accord OpenAI.<br><br>
+    Ce qui place néanmoins le titre en zone « risque élevé » : une <b>valorisation extrême</b> (PER forward ~58×, soit plus cher que Nvidia qui croît pourtant plus vite et domine le logiciel), une <b>dépendance critique à TSMC/HBM</b> qui peut plafonner les livraisons, et un cours qui a <b>déjà triplé en un an</b> — intégrant une exécution quasi-parfaite du roadmap IA.<br><br>
+    Profil réservé à un investisseur de long terme <b>tolérant à une volatilité extrême</b> (beta ~2), conscient que trois paris doivent se réaliser simultanément (exécution MI450, réduction de l'écart avec Nvidia, maintien du capex hyperscaler). Le risque/rendement à court terme est asymétrique à la baisse. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués AMD (résultats T4 & FY2025 du 3 fév. 2026 ; T1 2026 du 5 mai 2026), dépôts SEC (10-K, 10-Q), StockAnalysis, communiqués AMD/OpenAI (6 oct. 2025), Investing.com, Morningstar, presse financière — données de marché début juin 2026. Les multiples, le beta et le cours sont des ordres de grandeur estimatifs à recouper. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "AMD — Advanced Micro Devices, Inc. | RAPPORT DE SCORE DE RISQUE (juin 2026)",
+    "Échelle : plus le risque est élevé, plus le score est bas (0 = extrême, 100 = sûr)",
+    "",
+    "SCORE GLOBAL : 38/100 — RISQUE ÉLEVÉ",
+    "Cours : ~521,54 $ (+3,04 % 1J) | Cap : ~880 G$",
+    "",
+    "INDICATEURS CLÉS",
+    "- PER (TTM) ~165× | PER prévis. ~58× | Beta ~2,0",
+    "- Dividende 0 % | Perf. 52 sem. ~+320 %",
+    "",
+    "VALORISATION (18/100)",
+    "- PER fwd ~58× (tendu) vs Nvidia ~25× | PEG ~1,1 | cible analystes ~480 $ (downside)",
+    "- vs médiane secteur ~37× | vs Broadcom ~38×",
+    "",
+    "SANTÉ FINANCIÈRE (72/100)",
+    "- Ratio courant ~2,7 | Dette/Capitaux ~0,06 | Trésorerie 10,6 G$",
+    "- Marge brute n-GAAP 55 % (+170 bps) | FCF T1 2026 2,6 G$ (x3) | ROIC ~8 %",
+    "",
+    "CROISSANCE (30/100 — déjà price, dépend du capex IA)",
+    "- CA T1 2026 +38 % (10,25 G$) | Data Center +57 % (5,8 G$) | Guidance T2 ~11,2 G$",
+    "- Client & Gaming +51 % (FY25) | Embedded −3 % | BPA n-GAAP +43 %",
+    "",
+    "TENDANCE TRIMESTRIELLE (croissance forte et soutenue)",
+    "- T1 2026 +38 % | T4 2025 +~28 % | T3 2025 +~36 % | T1 2025 +36 %",
+    "",
+    "DERNIERS RÉSULTATS T1 2026 : CA 10,25 G$, BPA n-GAAP 1,37 $, marge 55 %",
+    "JALONS : Accord OpenAI 6 GW + warrant 160M actions | MI450/Helios S2 2026 | TAM serveur >120 G$ en 2030",
+    "",
+    "CATALYSEURS : MI450/Helios (fort), OpenAI (fort), parts Intel (moyen), IA agentique (moyen)",
+    "RISQUES : Valorisation extrême (fort), CUDA/Nvidia (fort), TSMC/HBM (fort), digestion capex IA (moyen)",
+    "",
+    "VERDICT : Entreprise exceptionnelle, bilan solide, croissance explosive — MAIS valorisation extrême (plus cher que Nvidia), dépendance TSMC/HBM, cours déjà triplé. Risque élevé. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "✓ Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="✓ Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
