@@ -10,11 +10,12 @@
 // ============================================================
 
 import americanExpress from "./american-express.js";
-import AMD from "./amd.js"
+import Amd from "./amd.js"
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
   americanExpress,
+  Amd
   // amd,
   // adyen,
   // toast,
