@@ -9,7 +9,7 @@
 //       public/rapports/<slug>.html
 // ============================================================
 
-import americanExpress from "./american-express.js";
+import americanExpress from "./amex.js";
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
