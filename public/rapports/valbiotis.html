@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALVAL — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,77,94,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,77,94,.18),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--red)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.vhigh{color:var(--red);border-color:var(--red);background:rgba(255,77,94,.12)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--red);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,77,94,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--red);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--red);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,77,94,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:16px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.rating-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">ALVAL</div>
+      <div class="name">Valbiotis S.A. · Euronext Growth Paris · Compléments alimentaires / Santé</div>
+      <div class="price">0,878 € &nbsp;<span class="down">52 sem. : 0,535 – 1,296 €</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">22</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge vhigh">RISQUE TRÈS ÉLEVÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:22%"><div class="mval">22</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données marché et résultats annuels 2025 — au 17 juin 2026</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~21–25 M€</div><div class="d down">nano-cap</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">0,878 €</div><div class="d">vs IPO 10,50 € (2017)</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">n.s.</div><div class="d down">perte nette</div></div>
+  <div class="kpi"><div class="l">CA 2025</div><div class="v">905 k€</div><div class="d up">+417 % a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">aucun dividende</div></div>
+  <div class="kpi"><div class="l">Trésorerie</div><div class="v">4,7 M€</div><div class="d down">avril 2026</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours indicatif sur 12 mois (proxy)</div>
+    <div class="r"><span class="up">+11,6 % (Asie)</span> · <span class="down">AK juin 26</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5b8cff" stop-opacity="0.30"/>
+          <stop offset="100%" stop-color="#5b8cff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- proxy : ~0,90 (juin 25) -> bas été -> pic Asie nov 25 (~1,04) -> rebond mars 26 (~1,30) -> repli AK juin 26 (~0,88) -->
+      <path d="M0,150 L110,175 L220,200 L330,130 L440,95 L540,30 L650,110 L740,150 L800,160"
+            fill="none" stroke="#5b8cff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,150 L110,175 L220,200 L330,130 L440,95 L540,30 L650,110 L740,150 L800,160 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="160" r="5" fill="#5b8cff"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Juin 25</span><span>Asie nov. 25</span><span>Résultats mars 26</span><span>JV Chine</span><span>AK juin 26</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une capitalisation entièrement adossée à des projections d'une rareté extrême — sur un cœur encore déficitaire.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">n.s.</div><div class="cd">Perte nette de 9,42 M€ — pas de bénéfice à multiplier.</div><span class="tag rd">DÉFICITAIRE</span></div>
+  <div class="card"><div class="cl">Cap / CA 2025</div><div class="cv">~25×</div><div class="cd">~23 M€ pour 905 k€ de CA — tendu pour un distributeur.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">Objectif 2027</div><div class="cv">&gt; 25 M€</div><div class="cd">×27 du CA en 2 ans — projection non prouvée.</div><span class="tag am">À NUANCER</span></div>
+  <div class="card"><div class="cl">Objectif analystes</div><div class="cv">2,40–2,70 €</div><div class="cd">vs 0,88 € — upside théorique de +130 à +175 %.</div><span class="tag am">INCERTAIN</span></div>
+  <div class="card"><div class="cl">Consensus</div><div class="cv">Achat Fort</div><div class="cd">Euroland, Portzamparc, Invest Sec., TP ICAP.</div><span class="tag go">HAUSSIER</span></div>
+  <div class="card"><div class="cl">Volatilité</div><div class="cv">&gt; 80 %</div><div class="cd">Flottant réduit, profil très spéculatif.</div><span class="tag rd">VOLATIL</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison — comparables directs majoritairement non cotés</div>
+  <div class="mcomp"><div class="mk">Cap / CA ALVAL</div><div class="mvals"><b>~25×</b><span class="sep">vs</span>nutrition rentable &lt;3×</div></div>
+  <div class="mcomp"><div class="mk">Leaders FR</div><div class="mvals"><b>ALVAL</b><span class="sep">vs</span>Arkopharma / PiLeJe (≫)</div></div>
+  <div class="mcomp"><div class="mk">Rentabilité</div><div class="mvals"><b>négative</b><span class="sep">vs</span>pairs positifs</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le PER est-il « n.s. » ici ?</summary>
+  <div class="body">Le PER (cours / bénéfice) ne fonctionne que si l'entreprise est bénéficiaire. Valbiotis a publié une perte nette de 9,42 M€ en 2025 : il n'y a pas de bénéfice à mettre au dénominateur, donc le ratio est « non significatif ». On évalue alors par le chiffre d'affaires (très faible, 905 k€) et surtout par la valeur des projections futures. Le hic : la capitalisation paie déjà une trajectoire de 25 M€ de CA en 2027, soit une multiplication par plus de 27 en deux ans — un niveau d'exécution rarissime qui reste entièrement à prouver.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Le point le plus fragile : trésorerie sous tension et dilution chronique.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Perte nette 2025</div><div class="cv">−9,42 M€</div><div class="cd">vs −10,03 M€ en 2024 — légère amélioration.</div><span class="tag rd">DÉFICIT</span></div>
+  <div class="card"><div class="cl">EBITDA 2025</div><div class="cv">+296 k€</div><div class="cd">Symbolique, après −30 % de coûts.</div><span class="tag am">À NUANCER</span></div>
+  <div class="card"><div class="cl">Cash burn exploit.</div><div class="cv">−8,04 M€</div><div class="cd">vs −11,54 M€ en 2024.</div><span class="tag rd">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">Trésorerie</div><div class="cv">4,7 M€</div><div class="cd">Avril 2026 ; horizon ~fin Q4 2026.</div><span class="tag rd">CRITIQUE</span></div>
+  <div class="card"><div class="cl">Augm. capital</div><div class="cv">10,2 M€</div><div class="cd">Juin 2026, prix 0,86 €, 1 pour 2 — dilutif.</div><span class="tag rd">DILUTION</span></div>
+  <div class="card"><div class="cl">Dette</div><div class="cv">~0</div><div class="cd">Financement par capitaux propres (dilution).</div><span class="tag go">PAS DE DETTE</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi l'EBITDA positif n'efface pas le risque ?</summary>
+  <div class="body">L'EBITDA 2025 (+296 k€) exclut amortissements, charges financières et certaines charges non-cash (paiement en actions). Il montre que les coûts ont été drastiquement réduits (−30 %). Mais le résultat « tout compris » reste une perte de 9,42 M€, et surtout l'entreprise consomme ~8 M€ de cash par an alors qu'elle ne dispose que de 4,7 M€ de trésorerie (avril 2026). La société a elle-même reconnu ne pas avoir un fonds de roulement suffisant pour 12 mois — d'où l'augmentation de capital de juin 2026, dilutive pour les actionnaires.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Dynamique réelle, mais partant d'une base dérisoire et hautement incertaine.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA 2025</div><div class="cv">+417 %</div><div class="cd">905 k€ vs 175 k€ — base très faible.</div><span class="tag go">FORT %</span></div>
+  <div class="card"><div class="cl">CA T4 2025</div><div class="cv">400 k€</div><div class="cd">×5 vs T4 2024, ×2,3 vs T3.</div><span class="tag gr">ACCÉLÉRATION</span></div>
+  <div class="card"><div class="cl">CA 4 mois 2026</div><div class="cv">547 k€</div><div class="cd">×2,7 vs même période 2025.</div><span class="tag gr">DYNAMIQUE</span></div>
+  <div class="card"><div class="cl">Officines</div><div class="cv">559</div><div class="cd">Effet de seuil recherché (avril 2026).</div><span class="tag go">DÉPLOIEMENT</span></div>
+  <div class="card"><div class="cl">Clients e-com.</div><div class="cv">5 351</div><div class="cd">vs 948 fin 2024 ; panier 71 → 91 €.</div><span class="tag gr">×5,6</span></div>
+  <div class="card"><div class="cl">International</div><div class="cv">0 → 2026</div><div class="cd">JV Chine + MENA, 1ers revenus attendus.</div><span class="tag am">NAISSANT</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:20%;background:var(--red)"></div></div>
+    <div class="bd-score">20 / 100 — cap. adossée à des projections ×27 non prouvées, déficitaire</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:18%;background:var(--red)"></div></div>
+    <div class="bd-score">18 / 100 — perte 9,42 M€, cash burn 8 M€/an, trésorerie tendue, dilution</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:32%;background:var(--amber)"></div></div>
+    <div class="bd-score">32 / 100 — traction réelle mais base dérisoire, objectif 2027 héroïque</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×20 + 0,35×18 + 0,30×32</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:22%;background:var(--red)"></div></div>
+    <div class="bd-score" style="color:var(--red)">22 / 100 — Risque très élevé</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle / annuelle</div>
+<div class="sec-sub">Vert = en amélioration · Rouge = déficitaire / sous tension</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Période</th><th>CA</th><th>EBITDA</th><th>Rés. net</th><th>Trésorerie</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="dec"><td>2024</td><td>175 k€</td><td>négatif</td><td>−10,03 M€</td><td>11,58 M€</td><td><span class="flag rd">▼ R&D / Nestlé</span></td></tr>
+    <tr class="imp"><td>2025</td><td>905 k€</td><td>+296 k€</td><td>−9,42 M€</td><td>8,67 M€</td><td><span class="flag gr">▲ Pivot commercial</span></td></tr>
+    <tr class="imp"><td>T4 2025</td><td>400 k€</td><td>n.c.</td><td>n.c.</td><td>—</td><td><span class="flag gr">▲ ×5 a/a</span></td></tr>
+    <tr class="dec"><td>4 mois 2026</td><td>547 k€</td><td>n.c.</td><td>n.c.</td><td>4,7 M€</td><td><span class="flag rd">▼ Trésorerie tendue</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : la croissance du CA est réelle (×5 au T4 2025) mais part d'une base dérisoire. La trésorerie fond (11,58 → 8,67 → 4,7 M€), d'où l'augmentation de capital dilutive de juin 2026.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Résultats & jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">Résultats annuels 2025</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev up">905 k€ (+417 %)</span></div>
+    <div class="eline"><span>EBITDA</span><span class="ev up">+296 k€</span></div>
+    <div class="eline"><span>Résultat net</span><span class="ev down">−9,42 M€</span></div>
+    <div class="eline"><span>Cash burn exploit.</span><span class="ev down">−8,04 M€</span></div>
+    <div class="eline"><span>Trésorerie (31/12)</span><span class="ev">8,67 M€</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Jalons & gouvernance</div>
+    <div class="eline"><span>Officines (avril 26)</span><span class="ev">559</span></div>
+    <div class="eline"><span>Clients e-commerce</span><span class="ev">5 351</span></div>
+    <div class="eline"><span>JV Chine (Aika)</span><span class="ev">49 % Valbiotis</span></div>
+    <div class="eline"><span>Augm. capital juin 26</span><span class="ev down">10,2 M€ · 0,86 €</span></div>
+    <div class="eline"><span>Objectif CA 2027</span><span class="ev">&gt; 25 M€</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi la dilution est-elle un risque pour l'actionnaire ?</summary>
+  <div class="body">Valbiotis ne génère pas assez de cash pour financer son développement : elle lève régulièrement du capital. L'augmentation de capital de juin 2026 émet jusqu'à 11,84 M d'actions nouvelles (1 action nouvelle pour 2 existantes) à 0,86 €, soit une forte décote. Concrètement, un actionnaire qui ne participe pas voit sa part du capital diminuer mécaniquement. La société reconnaît elle-même un risque de « dilutions futures potentiellement significatives » : tant que la rentabilité n'est pas atteinte, ce risque se reproduit à chaque levée.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Décollage commercial confirmé</div><div class="id">CA T4 2025 ×5 a/a, 547 k€ sur 4 mois 2026 (×2,7) — la dynamique de traction est réelle et s'accélère.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Relais international</div><div class="id">JV Chine (Aika) approuvée mars 2026, accords MENA (Mena Nutrition, Al Danah Qatar) — premiers revenus 2026 à coût maîtrisé.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Différenciation scientifique</div><div class="id">Brevets dans 62 pays, études cliniques phase II/III — rare dans un marché de compléments souvent sans preuve.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Consensus analyste haussier</div><div class="id">« Achat Fort », objectifs 2,16–2,70 € vs ~0,88 € ; élargissement du portefeuille (TOTUM•448).</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Trésorerie & continuité</div><div class="id">Fonds de roulement insuffisant reconnu avant l'offre de juin 2026 ; 4,7 M€ de trésorerie, cash burn ~8 M€/an, levées dilutives répétées.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Objectif 2027 héroïque</div><div class="id">Passer de 905 k€ à 25 M€ suppose ×27 du CA en 2 ans — exécution sans marge d'erreur, jamais prouvée à l'échelle.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Moat de distribution faible</div><div class="id">Marché concurrentiel, switching costs nuls ; la validation clinique aide mais ne verrouille pas les ventes.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Dépendance produit / partenaires</div><div class="id">Cœur TOTUM•63, JV minoritaire (49 %), cicatrice Nestlé (−42 % en 2024) ; risque réglementaire sectoriel.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque très élevé (22/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:22%"><div class="rmval">22</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:12.5%">Extrême</span><span style="left:37.5%">Élevé</span><span style="left:62.5%">Modéré</span><span style="left:87.5%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> Valbiotis est un <b>laboratoire à la différenciation scientifique réelle</b> — brevets dans 62 pays, études cliniques de phase II/III sur TOTUM•63, et une dynamique commerciale qui s'accélère depuis le pivot post-Nestlé (CA T4 2025 ×5 a/a).<br><br>
+    Mais le profil de risque est très élevé pour trois raisons cumulées : une <b>trésorerie sous tension</b> (4,7 M€ fin avril 2026, fonds de roulement insuffisant reconnu, dilution chronique), une <b>valorisation entièrement adossée à des projections d'une rareté extrême</b> (×27 du CA d'ici 2027), et un <b>moat de distribution faible</b> dans un marché de compléments concurrentiel à switching costs nuls.<br><br>
+    Profil réservé à un investisseur tolérant à une volatilité et à un risque de dilution majeurs, qui achète l'option sur l'exécution commerciale (décollage France + international) en acceptant une issue binaire. La position doit être dimensionnée comme une option spéculative, pas comme une conviction de portefeuille. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués Valbiotis (résultats annuels 2025 du 2 mars 2026, augmentation de capital du 8 juin 2026, accords Aika/MENA), couverture analystes (Euroland Corporate, Portzamparc, Invest Securities, TP ICAP Midcap, Oddo BHF), données de cotation (Investing.com, Boursorama, Zonebourse, ABC Bourse) — au 17 juin 2026. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Valbiotis est une nano-cap déficitaire en transformation : l'historique commercial est très court et plusieurs chiffres sont des ordres de grandeur. Des données plus précises pourraient être tirées directement des rapports financiers de la société. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "ALVAL — Valbiotis S.A. | RAPPORT DE SCORE DE RISQUE (17 juin 2026)",
+    "Échelle : plus le risque est élevé, plus le score est bas (0 = extrême, 100 = sûr)",
+    "",
+    "SCORE GLOBAL : 22/100 — RISQUE TRÈS ÉLEVÉ",
+    "Cours : 0,878 € | Cap : ~21-25 M€ | 52 sem. : 0,535-1,296 € | Euronext Growth Paris",
+    "",
+    "INDICATEURS CLÉS",
+    "- CA 2025 905 k€ (+417 %) | EBITDA +296 k€ | Perte nette -9,42 M€",
+    "- Trésorerie 4,7 M€ (avril 2026) | Dividende 0 % | Objectif analystes 2,40-2,70 €",
+    "",
+    "VALORISATION (20/100)",
+    "- PER n.s. (déficitaire) | Cap/CA ~25x | Objectif CA 2027 >25 M€ (x27 en 2 ans, non prouvé)",
+    "- Consensus Achat Fort (Euroland 2,16 € / Portzamparc 2,70 €) | Volatilité >80 %",
+    "",
+    "SANTÉ FINANCIÈRE (18/100)",
+    "- Perte nette -9,42 M€ | Cash burn exploit. -8,04 M€/an | Fonds de roulement insuffisant reconnu",
+    "- Augm. capital juin 2026 : 10,2 M€, prix 0,86 €, 1 pour 2 — dilutif | Pas de dette",
+    "",
+    "CROISSANCE (32/100)",
+    "- CA 2025 +417 % (base dérisoire) | T4 2025 ×5 a/a | 4 mois 2026 547 k€ (×2,7)",
+    "- 559 officines | 5 351 clients e-com (×5,6) | International naissant (JV Chine Aika 49 %, MENA)",
+    "",
+    "TENDANCE : 2024 175 k€ / -10,03 M€ ; 2025 905 k€ / -9,42 M€ / EBITDA +296 k€ ; trésorerie 11,58 → 8,67 → 4,7 M€",
+    "",
+    "CATALYSEURS : Décollage commercial (fort), Relais international (fort), Différenciation scientifique (moyen), Consensus haussier (moyen)",
+    "RISQUES : Trésorerie/continuité (fort), Objectif 2027 héroïque (fort), Moat distribution faible (fort), Dépendance produit/partenaires (moyen)",
+    "",
+    "VERDICT : Différenciation scientifique réelle + traction commerciale, mais trésorerie tendue, valorisation adossée à des projections ×27 non prouvées, moat de distribution faible. Risque très élevé. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "✓ Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="✓ Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
