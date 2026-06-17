@@ -12,7 +12,7 @@ const meta = {
   name: "Space Exploration Technologies Corp.",
   exchange: "Nasdaq",
   sector: "Aérospatiale, Connectivité LEO & IA",
-  initials: "SX",                   // affiché dans la pastille
+  initials: "SPCX",                   // affiché dans la pastille
   tagline: "Conglomérat orbital fondé par Elon Musk : lancement réutilisable, connectivité Starlink et IA (xAI), réuni dans la plus grande IPO de l'histoire.",
   riskScore: 33,                    // score du rapport de risque (ou null)
   riskLabel: "Risque élevé",
