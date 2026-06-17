@@ -15,7 +15,6 @@ import spacex from "./spacex.js";
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
   americanExpress,
-  spacex,
   // amd,
   // adyen,
   // toast,
