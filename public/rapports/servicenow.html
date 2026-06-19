@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOW — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,210,63,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,210,63,.15),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--gold)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.mod{color:var(--gold);border-color:var(--gold);background:rgba(255,210,63,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--gold);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,210,63,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--gold);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--gold);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,210,63,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:16px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.rating-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">NOW</div>
+      <div class="name">ServiceNow, Inc. · NYSE · Logiciel d'entreprise / Workflows IA</div>
+      <div class="price">~97 $ &nbsp;<span class="down">−54 % vs plus-haut 52 sem. (211 $)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">67</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge mod">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:67%"><div class="mval">67</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Cours split-ajusté (5-pour-1, déc. 2025) · données au 18 juin 2026 · exercice clos déc. 2025 + T1 2026</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~100 Mds$</div><div class="d down">−33 % a/a</div></div>
+  <div class="kpi"><div class="l">PER (fwd, non-GAAP)</div><div class="v">~55×</div><div class="d down">vs ~15× secteur</div></div>
+  <div class="kpi"><div class="l">CA 2025</div><div class="v">~13,3 Mds$</div><div class="d up">+21 % a/a</div></div>
+  <div class="kpi"><div class="l">Marge FCF 2025</div><div class="v">~34 %</div><div class="d up">FCF 4,58 Mds$</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">rachats d'actions</div></div>
+  <div class="kpi"><div class="l">Cible analystes</div><div class="v">~150 $</div><div class="d up">consensus achat fort</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (split-ajusté, proxy)</div>
+    <div class="r">Plus-haut <span class="up">~211 $</span> → actuel <span class="down">~97 $</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5b8cff" stop-opacity="0.30"/>
+          <stop offset="100%" stop-color="#5b8cff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- proxy : sommet ~211 $ mi-2025 -> dérating logiciel/IA -> creux ~81-98 $ avr. 26 -> rebond post-T1 -->
+      <path d="M0,55 L110,30 L210,70 L320,120 L430,170 L540,205 L620,225 L690,200 L760,185 L800,178"
+            fill="none" stroke="#5b8cff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,55 L110,30 L210,70 L320,120 L430,170 L540,205 L620,225 L690,200 L760,185 L800,178 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="178" r="5" fill="#5b8cff"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Mi-2025</span><span>Split 5:1 déc.</span><span>Creux ~81 $ avr.</span><span>T1 beat+raise</span><span>~97 $</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Le cours a fondu de plus de moitié, mais le multiple reste tendu pour un actif de très grande qualité.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (fwd)</div><div class="cv">~55×</div><div class="cd">vs ~15× pour le logiciel US — prime large.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">EV / CA</div><div class="cv">~7-8×</div><div class="cd">Élevé en absolu, redescendu vs ~18× au pic.</div><span class="tag am">À NUANCER</span></div>
+  <div class="card"><div class="cl">EV / FCF</div><div class="cv">~22×</div><div class="cd">Plus raisonnable grâce au FCF massif.</div><span class="tag go">CORRECT</span></div>
+  <div class="card"><div class="cl">Décote vs cible</div><div class="cv">~+45 %</div><div class="cd">Cible ~150 $ vs ~97 $ — upside théorique.</div><span class="tag gr">ATTRACTIF</span></div>
+  <div class="card"><div class="cl">Valeur intrinsèque</div><div class="cv">~165 $</div><div class="cd">Estimations DCF tierces > cours actuel.</div><span class="tag gr">SOUS-ÉVALUÉ ?</span></div>
+  <div class="card"><div class="cl">Consensus</div><div class="cv">Achat fort</div><div class="cd">~83 % d'avis acheteurs (54 analystes).</div><span class="tag go">FAVORABLE</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle — logiciel d'entreprise / SaaS</div>
+  <div class="mcomp"><div class="mk">PER fwd NOW</div><div class="mvals"><b>~55×</b><span class="sep">vs</span>médiane secteur ~15×</div></div>
+  <div class="mcomp"><div class="mk">Croissance CA</div><div class="mvals"><b>+21 %</b><span class="sep">vs</span>secteur ~7-10 %</div></div>
+  <div class="mcomp"><div class="mk">Marge FCF</div><div class="mvals"><b>~34 %</b><span class="sep">vs</span>SaaS large ~20-25 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un PER de 55× peut-il être « cher » sans être absurde ?</summary>
+  <div class="body">Le PER (cours / bénéfice) compare le prix payé au profit annuel. À 55×, on paie 55 ans de bénéfices courants — bien au-dessus de la médiane logicielle (~15×). Mais ce ratio ignore deux choses : la croissance (NOW grossit de ~21 %/an, presque 3× le secteur) et la qualité du cash (marge de free cash-flow ~34 %). Rapporté au FCF plutôt qu'au bénéfice comptable, le multiple tombe vers ~22×, plus défendable. La prime n'est pas injustifiée — elle est simplement <b>vulnérable</b> : à ce niveau, le titre ne tolère aucun ralentissement de croissance, ce qui explique la chute de plus de 50 % quand le marché a « dératé » les valeurs IA/logiciel.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">C'est le point fort : rentabilité, génération de cash et bilan parmi les meilleurs du logiciel.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">FCF 2025</div><div class="cv">4,58 Mds$</div><div class="cd">Marge ~34 % — exceptionnel.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Marge opér. (non-GAAP)</div><div class="cv">~30 %</div><div class="cd">Discipline de coûts maintenue.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Trésorerie nette</div><div class="cv">Positive</div><div class="cd">Bilan net cash, peu de dette.</div><span class="tag gr">SAIN</span></div>
+  <div class="card"><div class="cl">RPO total</div><div class="cv">27,7 Mds$</div><div class="cd">+25 % a/a — visibilité du carnet.</div><span class="tag gr">VISIBILITÉ</span></div>
+  <div class="card"><div class="cl">Rachats d'actions</div><div class="cv">+5 Mds$</div><div class="cd">Programme étendu fin 2025.</div><span class="tag go">RETOUR CAPITAL</span></div>
+  <div class="card"><div class="cl">Dilution SBC</div><div class="cv">À surveiller</div><div class="cd">Rémunération en actions élevée (SaaS).</div><span class="tag am">VIGILANCE</span></div>
+</div>
+<details class="explainer">
+  <summary>Qu'est-ce que le « RPO » et pourquoi c'est rassurant ?</summary>
+  <div class="body">Le RPO (« remaining performance obligations ») est la valeur totale des contrats déjà signés mais pas encore reconnus en chiffre d'affaires. À 27,7 Mds$ (+25 %), NOW a plus de deux ans de revenus futurs déjà sécurisés sous contrat. Le cRPO (~12,6 Mds$) est la part qui deviendra du CA dans les 12 mois. C'est un indicateur de <b>visibilité</b> : même si la macro se dégrade, une large part des revenus 2026-2027 est contractuellement engagée. Pour un modèle d'abonnement, c'est le meilleur amortisseur de risque.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Croissance rare à cette taille, désormais portée par l'IA agentique (Now Assist).</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA abonnement T1 26</div><div class="cv">+22 %</div><div class="cd">Accélération vs +19,5 % au T4.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">cRPO T1 26</div><div class="cv">+22,5 %</div><div class="cd">Carnet 12 mois en forte hausse.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Now Assist >1 M$</div><div class="cv">+130 %</div><div class="cd">Clients IA à fort contrat — explosif.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Clients >5 M$ ACV</div><div class="cv">630</div><div class="cd">+22 % a/a — montée en gamme.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Guidance FY26 sub.</div><div class="cv">~15,75 Mds$</div><div class="cd">+22 % a/a, relevée après T1.</div><span class="tag go">RELEVÉE</span></div>
+  <div class="card"><div class="cl">Vents contraires</div><div class="cv">Géopol. / FX</div><div class="cd">Délais de deals (Moyen-Orient), devises.</div><span class="tag am">À SURVEILLER</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:35%;background:var(--amber)"></div></div>
+    <div class="bd-score">35 / 100 — PER fwd ~55× vs ~15× secteur ; prime vulnérable malgré la chute</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:88%;background:var(--green)"></div></div>
+    <div class="bd-score">88 / 100 — marge FCF ~34 %, net cash, RPO 27,7 Mds$, rachats d'actions</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:80%;background:var(--gold)"></div></div>
+    <div class="bd-score">80 / 100 — +22 % d'abonnement, IA agentique en accélération, guidance relevée</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×35 + 0,35×88 + 0,30×80</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:67%;background:var(--gold)"></div></div>
+    <div class="bd-score" style="color:var(--gold)">67 / 100 — Risque modéré</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en amélioration · Rouge = en dégradation · CA total et marges (proxy)</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Trimestre</th><th>CA total</th><th>Croiss. abo.</th><th>cRPO</th><th>BPA non-GAAP</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>T1 2025</td><td>3,09 Md$</td><td>+19 %</td><td>10,3 Md$</td><td>~0,81 $*</td><td><span class="flag gr">▲ Solide</span></td></tr>
+    <tr class="imp"><td>T3 2025</td><td>3,41 Md$</td><td>+21,5 %</td><td>11,35 Md$</td><td>~0,90 $*</td><td><span class="flag gr">▲ Accélère</span></td></tr>
+    <tr class="dec"><td>T4 2025</td><td>~3,6 Md$</td><td>+19,5 %</td><td>~12,0 Md$</td><td>~0,95 $*</td><td><span class="flag rd">▼ Décélère un peu</span></td></tr>
+    <tr class="imp"><td>T1 2026</td><td>3,77 Md$</td><td>+22 %</td><td>12,64 Md$</td><td>0,97 $</td><td><span class="flag gr">▲ Beat & raise</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : BPA non-GAAP marqués * = approximations split-ajustées (5:1). La croissance d'abonnement réaccélère au T1 2026 (+22 %) après un léger creux, et le carnet 12 mois (cRPO) progresse de +22,5 %.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Derniers résultats & jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T1 2026 (22 avril 2026)</div>
+    <div class="eline"><span>CA abonnement</span><span class="ev up">3 671 M$ (+22 %)</span></div>
+    <div class="eline"><span>CA total</span><span class="ev up">3 770 M$ (+22 %)</span></div>
+    <div class="eline"><span>BPA non-GAAP</span><span class="ev up">0,97 $</span></div>
+    <div class="eline"><span>cRPO</span><span class="ev">12,64 Md$ (+22,5 %)</span></div>
+    <div class="eline"><span>Verdict</span><span class="ev up">Beat & raise</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Jalons & gouvernance</div>
+    <div class="eh" style="display:none"></div>
+    <div class="eline"><span>Split d'actions</span><span class="ev">5-pour-1 (déc. 2025)</span></div>
+    <div class="eline"><span>Guidance FY26 abo.</span><span class="ev up">~15,75 Mds$</span></div>
+    <div class="eline"><span>Rachats autorisés</span><span class="ev up">+5 Mds$</span></div>
+    <div class="eline"><span>Prochains résultats</span><span class="ev">21 juil. 2026</span></div>
+    <div class="eline"><span>Direction</span><span class="ev">B. McDermott (CEO)</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le titre a-t-il chuté de plus de 50 % si les résultats sont bons ?</summary>
+  <div class="body">C'est le cœur du dossier : ServiceNow continue de « battre et relever » ses prévisions chaque trimestre, mais le <b>cours s'est effondré quand même</b>. La raison n'est pas opérationnelle, elle est de valorisation. Le marché avait payé le titre à des multiples extrêmes (~18× le CA, PER > 100×) durant l'euphorie IA de 2024-2025. La « dérating » (compression du multiple) des valeurs logicielles et IA a ramené le titre vers des niveaux plus normaux — sans que l'entreprise ait fait quoi que ce soit de mal. Le risque résiduel est donc : le multiple peut-il se comprimer encore ? À ~55× les bénéfices, oui, si la croissance ralentit. C'est ce qui maintient le score en zone « modéré » et non « sûr », malgré une santé financière excellente.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Monétisation de l'IA (Now Assist)</div><div class="id">Clients IA à >1 M$ d'ACV en hausse de +130 % ; bascule vers le pricing à l'usage et aux tokens (~50 % du new business).</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Re-rating possible après la chute</div><div class="id">Décote de ~45 % vs cible analystes (~150 $) et valeur intrinsèque (~165 $) ; consensus achat fort à ~83 %.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Partenariats & acquisitions</div><div class="id">Collaboration IBM élargie, acquisitions Armis (sécurité) et Moveworks ; élargissement du TAM et cross-sell.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Rachats d'actions relutifs</div><div class="id">+5 Mds$ autorisés ; à cours déprimé, les rachats créent davantage de valeur par action.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Valorisation encore tendue</div><div class="id">PER fwd ~55× vs ~15× secteur. Toute déception de croissance peut comprimer davantage le multiple — moteur de la chute de 2026.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Concurrence IA agentique</div><div class="id">Microsoft, Salesforce, hyperscalers et start-ups d'agents IA attaquent le terrain de l'orchestration ; différenciation à défendre.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Dépendance macro / secteur public</div><div class="id">Délais de deals (Moyen-Orient), effet devises, exposition aux contrats fédéraux US sensibles aux coupes budgétaires.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Dilution & ventes d'initiés</div><div class="id">Rémunération en actions élevée (norme SaaS) et ventes d'initiés ponctuelles ; à surveiller sur le BPA dilué.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (67/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:67%"><div class="rmval">67</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:12.5%">Extrême</span><span style="left:37.5%">Élevé</span><span style="left:62.5%">Modéré</span><span style="left:87.5%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> ServiceNow est une <b>entreprise de très grande qualité</b> — croissance d'abonnement de +22 % à plus de 13 Mds$ de CA, marge de free cash-flow d'environ 34 %, bilan net cash, carnet de commandes (RPO) de 27,7 Mds$ et adoption rapide de l'IA agentique (Now Assist).<br><br>
+    Le risque n'est <b>pas opérationnel mais de valorisation</b> : malgré une chute de plus de 50 % du cours depuis son sommet (et un split 5-pour-1), le titre se paie encore ~55× les bénéfices attendus, contre ~15× pour le logiciel. La fondamentale est solide ; le débat porte sur le prix. La décote vs l'objectif analyste (~150 $) et la valeur intrinsèque (~165 $) offre un coussin, mais une nouvelle compression du multiple reste possible si la croissance décélère.<br><br>
+    Profil adapté à un investisseur de qualité-croissance, à horizon long, qui accepte une volatilité élevée et une prime de valorisation en échange d'un actif dominant, très rentable et exposé à la vague IA d'entreprise. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués de résultats ServiceNow (T3 2025, T4/FY 2025, T1 2026 — SEC 8-K et newsroom), couverture marché (Investing.com, Simply Wall St, MarketBeat, CNBC, Yahoo Finance, Morningstar, Robinhood, TipRanks/ChartMill) — au 18 juin 2026. Cours et multiples ajustés du split 5-pour-1 effectif le 18 décembre 2025 ; certains chiffres (BPA trimestriels historiques, EV/FCF) sont des ordres de grandeur normalisés. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "NOW — ServiceNow, Inc. | RAPPORT DE SCORE DE RISQUE (18 juin 2026)",
+    "Échelle : plus le risque est élevé, plus le score est bas (0 = extrême, 100 = sûr)",
+    "",
+    "SCORE GLOBAL : 67/100 — RISQUE MODÉRÉ",
+    "Cours : ~97 $ (split-ajusté 5:1) | Cap : ~100 Mds$ | Plus-haut 52 sem. ~211 $ (−54 %)",
+    "",
+    "INDICATEURS CLÉS",
+    "- CA 2025 ~13,3 Mds$ (+21 %) | FCF 4,58 Mds$ (marge ~34 %) | PER fwd ~55× (vs ~15× secteur)",
+    "- Dividende 0 % (rachats) | Cible analystes ~150 $ | Consensus achat fort (~83 %)",
+    "",
+    "VALORISATION (35/100)",
+    "- PER fwd ~55× vs ~15× secteur | EV/CA ~7-8× | EV/FCF ~22× (plus raisonnable)",
+    "- Décote ~+45 % vs cible | Valeur intrinsèque tierce ~165 $ — prime vulnérable",
+    "",
+    "SANTÉ FINANCIÈRE (88/100)",
+    "- Marge FCF ~34 % | Marge opér. non-GAAP ~30 % | Trésorerie nette positive",
+    "- RPO 27,7 Mds$ (+25 %) | Rachats +5 Mds$ autorisés",
+    "",
+    "CROISSANCE (80/100)",
+    "- CA abonnement T1 2026 +22 % | cRPO +22,5 % | Now Assist >1 M$ ACV +130 %",
+    "- Guidance FY26 abo. ~15,75 Mds$ (relevée) | Clients >5 M$ ACV : 630 (+22 %)",
+    "",
+    "TENDANCE : croissance réaccélère au T1 2026 (+22 %) après léger creux T4 ; beat & raise",
+    "JALONS : split 5:1 (déc. 2025), acquisitions Armis + Moveworks, prochains résultats 21 juil. 2026",
+    "",
+    "CATALYSEURS : Monétisation IA Now Assist (fort), Re-rating post-chute (fort), Partenariats/M&A (moyen), Rachats (moyen)",
+    "RISQUES : Valorisation tendue (fort), Concurrence IA agentique (moyen), Macro/secteur public (moyen), Dilution SBC (moyen)",
+    "",
+    "VERDICT : Actif de très haute qualité (croissance +22 %, FCF 34 %, net cash). Risque non opérationnel mais de valorisation (~55× les bénéfices malgré une chute de >50 %). Risque modéré. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "✓ Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="✓ Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
