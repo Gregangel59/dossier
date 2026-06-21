@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISRG — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+  /* Couleur d'identité du rapport = zone du score global (72 = Or) */
+  --id:var(--gold);
+  --id-rgb:255,210,63;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(var(--id-rgb),.08),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(var(--id-rgb),.16),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.mod{color:var(--id);border-color:var(--id);background:rgba(var(--id-rgb),.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(var(--id-rgb),.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px;color:var(--id)}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(var(--id-rgb),.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:16px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">ISRG</div>
+      <div class="name">Intuitive Surgical, Inc. · Nasdaq · Technologies médicales — Chirurgie robotique</div>
+      <div class="price">406,78 $ &nbsp;<span class="down">−29 % (YTD 2026)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">72</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge mod">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:72%"><div class="mval">72</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché et T1 2026 au 18 juin 2026 — résultats publiés le 21 avril 2026</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~145 Mds$</div><div class="d">Large cap Nasdaq</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">406,78 $</div><div class="d down">−27 % sur 1 an</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">~49×</div><div class="d down">méd. 5 ans ~72×</div></div>
+  <div class="kpi"><div class="l">CA 2025</div><div class="v">10,06 Mds$</div><div class="d up">+20,5 % a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">aucun dividende</div></div>
+  <div class="kpi"><div class="l">Range 52 sem.</div><div class="v">397–604 $</div><div class="d down">proche du bas</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (proxy)</div>
+    <div class="r">Haut : <span class="up">604 $</span> → Actuel : <span class="down">407 $</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- proxy : ~550 (juin 25) -> pic ~604 (janv 26) -> de-rating -> ~407 (juin 26) -->
+      <path d="M0,70 L120,55 L240,30 L340,42 L430,95 L520,120 L620,175 L710,210 L800,205"
+            fill="none" stroke="#ffd23f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,70 L120,55 L240,30 L340,42 L430,95 L520,120 L620,175 L710,210 L800,205 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="205" r="5" fill="#ffd23f"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Juin 25</span><span>Pic janv. 26</span><span>T1 26 beat</span><span>De-rating</span><span>Juin 26</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Prime de qualité justifiée par le moat, mais élevée — déjà dératée par rapport à son historique.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">~49×</div><div class="cd">vs médiane 5 ans ~72× — dératé mais cher.</div><span class="tag go">PRIME</span></div>
+  <div class="card"><div class="cl">PER fwd</div><div class="cv">~39×</div><div class="cd">attentes de croissance du BPA intégrées.</div><span class="tag go">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">EV / CA</div><div class="cv">~14×</div><div class="cd">vs ~3-7× pour les pairs medtech.</div><span class="tag am">TENDU</span></div>
+  <div class="card"><div class="cl">vs secteur</div><div class="cv">~24× méd.</div><div class="cd">PER medtech moyen ~24× — ISRG en prime.</div><span class="tag am">À NUANCER</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~565 $</div><div class="cd">Range 366–620 $ — dispersion élevée.</div><span class="tag gr">+39 %</span></div>
+  <div class="card"><div class="cl">GF Value</div><div class="cv">~599 $</div><div class="cd">Décote estimée ~33 % vs juste valeur.</div><span class="tag gr">DÉCOTE</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle — medtech / chirurgie</div>
+  <div class="mcomp"><div class="mk">PER ISRG</div><div class="mvals"><b>~49×</b><span class="sep">vs</span>secteur ~24×</div></div>
+  <div class="mcomp"><div class="mk">Croissance CA</div><div class="mvals"><b>+20 %</b><span class="sep">vs</span>MDT/JNJ &lt;5 %</div></div>
+  <div class="mcomp"><div class="mk">Récurrence</div><div class="mvals"><b>~86 %</b><span class="sep">vs</span>pairs &lt;</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un PER de 49× peut-il être « modéré » en risque ?</summary>
+  <div class="body">Le PER (cours / bénéfice) de 49× est élevé dans l'absolu, mais trois éléments le nuancent. (1) Il est <b>bien en-dessous</b> de la médiane historique d'ISRG (~72×), donc le marché a déjà purgé une partie de l'excès. (2) Le modèle est récurrent à ~86 % (instruments à chaque procédure), ce qui rend les bénéfices très prévisibles. (3) Le bilan est une forteresse (≈8 Mds$ de trésorerie, dette quasi nulle), ce qui réduit fortement le risque de faillite. Le risque ici n'est donc pas la solvabilité mais le <b>prix payé</b> : si la croissance des procédures normalise sous +12 %, le multiple peut encore se comprimer.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Un bilan forteresse — c'est le pilier le plus solide du dossier.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Trésorerie & plac.</div><div class="cv">~8 Mds$</div><div class="cd">Liquidité massive, sans équivalent sectoriel.</div><span class="tag gr">FORTERESSE</span></div>
+  <div class="card"><div class="cl">Dette</div><div class="cv">~quasi 0</div><div class="cd">Passifs totaux ~2,5 Mds$ — bilan sain.</div><span class="tag gr">SAIN</span></div>
+  <div class="card"><div class="cl">Free cash-flow 25</div><div class="cv">2,5 Mds$</div><div class="cd">vs 1,3 Md$ en 2024 — quasi-doublé.</div><span class="tag gr">RECORD</span></div>
+  <div class="card"><div class="cl">Marge brute</div><div class="cv">~66 %</div><div class="cd">vs ~69 % — pression tarifs + dV5 ramp.</div><span class="tag am">EN BAISSE</span></div>
+  <div class="card"><div class="cl">Rachats actions</div><div class="cv">9,08 Mds$</div><div class="cd">Programme achevé ; 1,13 Md$ au T1 26.</div><span class="tag gr">RELUTIF</span></div>
+  <div class="card"><div class="cl">Marge opér. PF</div><div class="cv">~37 %</div><div class="cd">T4 2025 — rentabilité élevée.</div><span class="tag gr">SOLIDE</span></div>
+</div>
+<details class="explainer">
+  <summary>Qu'est-ce qu'un « bilan forteresse » et pourquoi ça compte ?</summary>
+  <div class="body">Un bilan forteresse signifie que l'entreprise détient beaucoup plus de liquidités que de dettes — ici ~8 Mds$ de trésorerie contre une dette quasi nulle. Concrètement, Intuitive peut financer sa R&D, ses acquisitions et ses rachats d'actions <b>sans jamais dépendre des banques ou des marchés</b>. En cas de récession, de guerre des prix ou de choc tarifaire, elle absorbe le coup sans risque de solvabilité. C'est pourquoi le pilier « santé financière » est noté très haut (95/100) : le risque de destruction permanente de valeur par le bilan est minime.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Forte et récurrente — mais en phase de normalisation post-pandémie.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA 2025</div><div class="cv">+20,5 %</div><div class="cd">10,06 Mds$ — croissance organique forte.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Procédures T1 26</div><div class="cv">+17 %</div><div class="cd">Moteur des consommables récurrents.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Ion (poumon)</div><div class="cv">+39 %</div><div class="cd">Relais de croissance le plus rapide.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Guidance FY26</div><div class="cv">+13,5/15,5 %</div><div class="cd">Sous +17/20 % de 2025 — normalisation.</div><span class="tag am">RALENTIT</span></div>
+  <div class="card"><div class="cl">Base installée</div><div class="cv">11 395</div><div class="cd">+12 % a/a — effet boule de neige.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Placements Chine</div><div class="cv">~4 unités</div><div class="cd">T1 26 — robots domestiques disruptifs.</div><span class="tag rd">FAIBLE</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:55%;background:var(--gold)"></div></div>
+    <div class="bd-score">55 / 100 — prime élevée (PER ~49×) mais déjà dératée vs historique (~72×)</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:95%;background:var(--green)"></div></div>
+    <div class="bd-score">95 / 100 — bilan forteresse, ~8 Mds$ de trésorerie, dette quasi nulle, FCF 2,5 Mds$</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:70%;background:var(--gold)"></div></div>
+    <div class="bd-score">70 / 100 — +20 % de CA et +17 % de procédures, mais guidance qui normalise</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×55 + 0,35×95 + 0,30×70</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:72%;background:var(--gold)"></div></div>
+    <div class="bd-score" style="color:var(--gold)">72 / 100 — Risque modéré</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en amélioration / beat · Rouge = en dégradation / point faible</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Trimestre</th><th>CA</th><th>Croiss. a/a</th><th>BPA non-GAAP</th><th>Procédures</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>T1 2025</td><td>2,25 Mds$</td><td>+19 %</td><td>1,81 $</td><td>+17 %</td><td><span class="flag gr">▲ Solide</span></td></tr>
+    <tr class="imp"><td>T2 2025</td><td>2,44 Mds$</td><td>+21 %</td><td>2,19 $</td><td>~+17 %</td><td><span class="flag gr">▲ Accélère</span></td></tr>
+    <tr class="imp"><td>T4 2025</td><td>2,87 Mds$</td><td>+19 %</td><td>2,53 $</td><td>+18 %</td><td><span class="flag gr">▲ Record</span></td></tr>
+    <tr class="imp"><td>T1 2026</td><td>2,77 Mds$</td><td>+23 %</td><td>2,50 $</td><td>+17 %</td><td><span class="flag gr">▲ Beat</span></td></tr>
+    <tr class="dec"><td>Guidance FY26</td><td>—</td><td>—</td><td>—</td><td>+13,5/15,5 %</td><td><span class="flag am">▼ Normalise</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : 22 beats du consensus sur les 24 derniers trimestres. L'exécution est irréprochable ; le marché sanctionne la décélération annoncée de la guidance, pas une dégradation des résultats publiés.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Derniers résultats & jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T1 2026 (21 avril 2026)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev up">2,77 Mds$ (+23 %)</span></div>
+    <div class="eline"><span>vs consensus</span><span class="ev up">2,62 Mds$ → beat</span></div>
+    <div class="eline"><span>BPA non-GAAP</span><span class="ev up">2,50 $ (+38 %)</span></div>
+    <div class="eline"><span>Placements da Vinci</span><span class="ev">431 (dont 232 dV5)</span></div>
+    <div class="eline"><span>Cash-flow opér.</span><span class="ev up">911,9 M$</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Jalons & gouvernance</div>
+    <div class="eline"><span>Base installée</span><span class="ev">11 395 systèmes</span></div>
+    <div class="eline"><span>Patients traités</span><span class="ev">&gt; 20 M</span></div>
+    <div class="eline"><span>CEO</span><span class="ev">Dave Rosa (juil. 25)</span></div>
+    <div class="eline"><span>Trésorerie</span><span class="ev up">~8 Mds$</span></div>
+    <div class="eline"><span>Acquisition UE</span><span class="ev">~566 M$ (distrib.)</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le titre baisse-t-il alors que les résultats battent le consensus ?</summary>
+  <div class="body">C'est le paradoxe central d'ISRG en 2026. Le T1 a <b>dépassé</b> les attentes (2,77 Mds$ vs 2,62 Mds$), mais le titre a perdu ~29 % depuis janvier. La raison n'est pas dans le compte de résultat : elle est dans les <b>perspectives</b>. La guidance de croissance des procédures (+13,5/15,5 %) est nettement sous les +17/20 % de 2025 — la phase d'hyper-croissance post-pandémie se termine. S'ajoutent quatre vents contraires : robots chinois, GLP-1 sur la bariatrie, alerte FDA SureForm, et un de-rating général des multiples medtech premium. Le marché paie pour la croissance future, pas pour le passé.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Cycle d'upgrade da Vinci 5</div><div class="id">~85 % des placements US ; renouvellement systémique du parc verrouillant les budgets hospitaliers pour 10 ans.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Moat & récurrence (~86 %)</div><div class="id">Switching costs massifs, verrouillage générationnel des chirurgiens, revenus par procédure prévisibles.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Relais Ion (poumon, +39 %)</div><div class="id">Diagnostic pulmonaire mini-invasif que le marché n'a pas pleinement valorisé.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">De-rating = point d'entrée</div><div class="id">PER ~49× vs médiane ~72× ; objectif consensus ~565 $ (+39 %), bilan forteresse.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Normalisation de la croissance</div><div class="id">Guidance procédures +13,5/15,5 % sous +17/20 % de 2025. À 49×, toute décélération comprime le multiple.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Concurrence qui se réveille</div><div class="id">Hugo (Medtronic) cleared US, Ottava (J&J) soumis FDA, robots chinois. Le moat s'érode hors US.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Compression de marge</div><div class="id">Tarifs douaniers (~1 % de CA bakés) + ramp-up dV5. Marge brute de ~69 % à ~66 %.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">GLP-1 & alerte FDA</div><div class="id">Anti-obésité érodant la bariatrie (~-10 %) ; rappel des recharges SureForm — risque réputationnel.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (72/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:72%"><div class="rmval">72</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:12.5%">Extrême</span><span style="left:37.5%">Élevé</span><span style="left:62.5%">Modéré</span><span style="left:87.5%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> Intuitive Surgical est une <b>entreprise d'exception</b> — leader mondial quasi-monopolistique de la chirurgie robotique, avec un modèle « lames de rasoir » récurrent à ~86 %, un bilan forteresse (~8 Mds$ de trésorerie, dette quasi nulle) et une croissance organique de +20 %.<br><br>
+    Le profil de risque est <b>modéré</b> (et non faible) pour trois raisons : une <b>valorisation encore élevée</b> (~49× les bénéfices) malgré un de-rating de ~29 % en 2026, une <b>croissance qui normalise</b> (guidance procédures sous les niveaux 2025), et une <b>concurrence qui se réveille enfin</b> (Hugo, Ottava, robots chinois) après 20 ans de domination. À l'inverse, la solidité financière et la qualité du moat plafonnent le risque baissier.<br><br>
+    Profil adapté à un investisseur de qualité à long terme, qui achète un leader incontesté à un prix dératé mais non bradé, en acceptant une décélération de la croissance et une intensification concurrentielle. La trajectoire des procédures (au-dessus ou en-dessous de +12 %) est le juge de paix. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués de résultats Intuitive Surgical (SEC, T1 2026 du 21 avril 2026 ; FY2025 du 22 janvier 2026), 10-Q T1 2026, couverture (Yahoo Finance, CNBC, CNN, Trefis, Simply Wall St, GuruFocus, MedTech Dive, TipRanks), données de cotation (Macrotrends, StockAnalysis) — au 18 juin 2026. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Plusieurs multiples sont des ordres de grandeur ; des chiffres plus précis figurent dans les dépôts SEC. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "ISRG — Intuitive Surgical | RAPPORT DE SCORE DE RISQUE (18 juin 2026)",
+    "Échelle : plus le risque est élevé, plus le score est bas (0 = extrême, 100 = sûr)",
+    "",
+    "SCORE GLOBAL : 72/100 — RISQUE MODÉRÉ (zone Or)",
+    "Cours : 406,78 $ (−29 % YTD) | Cap : ~145 Mds$ | PER ~49x (méd. 5 ans ~72x)",
+    "",
+    "INDICATEURS CLÉS",
+    "- CA 2025 10,06 Mds$ (+20,5 %) | Dividende 0 % | Cible analystes ~565 $ (range 366–620 $)",
+    "- Trésorerie ~8 Mds$ | Dette quasi nulle | FCF 2025 2,5 Mds$",
+    "",
+    "VALORISATION (55/100)",
+    "- PER ~49x (dératé vs médiane ~72x) | EV/CA ~14x | PER fwd ~39x",
+    "- Prime sur le secteur medtech (~24x) justifiée par le moat et la récurrence",
+    "",
+    "SANTÉ FINANCIÈRE (95/100)",
+    "- Bilan forteresse : ~8 Mds$ trésorerie, dette quasi nulle, marge opér. PF ~37 %",
+    "- Rachats 9,08 Mds$ achevés (relutif) | Cash-flow opér. T1 26 911,9 M$",
+    "",
+    "CROISSANCE (70/100)",
+    "- CA 2025 +20,5 % | Procédures T1 26 +17 % | Ion +39 % | Base installée 11 395 (+12 %)",
+    "- Guidance FY26 +13,5/15,5 % (sous +17/20 % 2025) — normalisation | Chine ~4 placements",
+    "",
+    "T1 2026 (21 avril) : CA 2,77 Mds$ (+23 %, beat vs 2,62 Mds$) | BPA non-GAAP 2,50 $ (+38 %)",
+    "- 431 placements da Vinci (dont 232 dV5) | CEO Dave Rosa (depuis juil. 2025)",
+    "",
+    "CATALYSEURS : Upgrade da Vinci 5 (fort), Moat/récurrence 86 % (fort), Ion poumon (moyen), De-rating = entrée (moyen)",
+    "RISQUES : Normalisation croissance (fort), Concurrence Hugo/Ottava/Chine (fort), Compression marge tarifs (moyen), GLP-1 + alerte FDA (moyen)",
+    "",
+    "VERDICT : Leader quasi-monopolistique, bilan forteresse, moat puissant — mais valorisation encore élevée (49x), croissance qui normalise et concurrence qui se réveille. Risque modéré. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "✓ Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="✓ Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
