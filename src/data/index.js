@@ -17,7 +17,7 @@ import spacex from "./isrg.js";
 export const COMPANIES = [
   americanExpress,
   spacex,
-  isrg,
+  intuitevesurgical,
     // amd,
   // adyen,
   // toast,
