@@ -17,7 +17,7 @@ import intuitivesurgical from "./isrg.js";
 export const COMPANIES = [
   americanExpress,
   spacex,
-  intuitevesurgical,
+  intuitivesurgical,
     // amd,
   // adyen,
   // toast,
