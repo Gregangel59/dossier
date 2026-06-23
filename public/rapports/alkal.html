@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALKAL — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --id:var(--amber);
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,159,67,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,159,67,.16),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.high{color:var(--id);border-color:var(--id);background:rgba(255,159,67,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,159,67,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id-d{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,159,67,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:16px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">ALKAL</div>
+      <div class="name">Kalray S.A. · Euronext Growth Paris · Semi-conducteurs (DPU / IP)</div>
+      <div class="price">9,24 € &nbsp;<span class="up">+0,5 % (séance)</span> · +527 % sur 6 mois</div>
+    </div>
+    <div class="score-box">
+      <div class="num">32</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge high">RISQUE ÉLEVÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:32%"><div class="mval">32</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché au 23 juin 2026 — comptes annuels 2025 (publiés le 23 avril 2026)</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~136 M€</div><div class="d up">x10+ en 1 an</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">9,24 €</div><div class="d">23 juin 2026</div></div>
+  <div class="kpi"><div class="l">PER</div><div class="v">n.s.</div><div class="d down">perte nette</div></div>
+  <div class="kpi"><div class="l">CA semi-co 2025</div><div class="v">14,3 M€</div><div class="d up">x4 a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">aucun dividende</div></div>
+  <div class="kpi"><div class="l">Plage 52 sem.</div><div class="v">0,40–16,00 €</div><div class="d up">clôture 9,24 €</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur ~12 mois (proxy normalisé)</div>
+    <div class="r">Creux : <span class="down">0,40 €</span> → <span class="up">9,24 €</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ff9f43" stop-opacity="0.30"/>
+          <stop offset="100%" stop-color="#ff9f43" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- proxy : creux ~0,40 € été 25 -> reprise cotation -> rallye résultats fév./avr. 26 -> pic 16 € -> repli ~9 € -->
+      <path d="M0,238 L120,232 L240,222 L360,150 L470,70 L560,16 L650,60 L740,120 L800,96"
+            fill="none" stroke="#ff9f43" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,238 L120,232 L240,222 L360,150 L470,70 L560,16 L650,60 L740,120 L800,96 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="96" r="5" fill="#ff9f43"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Creux 0,40 €</span><span>Reprise cot.</span><span>Résultats fév.</span><span>Pic 16 €</span><span>~9 €</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime de marché extrême sur un micro-CA — et un objectif analystes très en deçà du cours.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER</div><div class="cv">n.s.</div><div class="cd">Perte nette de 4,5 M€ en 2025 — pas de bénéfice à multiplier.</div><span class="tag rd">DÉFICITAIRE</span></div>
+  <div class="card"><div class="cl">Cap / CA conso.</div><div class="cv">~8,3×</div><div class="cd">~136 M€ pour 16,5 M€ de CA — tendu pour un micro-cap.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">Cap / CA semi-co</div><div class="cv">~9,5×</div><div class="cd">Sur le seul périmètre conservé (14,3 M€).</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~1,50 €</div><div class="cd">Potentiel baissier de ~-84 % vs cours.</div><span class="tag rd">SURÉVALUÉ</span></div>
+  <div class="card"><div class="cl">Performance 6 mois</div><div class="cv">+527 %</div><div class="cd">Cours décuplé en moins d'un an.</div><span class="tag am">SPÉCULATIF</span></div>
+  <div class="card"><div class="cl">Consensus</div><div class="cv">Neutre</div><div class="cd">2 analystes : 0 achat, 1 conserver, 1 vendre.</div><span class="tag am">PRUDENT</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison — micro-cap niche, peu de pairs cotés directs</div>
+  <div class="mcomp"><div class="mk">Cap / CA ALKAL</div><div class="mvals"><b>~8,3×</b><span class="sep">vs</span>semi-co IP ~5–8×</div></div>
+  <div class="mcomp"><div class="mk">Cours vs cible</div><div class="mvals"><b>9,24 €</b><span class="sep">vs</span>~1,50 € analystes</div></div>
+  <div class="mcomp"><div class="mk">Marge brute</div><div class="mvals"><b>93,3 %</b><span class="sep">vs</span>51,5 % (2024)</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un écart aussi grand entre le cours et l'objectif analystes ?</summary>
+  <div class="body">Le cours (~9,24 €) se paie largement sur un récit : recentrage réussi sur la propriété intellectuelle, exposition au thème IA et « souveraineté technologique européenne ». Les rares analystes qui suivent le titre valorisent plutôt les flux réels — un CA de 16,5 M€ et une trésorerie limitée — d'où une cible moyenne autour de 1,50 €, soit ~84 % sous le cours. Cet écart ne signifie pas que les analystes ont raison, mais il mesure une chose : le marché tarife un scénario d'exécution très optimiste, encore largement à prouver.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Premier exercice rentable au niveau EBITDA, mais une trésorerie et un horizon de financement encore minces.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">EBITDA semi-co</div><div class="cv">+6,2 M€</div><div class="cd">Premier EBITDA positif de l'histoire (vs -3,9 M€).</div><span class="tag gr">TOURNANT</span></div>
+  <div class="card"><div class="cl">EBITDA consolidé</div><div class="cv">+4,6 M€</div><div class="cd">vs -8,2 M€ en 2024 — net redressement.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Résultat net 2025</div><div class="cv">−4,5 M€</div><div class="cd">vs -23,3 M€ — perte fortement réduite.</div><span class="tag am">EN BAISSE</span></div>
+  <div class="card"><div class="cl">Trésorerie</div><div class="cv">3,0 M€</div><div class="cd">vs 1,7 M€ — faible en valeur absolue.</div><span class="tag rd">FRAGILE</span></div>
+  <div class="card"><div class="cl">Dette financière</div><div class="cv">8,3 M€</div><div class="cd">vs 13,0 M€ — PGE gelé jusqu'au 1ᵉʳ oct. 2026.</div><span class="tag am">À SURVEILLER</span></div>
+  <div class="card"><div class="cl">Free cash-flow</div><div class="cv">+2,3 M€</div><div class="cd">vs -21,1 M€ (dopé par cessions d'actifs).</div><span class="tag go">À NUANCER</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi l'EBITDA positif ne dissipe pas le risque financier ?</summary>
+  <div class="body">L'EBITDA (6,2 M€ sur le semi-conducteur) exclut les amortissements, les frais financiers et les provisions. Il montre que le nouveau modèle (licences + services) dégage de la marge. Mais le résultat « tout compris » reste une perte nette de 4,5 M€, et surtout la trésorerie n'est que de ~3 M€ pour un horizon de financement estimé « au-delà du 30 juin 2026 » — un coussin mince. Le free cash-flow positif est en partie porté par le produit de la cession d'actifs (13,3 M€), pas seulement par l'exploitation courante. Autrement dit : le redressement est réel mais jeune, et la marge de sécurité financière reste limitée.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Croissance spectaculaire à périmètre constant — mais très concentrée sur un seul partenaire.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA semi-co 2025</div><div class="cv">x4</div><div class="cd">3,6 M€ → 14,3 M€ à périmètre comparable.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Marge brute</div><div class="cv">93,3 %</div><div class="cd">vs 51,5 % — bascule vers le modèle IP/licence.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Guidance 2026</div><div class="cv">2 chiffres</div><div class="cd">Croissance visée + amélioration EBITDA.</div><span class="tag go">POSITIF</span></div>
+  <div class="card"><div class="cl">Dépendance client</div><div class="cv">Openchip</div><div class="cd">Le partenaire porte l'essentiel des revenus.</div><span class="tag rd">CONCENTRÉ</span></div>
+  <div class="card"><div class="cl">Nouveau contrat</div><div class="cv">&gt;10 M€</div><div class="cd">Cadre IA/HPC sur 18 mois + royalties.</div><span class="tag am">À CONFIRMER</span></div>
+  <div class="card"><div class="cl">CA consolidé</div><div class="cv">−33,7 %</div><div class="cd">16,5 M€ : effet cession Data Acceleration Platform.</div><span class="tag am">PÉRIMÈTRE</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:12%;background:var(--red)"></div></div>
+    <div class="bd-score">12 / 100 — prime extrême, cours ~6× la cible analystes, déficitaire</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:38%;background:var(--amber)"></div></div>
+    <div class="bd-score">38 / 100 — EBITDA positif mais trésorerie 3 M€, horizon de financement court</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:48%;background:var(--gold)"></div></div>
+    <div class="bd-score">48 / 100 — CA x4 et marge 93 %, mais revenus concentrés sur Openchip</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×12 + 0,35×38 + 0,30×48</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:32%;background:var(--amber)"></div></div>
+    <div class="bd-score" style="color:var(--amber)">32 / 100 — Risque élevé</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== TREND TABLE ===== -->
+<div class="sec-title">Tendance par indicateur</div>
+<div class="sec-sub">Vert = en amélioration · Ambre = mitigé · Rouge = point de fragilité</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Indicateur</th><th>2024</th><th>2025</th><th>Évolution</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>CA semi-co</td><td>3,6 M€</td><td>14,3 M€</td><td>x4</td><td><span class="flag gr">▲ Forte hausse</span></td></tr>
+    <tr class="imp"><td>EBITDA consolidé</td><td>−8,2 M€</td><td>+4,6 M€</td><td>+12,8 M€</td><td><span class="flag gr">▲ Bascule</span></td></tr>
+    <tr class="imp"><td>Résultat net</td><td>−23,3 M€</td><td>−4,5 M€</td><td>+18,8 M€</td><td><span class="flag am">▲ Moins déficit.</span></td></tr>
+    <tr class="imp"><td>Marge brute</td><td>51,5 %</td><td>93,3 %</td><td>+41,8 pts</td><td><span class="flag gr">▲ Modèle IP</span></td></tr>
+    <tr class="dec"><td>Trésorerie</td><td>1,7 M€</td><td>3,0 M€</td><td>+1,3 M€</td><td><span class="flag rd">▼ Niveau bas</span></td></tr>
+    <tr class="imp"><td>Dette financière</td><td>13,0 M€</td><td>8,3 M€</td><td>−4,7 M€</td><td><span class="flag gr">▲ Désendett.</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : le CA consolidé recule de -33,7 % (16,5 M€) du fait de la cession de la branche « Data Acceleration Platform » en février 2025 — un effet de périmètre, non un déclin opérationnel du cœur semi-conducteur.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Résultats 2025 & jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">Comptes annuels 2025</div>
+    <div class="eline"><span>CA consolidé</span><span class="ev">16,5 M€</span></div>
+    <div class="eline"><span>CA semi-co (périm. const.)</span><span class="ev up">14,3 M€ (x4)</span></div>
+    <div class="eline"><span>EBITDA semi-co</span><span class="ev up">+6,2 M€</span></div>
+    <div class="eline"><span>Résultat net</span><span class="ev down">−4,5 M€</span></div>
+    <div class="eline"><span>Free cash-flow</span><span class="ev up">+2,3 M€</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Jalons & gouvernance</div>
+    <div class="eline"><span>Partenariat clé</span><span class="ev">Openchip</span></div>
+    <div class="eline"><span>Effectifs</span><span class="ev">~128 (vs 230)</span></div>
+    <div class="eline"><span>Horizon financement</span><span class="ev down">&gt; 30 juin 2026</span></div>
+    <div class="eline"><span>BSA Openchip</span><span class="ev down">exerçables 0,69 €</span></div>
+    <div class="eline"><span>Option de contrôle</span><span class="ev down">jusqu'à ~51 %</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi les options d'Openchip sont-elles un risque pour l'actionnaire ?</summary>
+  <div class="body">Le partenaire industriel Openchip dispose de bons de souscription (BSA) exerçables à 0,69 € — très en dessous du cours actuel — lui permettant de monter à ~20 % du capital, puis d'un mécanisme par augmentation de capital pouvant l'amener jusqu'à ~51 %. Concrètement : (1) l'exercice de ces BSA dilue fortement les actionnaires existants à un prix bien inférieur au marché ; (2) Openchip pourrait, à terme, prendre le contrôle de Kalray. C'est à la fois le moteur du redressement (le partenariat porte la quasi-totalité du CA) et une source majeure d'incertitude pour le minoritaire.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Bascule vers la rentabilité</div><div class="id-d">Premier EBITDA positif (+6,2 M€) et FCF positif — validation du modèle IP/licence à forte marge (93 %).</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Nouveau contrat-cadre IA/HPC</div><div class="id-d">Accord &gt;10 M€ sur 18 mois en finalisation avec un acteur majeur, sur le modèle Openchip — preuve de passage à l'échelle.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Positionnement souveraineté</div><div class="id-d">Seul acteur européen DPU ; thème gigafactories d'IA, défense, spatial — narratif porteur.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Désendettement & coûts maîtrisés</div><div class="id-d">Dette ramenée à 8,3 M€, effectifs réduits, charges -34 % — structure plus légère.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Valorisation déconnectée</div><div class="id-d">~136 M€ pour 16,5 M€ de CA ; cible analystes ~1,50 € (~-84 %). Toute déception comprime brutalement le titre.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Concentration sur Openchip</div><div class="id-d">L'essentiel du CA dépend d'un partenaire qui détient aussi des options de montée au capital jusqu'à ~51 % (dilution).</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Liquidité tendue</div><div class="id-d">Trésorerie ~3 M€, horizon de financement « au-delà du 30 juin 2026 », PGE gelé jusqu'au 1ᵉʳ octobre 2026.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Volatilité spéculative</div><div class="id-d">Cours décuplé en 1 an (0,40 € → 16 € → ~9 €) ; flux d'actualités et sentiment dominent les fondamentaux.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque élevé (32/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:32%"><div class="rmval">32</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:12.5%">Extrême</span><span style="left:37.5%">Élevé</span><span style="left:62.5%">Modéré</span><span style="left:87.5%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> Kalray a réussi en 2025 un <b>redressement opérationnel réel</b> — recentrage sur la propriété intellectuelle, premier EBITDA positif (+6,2 M€), marge brute de 93 %, free cash-flow positif et désendettement. Le pari technologique (DPU, IA, souveraineté européenne) est crédible et le nouveau modèle a fait ses preuves sur un exercice.<br><br>
+    Mais le profil de risque reste élevé pour trois raisons cumulées : une <b>valorisation déconnectée des fondamentaux</b> (~136 M€ pour 16,5 M€ de CA, cours ~6× la cible analystes), une <b>dépendance extrême à Openchip</b> — qui porte l'essentiel des revenus et détient des options de montée au capital jusqu'à ~51 % avec un effet dilutif majeur (BSA à 0,69 €) — et une <b>liquidité encore tendue</b> (trésorerie ~3 M€, horizon de financement court).<br><br>
+    Profil réservé à un investisseur averti, tolérant à une volatilité extrême et au risque de dilution, qui achète l'optionnalité du modèle IP en acceptant qu'un redressement d'un seul exercice ne constitue pas encore une trajectoire établie. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqué de résultats annuels 2025 de Kalray (Actusnews, 23 avril 2026), Boursorama, Zonebourse, Investing.com, Yahoo Finance, Option Finance, VIPress, Ideal-Investisseur — données au 23 juin 2026. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Kalray est une micro-capitalisation très volatile cotée sur Euronext Growth ; plusieurs multiples sont des ordres de grandeur. Des chiffres plus précis peuvent être tirés du rapport financier annuel. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "ALKAL — Kalray S.A. | RAPPORT DE SCORE DE RISQUE (23 juin 2026)",
+    "Échelle : plus le risque est élevé, plus le score est bas (0 = extrême, 100 = sûr)",
+    "",
+    "SCORE GLOBAL : 32/100 — RISQUE ÉLEVÉ",
+    "Cours : 9,24 € (+527 % sur 6 mois) | Cap : ~136 M€ | Euronext Growth Paris",
+    "",
+    "INDICATEURS CLÉS",
+    "- CA conso. 2025 16,5 M€ | CA semi-co 14,3 M€ (x4) | EBITDA semi-co +6,2 M€",
+    "- Résultat net −4,5 M€ | FCF +2,3 M€ | Trésorerie ~3,0 M€ | Dividende 0 %",
+    "- Cible analystes ~1,50 € (potentiel ~-84 %)",
+    "",
+    "VALORISATION (12/100)",
+    "- PER n.s. (déficitaire) | Cap/CA conso. ~8,3× | Cap/CA semi-co ~9,5× (tendu)",
+    "- Cours ~6× la cible analystes ; consensus Neutre (0 achat / 1 conserver / 1 vendre)",
+    "",
+    "SANTÉ FINANCIÈRE (38/100)",
+    "- 1er EBITDA positif (+6,2 M€ semi-co, +4,6 M€ conso.) MAIS perte nette −4,5 M€",
+    "- Trésorerie ~3 M€, horizon financement > 30 juin 2026, PGE gelé jusqu'au 1er oct. 2026",
+    "",
+    "CROISSANCE (48/100)",
+    "- CA semi-co x4 (3,6 → 14,3 M€) | marge brute 93,3 % | guidance 2026 à 2 chiffres",
+    "- MAIS revenus très concentrés sur Openchip | CA conso. −33,7 % (effet cession DAP)",
+    "",
+    "TENDANCE 2024 → 2025",
+    "- EBITDA conso. −8,2 → +4,6 M€ | Rés. net −23,3 → −4,5 M€ | Dette 13,0 → 8,3 M€",
+    "",
+    "CATALYSEURS : Bascule rentabilité (fort), Nouveau contrat IA/HPC >10 M€ (fort), Souveraineté EU (moyen), Désendettement (moyen)",
+    "RISQUES : Valorisation déconnectée (fort), Concentration Openchip + dilution BSA 0,69 € (fort), Liquidité tendue (fort), Volatilité spéculative (moyen)",
+    "",
+    "VERDICT : Redressement opérationnel réel (EBITDA+, marge 93 %), mais valo déconnectée, dépendance Openchip avec option de contrôle ~51 %, liquidité tendue. Risque élevé. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "✓ Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="✓ Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
