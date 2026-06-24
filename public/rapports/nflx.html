@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NFLX — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --id:var(--gold);          /* identité du rapport : score global 63 = zone Or */
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,210,63,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,210,63,.16),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.mod{color:var(--gold);border-color:var(--gold);background:rgba(255,210,63,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,210,63,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id-d{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,210,63,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:16px;margin-top:8px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--id);color:var(--id)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">NFLX</div>
+      <div class="name">Netflix, Inc. · Nasdaq · Streaming vidéo &amp; divertissement</div>
+      <div class="price">77,03 $ &nbsp;<span class="down">−39 % vs plus-haut 52 sem. (134,12 $)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">63</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge mod">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:63%"><div class="mval">63</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché et résultats au 22 juin 2026 — exercice 2025 clos, T1 2026 publié le 16 avril 2026</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~325 Mds$</div><div class="d down">−19 % sur 12 mois</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">77,03 $</div><div class="d down">plancher 52 sem.</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">~24,6×</div><div class="d up">74 % sous moy. 10 ans</div></div>
+  <div class="kpi"><div class="l">CA 2025</div><div class="v">45,2 Mds$</div><div class="d up">+16 % a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">rachats d'actions</div></div>
+  <div class="kpi"><div class="l">Cible analystes</div><div class="v">~114 $</div><div class="d up">consensus « Buy »</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (base post-split 10-pour-1)</div>
+    <div class="r"><span class="down">134 $</span> → <span class="down">77 $</span> (−43 % du pic)</div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- pic ~134$ juin 25 (y bas) -> repli prog. -> plancher 75$ fév 26 -> rebond léger -> 77$ juin 26 -->
+      <path d="M0,30 L110,55 L210,90 L320,140 L420,120 L520,210 L600,180 L690,160 L800,195"
+            fill="none" stroke="#ffd23f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,30 L110,55 L210,90 L320,140 L420,120 L520,210 L600,180 L690,160 L800,195 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="195" r="5" fill="#ffd23f"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Pic 134 $ (juin 25)</span><span>Split (nov. 25)</span><span>Échec WBD (avr. 26)</span><span>Plancher 75 $ (fév./juin 26)</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Prime de qualité dégonflée par la correction, mais encore exigeante sur une croissance qui ralentit.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">~24,6×</div><div class="cd">BPA TTM 3,15 $ ; 74 % sous la moyenne 10 ans (~93×).</div><span class="tag go">RAISONNABLE</span></div>
+  <div class="card"><div class="cl">PER (fwd)</div><div class="cv">~40×</div><div class="cd">Élevé sur croissance décélérant vers +12-14 %.</div><span class="tag am">TENDU</span></div>
+  <div class="card"><div class="cl">EV / CA</div><div class="cv">~7,0×</div><div class="cd">Prime de pure-play rentable vs pairs &lt;3×.</div><span class="tag am">PRIME</span></div>
+  <div class="card"><div class="cl">EV / EBIT</div><div class="cv">~24×</div><div class="cd">Soutenu par marge opér. 29,5 %.</div><span class="tag go">CORRECT</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~114 $</div><div class="cd">Range 80–151 $ ; ~48 % d'upside théorique.</div><span class="tag gr">UPSIDE</span></div>
+  <div class="card"><div class="cl">Rendement div.</div><div class="cv">0 %</div><div class="cd">Capital réinvesti + rachats d'actions.</div><span class="tag go">CROISSANCE</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle — streaming &amp; divertissement</div>
+  <div class="mcomp"><div class="mk">PER NFLX</div><div class="mvals"><b>~24,6×</b><span class="sep">vs</span>DIS ~19× · AMZN ~38×</div></div>
+  <div class="mcomp"><div class="mk">Marge opér.</div><div class="mvals"><b>29,5 %</b><span class="sep">vs</span>pairs streaming &lt;20 %</div></div>
+  <div class="mcomp"><div class="mk">ROE 5 ans</div><div class="mvals"><b>~30 %</b><span class="sep">vs</span>DIS ~6 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un PER « raisonnable » mais une valo « tendue » ?</summary>
+  <div class="body">Le PER (cours / bénéfice) sur les 12 derniers mois est tombé à ~24,6× après la chute de 39 % du titre — soit 74 % sous sa moyenne historique de 10 ans (~93×). Sur ce critère, l'action n'a jamais été aussi « bon marché » par rapport à elle-même. Le hic : le PER prospectif (~40×) reste élevé parce que le bénéfice 2025 est dopé par des éléments favorables, et parce que la croissance ralentit (de +16 % à +12-14 %). On paie donc encore une prime d'hypercroissance sur une entreprise qui mûrit. La valeur dépend de deux paris : la publicité (qui doit doubler puis tripler) et la poursuite de l'expansion de marge.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Le point fort absolu : rentabilité record, cash abondant, bilan solide.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Bénéfice net 2025</div><div class="cv">11,0 Mds$</div><div class="cd">+26 % a/a — record historique.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Marge opér. 2025</div><div class="cv">29,5 %</div><div class="cd">vs 26,7 % (2024), 22 % (2023).</div><span class="tag gr">EXPANSION</span></div>
+  <div class="card"><div class="cl">Free cash-flow</div><div class="cv">~9,5 Mds$</div><div class="cd">+38 % a/a ; ~12,5 Mds$ visés 2026.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Objectif marge 2026</div><div class="cv">31,5 %</div><div class="cd">Expansion visée chaque année.</div><span class="tag gr">AMBITIEUX</span></div>
+  <div class="card"><div class="cl">Coût du contenu</div><div class="cv">~18 Mds$</div><div class="cd">~50-60 % du CA — poste dominant.</div><span class="tag am">À NUANCER</span></div>
+  <div class="card"><div class="cl">Élément exceptionnel</div><div class="cv">+2,8 Mds$</div><div class="cd">Frais résiliation WBD — gonfle 2026.</div><span class="tag am">PONCTUEL</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le bénéfice 2026 est-il « gonflé » ?</summary>
+  <div class="body">Au T1 2026, Netflix a publié un BPA de 1,23 $, très au-dessus du consensus (0,76 $). Mais ce chiffre inclut un frais exceptionnel de 2,8 Mds$ versé par Paramount après que Netflix s'est retiré de la bataille pour racheter Warner Bros. Hors cet élément non récurrent, le BPA sous-jacent ressort plutôt à ~0,70 $ — en deçà des attentes. Le free cash-flow 2026 relevé à 12,5 Mds$ est lui aussi partiellement dopé par ce frais après impôt. Conclusion : il faut distinguer le résultat « tout compris » (flatté) du résultat récurrent (la vraie tendance), bien plus modeste.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Solide mais en décélération assumée ; la publicité doit prendre le relais.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA 2025</div><div class="cv">+16 %</div><div class="cd">45,2 Mds$ ; +17 % à devises constantes.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Guidance CA 2026</div><div class="cv">+12-14 %</div><div class="cd">50,7-51,7 Mds$ — décélération.</div><span class="tag go">RALENTIT</span></div>
+  <div class="card"><div class="cl">Abonnés</div><div class="cv">325 M+</div><div class="cd">Cible 430 M en 2030.</div><span class="tag gr">LEADER</span></div>
+  <div class="card"><div class="cl">Publicité 2025</div><div class="cv">&gt;1,5 Md$</div><div class="cd">×2,5 a/a ; ~3 Mds$ visés 2026.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Marchés matures</div><div class="cv">UCAN/EMEA</div><div class="cd">Saturés — croissance via prix &amp; pub.</div><span class="tag am">PLAFOND</span></div>
+  <div class="card"><div class="cl">Moteur volume</div><div class="cv">APAC</div><div class="cd">Japon, Inde — relais de membres.</div><span class="tag go">À PROUVER</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:42%;background:var(--amber)"></div></div>
+    <div class="bd-score">42 / 100 — PER TTM dégonflé mais fwd P/E ~40× tendu sur croissance qui ralentit</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:82%;background:var(--green)"></div></div>
+    <div class="bd-score">82 / 100 — RN 11 Mds$, marge opér. 29,5 %, FCF ~9,5 Mds$, bilan solide</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:66%;background:var(--gold)"></div></div>
+    <div class="bd-score">66 / 100 — +16 % en 2025 mais décélération vers +12-14 %, pub en relais</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×42 + 0,35×82 + 0,30×66</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:63%;background:var(--gold)"></div></div>
+    <div class="bd-score" style="color:var(--gold)">63 / 100 — Risque modéré</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance par indicateur</div>
+<div class="sec-sub">Vert = en amélioration · Rouge = en dégradation · Ambre = à surveiller</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Indicateur</th><th>2023</th><th>2024</th><th>2025</th><th>2026E</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>CA (Mds$)</td><td>33,7</td><td>39,0</td><td>45,2</td><td>~51,2</td><td><span class="flag gr">▲ +14 %</span></td></tr>
+    <tr class="imp"><td>Marge opér.</td><td>22 %</td><td>26,7 %</td><td>29,5 %</td><td>31,5 %</td><td><span class="flag gr">▲ Expansion</span></td></tr>
+    <tr class="imp"><td>Bénéfice net (Mds$)</td><td>~5,4</td><td>8,7</td><td>11,0</td><td>~13</td><td><span class="flag gr">▲ Hausse</span></td></tr>
+    <tr class="dec"><td>Croissance CA</td><td>+7 %</td><td>+16 %</td><td>+16 %</td><td>+12-14 %</td><td><span class="flag rd">▼ Décélère</span></td></tr>
+    <tr><td>Publicité (Mds$)</td><td>~0,4</td><td>~0,6</td><td>&gt;1,5</td><td>~3,0</td><td><span class="flag gr">▲ ×2</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : la profitabilité et la pub progressent fortement, mais le taux de croissance du CA décélère — signe de maturité. Le BPA 2026 est dopé par le frais de résiliation Warner Bros. (~2,8 Mds$).</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Derniers résultats &amp; jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T1 2026 (16 avril 2026)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev up">12,25 Mds$ (+16,2 %)</span></div>
+    <div class="eline"><span>BPA publié</span><span class="ev">1,23 $ (gonflé)</span></div>
+    <div class="eline"><span>BPA récurrent (hors WBD)</span><span class="ev down">~0,70 $</span></div>
+    <div class="eline"><span>Marge opér. visée 2026</span><span class="ev">31,5 %</span></div>
+    <div class="eline"><span>Frais résiliation WBD</span><span class="ev up">+2,8 Mds$</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Jalons &amp; gouvernance</div>
+    <div class="eline"><span>Abonnés payants</span><span class="ev">325 M+</span></div>
+    <div class="eline"><span>Cible abonnés 2030</span><span class="ev">430 M</span></div>
+    <div class="eline"><span>Annonceurs (tier pub)</span><span class="ev up">&gt;4 000 (+70 %)</span></div>
+    <div class="eline"><span>Reed Hastings (conseil)</span><span class="ev down">départ juin 2026</span></div>
+    <div class="eline"><span>Prochains résultats</span><span class="ev">16 juil. 2026</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi la série d'échecs M&amp;A pèse-t-elle sur le titre ?</summary>
+  <div class="body">En quelques mois en 2026, Netflix a tenté d'acquérir Warner Bros. (abandonné après une bataille avec Paramount), a perdu Roku face à Fox, et a manifesté de l'intérêt pour Lionsgate. Pour les investisseurs, cette série de tentatives soulève deux questions : d'une part, elle suggère que le management cherche un relais de croissance externe, ce qui sous-entend que la croissance organique plafonne ; d'autre part, après une décennie de croissance organique disciplinée, un virage vers de grosses acquisitions changerait le profil de risque (dette, goodwill, intégration). La discipline affichée (« rien n'est indispensable ») rassure, mais le marché reste vigilant.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Montée en puissance de la publicité</div><div class="id-d">×2,5 en 2025, ~3 Mds$ visés 2026, potentiellement ~9,6 Mds$ en 2030 — relais de croissance à marge élevée.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Pricing power &amp; expansion de marge</div><div class="id-d">Hausses de prix sans churn massif ; marge opér. 29,5 % → 31,5 % visé, expansion chaque année.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Live, sport &amp; nouveaux formats</div><div class="id-d">NFL, boxe, WWE, concerts, podcasts, gaming — capte temps d'écran et inventaire pub premium.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Valorisation dégonflée</div><div class="id-d">−39 % depuis le pic ; consensus « Buy », cible ~114 $ vs ~77 $.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Décélération structurelle</div><div class="id-d">Croissance +16 % → +12-14 % ; marchés matures saturés. Toute déception est lourdement sanctionnée.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Valorisation prospective tendue</div><div class="id-d">Fwd P/E ~40× sur croissance ralentie ; compression de multiple possible si la pub ou les prix déçoivent.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Nouveau géant Paramount-WBD</div><div class="id-d">Fusion ~110 Mds$ (HBO Max + Paramount+ + cinéma) ; capacité à subventionner une guerre des prix.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Pari M&amp;A &amp; transparence réduite</div><div class="id-d">Échecs WBD/Roku/Lionsgate ; arrêt de la publication des abonnés trimestriels.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (63/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:63%"><div class="rmval">63</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="margin-left:0">Extrême</span><span>Élevé</span><span>Modéré</span><span>Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> Netflix est une <b>entreprise exceptionnelle</b> — le seul acteur pure-play du streaming à avoir prouvé une rentabilité élevée (marge opér. 29,5 %, bénéfice net 11 Mds$, FCF ~9,5 Mds$), n°1 mondial avec 325 M d'abonnés et un relais publicitaire en pleine accélération.<br><br>
+    Le profil de risque est <b>modéré</b> et porté par trois tensions : une <b>croissance qui décélère</b> structurellement (de +16 % à +12-14 %) à mesure que les marchés matures saturent, une <b>valorisation prospective encore exigeante</b> (fwd P/E ~40×) qui intègre l'exécution parfaite de la publicité et de l'expansion de marge, et une <b>concurrence qui se concentre</b> (fusion Paramount-Warner Bros.). La série d'échecs M&amp;A (Warner Bros., Roku, Lionsgate) et l'arrêt de la communication des abonnés ajoutent un point de vigilance sur l'allocation du capital et la transparence.<br><br>
+    La correction de 39 % a ramené le PER TTM (~24,6×) bien sous sa moyenne historique, améliorant le profil risque/rendement pour un investisseur de qualité patient — sous réserve que la croissance ne déçoive pas davantage. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : lettres aux actionnaires Netflix (8-K SEC, T4 2025 du 20 janvier 2026 et T1 2026 du 16 avril 2026), couverture résultats et marché (Variety, The Hollywood Reporter, CNBC, Reuters, Yahoo Finance, Morningstar, Robinhood, Macrotrends, Simply Wall St, TipRanks), documents Paramount Skydance (8-K SEC) — au 22 juin 2026. Cours exprimés en base post-split (split 10-pour-1 du 17 novembre 2025). Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Plusieurs multiples et ventilations sont des ordres de grandeur ; des chiffres plus précis figurent dans les dépôts SEC. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "NFLX — Netflix, Inc. | RAPPORT DE SCORE DE RISQUE (22 juin 2026)",
+    "Échelle : plus le risque est élevé, plus le score est bas (0 = extrême, 100 = sûr)",
+    "",
+    "SCORE GLOBAL : 63/100 — RISQUE MODÉRÉ",
+    "Cours : 77,03 $ (-39 % vs plus-haut 134,12 $) | Cap : ~325 Mds$ | PER TTM ~24,6x",
+    "(Cours en base post-split 10-pour-1 du 17 nov. 2025)",
+    "",
+    "INDICATEURS CLÉS",
+    "- CA 2025 45,2 Mds$ (+16 %) | Bénéfice net 11,0 Mds$ | Marge opér. 29,5 %",
+    "- FCF ~9,5 Mds$ | Dividende 0 % | Cible analystes ~114 $ (consensus Buy)",
+    "",
+    "VALORISATION (42/100)",
+    "- PER TTM ~24,6x (74 % sous moy. 10 ans) MAIS fwd P/E ~40x tendu",
+    "- EV/CA ~7,0x | ROE 5 ans ~30 % | croissance qui décélère",
+    "",
+    "SANTÉ FINANCIÈRE (82/100)",
+    "- Bénéfice net record 11 Mds$ (+26 %), marge opér. 29,5 % -> 31,5 % visé 2026",
+    "- FCF ~9,5 Mds$ (+38 %) ; coût contenu ~18 Mds$ ; bilan solide",
+    "",
+    "CROISSANCE (66/100)",
+    "- CA +16 % en 2025 -> +12-14 % visé 2026 (décélération assumée)",
+    "- 325 M abonnés (cible 430 M en 2030) | Pub >1,5 Md$ ->~3 Mds$ (x2)",
+    "- Marchés matures (UCAN/EMEA) saturés ; relais APAC + monétisation",
+    "",
+    "RÉSULTATS T1 2026 : CA 12,25 Mds$ (+16,2 %), BPA publié 1,23 $ GONFLÉ par +2,8 Mds$ (frais WBD) ; BPA récurrent ~0,70 $",
+    "GOUVERNANCE : co-CEOs Sarandos & Peters ; départ de Reed Hastings du conseil (juin 2026)",
+    "",
+    "CATALYSEURS : Publicité (fort), Pricing/marge (fort), Live & sport (moyen), Valo dégonflée (moyen)",
+    "RISQUES : Décélération (fort), Valo prospective tendue (fort), Géant Paramount-WBD (fort), Pari M&A/transparence (moyen)",
+    "",
+    "VERDICT : Entreprise exceptionnelle, seule rentable en pure-play streaming. Risque modéré : croissance qui ralentit, valo prospective exigeante, concurrence qui se concentre. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "✓ Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="✓ Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
