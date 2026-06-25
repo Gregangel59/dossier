@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI — Rapport de Score de Risque (Air Liquide)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+  /* Couleur d'identité du rapport = zone du score global (Or, 50-75) */
+  --id:#ffd23f;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,210,63,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,210,63,.16),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.mod{color:var(--gold);border-color:var(--gold);background:rgba(255,210,63,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,210,63,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"\2212"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,210,63,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:16px;margin-top:8px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">AI</div>
+      <div class="name">Air Liquide S.A. · Euronext Paris · Gaz industriels &amp; médicaux</div>
+      <div class="price">~170 € &nbsp;<span class="mut">après attribution d'actions gratuites (10 juin 2026)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">69</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge mod">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:69%"><div class="mval">69</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Résultats annuels 2025 (publiés le 20 février 2026) et données de marché au 24 juin 2026</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~100 Mds€</div><div class="d">CAC 40 · Euro Stoxx 50</div></div>
+  <div class="kpi"><div class="l">PER (est. 2026)</div><div class="v">~26×</div><div class="d">prime de qualité</div></div>
+  <div class="kpi"><div class="l">CA 2025</div><div class="v">26,94 Mds€</div><div class="d up">+2,0 % comparable</div></div>
+  <div class="kpi"><div class="l">Résultat net</div><div class="v">3,52 Mds€</div><div class="d up">+6,4 % (record)</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">~2,2 %</div><div class="d up">3,70 € (+12,1 %)</div></div>
+  <div class="kpi"><div class="l">Marge opér.</div><div class="v">&gt; 20 %</div><div class="d up">+100 bps hors énergie</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (Euronext Paris, proxy normalisé)</div>
+    <div class="r">52 sem. : <span class="down">155 €</span> → <span class="up">190 €</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- proxy : consolidation 2025 ~165-190 €, hausse post-résultats fév. 2026, ajustement actions gratuites juin 2026 -->
+      <path d="M0,150 L110,170 L210,120 L320,135 L430,70 L520,90 L620,60 L700,150 L800,140"
+            fill="none" stroke="#ffd23f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,150 L110,170 L210,120 L320,135 L430,70 L520,90 L620,60 L700,150 L800,140 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="140" r="5" fill="#ffd23f"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Juin 25</span><span>Résultats T3</span><span>FY2025 (fév.)</span><span>Div. (mai)</span><span>Act. gratuites (10 juin)</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime de qualité, mais une décote relative vs le leader mondial sur tous les multiples.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (est. 2026)</div><div class="cv">~26×</div><div class="cd">Prime vs marché européen, mais inférieur à Linde.</div><span class="tag go">PRIME MODÉRÉE</span></div>
+  <div class="card"><div class="cl">EV / EBIT</div><div class="cv">~18×</div><div class="cd">Sous Linde (~24×) — décote relative.</div><span class="tag gr">RAISONNABLE</span></div>
+  <div class="card"><div class="cl">EV / CA</div><div class="cv">~3,5×</div><div class="cd">vs ~5,5× pour Linde — moins cher.</div><span class="tag gr">ATTRACTIF</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~195-200 €</div><div class="cd">~62 % à l'achat (avant ajust. act. gratuites).</div><span class="tag gr">HAUSSIER</span></div>
+  <div class="card"><div class="cl">Rdt dividende</div><div class="cv">~2,2 %</div><div class="cd">3,70 € (+12,1 %), aristocrate du dividende.</div><span class="tag go">CROISSANT</span></div>
+  <div class="card"><div class="cl">Décote vs Linde</div><div class="cv">~25-30 %</div><div class="cd">Marge de sécurité relative.</div><span class="tag gr">FAVORABLE</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle — gaz industriels mondiaux</div>
+  <div class="mcomp"><div class="mk">PER AI</div><div class="mvals"><b>~26×</b><span class="sep">vs</span>Linde ~29-34×</div></div>
+  <div class="mcomp"><div class="mk">Marge opér.</div><div class="mvals"><b>~21 %</b><span class="sep">vs</span>Linde ~30 %</div></div>
+  <div class="mcomp"><div class="mk">EV/EBIT</div><div class="mvals"><b>~18×</b><span class="sep">vs</span>APD ~16×</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi une « prime de qualité » sur Air Liquide ?</summary>
+  <div class="body">Air Liquide se paie ~26× ses bénéfices, plus cher que la moyenne du marché européen, parce que ses revenus sont très prévisibles : une large part du chiffre d'affaires vient de contrats on-site de 15-20 ans avec clauses take-or-pay (le client paie même s'il ne consomme pas) et indexation automatique. Le marché paie pour cette visibilité et pour 71 ans de hausse ininterrompue du dividende. Le hic : à 26×, le titre intègre déjà beaucoup de bonnes nouvelles — il reste moins cher que Linde, mais une déception sur l'objectif de marge comprimerait le multiple.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Un bilan solide, des marges en hausse et un retour actionnarial parmi les plus réguliers d'Europe.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Résultat net 2025</div><div class="cv">3,52 Mds€</div><div class="cd">Record, +6,4 % (+10,1 % hors change).</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Marge opér. courante</div><div class="cv">&gt; 20 %</div><div class="cd">+360 bps cumulés depuis 2022.</div><span class="tag gr">EN HAUSSE</span></div>
+  <div class="card"><div class="cl">ROCE</div><div class="cv">~11 %</div><div class="cd">En progression malgré un capex élevé.</div><span class="tag go">CORRECT</span></div>
+  <div class="card"><div class="cl">Efficacités opér.</div><div class="cv">631 M€</div><div class="cd">Record (+27 %), au-delà de l'objectif.</div><span class="tag gr">EXCELLENT</span></div>
+  <div class="card"><div class="cl">Dividende</div><div class="cv">71 ans</div><div class="cd">Sans baisse — aristocrate du dividende.</div><span class="tag gr">EXEMPLAIRE</span></div>
+  <div class="card"><div class="cl">Backlog capex</div><div class="cv">~4,9 Mds€</div><div class="cd">Hydrogène, Électronique — à financer.</div><span class="tag am">À SURVEILLER</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le ROCE de ~11 % est-il à surveiller ?</summary>
+  <div class="body">Le ROCE (rentabilité des capitaux employés) mesure ce que l'entreprise gagne pour chaque euro investi dans son outil industriel. À ~11 %, Air Liquide est rentable et en progression, mais reste en-deçà de Linde. C'est important car le groupe investit massivement (~4,9 Mds€ de backlog, dont l'hydrogène). Si ces nouveaux investissements génèrent un rendement durablement supérieur au coût du capital, la valeur se crée ; sinon, le capital est immobilisé sans création de valeur suffisante. C'est le principal point de vigilance d'un dossier par ailleurs très sain.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Modérée mais régulière — portée par la marge et le mix plus que par le volume.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA comparable 2025</div><div class="cv">+2,0 %</div><div class="cd">+2,5 % au T4 — accélération.</div><span class="tag go">RÉGULIER</span></div>
+  <div class="card"><div class="cl">Santé</div><div class="cv">+5,0 %</div><div class="cd">T4 2025 — décorrélé du cycle.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Électronique</div><div class="cv">+3,7 %</div><div class="cd">T4 2025 — supercycle IA.</div><span class="tag gr">DYNAMIQUE</span></div>
+  <div class="card"><div class="cl">Résultat opér.</div><div class="cv">+7,6 %</div><div class="cd">Comparable — fort effet de levier.</div><span class="tag gr">LEVIER</span></div>
+  <div class="card"><div class="cl">CA publié</div><div class="cv">−0,4 %</div><div class="cd">Effet devises −3,2 %.</div><span class="tag am">CHANGE</span></div>
+  <div class="card"><div class="cl">BPA 2026E</div><div class="cv">+8-10 %</div><div class="cd">Normalisé post-actions gratuites.</div><span class="tag go">SOLIDE</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:58%;background:var(--gold)"></div></div>
+    <div class="bd-score">58 / 100 — prime de qualité (~26× PER) mais décote relative vs Linde, dividende croissant</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:85%;background:var(--green)"></div></div>
+    <div class="bd-score">85 / 100 — bénéfice record, marges en hausse, 71 ans de dividende, bilan maîtrisé</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:62%;background:var(--gold)"></div></div>
+    <div class="bd-score">62 / 100 — régulière (+2 % comparable), leviers H₂/Électronique/Santé, mais effet devises</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×58 + 0,35×85 + 0,30×62</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:69%;background:var(--gold)"></div></div>
+    <div class="bd-score" style="color:var(--gold)">69 / 100 — Risque modéré</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance par marché</div>
+<div class="sec-sub">Vert = en amélioration / résilient · Ambre = à surveiller · croissance comparable T4 2025</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Marché (T4 2025)</th><th>Poids CA</th><th>Croiss. compar.</th><th>Marge</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>Santé</td><td>~17 %</td><td>+5,0 %</td><td>Élevée</td><td><span class="flag gr">▲ Résilient</span></td></tr>
+    <tr class="imp"><td>Électronique</td><td>~10 %</td><td>+3,7 %</td><td>Élevée</td><td><span class="flag gr">▲ Dynamique</span></td></tr>
+    <tr class="imp"><td>Industries</td><td>~74 %</td><td>+2,7 %</td><td>Solide</td><td><span class="flag gr">▲ Accélère</span></td></tr>
+    <tr class="dec"><td>Effet devises (publié)</td><td>—</td><td>−3,2 %</td><td>—</td><td><span class="flag rd">▼ Vent contraire</span></td></tr>
+    <tr class="imp"><td>Groupe (comparable)</td><td>100 %</td><td>+2,0 %</td><td>&gt; 20 %</td><td><span class="flag gr">▲ Marge +100 bps</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : la croissance comparable de +2,0 % devient −0,4 % en données publiées sous l'effet d'un change défavorable de −3,2 %. Le résultat opérationnel progresse de +7,6 % à données comparables — un fort effet de levier.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Résultats &amp; retour actionnarial</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">Résultats annuels 2025</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev">26,94 Mds€</span></div>
+    <div class="eline"><span>vs consensus</span><span class="ev up">+20 M€ ✓</span></div>
+    <div class="eline"><span>Résultat net (record)</span><span class="ev up">3,52 Mds€</span></div>
+    <div class="eline"><span>BPA publié</span><span class="ev">6,10 € (+6,3 %)</span></div>
+    <div class="eline"><span>Objectif marge 2026-2027</span><span class="ev up">+100 bps / an</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Retour actionnarial &amp; gouvernance</div>
+    <div class="eline"><span>Dividende 2025</span><span class="ev up">3,70 € (+12,1 %)</span></div>
+    <div class="eline"><span>Actions gratuites</span><span class="ev">1 pour 10 (10 juin)</span></div>
+    <div class="eline"><span>Actionnaires individuels</span><span class="ev">~900 000</span></div>
+    <div class="eline"><span>Risque ESG</span><span class="ev up">Faible</span></div>
+    <div class="eline"><span>Prochains résultats</span><span class="ev">S1 2026 (28 juil.)</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>L'attribution d'actions gratuites est-elle un cadeau ?</summary>
+  <div class="body">Pas exactement. Le 10 juin 2026, Air Liquide a distribué 1 action gratuite pour 10 détenues (33ᵉ attribution depuis 1986). Mécaniquement, le cours s'ajuste à la baisse d'environ 1/11 (÷1,1) : la valeur totale de votre ligne ne change pas le jour J. L'intérêt est ailleurs : sur le long terme, vous détenez plus de titres, donc vous percevez plus de dividendes si le coupon unitaire est maintenu ou augmenté. C'est un outil de fidélisation de l'actionnariat individuel, pas une création de richesse instantanée. Toutes les valeurs de BPA et de dividende de ce rapport sont normalisées pour rester comparables.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Exécution de l'objectif de marge</div><div class="id">+100 bps hors énergie visés en 2026 ET 2027. Réduire l'écart avec Linde déclencherait un re-rating du multiple.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Supercycle Électronique (IA)</div><div class="id">Data centers, puces avancées : demande structurelle en gaz ultra-purs, leadership mondial d'Air Liquide.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Hydrogène bas-carbone</div><div class="id">Backlog ~4,9 Mds€ ; optionnalité forte sur la décarbonation si la rentabilité se confirme.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Santé &amp; dividende aristocrate</div><div class="id">Croissance décorrélée du cycle, 71 ans de dividende, base d'actionnaires fidèle (~1/3 du capital).</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Valorisation tendue</div><div class="id">À ~26× les bénéfices, toute déception de 2-3 % sur la croissance comprimerait le multiple (−20 à −25 %).</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Effet de change structurel</div><div class="id">~70 % du CA hors zone euro ; −3,2 % d'impact devises en 2025, sans couverture complète.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Hydrogène subventionné</div><div class="id">Dépendance aux subventions (IRA, Europe). Un retrait politique fragiliserait la rentabilité des projets H₂.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Écart de marge avec Linde</div><div class="id">~9 points d'écart persistant depuis 15 ans. Si l'exécution déçoit, le re-rating espéré ne se matérialise pas.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (69/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:69%"><div class="rmval">69</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="margin-left:0">Extrême</span><span>Élevé</span><span>Modéré</span><span>Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> Air Liquide est une <b>entreprise de très grande qualité</b> — n°2 mondial des gaz industriels, modèle à contrats long terme (take-or-pay, indexation), bénéfice net record de 3,52 Mds€ et 71 ans de dividende sans baisse. Sa santé financière est exemplaire et ses marges progressent (+360 bps cumulés depuis 2022).<br><br>
+    Le risque n'est pas dans le business mais dans le <b>prix payé pour cette qualité</b> : à ~26× les bénéfices, le titre intègre une exécution quasi parfaite de l'objectif de marge (+100 bps en 2026 et 2027) et une transition réussie vers l'hydrogène. Deux facteurs de vigilance modèrent la note : une <b>valorisation tendue</b> et un <b>effet de change structurel</b> (~70 % du CA hors euro) qui a effacé toute la croissance publiée en 2025.<br><br>
+    Profil adapté à un investisseur de long terme recherchant un socle défensif de qualité, conscient que la décote relative vs Linde offre une marge de sécurité, mais que le potentiel de hausse à court terme est limité par la valorisation. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqué de résultats annuels 2025 d'Air Liquide (20 février 2026), documents investisseurs du groupe, données de cotation Euronext Paris et consensus analystes (au 24 juin 2026). Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Les valeurs de BPA et de dividende sont normalisées de l'attribution d'actions gratuites du 10 juin 2026 (1 pour 10). Certains multiples sont des ordres de grandeur, à affiner sur les documents de référence officiels. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "AI \u2014 Air Liquide S.A. | RAPPORT DE SCORE DE RISQUE (24 juin 2026)",
+    "\u00C9chelle : plus le risque est \u00E9lev\u00E9, plus le score est bas (0 = extr\u00EAme, 100 = s\u00FBr)",
+    "",
+    "SCORE GLOBAL : 69/100 \u2014 RISQUE MOD\u00C9R\u00C9 (zone Or)",
+    "Cours : ~170 \u20AC (apr\u00E8s attribution d'actions gratuites du 10 juin 2026) | Cap : ~100 Mds\u20AC",
+    "",
+    "INDICATEURS CL\u00C9S",
+    "- CA 2025 26,94 Mds\u20AC (+2,0 % comparable, -0,4 % publi\u00E9) | R\u00E9sultat net record 3,52 Mds\u20AC (+6,4 %)",
+    "- Marge op\u00E9r. > 20 % (+100 bps hors \u00E9nergie) | ROCE ~11 % | Dividende 3,70 \u20AC (+12,1 %)",
+    "",
+    "VALORISATION (58/100)",
+    "- PER est. 2026 ~26\u00D7 | EV/EBIT ~18\u00D7 | EV/CA ~3,5\u00D7 | d\u00E9cote relative vs Linde (~25-30 %)",
+    "- Cible analystes ~195-200 \u20AC (avant ajust. actions gratuites)",
+    "",
+    "SANT\u00C9 FINANCI\u00C8RE (85/100)",
+    "- B\u00E9n\u00E9fice net record, marges +360 bps cumul\u00E9s depuis 2022, efficacit\u00E9s record 631 M\u20AC (+27 %)",
+    "- 71 ans de dividende sans baisse (aristocrate) | bilan ma\u00EEtris\u00E9 | backlog capex ~4,9 Mds\u20AC",
+    "",
+    "CROISSANCE (62/100)",
+    "- Comparable +2,0 % (T4 +2,5 %) | Sant\u00E9 +5,0 % | \u00C9lectronique +3,7 % | Industries +2,7 %",
+    "- R\u00E9sultat op\u00E9r. +7,6 % comparable (fort levier) | effet devises -3,2 % (vent contraire)",
+    "",
+    "CATALYSEURS : Objectif de marge (fort), \u00C9lectronique/IA (fort), Hydrog\u00E8ne (moyen), Sant\u00E9/dividende (moyen)",
+    "RISQUES : Valorisation tendue (moyen), Change structurel (moyen), H\u00B2 subventionn\u00E9 (moyen), \u00C9cart de marge Linde (moyen)",
+    "",
+    "VERDICT : Entreprise de tr\u00E8s grande qualit\u00E9, sant\u00E9 financi\u00E8re exemplaire. Le risque est dans le prix pay\u00E9 (~26\u00D7), pas dans le business. Risque mod\u00E9r\u00E9. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "✓ Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="✓ Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
