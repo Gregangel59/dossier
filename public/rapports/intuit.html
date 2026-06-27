@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INTU — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --id:var(--gold);
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(255,210,63,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(91,140,255,.06),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,210,63,.16),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.mod{color:var(--gold);border-color:var(--gold);background:rgba(255,210,63,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,210,63,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,210,63,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:16px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">INTU</div>
+      <div class="name">Intuit Inc. · Nasdaq · Logiciels financiers &amp; fiscaux</div>
+      <div class="price">262,24 $ &nbsp;<span class="down">−57 % (52 sem.)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">65</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge mod">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:65%"><div class="mval">65</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché et résultats T3 FY2026 (clos le 30 avril 2026) — au 26 juin 2026</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~73 Mds$</div><div class="d down">−131 Mds$ sur 1 an</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">~16×</div><div class="d up">vs ~50× sur 10 ans</div></div>
+  <div class="kpi"><div class="l">PER prév.</div><div class="v">~12×</div><div class="d up">PEG ~0,78</div></div>
+  <div class="kpi"><div class="l">CA TTM</div><div class="v">20,9 Mds$</div><div class="d up">+10 % a/a (T3)</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">~1,8 %</div><div class="d up">div. +15 % a/a</div></div>
+  <div class="kpi"><div class="l">Range 52 sem.</div><div class="v">253–814 $</div><div class="d down">proche du plus bas</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (proxy)</div>
+    <div class="r">Plus haut : <span class="up">~814 $</span> → <span class="down">262 $</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- proxy : ~814$ plus haut juil-25 -> érosion continue -> chute T3 (mai 26) -> downgrades GS/Stifel -> ~262$ -->
+      <path d="M0,30 L110,55 L210,80 L320,95 L430,130 L520,170 L600,205 L680,225 L740,232 L800,228"
+            fill="none" stroke="#ffd23f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,30 L110,55 L210,80 L320,95 L430,130 L520,170 L600,205 L680,225 L740,232 L800,228 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="228" r="5" fill="#ffd23f"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Juil. 25 (~814 $)</span><span>Tax season</span><span>T3 (mai 26)</span><span>Downgrade GS</span><span>262 $</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une décote historique sur un actif de qualité — le marché price une disruption IA, pas un bilan fragile.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">~16×</div><div class="cd">vs moyenne 10 ans ~50× — décote de ~67 %.</div><span class="tag gr">DÉCOTÉ</span></div>
+  <div class="card"><div class="cl">PER prévisionnel</div><div class="cv">~12×</div><div class="cd">Sur BPA non-GAAP guidé ~23,8 $.</div><span class="tag gr">BON MARCHÉ</span></div>
+  <div class="card"><div class="cl">EV/EBITDA</div><div class="cv">~13,8×</div><div class="cd">Raisonnable pour un éditeur SaaS de marge.</div><span class="tag go">CORRECT</span></div>
+  <div class="card"><div class="cl">PEG</div><div class="cv">~0,78</div><div class="cd">&lt; 1 — croissance non payée au prix fort.</div><span class="tag gr">ATTRACTIF</span></div>
+  <div class="card"><div class="cl">Rdt FCF</div><div class="cv">~9 %</div><div class="cd">FCF ~7,8 Mds$ sur cap. ~73 Mds$.</div><span class="tag gr">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">Cible consensus</div><div class="cv">~491 $</div><div class="cd">Range 276–875 $ — dispersion extrême.</div><span class="tag am">INCERTAIN</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison — éditeurs de logiciels &amp; fintech (ordres de grandeur)</div>
+  <div class="mcomp"><div class="mk">PER INTU</div><div class="mvals"><b>~16×</b><span class="sep">vs</span>pairs SaaS 25–40×</div></div>
+  <div class="mcomp"><div class="mk">PER prév. INTU</div><div class="mvals"><b>~12×</b><span class="sep">vs</span>secteur ~25×</div></div>
+  <div class="mcomp"><div class="mk">Marge nette</div><div class="mvals"><b>~22 %</b><span class="sep">vs</span>médiane logiciel &lt;20 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un PER aussi bas sur une si bonne entreprise ?</summary>
+  <div class="body">Le PER (cours / bénéfice) d'Intuit est tombé de ~50× (sa moyenne décennale) à ~16×. Ce n'est pas parce que les bénéfices se sont effondrés — ils progressent encore de ~10 %. C'est parce que le marché a peur que l'IA détruise le cœur de TurboTax : un acteur comme Perplexity Tax peut traiter une déclaration pour ~0,12 $ là où TurboTax facture en moyenne ~162 $. Le marché ne paie donc plus pour la croissance future, il escompte une érosion. La question centrale : Intuit est-il une « value trap » (piège de valeur dont les bénéfices vont fondre) ou une opportunité (la peur est exagérée) ? À ~12× les bénéfices prévisionnels, beaucoup de pessimisme est déjà dans le cours.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Une mécanique de profit exceptionnelle — tempérée par un nuage juridique et une dette ≈ trésorerie.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Marge brute</div><div class="cv">~81 %</div><div class="cd">Modèle logiciel à très forte marge.</div><span class="tag gr">EXCELLENT</span></div>
+  <div class="card"><div class="cl">ROE</div><div class="cv">~22 %</div><div class="cd">ROIC ~21 % — capital très rentable.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">FCF TTM</div><div class="cv">7,8 Mds$</div><div class="cd">Génération de cash massive et régulière.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Trésorerie / dette</div><div class="cv">6,8 / 6,9 Mds$</div><div class="cd">Position de cash net ~nulle.</div><span class="tag go">ÉQUILIBRÉ</span></div>
+  <div class="card"><div class="cl">Retours actionnaires</div><div class="cv">8 Mds$</div><div class="cd">Nouveau rachat + div. +15 %.</div><span class="tag gr">GÉNÉREUX</span></div>
+  <div class="card"><div class="cl">Enquêtes valeurs mob.</div><div class="cv">≥ 3 cabinets</div><div class="cd">Sur les déclarations prix TurboTax.</div><span class="tag rd">À SURVEILLER</span></div>
+</div>
+<details class="explainer">
+  <summary>Les enquêtes juridiques sont-elles un risque sérieux ?</summary>
+  <div class="body">Plusieurs cabinets (BFA Law, Bleichmar Fonti, Pomerantz) enquêtent sur d'éventuelles déclarations trompeuses concernant le positionnement-prix de TurboTax avant la saison fiscale 2026. Ce type d'enquête est <b>fréquent</b> après une chute de cours brutale et n'aboutit pas toujours à une action en justice ou à une condamnation. Le risque réel est double : un coût financier éventuel (transaction/amende) et surtout un risque réputationnel. À ce stade, c'est un <b>facteur de bruit</b> à suivre, pas une menace existentielle pour le bilan — qui reste très solide (FCF 7,8 Mds$, cash net ≈ équilibré).</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Croissance actuelle robuste — mais une menace structurelle plane sur le moteur historique.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA T3 FY26</div><div class="cv">+10 %</div><div class="cd">8,56 Mds$, au-dessus du consensus.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">QuickBooks Online</div><div class="cv">+22 %</div><div class="cd">Mid-market &gt;30 % — vrai moteur.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Credit Karma</div><div class="cv">+15 %</div><div class="cd">631 M$ — prêts perso, assurance auto.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">TurboTax (DIY)</div><div class="cv">+7 %</div><div class="cd">Unités payantes +2 % seul. — sous pression.</div><span class="tag am">FRAGILE</span></div>
+  <div class="card"><div class="cl">Mailchimp</div><div class="cv">en repli</div><div class="cd">Léger recul a/a — décélération.</div><span class="tag rd">FAIBLE</span></div>
+  <div class="card"><div class="cl">Guidance FY26</div><div class="cv">+13–14 %</div><div class="cd">Relevée ; BPA non-GAAP ~+18 %.</div><span class="tag gr">RELEVÉE</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:72%;background:var(--green)"></div></div>
+    <div class="bd-score">72 / 100 — décote historique (PER ~16× vs ~50×), PEG &lt; 1, rdt FCF ~9 %</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:70%;background:var(--gold)"></div></div>
+    <div class="bd-score">70 / 100 — marges &amp; FCF exceptionnels, mais nuage juridique et cash net ≈ nul</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:52%;background:var(--gold)"></div></div>
+    <div class="bd-score">52 / 100 — top-line solide (+10–14 %) mais menace IA sur TurboTax, Mailchimp en repli</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×72 + 0,35×70 + 0,30×52</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:65%;background:var(--gold)"></div></div>
+    <div class="bd-score" style="color:var(--gold)">65 / 100 — Risque modéré</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance par segment</div>
+<div class="sec-sub">Vert = en croissance / moteur · Rouge = sous pression / en repli (T3 FY2026, clos 30 avril)</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Segment (T3 FY26)</th><th>CA</th><th>Croiss. a/a</th><th>Poids</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>Global Business Solutions</td><td>3,3 Mds$</td><td>+15 %</td><td>~39 %</td><td><span class="flag gr">▲ Moteur</span></td></tr>
+    <tr class="imp"><td>TurboTax (Consumer)</td><td>4,4 Mds$</td><td>+7 %</td><td>~51 %</td><td><span class="flag am">▲ Mais fragile</span></td></tr>
+    <tr class="imp"><td>Credit Karma</td><td>631 M$</td><td>+15 %</td><td>~7 %</td><td><span class="flag gr">▲ Solide</span></td></tr>
+    <tr class="dec"><td>ProTax</td><td>278 M$</td><td>0 %</td><td>~3 %</td><td><span class="flag rd">▼ Stable/plat</span></td></tr>
+    <tr class="dec"><td>Mailchimp (dans GBS)</td><td>~7 % du CA</td><td>&lt; 0 %</td><td>~7 %</td><td><span class="flag rd">▼ En repli</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : le mid-market (QBO Advanced / Intuit Enterprise Suite) croît de ~38 % et porte la dynamique ; TurboTax progresse en valeur (ARPU +11 %) mais perd ~2 % d'utilisateurs — c'est le cœur du débat IA.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Derniers résultats &amp; jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T3 FY2026 (20 mai 2026)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev up">8,56 Mds$ (+10 %)</span></div>
+    <div class="eline"><span>BPA GAAP</span><span class="ev up">11,09 $ (+11 %)</span></div>
+    <div class="eline"><span>BPA non-GAAP</span><span class="ev up">12,80 $ (+10 %)</span></div>
+    <div class="eline"><span>vs consensus (n-GAAP)</span><span class="ev up">12,48 $ → battu</span></div>
+    <div class="eline"><span>Rés. opér. GAAP</span><span class="ev">4,02 Mds$ (+8 %)</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Capital &amp; gouvernance</div>
+    <div class="eline"><span>Rachats T3</span><span class="ev">1,6 Md$</span></div>
+    <div class="eline"><span>Nouveau buyback</span><span class="ev up">8 Mds$</span></div>
+    <div class="eline"><span>Dividende trim.</span><span class="ev">1,20 $ (+15 %)</span></div>
+    <div class="eline"><span>Réduction effectifs</span><span class="ev down">−17 %</span></div>
+    <div class="eline"><span>Prochains résultats</span><span class="ev">~20 août 2026</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Les rachats d'actions créent-ils vraiment de la valeur ici ?</summary>
+  <div class="body">Intuit rachète massivement ses actions (1,6 Md$ au T3, nouvelle autorisation de 8 Mds$). Mais des observateurs notent que le nombre d'actions <b>n'a quasiment pas baissé</b> sur un an (~−1 %), car une grande partie des rachats <b>compense la rémunération en actions</b> (stock-based compensation) des salariés. Autrement dit, une part des rachats sert à <b>neutraliser la dilution</b> plutôt qu'à réduire réellement le nombre d'actions. C'est un point de vigilance classique chez les éditeurs de logiciels : le rachat est réel, mais son effet relutif net est plus faible qu'il n'y paraît.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Décote extrême + pessimisme intégré</div><div class="id">PER ~12× prévisionnel, PEG &lt; 1, rdt FCF ~9 %. Cible consensus ~491 $ vs 262 $ — un rebond technique est possible si la peur reflue.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Mid-market &amp; QuickBooks Online</div><div class="id">QBO +22 %, Enterprise Suite +38 %, opportunité mid-market ~90 Mds$ — un moteur indépendant de la tax.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">L'IA comme arme, pas seulement menace</div><div class="id">Partenariat avec Anthropic, plateforme « expert IA » lancée en août, pricing à la consommation — Intuit peut intégrer l'IA plutôt que la subir.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Restructuration &amp; marges</div><div class="id">−17 % d'effectifs, économies réorientées vers la marge et les retours actionnaires. Tax assistée (TurboTax Live) +36 %.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Disruption IA de TurboTax</div><div class="id">TurboTax = ~25 % du CA et du résultat. Coût IA d'une déclaration ~0,12 $ vs 162 $ facturés. Goldman modélise un CA TurboTax −18 % d'ici 2030 si 20 % des contribuables migrent.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Reset des objectifs de croissance</div><div class="id">Stifel anticipe un abaissement des cibles long terme (TurboTax 10 % → 4–6 %, GBS 20 % → 10–15 %) à l'analyst day de septembre.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Enquêtes juridiques</div><div class="id">≥ 3 cabinets enquêtent sur les déclarations prix TurboTax. Risque réputationnel et de coût, calendrier incertain.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Mailchimp &amp; sensibilité-prix</div><div class="id">Mailchimp en repli ; les filers DIY à bas revenu résistent aux hausses de prix — érosion possible du socle utilisateurs.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (65/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:65%"><div class="rmval">65</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:12.5%">Extrême</span><span style="left:37.5%">Élevé</span><span style="left:62.5%">Modéré</span><span style="left:87.5%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> Intuit est une <b>franchise logicielle d'exception</b> — marges brutes ~81 %, ROE ~22 %, FCF ~7,8 Mds$, et un écosystème (QuickBooks, TurboTax, Credit Karma) parmi les plus rentables du secteur. Les fondamentaux <b>progressent encore</b> (CA +10 %, guidance relevée à +13–14 %).<br><br>
+    Le risque n'est donc pas un bilan fragile mais une <b>question d'avenir</b> : l'IA peut-elle commoditiser la préparation fiscale ? Le titre a perdu ~57 % en un an, écrasé par les peurs de disruption de TurboTax (~25 % du résultat), un probable <b>reset des objectifs de croissance</b> (Stifel, Goldman) et des <b>enquêtes juridiques</b>. À l'inverse, la valorisation a chuté à ~12× les bénéfices prévisionnels (vs ~50× historiquement), intégrant déjà beaucoup de pessimisme.<br><br>
+    Le score de 65/100 reflète cet équilibre : <b>une qualité d'entreprise et une valorisation favorables</b> face à <b>une incertitude structurelle réelle</b> sur le moteur historique. Profil pour un investisseur qui croit qu'Intuit défendra son ARPU et adoptera l'IA plus vite qu'elle ne le menace — en acceptant une volatilité élevée d'ici l'analyst day de septembre. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqué et 8-K T3 FY2026 d'Intuit (SEC, 20 mai 2026), transcript earnings call (Motley Fool, Globe and Mail), couverture analystes (Goldman Sachs, Stifel), données de marché (stockanalysis.com, Robinhood, TradingView, MacroTrends, fullratio) — au 26 juin 2026. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Plusieurs multiples sont des ordres de grandeur, variables selon la source et la date. Des chiffres plus précis peuvent être tirés directement des dépôts SEC. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "INTU \u2014 Intuit Inc. | RAPPORT DE SCORE DE RISQUE (26 juin 2026)",
+    "\u00C9chelle : plus le risque est \u00E9lev\u00E9, plus le score est bas (0 = extr\u00EAme, 100 = s\u00FBr)",
+    "",
+    "SCORE GLOBAL : 65/100 \u2014 RISQUE MOD\u00C9R\u00C9",
+    "Cours : ~262,24 $ (\u221257 % sur 52 sem.) | Cap : ~73 Mds$ | Nasdaq",
+    "",
+    "INDICATEURS CL\u00C9S",
+    "- CA TTM 20,9 Mds$ (+10 % a/a au T3) | BPA non-GAAP T3 12,80 $ (+10 %) | FCF ~7,8 Mds$",
+    "- PER TTM ~16\u00D7 (vs ~50\u00D7 sur 10 ans) | PER pr\u00E9v. ~12\u00D7 | PEG ~0,78 | Div ~1,8 %",
+    "",
+    "VALORISATION (72/100)",
+    "- D\u00E9cote historique : PER ~16\u00D7 vs moyenne 10 ans ~50\u00D7 | EV/EBITDA ~13,8\u00D7 | rdt FCF ~9 %",
+    "- Cible consensus ~491 $ (range 276\u2013875 $) \u2014 dispersion extr\u00EAme",
+    "",
+    "SANT\u00C9 FINANCI\u00C8RE (70/100)",
+    "- Marge brute ~81 % | ROE ~22 % | ROIC ~21 % | cash 6,8 / dette 6,9 Mds$ (net \u2248 nul)",
+    "- Buyback 8 Mds$ + div +15 % MAIS \u2265 3 enqu\u00EAtes juridiques (prix TurboTax)",
+    "",
+    "CROISSANCE (52/100)",
+    "- CA T3 +10 % | QuickBooks Online +22 % | Credit Karma +15 % | mid-market >30 %",
+    "- TurboTax +7 % (unit\u00E9s payantes +2 % seul.) | Mailchimp en repli | guidance FY26 +13\u201314 %",
+    "",
+    "SEGMENTS T3 FY26",
+    "- GBS 3,3 Mds$ (+15 %) | TurboTax 4,4 Mds$ (+7 %) | Credit Karma 631 M$ (+15 %) | ProTax 278 M$ (plat)",
+    "",
+    "R\u00C9SULTATS T3 (20 mai 2026) : CA 8,56 Mds$ (+10 %), BPA GAAP 11,09 $ (+11 %), n-GAAP 12,80 $ (battu), guidance relev\u00E9e",
+    "GOUVERNANCE/CAPITAL : rachats 1,6 Md$ T3 + 8 Mds$ autoris\u00E9s | div 1,20 $ (+15 %) | \u221217 % effectifs",
+    "",
+    "CATALYSEURS : D\u00E9cote/pessimisme int\u00E9gr\u00E9 (fort), Mid-market/QBO (fort), IA comme arme/Anthropic (moyen), Restructuration (moyen)",
+    "RISQUES : Disruption IA TurboTax (fort), Reset objectifs croissance (fort), Enqu\u00EAtes juridiques (moyen), Mailchimp/sensibilit\u00E9-prix (moyen)",
+    "",
+    "VERDICT : Franchise d'exception (marges 81 %, ROE 22 %, FCF 7,8 Mds$) d\u00E9cot\u00E9e \u00E0 ~12\u00D7 les b\u00E9n\u00E9fices pr\u00E9visionnels, face \u00E0 une incertitude structurelle IA sur TurboTax. Risque mod\u00E9r\u00E9. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "\u2713 Copi\u00E9 !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29C9 Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="\u2713 Copi\u00E9 !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29C9 Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="\u00C9chec \u2014 copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
