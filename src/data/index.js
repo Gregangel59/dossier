@@ -21,7 +21,7 @@ export const COMPANIES = [
   spacex,
   intuitivesurgical,
   airliquide,
-  toast
+  toast,
     // amd,
   // adyen,
   // toast,
