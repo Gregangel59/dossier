@@ -15,6 +15,7 @@ import intuitivesurgical from "./isrg.js";
 import airliquide from "./air-liquide.js";
 import toast from "./tost.js";
 import meta from "./meta.js";
+import ferrari from "./ferrari.js";
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
@@ -24,6 +25,7 @@ export const COMPANIES = [
   airliquide,
   toast,
   meta,
+  ferrari,
     // amd,
   // adyen,
   // toast,
