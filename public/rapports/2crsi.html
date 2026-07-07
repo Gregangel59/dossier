@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AL2SI — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --id:#ff9f43;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,77,94,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,159,67,.16),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.high{color:var(--amber);border-color:var(--amber);background:rgba(255,159,67,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,159,67,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,159,67,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:16px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.rating-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">AL2SI</div>
+      <div class="name">2CRSi S.A. · Euronext Growth Paris · Serveurs IA & infrastructures data center</div>
+      <div class="price">~35 € &nbsp;<span class="up">rebond post-crise</span>&nbsp;<span class="down">−43 % le 18 juin (Grizzly)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">33</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge high">RISQUE ÉLEVÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:33%"><div class="mval">33</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché et comptes au 7 juillet 2026 — exercice décalé clos au 30 juin</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~0,7 Md€</div><div class="d down">−40 % vs plus haut</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">~35 €</div><div class="d">plus haut 60 € · plus bas 17 €</div></div>
+  <div class="kpi"><div class="l">PER est. 2026</div><div class="v">~22×</div><div class="d down">sur revenus contestés</div></div>
+  <div class="kpi"><div class="l">CA 2024/25</div><div class="v">220,8 M€</div><div class="d up">+31 % a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">~0 %</div><div class="d">0,20 € au titre 2023</div></div>
+  <div class="kpi"><div class="l">Perf. 3 ans</div><div class="v">+3 000 %</div><div class="d up">de &lt;1 € à &gt;50 €</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours 12 mois (proxy) — flambée puis choc Grizzly</div>
+    <div class="r">Plus haut : <span class="up">~60 €</span> → Choc : <span class="down">~17 €</span> → <span class="up">~35 €</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ff9f43" stop-opacity="0.30"/>
+          <stop offset="100%" stop-color="#ff9f43" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- proxy : ~10 € été 25 -> contrats successifs -> ~60 € début juin 26 -> choc Grizzly ~17 € -> rebond ~35 € -->
+      <path d="M0,215 L110,200 L220,170 L330,140 L440,95 L520,40 L560,30 L600,205 L640,225 L700,150 L800,120"
+            fill="none" stroke="#ff9f43" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,215 L110,200 L220,170 L330,140 L440,95 L520,40 L560,30 L600,205 L640,225 L700,150 L800,120 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="560" cy="30" r="5" fill="#ffd23f"/>
+      <circle cx="640" cy="225" r="5" fill="#ff4d5e"/>
+      <circle cx="800" cy="120" r="5" fill="#ff9f43"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Contrats UK/US</span><span>Cap &gt; 1 Md€ (avr.)</span><span>Plus haut ~60 € (juin)</span><span>Grizzly −43 %</span><span>Rebond ~35 €</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime « récit IA » extrême, adossée à des revenus dont la réalité est aujourd'hui frontalement contestée.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER est. 2026</div><div class="cv">~22×</div><div class="cd">Sur un BPA lui-même contesté (allégations Grizzly).</div><span class="tag rd">SOUS LITIGE</span></div>
+  <div class="card"><div class="cl">Perf. 3 ans</div><div class="cv">+3 000 %</div><div class="cd">De &lt;1 € à &gt;50 € — extrapolation extrême.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">Marge nette 24/25</div><div class="cv">~1 %</div><div class="cd">RN 2,1 M€ / CA 220,8 M€ — mince.</div><span class="tag rd">FAIBLE</span></div>
+  <div class="card"><div class="cl">Objectif analystes</div><div class="cv">~47 €</div><div class="cd">Formulé avant la crise Grizzly — obsolète.</div><span class="tag am">À NUANCER</span></div>
+  <div class="card"><div class="cl">Analystes suivant</div><div class="cv">2 (rares)</div><div class="cd">Oddo BHF « conserver », l'autre « acheter ».</div><span class="tag am">PEU COUVERT</span></div>
+  <div class="card"><div class="cl">Volatilité</div><div class="cv">Extrême</div><div class="cd">60 € → 17 € → 35 € en un mois.</div><span class="tag rd">ÉVÉNEMENTIEL</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison — assembleurs de serveurs IA</div>
+  <div class="mcomp"><div class="mk">Marge nette 2CRSi</div><div class="mvals"><b>~1 %</b><span class="sep">vs</span>Dell/HPE &gt;5 %</div></div>
+  <div class="mcomp"><div class="mk">Comparable métier</div><div class="mvals"><b>AL2SI</b><span class="sep">vs</span>SMCI (échelle ≫)</div></div>
+  <div class="mcomp"><div class="mk">Précédent short</div><div class="mvals"><b>Grizzly</b><span class="sep">≈</span>SMCI 2024</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le PER est-il « sous litige » ici ?</summary>
+  <div class="body">Le PER (cours / bénéfice) suppose que le bénéfice soit fiable. Or le rapport du vendeur à découvert Grizzly Research (18 juin 2026) allègue qu'une partie importante des revenus — notamment le contrat américain de 610 M$ — reposerait sur des sociétés liées non déclarées et serait « fabriquée ». 2CRSi conteste fermement et a lancé une vérification indépendante. Tant que les comptes ne sont pas certifiés (attendu le 29 octobre 2026), le bénéfice au dénominateur est lui-même incertain : le PER ~22× peut n'avoir aucun sens si les revenus sont surestimés. C'est pourquoi, dans ce dossier, la question de la fiabilité précède celle de la valorisation.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Un bilan solide (dette quasi nulle), mais une rentabilité mince et des comptes non encore certifiés sous ce prisme.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Dette nette</div><div class="cv">2,3 M€</div><div class="cd">~5,9 % des fonds propres — très faible.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Trésorerie brute</div><div class="cv">8,9 M€</div><div class="cd">Au 31 déc. 2025 — liquidité correcte.</div><span class="tag gr">SAIN</span></div>
+  <div class="card"><div class="cl">Résultat net 24/25</div><div class="cv">+2,1 M€</div><div class="cd">Positif 2ᵉ année, mais mince.</div><span class="tag am">À NUANCER</span></div>
+  <div class="card"><div class="cl">EBITDA S1 25/26</div><div class="cv">9,6 M€</div><div class="cd">×4,6, marge ~4,7 % — modeste.</div><span class="tag am">MODESTE</span></div>
+  <div class="card"><div class="cl">BFR / composants</div><div class="cv">Lourd</div><div class="cd">Préfinancement GPU/mémoire mobilise du cash.</div><span class="tag am">FRAGILE</span></div>
+  <div class="card"><div class="cl">Certification comptes</div><div class="cv">29 oct. 26</div><div class="cd">Le vrai juge de paix — non encore intervenu.</div><span class="tag rd">EN ATTENTE</span></div>
+</div>
+<details class="explainer">
+  <summary>Un bilan solide suffit-il à écarter le risque ?</summary>
+  <div class="body">Non. La structure financière de 2CRSi est réellement saine : dette nette quasi nulle (~2,3 M€), ce qui éloigne le risque de faillite à court terme et constitue un vrai point fort. Mais le risque dominant ici n'est pas la liquidité — c'est la fiabilité des revenus. Un bilan peut paraître propre alors même que le chiffre d'affaires est surestimé ; c'est précisément ce qu'un short-seller cherche à démontrer. La solidité du bilan atténue le risque de trésorerie, pas le risque de crédibilité comptable, qui ne sera levé que par la certification des comptes et les conclusions de la vérification indépendante.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Hypercroissance spectaculaire — mais concentrée sur quelques contrats et une géographie précisément contestés.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA S1 25/26</div><div class="cv">204,7 M€</div><div class="cd">×9,8 vs S1 précédent.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Objectif 25/26</div><div class="cv">&gt; 400 M€</div><div class="cd">EBITDA visé &gt; 36 M€.</div><span class="tag go">AMBITIEUX</span></div>
+  <div class="card"><div class="cl">Moteur</div><div class="cv">Godì 1.8</div><div class="cd">Serveur GPU IA — mais segment le moins margé.</div><span class="tag am">MIX FAIBLE</span></div>
+  <div class="card"><div class="cl">Zone dominante</div><div class="cv">Amérique N.</div><div class="cd">De ~3 % à source n°1 — bascule soudaine.</div><span class="tag rd">CONCENTRÉ</span></div>
+  <div class="card"><div class="cl">Dépendance amont</div><div class="cv">NVIDIA</div><div class="cd">Allocation GPU = goulot critique.</div><span class="tag am">SENSIBLE</span></div>
+  <div class="card"><div class="cl">Réalité des revenus</div><div class="cv">Contestée</div><div class="cd">Cœur des allégations Grizzly.</div><span class="tag rd">NON TRANCHÉ</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:18%;background:var(--red)"></div></div>
+    <div class="bd-score">18 / 100 — prime « récit IA » extrême (+3 000 %), marge nette ~1 %, revenus sous litige</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:42%;background:var(--amber)"></div></div>
+    <div class="bd-score">42 / 100 — bilan solide (dette nette 2,3 M€) mais rentabilité mince et comptes non certifiés sous ce prisme</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:40%;background:var(--amber)"></div></div>
+    <div class="bd-score">40 / 100 — top-line explosive mais concentrée, dépendante de NVIDIA et dont la réalité est contestée</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×18 + 0,35×42 + 0,30×40</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:33%;background:var(--amber)"></div></div>
+    <div class="bd-score" style="color:var(--amber)">33 / 100 — Risque élevé</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance par période</div>
+<div class="sec-sub">Vert = en amélioration · Rouge = en dégradation / sous tension · Ambre = mitigé</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Période</th><th>CA</th><th>EBITDA</th><th>Rés. net</th><th>Événement</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>2024/25 (annuel)</td><td>220,8 M€</td><td>~15 M€</td><td>+2,1 M€</td><td>+31 % a/a</td><td><span class="flag gr">▲ Rentable</span></td></tr>
+    <tr class="dec"><td>21 oct. 2025 (résultats)</td><td>—</td><td>—</td><td>+2,1 M€</td><td>Titre −20 %</td><td><span class="flag rd">▼ Déçoit</span></td></tr>
+    <tr class="imp"><td>S1 2025/26</td><td>204,7 M€</td><td>9,6 M€</td><td>n.c.</td><td>CA ×9,8</td><td><span class="flag gr">▲ Explosif</span></td></tr>
+    <tr class="dec"><td>18 juin 2026 (Grizzly)</td><td>—</td><td>—</td><td>—</td><td>Titre −43 %</td><td><span class="flag rd">▼ Choc fraude</span></td></tr>
+    <tr class="dec"><td>1er juil. 2026</td><td>—</td><td>—</td><td>—</td><td>Vérif. indép.</td><td><span class="flag am">◆ En cours</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : la croissance du CA est spectaculaire, mais depuis le 18 juin 2026 le débat porte sur la réalité même de certains revenus. La rentabilité reste mince (marge nette ~1 %, marge EBITDA ~5 %).</div>
+
+<!-- ===== EARNINGS / MILESTONE CARDS ===== -->
+<div class="sec-title">Crise Grizzly & jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">Affaire Grizzly Research</div>
+    <div class="eline"><span>Publication du rapport</span><span class="ev down">18 juin 2026</span></div>
+    <div class="eline"><span>Chute du titre (séance)</span><span class="ev down">−43 %</span></div>
+    <div class="eline"><span>Position vendeuse Grizzly</span><span class="ev">0,89 % du capital</span></div>
+    <div class="eline"><span>Réponse 2CRSi</span><span class="ev">point par point</span></div>
+    <div class="eline"><span>Vérification indépendante</span><span class="ev up">lancée 1er juil.</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Échéances décisives</div>
+    <div class="eline"><span>CA annuel (non certifié)</span><span class="ev">23 juil. 2026</span></div>
+    <div class="eline"><span>Résultats + certification</span><span class="ev down">29 oct. 2026</span></div>
+    <div class="eline"><span>Objectif CA 25/26</span><span class="ev">&gt; 400 M€</span></div>
+    <div class="eline"><span>Objectif EBITDA 25/26</span><span class="ev">&gt; 36 M€</span></div>
+    <div class="eline"><span>Dirigeant</span><span class="ev">A. Wilmouth (fondateur)</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Qu'est-ce qu'un « activist short seller » et pourquoi est-ce un risque ?</summary>
+  <div class="body">Un vendeur à découvert activiste emprunte des actions pour les vendre, en pariant sur une baisse : il gagne si le cours chute. Pour accélérer cette baisse, il publie un rapport à charge. Grizzly a déclaré à l'AMF une position vendeuse de 0,89 % du capital de 2CRSi avant publication — il a donc un intérêt financier direct à faire baisser le titre, et précise lui-même que ses écrits sont des opinions, pas des faits établis. Cela n'invalide pas automatiquement ses allégations (certaines s'appuient sur des registres publics et des enquêtes de terrain), mais impose de les traiter avec prudence des deux côtés. Le seul arbitre neutre sera la certification des comptes par le commissaire aux comptes et la vérification indépendante en cours.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Certification des comptes sans réserve</div><div class="id">Une certification propre le 29 oct. 2026 réfuterait le cœur des allégations et pourrait déclencher un fort rebond.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Vérification indépendante concluante</div><div class="id">Confirmation par des tiers (banques, client, transporteurs) de la réalité des contrats contestés.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Vague IA & différenciation énergétique</div><div class="id">Demande structurelle forte ; refroidissement immersif validé par le partenariat Valeo.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Souveraineté européenne (ÆTHER)</div><div class="id">Projets souverains et « AI Gigafactories » — accès potentiel à des financements publics.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Allégations de fraude / parties liées</div><div class="id">Grizzly conteste la réalité des revenus US (NYGC, contrat 610 M$). Non tranché avant certification.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Certification différée ou avec réserves</div><div class="id">Un doute du commissaire aux comptes ferait basculer la présomption et effondrerait la thèse.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Concentration extrême</div><div class="id">Quelques gros contrats, une géographie (US), un fournisseur clé (NVIDIA). Un accroc suffit à faire basculer un exercice.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Rentabilité mince & mix produit</div><div class="id">Assembleur à marges faibles ; l'hypercroissance du CA ne se convertit pas en bénéfices sans montée en gamme.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque élevé (33/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:33%"><div class="rmval">33</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:12.5%">Extrême</span><span style="left:37.5%">Élevé</span><span style="left:62.5%">Modéré</span><span style="left:87.5%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> 2CRSi est une <b>entreprise industriellement réelle</b> — fabricant strasbourgeois de serveurs IA écoénergétiques, avec une expertise différenciante en refroidissement immersif, des clients européens vérifiables (Dassault, Airbus, Naval Group) et un <b>bilan solide</b> (dette nette quasi nulle).<br><br>
+    Mais le profil de risque est élevé pour trois raisons cumulées : des <b>allégations de fraude non tranchées</b> (le rapport Grizzly du 18 juin 2026 conteste la réalité des revenus américains, cœur de la croissance), une <b>rentabilité mince</b> (marge nette ~1 %, EBITDA ~5 %) qui ne justifie la valorisation qu'au prix d'une prime spéculative « récit IA », et une <b>concentration extrême</b> (quelques gros contrats, une géographie, un fournisseur clé). La hausse de +3 000 % en trois ans intègre une exécution quasi parfaite.<br><br>
+    Profil réservé à un investisseur averti, tolérant à une volatilité extrême et à un risque de crédibilité comptable majeur, qui accepte de miser sur un <b>verdict binaire</b> : la certification des comptes du 29 octobre 2026 et la vérification indépendante en cours trancheront le débat de fond. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués 2CRSi (résultats annuels 2024/25 du 30 oct. 2025, S1 2025/26 du 26 mars 2026, réponses à Grizzly des 18-19 juin 2026, vérification indépendante du 1er juil. 2026), rapport de Grizzly Research LLC (18 juin 2026), déclaration de position vendeuse nette de l'AMF, couverture presse (Zonebourse, Boursorama, ABC Bourse, BFM Bourse, Usine Nouvelle, Cryptoast) — au 7 juillet 2026. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Les allégations de Grizzly Research sont contestées par 2CRSi et n'ont, à ce jour, été confirmées par aucune autorité indépendante ; la certification des comptes annuels est attendue le 29 octobre 2026. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "AL2SI \u2014 2CRSi S.A. | RAPPORT DE SCORE DE RISQUE (7 juillet 2026)",
+    "\u00c9chelle : plus le risque est \u00e9lev\u00e9, plus le score est bas (0 = extr\u00eame, 100 = s\u00fbr)",
+    "",
+    "SCORE GLOBAL : 33/100 \u2014 RISQUE \u00c9LEV\u00c9",
+    "Cours : ~35 \u20ac (plus haut ~60 \u20ac, plus bas ~17 \u20ac) | Cap : ~0,7 Md\u20ac | Euronext Growth Paris",
+    "",
+    "INDICATEURS CL\u00c9S",
+    "- CA 2024/25 220,8 M\u20ac (+31 %) | R\u00e9sultat net +2,1 M\u20ac | Dette nette 2,3 M\u20ac (solide)",
+    "- S1 2025/26 : CA 204,7 M\u20ac (x9,8), EBITDA 9,6 M\u20ac | Objectif 25/26 : CA > 400 M\u20ac, EBITDA > 36 M\u20ac",
+    "- Perf. 3 ans : +3 000 % | PER est. 2026 ~22x (sur revenus contest\u00e9s)",
+    "",
+    "VALORISATION (18/100)",
+    "- Prime \u00ab r\u00e9cit IA \u00bb extr\u00eame, marge nette ~1 % | Objectif analystes ~47 \u20ac (avant crise, obsol\u00e8te)",
+    "- Volatilit\u00e9 extr\u00eame : 60 \u20ac -> 17 \u20ac -> 35 \u20ac en un mois",
+    "",
+    "SANT\u00c9 FINANCI\u00c8RE (42/100)",
+    "- Bilan solide : dette nette 2,3 M\u20ac (~5,9 % des fonds propres), tr\u00e9sorerie 8,9 M\u20ac",
+    "- MAIS rentabilit\u00e9 mince et comptes non encore certifi\u00e9s sous le prisme des all\u00e9gations",
+    "",
+    "CROISSANCE (40/100)",
+    "- CA S1 25/26 x9,8 | Moteur Godi 1.8 (segment le moins marg\u00e9) | Bascule US (de ~3 % \u00e0 n\u00b01)",
+    "- D\u00e9pendance NVIDIA (allocation GPU) | R\u00e9alit\u00e9 des revenus contest\u00e9e par Grizzly",
+    "",
+    "AFFAIRE GRIZZLY (18 juin 2026)",
+    "- Rapport short-seller : revenus US \u00ab presque enti\u00e8rement fabriqu\u00e9s \u00bb via parties li\u00e9es (NYGC, contrat 610 M$)",
+    "- Titre -43 % en une s\u00e9ance | Position vendeuse Grizzly 0,89 % | 2CRSi conteste fermement",
+    "- V\u00e9rification ind\u00e9pendante lanc\u00e9e (contrat allemand) | Certification des comptes : 29 oct. 2026",
+    "",
+    "CATALYSEURS : Certification sans r\u00e9serve (fort), V\u00e9rification concluante (fort), Vague IA / immersion (moyen), Souverainet\u00e9 \u00c6THER (moyen)",
+    "RISQUES : All\u00e9gations de fraude (fort), Certification diff\u00e9r\u00e9e/r\u00e9serves (fort), Concentration extr\u00eame (fort), Rentabilit\u00e9 mince (moyen)",
+    "",
+    "VERDICT : Entreprise industriellement r\u00e9elle et bilan solide, mais all\u00e9gations de fraude non tranch\u00e9es, rentabilit\u00e9 mince et concentration extr\u00eame. Pari binaire sur la certification du 29 oct. 2026. Risque \u00e9lev\u00e9. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "✓ Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="✓ Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
