@@ -16,6 +16,7 @@ import airliquide from "./air-liquide.js";
 import toast from "./tost.js";
 import meta from "./meta.js";
 import ferrari from "./ferrari.js";
+import lvmh from "./lvmh.js";
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
@@ -26,6 +27,7 @@ export const COMPANIES = [
   toast,
   meta,
   ferrari,
+  lvmh,
     // amd,
   // adyen,
   // toast,
