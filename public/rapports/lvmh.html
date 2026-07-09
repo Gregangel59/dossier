@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MC — Rapport de Score de Risque · LVMH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --id:var(--gold);            /* couleur de la zone du score global (61 = zone Or) */
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,210,63,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,210,63,.16),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid;color:var(--id);border-color:var(--id);background:rgba(255,210,63,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,210,63,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,210,63,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:16px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.rating-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--gold);color:var(--gold)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">MC</div>
+      <div class="name">LVMH Moët Hennessy Louis Vuitton SE · Euronext Paris · Luxe</div>
+      <div class="price">484,90 € &nbsp;<span class="down">-2,2 % (8 juil. 2026)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">61</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:61%"><div class="mval">61</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Résultats annuels 2025 (publiés le 27 janvier 2026) et données de marché au 8 juillet 2026</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~241 Md€</div><div class="d">1<sup>er</sup> luxe mondial</div></div>
+  <div class="kpi"><div class="l">Cours (clôture)</div><div class="v">484,90 €</div><div class="d down">-2,2 % le 8 juil.</div></div>
+  <div class="kpi"><div class="l">PER est. 2026</div><div class="v">~23×</div><div class="d">vs Hermès ~48×</div></div>
+  <div class="kpi"><div class="l">CA 2025</div><div class="v">80,8 Md€</div><div class="d down">-1 % organique</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">~2,7 %</div><div class="d">13 €/action</div></div>
+  <div class="kpi"><div class="l">52 semaines</div><div class="v">440–655 €</div><div class="d">amplitude du cycle</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours indicatif sur 12 mois (proxy normalisé)</div>
+    <div class="r">Creux <span class="down">~440 €</span> → <span class="up">484,90 €</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- proxy : creux luxe mi-2025 (~440) -> rebond S2 -> stabilisation 2026 (clôture 484,90 le 8 juil.) -->
+      <path d="M0,150 L110,175 L220,205 L330,180 L440,150 L560,120 L680,105 L800,95"
+            fill="none" stroke="#ffd23f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,150 L110,175 L220,205 L330,180 L440,150 L560,120 L680,105 L800,95 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="95" r="5" fill="#ffd23f"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Juil. 25</span><span>Creux luxe</span><span>Rebond S2</span><span>Résultats 2025</span><span>Juil. 26</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime de qualité raisonnable — décotée face à Hermès, mais adossée à un cœur qui recule.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER est. 2026</div><div class="cv">~23×</div><div class="cd">Raisonnable pour le luxe ; décote nette vs Hermès (~48×).</div><span class="tag go">CORRECT</span></div>
+  <div class="card"><div class="cl">EV / EBITDA</div><div class="cv">~11,5–13×</div><div class="cd">Dans la moyenne historique du groupe.</div><span class="tag go">ÉQUILIBRÉ</span></div>
+  <div class="card"><div class="cl">EV / CA</div><div class="cv">~3,4×</div><div class="cd">Reflet d'une marge groupe ~22 %.</div><span class="tag go">SAIN</span></div>
+  <div class="card"><div class="cl">Objectif consensus</div><div class="cv">~577 €</div><div class="cd">Médiane ; potentiel ~+20 %. Range 420–660 €.</div><span class="tag gr">UPSIDE</span></div>
+  <div class="card"><div class="cl">Recommandation</div><div class="cv">Achat</div><div class="cd">17 achats / 9 conserver / 0 vendre (26 analystes).</div><span class="tag gr">POSITIF</span></div>
+  <div class="card"><div class="cl">vs cycle luxe</div><div class="cv">creux ?</div><div class="cd">La valo suppose un rebond de la conso non acquis.</div><span class="tag am">À NUANCER</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle — pairs du luxe mondial</div>
+  <div class="mcomp"><div class="mk">PER LVMH</div><div class="mvals"><b>~23×</b><span class="sep">vs</span>Hermès ~48×</div></div>
+  <div class="mcomp"><div class="mk">Marge opér.</div><div class="mvals"><b>~22 %</b><span class="sep">vs</span>Hermès ~40 %</div></div>
+  <div class="mcomp"><div class="mk">PER vs Kering</div><div class="mvals"><b>~23×</b><span class="sep">vs</span>Kering ~18×</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un PER de 23× est-il jugé « correct » ici ?</summary>
+  <div class="body">Le PER (cours ÷ bénéfice par action) mesure combien on paie pour 1 € de profit. À ~23× les bénéfices attendus 2026, LVMH n'est ni bradé ni tendu : c'est moins qu'Hermès (~48×) ou L'Oréal (~30×), mais plus que Kering (~18×), en difficulté. Ce niveau intègre une « prime de qualité » — marques irremplaçables, marges élevées, bilan solide. Le hic : il suppose aussi un rebond de la croissance (Chine, Mode & Maroquinerie) qui reste à confirmer. Si ce rebond déçoit, le multiple peut se comprimer.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Une véritable forteresse bilancielle — le point le plus solide du dossier.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Résultat net 2025</div><div class="cv">10,9 Md€</div><div class="cd">-13 % (dont surtaxe fiscale française).</div><span class="tag am">EN BAISSE</span></div>
+  <div class="card"><div class="cl">FCF opérationnel</div><div class="cv">11,3 Md€</div><div class="cd">+8 % malgré le repli du CA — qualité des bénéfices.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Dette nette</div><div class="cv">6,9 Md€</div><div class="cd">&lt; 10 % du CA — endettement très faible.</div><span class="tag gr">FORTERESSE</span></div>
+  <div class="card"><div class="cl">Marge opér. courante</div><div class="cv">22 %</div><div class="cd">-110 bps (effet devises), reste élevée.</div><span class="tag go">ÉLEVÉE</span></div>
+  <div class="card"><div class="cl">Dividende</div><div class="cv">13 €</div><div class="cd">Maintenu — signal de confiance.</div><span class="tag gr">STABLE</span></div>
+  <div class="card"><div class="cl">ROE historique</div><div class="cv">~20 %+</div><div class="cd">Rentabilité des fonds propres élevée.</div><span class="tag gr">FORT</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi la baisse du bénéfice net n'inquiète-t-elle pas outre mesure ?</summary>
+  <div class="body">Le bénéfice net a reculé de -13 %, mais deux éléments rassurent. D'abord, une partie vient d'une <b>surtaxe fiscale française exceptionnelle</b> (+4 points d'impôt), partiellement non récurrente. Ensuite, le <b>free cash-flow</b> (la trésorerie réellement générée) a <b>augmenté de +8 %</b> à 11,3 Md€ — signe que l'activité produit du cash même quand le résultat comptable baisse. Avec une dette nette inférieure à 10 % du chiffre d'affaires, LVMH peut investir, acquérir et verser son dividende sans stress financier. C'est le pilier le plus robuste du dossier.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Le maillon faible — croissance atone, rebond fragile, clientèle aspirationnelle qui s'érode.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA 2025 organique</div><div class="cv">-1 %</div><div class="cd">80,8 Md€ ; -5 % en publié (devises).</div><span class="tag am">ATONE</span></div>
+  <div class="card"><div class="cl">Croissance S2 2025</div><div class="cv">+1 %</div><div class="cd">Retour en positif aux T3 et T4 — inflexion.</div><span class="tag go">STABILISATION</span></div>
+  <div class="card"><div class="cl">Mode & Maroquinerie</div><div class="cv">-5 %</div><div class="cd">Le cœur de profit recule (marge ~35 %).</div><span class="tag rd">EN REPLI</span></div>
+  <div class="card"><div class="cl">Distribution sélective</div><div class="cv">+4 %</div><div class="cd">Sephora en forte croissance, ROC +28 %.</div><span class="tag gr">MOTEUR</span></div>
+  <div class="card"><div class="cl">Vins & Spiritueux</div><div class="cv">-9 %</div><div class="cd">Change + tarifs douaniers US.</div><span class="tag rd">FAIBLE</span></div>
+  <div class="card"><div class="cl">Asie hors Japon</div><div class="cv">-6 % → +2 %</div><div class="cd">De T1 à T3/T4 — rebond chinois amorcé.</div><span class="tag go">REPRISE</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:55%;background:var(--gold)"></div></div>
+    <div class="bd-score">55 / 100 — PER ~23× raisonnable, décote vs Hermès, mais pas de marge de sécurité franche</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:78%;background:var(--green)"></div></div>
+    <div class="bd-score">78 / 100 — forteresse bilancielle : FCF 11,3 Md€, dette nette &lt; 10 % du CA, dividende maintenu</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:48%;background:var(--amber)"></div></div>
+    <div class="bd-score">48 / 100 — CA -1 % organique, cœur Mode & Maroquinerie -5 %, rebond S2 fragile</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×55 + 0,35×78 + 0,30×48</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:61%;background:var(--gold)"></div></div>
+    <div class="bd-score" style="color:var(--gold)">61 / 100 — Risque modéré (zone Or)</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance par activité</div>
+<div class="sec-sub">Vert = en croissance / en amélioration · Rouge = en repli · Ambre = mitigé (croissance organique 2025)</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Activité (FY 2025)</th><th>Poids CA</th><th>Croiss. org.</th><th>Marge opér.</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="dec"><td>Mode & Maroquinerie</td><td>~47 %</td><td>-5 %</td><td>~35 %</td><td><span class="flag rd">▼ Cœur en repli</span></td></tr>
+    <tr class="imp"><td>Distribution sélective</td><td>~18 %</td><td>+4 %</td><td>9,7 %</td><td><span class="flag gr">▲ Moteur (Sephora)</span></td></tr>
+    <tr><td>Parfums & Cosmétiques</td><td>~10 %</td><td>~stable</td><td>8,9 %</td><td><span class="flag am">■ ROC +8 %</span></td></tr>
+    <tr class="dec"><td>Montres & Joaillerie</td><td>~13 %</td><td>modérée</td><td>élevée</td><td><span class="flag am">■ Résilient</span></td></tr>
+    <tr class="dec"><td>Vins & Spiritueux</td><td>~7 %</td><td>-9 % (publié)</td><td>sous pression</td><td><span class="flag rd">▼ Point noir</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : la Mode & Maroquinerie concentre l'essentiel du profit (marge ~35 %) mais recule ; la Distribution sélective (Sephora) est le moteur de l'exercice. Le groupe est revenu en croissance organique positive (+1 %) au second semestre.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Résultats & jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">Résultats annuels 2025</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev">80,8 Md€</span></div>
+    <div class="eline"><span>Croissance organique</span><span class="ev down">-1 %</span></div>
+    <div class="eline"><span>Résultat opér. courant</span><span class="ev">17,8 Md€ (-9 %)</span></div>
+    <div class="eline"><span>Résultat net part Groupe</span><span class="ev down">10,9 Md€ (-13 %)</span></div>
+    <div class="eline"><span>FCF opérationnel</span><span class="ev up">11,3 Md€ (+8 %)</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Jalons & gouvernance</div>
+    <div class="eline"><span>Dividende 2025</span><span class="ev">13 € (maintenu)</span></div>
+    <div class="eline"><span>Dette nette</span><span class="ev up">6,9 Md€ (&lt; 10 % CA)</span></div>
+    <div class="eline"><span>Participation Loro Piana</span><span class="ev">85 % → 94 %</span></div>
+    <div class="eline"><span>Contrôle familial</span><span class="ev">Arnault (via Dior/Agache)</span></div>
+    <div class="eline"><span>Prochains résultats (S1)</span><span class="ev">28 juil. 2026</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le contrôle familial est-il à la fois un atout et un risque ?</summary>
+  <div class="body">La famille Arnault contrôle LVMH via une cascade de holdings (Financière Agache → Christian Dior SE → LVMH), détenant une majorité des droits de vote. <b>L'atout</b> : une vision de très long terme, une stabilité actionnariale et l'absence de pression court-termiste — idéal pour préserver la désirabilité des marques sur des décennies. <b>Le risque</b> : le flottant (les actionnaires publics) pèse peu dans les décisions, et la <b>succession</b> de Bernard Arnault, bien que préparée (ses cinq enfants occupent des postes clés), reste un test réel. Aucun héritier n'a encore démontré sa stature de bâtisseur.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Rebond de la consommation chinoise</div><div class="id">Asie hors Japon repassée de -6 % (T1) à +2 % (T3/T4) — un rebond franc rallumerait le cœur du groupe.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Redressement Mode & Maroquinerie</div><div class="id">Avec une marge ~35 %, tout retour à la croissance du cœur a un effet de levier majeur sur le résultat.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Momentum Sephora & joaillerie</div><div class="id">Distribution sélective +4 % (ROC +28 %) ; Tiffany/Bulgari sur un segment résilient.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Génération de trésorerie & M&A</div><div class="id">FCF 11,3 Md€ et bilan solide : capacité d'acquisition transformante dans le cycle bas.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Érosion de la clientèle aspirationnelle</div><div class="id">Le luxe a perdu ~80 M de clients en 3 ans ; LVMH y est plus exposé qu'Hermès (entrée de gamme).</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Dépendance à l'Asie / à la Chine</div><div class="id">Le rebond du S2 est fragile ; une rechute chinoise frapperait le cœur sans amortisseur.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Vents contraires exogènes cumulés</div><div class="id">Devises (-3 % CA), tarifs douaniers US (V&S -9 %), surtaxe fiscale française (+4 pts d'impôt).</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Gouvernance & succession</div><div class="id">Contrôle familial en cascade, flottant marginalisé, transition post-Arnault à démontrer.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (61/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:61%"><div class="rmval">61</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:12.5%">Extrême</span><span style="left:37.5%">Élevé</span><span style="left:62.5%">Modéré</span><span style="left:87.5%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> LVMH est le <b>leader mondial du luxe</b> — un conglomérat de 75+ Maisons (Louis Vuitton, Dior, Tiffany, Moët) au capital de marque irremplaçable, à la rentabilité élevée et au bilan en forteresse (FCF 11,3 Md€, dette nette &lt; 10 % du CA).<br><br>
+    Le profil de risque est <b>modéré</b>, tiré vers le haut par une santé financière exceptionnelle et une valorisation raisonnable (~23× vs Hermès ~48×), mais pénalisé par une <b>croissance atone</b> : le CA a reculé de -1 % en organique en 2025, le cœur Mode & Maroquinerie (-5 %) s'est essoufflé, et le rebond du second semestre (+1 %) reste fragile. La clientèle aspirationnelle s'érode et la dépendance à la Chine est un talon d'Achille.<br><br>
+    Profil adapté à un investisseur <b>long terme</b> misant sur la résilience du n°1 du luxe et sur un rebond graduel de la consommation, en acceptant un cycle luxe encore incertain et une gouvernance à contrôle familial concentré. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : résultats annuels 2025 de LVMH (communiqué du 27 janvier 2026, lvmh.com), couverture presse (Journal du Luxe, BFM Bourse, Premium Beauty News, Investing.com), données de cotation et consensus (Zonebourse, Boursorama, ABC Bourse, Idéal Investisseur, companiesmarketcap.com) — au 8 juillet 2026. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Plusieurs multiples et objectifs sont des ordres de grandeur susceptibles d'évoluer ; les prochains résultats semestriels sont attendus le 28 juillet 2026. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "MC \u2014 LVMH Mo\u00ebt Hennessy Louis Vuitton | RAPPORT DE SCORE DE RISQUE (8 juillet 2026)",
+    "\u00c9chelle : plus le risque est \u00e9lev\u00e9, plus le score est bas (0 = extr\u00eame, 100 = s\u00fbr)",
+    "",
+    "SCORE GLOBAL : 61/100 \u2014 RISQUE MOD\u00c9R\u00c9 (zone Or)",
+    "Cours : 484,90 \u20ac (cl\u00f4ture du 8 juillet 2026, -2,2 %) | Cap : ~241 Md\u20ac | 1er luxe mondial",
+    "",
+    "INDICATEURS CL\u00c9S",
+    "- CA 2025 80,8 Md\u20ac (-1 % organique, -5 % publi\u00e9) | R\u00e9sultat net 10,9 Md\u20ac (-13 %)",
+    "- FCF op\u00e9rationnel 11,3 Md\u20ac (+8 %) | Dette nette 6,9 Md\u20ac (< 10 % CA) | Dividende 13 \u20ac",
+    "- PER est. 2026 ~23\u00d7 | Objectif consensus ~577 \u20ac (range 420\u2013660) | Achat (17/9/0)",
+    "",
+    "VALORISATION (55/100)",
+    "- PER ~23\u00d7 raisonnable, d\u00e9cote vs Herm\u00e8s (~48\u00d7) ; EV/EBITDA ~11,5\u201313\u00d7",
+    "- Prime de qualit\u00e9 mais pas de marge de s\u00e9curit\u00e9 franche ; suppose un rebond de la conso",
+    "",
+    "SANT\u00c9 FINANCI\u00c8RE (78/100)",
+    "- Forteresse bilancielle : FCF 11,3 Md\u20ac (+8 %), dette nette < 10 % du CA, dividende maintenu",
+    "- Marge op\u00e9r. courante 22 % ; ROE historique ~20 %+",
+    "",
+    "CROISSANCE (48/100)",
+    "- CA -1 % organique 2025 ; Mode & Maroquinerie -5 % (c\u0153ur, marge ~35 %)",
+    "- Distribution s\u00e9lective +4 % (Sephora, ROC +28 %) ; Vins & Spiritueux -9 %",
+    "- Rebond S2 +1 % ; Asie hors Japon -6 % (T1) \u2192 +2 % (T3/T4)",
+    "",
+    "CATALYSEURS : Rebond Chine (fort), Redressement Mode & Maroquinerie (fort), Sephora/joaillerie (moyen), Tr\u00e9sorerie/M&A (moyen)",
+    "RISQUES : \u00c9rosion aspirationnelle (fort), D\u00e9pendance Asie (fort), Vents contraires devises/tarifs/fiscalit\u00e9 (moyen), Gouvernance/succession (moyen)",
+    "",
+    "VERDICT : Leader mondial du luxe, bilan en forteresse et valo raisonnable, mais croissance atone et rebond fragile. Risque mod\u00e9r\u00e9. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "\u2713 Copi\u00e9 !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="\u2713 Copi\u00e9 !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="\u00c9chec \u2014 copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
