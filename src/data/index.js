@@ -17,9 +17,11 @@ import airliquide from "./air-liquide.js";
 import intuitivesurgical from "./isrg.js";
 import spacex from "./spacex.js";
 import americanExpress from "./amex.js";
+import amazon from "./amazon.js";
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
+  amazon,
   lvmh,
   ferrari,
   meta,
