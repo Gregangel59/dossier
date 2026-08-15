@@ -19,9 +19,11 @@ import spacex from "./spacex.js";
 import americanExpress from "./amex.js";
 import amazon from "./amazon.js";
 import amd from "./amd.js";
+import anet from "./anet.js";
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
+  anet,
   amd,
   amazon,
   lvmh,
