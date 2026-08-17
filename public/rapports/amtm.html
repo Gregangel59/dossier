@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMTM — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  /* --id : couleur de la zone du SCORE GLOBAL (55/100 -> zone Or) */
+  --id:#ffd23f;
+  --id-soft:rgba(255,210,63,.45);
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,210,63,.06),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,210,63,.14),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.zone{color:var(--id);border-color:var(--id);background:rgba(255,210,63,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px var(--id-soft);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qwrap{overflow-x:auto}
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line);white-space:nowrap}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700;text-align:right}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id2{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px var(--id-soft)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:8px}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">AMTM</div>
+      <div class="name">Amentum Holdings, Inc. · NYSE · Ingénierie &amp; technologies pour l'État fédéral</div>
+      <div class="price">21,47 $ &nbsp;<span class="down">−0,92 % (14 août 2026)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">55</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge zone">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:55%"><div class="mval">55</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché au 14 août 2026 — résultats du T3 de l'exercice 2026 (clos le 3 juillet 2026, publiés le 10 août)</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">5,25 Mds$</div><div class="d">244,5 M d'actions</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">21,47 $</div><div class="d down">−33 % depuis la cotation</div></div>
+  <div class="kpi"><div class="l">PER prospectif</div><div class="v">~8,7x</div><div class="d up">PER TTM GAAP 25,9x</div></div>
+  <div class="kpi"><div class="l">CA (TTM)</div><div class="v">14,13 Mds$</div><div class="d down">guidance 2026 en baisse</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">aucun dividende</div></div>
+  <div class="kpi"><div class="l">Carnet</div><div class="v">48,2 Mds$</div><div class="d up">+8 % a/a · b-t-b 1,3x</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (août 2025 → août 2026)</div>
+    <div class="r">52 sem. : <span class="down">19,80 $</span> → <span class="up">38,11 $</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5b8cff" stop-opacity="0.30"/>
+          <stop offset="100%" stop-color="#5b8cff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <path d="M0,182 L70,205 L140,228 L210,150 L280,80 L340,20 L400,68 L460,102 L530,158 L600,155 L660,132 L720,120 L760,148 L800,214"
+            fill="none" stroke="#5b8cff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,182 L70,205 L140,228 L210,150 L280,80 L340,20 L400,68 L460,102 L530,158 L600,155 L660,132 L720,120 L760,148 L800,214 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="214" r="5" fill="#ff4d5e"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Août 25</span><span>Résultats 2025</span><span>Pic 38 $</span><span>T1 déçoit</span><span>T3 −8 %</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">La décote la plus profonde du secteur — la question est de savoir si elle est excessive ou méritée.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER prospectif</div><div class="cv">~8,7x</div><div class="cd">21,47 $ pour 2,45 $ de BPA ajusté 2026.</div><span class="tag gr">DÉCOTÉ</span></div>
+  <div class="card"><div class="cl">PER (TTM, GAAP)</div><div class="cv">25,9x</div><div class="cd">Écrasé par l'amortissement des incorporels.</div><span class="tag am">TROMPEUR</span></div>
+  <div class="card"><div class="cl">VE / EBITDA aj.</div><div class="cv">~7,7x</div><div class="cd">VE ~8,7 Mds$ pour 1,13 Md$ d'EBITDA.</div><span class="tag gr">BAS</span></div>
+  <div class="card"><div class="cl">VE / CA</div><div class="cv">~0,6x</div><div class="cd">Reflète une marge brute de ~10 %.</div><span class="tag go">STRUCTUREL</span></div>
+  <div class="card"><div class="cl">Rdt du FCF</div><div class="cv">~10,5 %</div><div class="cd">550 M$ attendus / 5,25 Mds$ de capi.</div><span class="tag gr">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">30,25 $</div><div class="cd">12 analystes · fourchette 21–40 $.</div><span class="tag go">+41 % THÉORIQUE</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison — médiane des services fédéraux cotés (estimations août 2026)</div>
+  <div class="mcomp"><div class="mk">PER prospectif</div><div class="mvals"><b>8,7x</b><span class="sep">vs</span>médiane ~15x</div></div>
+  <div class="mcomp"><div class="mk">VE / EBITDA</div><div class="mvals"><b>7,7x</b><span class="sep">vs</span>médiane ~11x</div></div>
+  <div class="mcomp"><div class="mk">Marge d'EBITDA</div><div class="mvals"><b>8,3 %</b><span class="sep">vs</span>médiane ~11 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le PER passe-t-il de 25,9x à 8,7x selon la mesure retenue ?</summary>
+  <div class="body">Les deux chiffres sont exacts, ils ne mesurent pas la même chose. Le PER TTM de 25,9x utilise le bénéfice comptable (GAAP), soit environ 0,83 $ par action. Ce bénéfice est écrasé par l'amortissement des actifs incorporels créés lors de la fusion de 2024 — une charge comptable qui ne coûte aucune trésorerie et qui s'éteindra avec le temps. Le PER de 8,7x utilise le bénéfice ajusté, qui neutralise cette charge : 2,40 à 2,50 $ par action pour l'exercice 2026, selon la prévision de la direction. Le marché et les analystes raisonnent sur la mesure ajustée. La vigilance porte sur un point précis : un écart d'un facteur trois est important, et il faut vérifier chaque année que les retraitements se limitent bien à l'amortissement d'acquisition, sans y glisser des coûts d'exploitation récurrents déguisés en charges exceptionnelles.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Un bilan en cours de réparation, une génération de trésorerie solide mais très saisonnière.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Levier net</div><div class="cv">3,0x</div><div class="cd">Ramené de ~3,8x, un trimestre en avance.</div><span class="tag am">TENDU MAIS EN BAISSE</span></div>
+  <div class="card"><div class="cl">Dette brute</div><div class="cv">3 875 M$</div><div class="cd">Trésorerie 459 M$ · dette nette ~3,4 Mds$.</div><span class="tag am">ÉLEVÉE</span></div>
+  <div class="card"><div class="cl">FCF 2026e</div><div class="cv">525–575 M$</div><div class="cd">Prévision maintenue malgré le T3.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Marge EBITDA aj.</div><div class="cv">8,3 %</div><div class="cd">Record trimestriel · 7,7 % un an plus tôt.</div><span class="tag go">EN PROGRÈS</span></div>
+  <div class="card"><div class="cl">ROIC</div><div class="cv">~4,6 %</div><div class="cd">Sous le coût du capital · ROE ~2,9 %.</div><span class="tag rd">INSUFFISANT</span></div>
+  <div class="card"><div class="cl">Score Altman Z</div><div class="cv">2,07</div><div class="cd">Zone grise · sous le seuil de 3.</div><span class="tag am">À SURVEILLER</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un levier de 3,0x est-il le point de vigilance central ?</summary>
+  <div class="body">Le levier net rapporte la dette nette (environ 3,4 Mds$) à l'EBITDA ajusté des douze derniers mois (environ 1,13 Md$). À 3,0x, Amentum est plus endetté que ses pairs directs, qui se situent plutôt entre 2,0x et 2,5x. Deux conséquences concrètes. D'abord, une part significative du flux de trésorerie part en intérêts au lieu d'aller aux actionnaires. Ensuite, l'effet de levier joue dans les deux sens : si l'EBITDA recule de 5 %, le levier remonte mécaniquement au-dessus de 3,1x, ce qui peut déclencher des tensions sur les covenants bancaires ou la notation. La bonne nouvelle est que la direction rembourse plus vite que prévu — 125 M$ de remboursement volontaire au T3 — et que chaque dollar de dette effacé transfère de la valeur du créancier vers l'actionnaire, sans qu'aucune amélioration opérationnelle ne soit nécessaire.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Le point faible du dossier : la marge progresse, le chiffre d'affaires recule.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA T3 2026</div><div class="cv">−2 %</div><div class="cd">3 490 M$ · consensus manqué de 2,3 %.</div><span class="tag am">EN RECUL</span></div>
+  <div class="card"><div class="cl">Guidance CA 2026</div><div class="cv">13,9 Mds$</div><div class="cd">Abaissée · 14,4 Mds$ en 2025.</div><span class="tag am">RÉVISÉE EN BAISSE</span></div>
+  <div class="card"><div class="cl">BPA ajusté T3</div><div class="cv">+20 %</div><div class="cd">0,67 $ vs 0,61 $ attendus.</div><span class="tag gr">DÉPASSÉ</span></div>
+  <div class="card"><div class="cl">Carnet financé</div><div class="cv">6,2 Mds$</div><div class="cd">+10 % a/a · sur 48,2 Mds$ au total.</div><span class="tag gr">EN HAUSSE</span></div>
+  <div class="card"><div class="cl">Visibilité 2027</div><div class="cv">92 %</div><div class="cd">Du CA issu de contrats existants.</div><span class="tag gr">EXCELLENTE</span></div>
+  <div class="card"><div class="cl">Impact NASA 2027</div><div class="cv">−3 %</div><div class="cd">Internalisation décidée par l'agence.</div><span class="tag rd">SUBI</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:72%;background:var(--gold)"></div></div>
+    <div class="bd-score">72 / 100 — 8,7x les bénéfices ajustés, 10,5 % de rendement du FCF, forte marge de sécurité</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:52%;background:var(--gold)"></div></div>
+    <div class="bd-score">52 / 100 — FCF solide et désendettement en avance, mais levier 3,0x et ROIC sous le coût du capital</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:40%;background:var(--amber)"></div></div>
+    <div class="bd-score">40 / 100 — CA en recul, guidance abaissée, choc NASA de −3 % en 2027 ; carnet et marge compensent partiellement</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×72 + 0,35×52 + 0,30×40</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:55%;background:var(--id)"></div></div>
+    <div class="bd-score" style="color:var(--id)">55 / 100 — Risque modéré</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en amélioration · Rouge = en dégradation. Exercice décalé, clos début octobre.</div>
+<div class="qwrap">
+<table class="qtable">
+  <thead>
+    <tr><th>Trimestre</th><th>CA</th><th>EBITDA aj.</th><th>Marge</th><th>BPA aj.</th><th>FCF</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>T3 2025</td><td>3 561 M$</td><td>274 M$</td><td>7,7 %</td><td>0,56 $</td><td>100 M$</td><td><span class="flag am">≈ Base</span></td></tr>
+    <tr class="imp"><td>T4 2025</td><td>~4,0 Mds$</td><td>~308 M$</td><td>~7,6 %</td><td>~0,61 $</td><td>~314 M$</td><td><span class="flag gr">▲ Book-to-bill 1,6x</span></td></tr>
+    <tr class="dec"><td>T1 2026</td><td>3 240 M$</td><td>263 M$</td><td>8,1 %</td><td>0,54 $</td><td>−142 M$</td><td><span class="flag rd">▼ CA −5 %, FCF négatif</span></td></tr>
+    <tr class="imp"><td>T2 2026</td><td>3 480 M$</td><td>275 M$</td><td>7,9 %</td><td>0,60 $</td><td>+220 M$</td><td><span class="flag gr">▲ Rebond du cash</span></td></tr>
+    <tr class="imp"><td>T3 2026</td><td>3 490 M$</td><td>290 M$</td><td>8,3 %</td><td>0,67 $</td><td>+135 M$</td><td><span class="flag gr">▲ Marge record</span></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : les chiffres du T4 2025 sont reconstitués par différence entre l'exercice publié (14,4 Mds$ de CA, 1 104 M$ d'EBITDA ajusté, 516 M$ de FCF) et les trois premiers trimestres — l'exercice 2025 comptait 53 semaines. La lecture d'ensemble est nette : la marge progresse de 7,7 % à 8,3 % en quatre trimestres pendant que le chiffre d'affaires se contracte.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T3 2026 vs consensus (10 août 2026)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev down">3 490 M$ (cons. 3 572)</span></div>
+    <div class="eline"><span>BPA ajusté</span><span class="ev up">0,67 $ (cons. 0,61)</span></div>
+    <div class="eline"><span>EBITDA ajusté</span><span class="ev up">290 M$ (+6 %)</span></div>
+    <div class="eline"><span>Résultat opérationnel</span><span class="ev up">172 M$ (+67 %)</span></div>
+    <div class="eline"><span>Réaction du titre</span><span class="ev down">−8,4 % le lendemain</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Guidance 2026 &amp; jalons</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev down">13,80–13,95 Mds$</span></div>
+    <div class="eline"><span>EBITDA ajusté</span><span class="ev up">1 115–1 140 M$</span></div>
+    <div class="eline"><span>BPA ajusté</span><span class="ev up">2,40–2,50 $</span></div>
+    <div class="eline"><span>FCF</span><span class="ev">525–575 M$</span></div>
+    <div class="eline"><span>Attributions en attente</span><span class="ev">~32 Mds$</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Carnet de commandes, carnet financé, book-to-bill : que faut-il regarder ?</summary>
+  <div class="body">Le carnet total (48,2 Mds$) correspond au chiffre d'affaires futur estimé sur les contrats négociés — options comprises. C'est un indicateur de visibilité, pas une créance : la quasi-totalité des contrats fédéraux peut être résiliée à la discrétion du client, sans faute du prestataire. Le carnet financé (6,2 Mds$) est le sous-ensemble réellement doté en crédits budgétaires votés : c'est le chiffre le plus fiable, et il progresse de 10 %. Le book-to-bill divise les prises de commandes par le chiffre d'affaires de la période : au-dessus de 1, le carnet se reconstitue plus vite qu'il ne se consomme. À 1,3x sur douze mois, la dynamique commerciale d'Amentum est bonne. Tout le débat porte donc sur la vitesse de conversion : un carnet qui grossit de 8 % pendant que le chiffre d'affaires recule de 2 % signifie que les contrats sont gagnés mais que leur démarrage est retardé par des protestations de marché et des lenteurs de passation.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Désendettement mécanique</div><div class="id2">525 à 575 M$ de FCF affectés en priorité à la dette : la valeur des capitaux propres progresse de ~10 % par an à valeur d'entreprise constante, sans amélioration opérationnelle.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Renouveau nucléaire &amp; énergie pour l'IA</div><div class="id2">Bail progressif à Savannah River (DOE/NNSA), accords Westinghouse APX, 406 M$ pour des petits réacteurs modulaires au Royaume-Uni. Très peu d'acteurs accrédités au monde.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Adjudication des 32 Mds$ en attente</div><div class="id2">Le déblocage des marchés protestés ou retardés relancerait la croissance publiée — le seul déclencheur crédible d'une ré-expansion du multiple.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Expansion de marge documentée</div><div class="id2">7,7 % → 8,3 % en quatre trimestres, prévision de rentabilité relevée à chaque publication depuis un an.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Internalisation par le client</div><div class="id2">La NASA retire ~3 % du CA du groupe en 2027 par simple directive. Si la logique se diffuse à d'autres agences, c'est le modèle économique lui-même qui est visé — aucune parade commerciale n'existe.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Croissance organique négative</div><div class="id2">CA −2 % au T3, guidance abaissée. Un multiple bas ne protège pas d'un multiple encore plus bas lorsque la croissance disparaît — plusieurs pairs civils l'ont démontré.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Plafond de marge structurel</div><div class="id2">~62 % des contrats en cost-plus : la marge est administrée par l'acheteur. Les synergies de fusion, réservoir des gains actuels, s'épuisent.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Qualité des résultats à vérifier</div><div class="id2">Bascule de contrats vers des coentreprises non consolidées (flatte la marge en réduisant le CA), reprises d'estimations à terminaison, écart GAAP/ajusté d'un facteur trois.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (55/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:55%"><div class="rmval">55</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span>Extrême</span><span>Élevé</span><span>Modéré</span><span>Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> Amentum est une <b>entreprise correctement gérée, sobrement dirigée et franchement bon marché</b> — 8,7 fois les bénéfices ajustés, 10,5 % de rendement du flux de trésorerie disponible, un carnet de 48,2 Mds$ et un désendettement en avance sur le plan. La direction tient tous les engagements qui relèvent d'elle : marge, trésorerie, dette.<br><br>
+    Le risque est modéré, et non faible, pour trois raisons cumulées. Une <b>concentration client totale</b> — environ 90 % du chiffre d'affaires vient d'agences fédérales américaines qui peuvent retirer du travail par simple décision administrative, comme l'a fait la NASA en 2026 pour ~3 % du chiffre d'affaires 2027. Un <b>pouvoir de fixation des prix nul</b> — avec ~62 % de contrats en cost-plus, la marge est négociée avec l'acheteur, ce qui plafonne structurellement la rentabilité autour de 8 %. Et un <b>levier de 3,0x</b> supérieur à celui des pairs, qui amplifie tout écart d'exécution.<br><br>
+    La thèse ne repose ni sur la croissance ni sur la marge, mais sur une <b>structure de capital en cours de réparation</b> : chaque année, environ 500 M$ transitent du créancier vers l'actionnaire. Profil adapté à un investisseur orienté valeur, patient, tolérant à une absence prolongée de croissance du chiffre d'affaires et attentif au budget fédéral américain. Le déclencheur à surveiller est unique et clair : le <b>retour à une croissance organique publiée positive</b>. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués de résultats Amentum Holdings (T3 de l'exercice 2026 publié le 10 août 2026, exercice 2025 publié le 24 novembre 2025), dépôts SEC 8-K et 10-K, transcription de la conférence téléphonique du 11 août 2026, données de marché et de valorisation (StockAnalysis, Investing.com, TipRanks, Morningstar) et couverture sectorielle (GovConWire, WashingtonExec, Business Wire, Yahoo Finance) — au 14 août 2026. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Amentum n'étant cotée que depuis le 30 septembre 2024, l'historique boursier est court et plusieurs multiples de pairs sont des ordres de grandeur à affiner sur les dépôts SEC directs. Les chiffres du T4 2025 sont reconstitués par différence. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "AMTM \u2014 Amentum Holdings, Inc. | RAPPORT DE SCORE DE RISQUE (14 ao\u00fbt 2026)",
+    "\u00c9chelle : plus le risque est \u00e9lev\u00e9, plus le score est bas (0 = extr\u00eame, 100 = s\u00fbr)",
+    "",
+    "SCORE GLOBAL : 55/100 \u2014 RISQUE MOD\u00c9R\u00c9",
+    "Cours : 21,47 $ (\u22120,92 %) | Cap : 5,25 Mds$ | NYSE depuis le 30 sept. 2024 \u00e0 32,25 $",
+    "",
+    "INDICATEURS CL\u00c9S",
+    "- CA (TTM) 14,13 Mds$ | EBITDA aj. (TTM) ~1,13 Md$ | FCF 2026e 525\u2013575 M$",
+    "- Dividende 0 % | Carnet 48,2 Mds$ (+8 %) dont 6,2 Mds$ financ\u00e9s | book-to-bill 1,3x",
+    "- Cible analystes 30,25 $ (12 analystes, fourchette 21\u201340 $)",
+    "",
+    "VALORISATION (72/100)",
+    "- PER prospectif ~8,7x | PER TTM GAAP 25,9x | VE/EBITDA aj. ~7,7x | VE/CA ~0,6x",
+    "- Rendement du FCF ~10,5 % | d\u00e9cote de 40\u201350 % vs la m\u00e9diane des services f\u00e9d\u00e9raux",
+    "",
+    "SANT\u00c9 FINANCI\u00c8RE (52/100)",
+    "- Levier net 3,0x (de ~3,8x \u00e0 la fusion) | dette brute 3 875 M$ | tr\u00e9sorerie 459 M$",
+    "- ROIC ~4,6 % et ROE ~2,9 % : sous le co\u00fbt du capital | Altman Z 2,07",
+    "",
+    "CROISSANCE (40/100)",
+    "- CA T3 2026 3 490 M$ (\u22122 %), consensus manqu\u00e9 de 2,3 % | guidance 2026 abaiss\u00e9e \u00e0 13,8\u201313,95 Mds$",
+    "- BPA aj. T3 0,67 $ (+20 %, cons. 0,61 $) | marge EBITDA aj. record \u00e0 8,3 %",
+    "- Internalisation NASA : \u22123 % du CA en 2027 | 92 % du CA 2027 d\u00e9j\u00e0 couvert",
+    "",
+    "SEGMENTS T3 2026",
+    "- Global Engineering Solutions 2 033 M$ (\u22125 %, marge 8,6 %, +110 bps)",
+    "- Digital Solutions 1 457 M$ (+3 %, marge 8,0 %)",
+    "",
+    "CATALYSEURS : D\u00e9sendettement (fort), Nucl\u00e9aire & \u00e9nergie IA (fort), Adjudication des 32 Mds$ (moyen), Expansion de marge (moyen)",
+    "RISQUES : Internalisation par le client (fort), Croissance organique n\u00e9gative (fort), Plafond de marge cost-plus (moyen), Qualit\u00e9 des r\u00e9sultats (moyen)",
+    "",
+    "VERDICT : Actif bon march\u00e9 et bien g\u00e9r\u00e9, mais concentration client totale (~90 % f\u00e9d\u00e9ral US), pouvoir de prix nul (~62 % cost-plus) et levier 3,0x. La th\u00e8se repose sur la r\u00e9paration de la structure de capital, pas sur la croissance. Risque mod\u00e9r\u00e9. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "\u2713 Copi\u00e9 !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="\u2713 Copi\u00e9 !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="\u00c9chec \u2014 copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
