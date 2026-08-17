@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASML — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+  /* couleur de zone du score global : 67/100 => zone OR */
+  --id:var(--gold);
+  --id-soft:rgba(255,210,63,.45);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,210,63,.06),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,210,63,.14),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.mod{color:var(--id);border-color:var(--id);background:rgba(255,210,63,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px var(--id-soft);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable tr.neu td{background:rgba(255,210,63,.06)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.go{color:var(--gold);background:rgba(255,210,63,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px var(--id-soft)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:8px}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">ASML</div>
+      <div class="name">ASML Holding N.V. · Euronext Amsterdam &amp; Nasdaq · Lithographie pour semi-conducteurs</div>
+      <div class="price">1 554,00 € &nbsp;·&nbsp; 1 844,08 $ (ADR) &nbsp;<span class="up">+148 % sur 12 mois</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">67</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge mod">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:67%"><div class="mval">67</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Résultats T2 2026 publiés le 15 juillet 2026 — données de marché au 14 août 2026</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~710 Mds$</div><div class="d up">1re capitalisation européenne</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">1 554 €</div><div class="d up">+72 % depuis le 1er janvier</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">~56x</div><div class="d down">haut de fourchette historique</div></div>
+  <div class="kpi"><div class="l">CA 2026 (guidance)</div><div class="v">43-45 Mds€</div><div class="d up">+32 à +38 % a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">~0,5 %</div><div class="d">7,50 € versés au titre de 2025</div></div>
+  <div class="kpi"><div class="l">Marge brute T2</div><div class="v">54,0 %</div><div class="d up">guidée 55-57 % au T3</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (Euronext Amsterdam, en €)</div>
+    <div class="r">août 25 : <span class="down">~630 €</span> → août 26 : <span class="up">1 554 €</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.26"/>
+          <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <path d="M0,225 L67,213 L133,181 L200,164 L267,152 L333,140 L400,129 L467,129 L533,134 L600,110 L667,91 L733,39 L800,64"
+            fill="none" stroke="#ffd23f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,225 L67,213 L133,181 L200,164 L267,152 L333,140 L400,129 L467,129 L533,134 L600,110 L667,91 L733,39 L800,64 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="733" cy="39" r="4" fill="#28d17c"/>
+      <circle cx="800" cy="64" r="5" fill="#ffd23f"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>août 25</span><span>oct. 25</span><span>janv. 26</span><span>avr. 26</span><span>juil. 26</span><span>auj.</span></div>
+  <div class="sec-sub" style="margin-top:8px;font-size:13px">Repères : record de prises de commandes (28 janv.) · MATCH Act (7 avr., −4 %) · relèvement de guidance (15 juil.) · plus haut à 1 999,96 $ sur l'ADR puis repli d'environ 11 % en un mois.</div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Le meilleur moat de la cote mondiale — payé au prix fort, après une hausse de 148 % en douze mois.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">~56x</div><div class="cd">BPA des 4 derniers trimestres : 27,57 €.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">PER 2026E</div><div class="cv">~42x</div><div class="cd">Sur un BPA 2026 estimé à 36-38 €.</div><span class="tag am">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">EV / CA 2026E</div><div class="cv">~14x</div><div class="cd">~620 Mds€ pour 44 Mds€ de CA.</div><span class="tag am">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">PER 2028E</div><div class="cv">~30x</div><div class="cd">Le multiple se dégonfle si le plan tient.</div><span class="tag go">À SURVEILLER</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~2 117 $</div><div class="cd">44 analystes, consensus Strong Buy.</div><span class="tag go">+15 % SEULEMENT</span></div>
+  <div class="card"><div class="cl">Perf. 12 mois</div><div class="cv">+148 %</div><div class="cd">La barre des attentes est très haute.</div><span class="tag am">SURACHETÉ</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle — équipements pour semi-conducteurs (WFE)</div>
+  <div class="mcomp"><div class="mk">PER prospectif</div><div class="mvals"><b>ASML ~42x</b><span class="sep">vs</span>AMAT / LRCX ~34x</div></div>
+  <div class="mcomp"><div class="mk">PER prospectif</div><div class="mvals"><b>ASML ~42x</b><span class="sep">vs</span>KLA ~37x · TEL ~22x</div></div>
+  <div class="mcomp"><div class="mk">Prime vs médiane</div><div class="mvals"><b>~+20 %</b><span class="sep">pour</span>100 % de part EUV</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un monopole absolu ne se paie-t-il « que » 20 % de plus que ses pairs ?</summary>
+  <div class="body">Parce que le marché ne valorise pas la rareté du monopole, mais la croissance à court terme — et cette croissance, en 2026, est forte chez tous les fabricants d'équipements (Applied Materials, Lam Research, KLA). ASML contrôle 100 % de la lithographie EUV et plus de 90 % de la lithographie totale : elle décide du prix de ses machines. Mais elle ne décide pas du nombre de machines commandées, qui dépend des budgets d'investissement de trois clients (TSMC, Samsung, Intel). Un monopole sur un marché cyclique reste un actif cyclique. La prime de 20 % rémunère donc la certitude du prix, pas celle du volume.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Le point fort incontestable du dossier : rentabilité exceptionnelle, trésorerie nette, aucune dépendance au crédit.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Marge brute T2 2026</div><div class="cv">54,0 %</div><div class="cd">Au-dessus de la guidance (51-52 %).</div><span class="tag gr">EXCELLENT</span></div>
+  <div class="card"><div class="cl">Marge opérationnelle</div><div class="cv">37,1 %</div><div class="cd">Contre 34,6 % un an plus tôt.</div><span class="tag gr">LEVIER RÉEL</span></div>
+  <div class="card"><div class="cl">Marge nette</div><div class="cv">31,3 %</div><div class="cd">2 918 M€ de résultat net trimestriel.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Trésorerie</div><div class="cv">7,58 Mds€</div><div class="cd">12,7 Mds€ fin 2024 — repli volontaire.</div><span class="tag go">À SURVEILLER</span></div>
+  <div class="card"><div class="cl">Rachats d'actions</div><div class="cv">12 Mds€</div><div class="cd">Programme 2026-2028 ; 1,1 Md€ au T2.</div><span class="tag gr">RELUTIF</span></div>
+  <div class="card"><div class="cl">ROE</div><div class="cv">&gt; 40 %</div><div class="cd">Très au-dessus du coût du capital.</div><span class="tag gr">EXCELLENT</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi la baisse de la trésorerie de 12,7 à 7,6 Mds€ n'est-elle pas alarmante ?</summary>
+  <div class="body">Parce qu'elle est choisie, pas subie. ASML a distribué des dividendes, racheté pour plusieurs milliards d'actions et engagé des investissements de capacité pendant que son résultat net atteignait des records. Une entreprise en difficulté voit sa trésorerie fondre parce qu'elle perd de l'argent ; ici, elle fond parce qu'elle en rend aux actionnaires. Le vrai point de vigilance est ailleurs : augmenter la capacité de production de 30 % mobilise énormément de besoin en fonds de roulement (stocks, en-cours, acomptes versés aux fournisseurs). C'est la conversion du bénéfice en trésorerie disponible qu'il faudra surveiller trimestre après trimestre en 2027.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Accélération spectaculaire portée par l'IA — malgré la perte d'un tiers du marché chinois.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA 2026E</div><div class="cv">+35 %</div><div class="cd">Guidance relevée de 36-40 à 43-45 Mds€.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">BPA T2 2026</div><div class="cv">7,59 €</div><div class="cd">+29 % a/a ; 4e dépassement d'affilée.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Systèmes vendus T2</div><div class="cv">86</div><div class="cd">Contre 67 au T1 2026.</div><span class="tag gr">ACCÉLÉRATION</span></div>
+  <div class="card"><div class="cl">Services (base install.)</div><div class="cv">2,76 Mds€</div><div class="cd">+32 % a/a — la rente récurrente.</div><span class="tag gr">RÉCURRENT</span></div>
+  <div class="card"><div class="cl">Capacité EUV 2027</div><div class="cv">+30 %</div><div class="cd">De ~65 à ~85 unités ; +30 % étudié pour 2028.</div><span class="tag go">PARI INDUSTRIEL</span></div>
+  <div class="card"><div class="cl">Part de la Chine</div><div class="cv">33 % → 20 %</div><div class="cd">19 % des ventes systèmes au T1 2026.</div><span class="tag am">EN CHUTE</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:30%;background:var(--amber)"></div></div>
+    <div class="bd-score">30 / 100 — ~56x les bénéfices TTM, ~42x 2026E, +148 % en un an, potentiel consensus limité à ~15 %</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:86%;background:var(--green)"></div></div>
+    <div class="bd-score">86 / 100 — marge nette 31 %, ROE &gt; 40 %, trésorerie nette, 12 Mds€ de rachats financés sans dette</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:88%;background:var(--green)"></div></div>
+    <div class="bd-score">88 / 100 — CA +35 % attendu en 2026, services +32 %, capacité +30 % pour 2027 ; réserve : pic de croissance probable</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×30 + 0,35×86 + 0,30×88</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:67%;background:var(--id)"></div></div>
+    <div class="bd-score" style="color:var(--id)">67 / 100 — Risque modéré</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en amélioration · Or = en ligne · Rouge = en dégradation</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Trimestre</th><th>CA</th><th>Marge brute</th><th>Résultat net</th><th>BPA</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="dec"><td>T3 2025</td><td>7 516 M€</td><td>51,6 %</td><td>2 125 M€</td><td>5,49 €</td><td><span class="flag rd">▼ Point bas</span></td></tr>
+    <tr class="imp"><td>T4 2025</td><td>9 718 M€</td><td>52,2 %</td><td>2 800 M€</td><td>7,34 €</td><td><span class="flag gr">▲ Rebond</span></td></tr>
+    <tr class="imp"><td>T1 2026</td><td>8 767 M€</td><td>53,0 %</td><td>2 757 M€</td><td>7,15 €</td><td><span class="flag gr">▲ Marge</span></td></tr>
+    <tr class="imp"><td>T2 2026</td><td>9 326 M€</td><td>54,0 %</td><td>2 918 M€</td><td>7,59 €</td><td><span class="flag gr">▲ Record</span></td></tr>
+    <tr class="neu"><td>T3 2026 (guidance)</td><td>11-12 Mds€</td><td>55-57 %</td><td>n.d.</td><td>n.d.</td><td><span class="flag go">◆ Rupture</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : la marge brute progresse quatre trimestres d'affilée (51,6 → 54,0 %). La guidance du T3 (11-12 Mds€) représenterait un bond d'environ 25 % en séquentiel — un changement d'échelle, pas une simple continuité.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Dernière publication &amp; retour actionnaire</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T2 2026 (15 juillet 2026)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev up">9 326 M€</span></div>
+    <div class="eline"><span>dont services / upgrades</span><span class="ev up">2 762 M€ (+32 %)</span></div>
+    <div class="eline"><span>Marge brute</span><span class="ev up">54,0 % (guidée 51-52 %)</span></div>
+    <div class="eline"><span>Résultat net</span><span class="ev">2 918 M€</span></div>
+    <div class="eline"><span>Systèmes neufs vendus</span><span class="ev up">86 (vs 67 au T1)</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Guidance &amp; capital</div>
+    <div class="eline"><span>CA 2026</span><span class="ev up">43-45 Mds€</span></div>
+    <div class="eline"><span>Marge brute 2026</span><span class="ev up">54-56 %</span></div>
+    <div class="eline"><span>Capacité EUV Low NA 2027</span><span class="ev up">+30 % (~85 unités)</span></div>
+    <div class="eline"><span>Rachats d'actions</span><span class="ev">12 Mds€ (2026-2028)</span></div>
+    <div class="eline"><span>Prochain rendez-vous</span><span class="ev">T3 le 14 oct. 2026</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le carnet de commandes n'est-il pas une garantie de revenus ?</summary>
+  <div class="body">Le carnet (38,8 Mds€ fin 2025, environ 45 Mds€ selon la presse mi-2026) recense les commandes pour lesquelles un client a donné une autorisation écrite. Ce n'est pas un contrat ferme irrévocable : ASML précise elle-même dans ses facteurs de risque que ces commandes peuvent être annulées, décalées, ou bloquées par une décision d'export. Le 15 octobre 2024, un simple trou d'air dans les nouvelles commandes avait fait chuter le titre de plus de 16 % en une séance — sa pire journée depuis 1998. Le carnet mesure donc la visibilité et le sentiment des clients, pas un revenu acquis. C'est l'indicateur qui fait bouger le cours avant même que le chiffre d'affaires ne bouge.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Intensité lithographique croissante</div><div class="id">Chaque nœud (2 nm, 1,4 nm) et le HBM4 exigent plus de couches EUV par plaquette : ASML capte une part croissante d'un capex lui-même en hausse.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Expansion de capacité 2027-2028</div><div class="id">+30 % de capacité EUV Low NA pour 2027, +30 % à l'étude pour 2028 : ASML ne vend pas moins qu'elle ne peut produire.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">La rente des services</div><div class="id">2,76 Mds€ au T2 (+32 % a/a) sur plus de 5 000 machines installées : revenu récurrent, marge élevée, faiblement cyclique.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Montée du High NA</div><div class="id">EXE:5200 à ~380 M$ l'unité ; production en volume visée 2027-2028 (Intel 14A). Relais de croissance et de mix.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Cyclicité du capex d'IA</div><div class="id">Le WFE mondial est attendu à ~150 Mds$ en 2026, un sommet historique. Un ralentissement des commandes des hyperscalers se transmettrait à ASML avec deux trimestres de retard.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Contrôles à l'export / MATCH Act</div><div class="id">Chine passée de 33 % (2025) à ~20 % (2026). Le projet de loi américain viserait aussi le service des DUV d'immersion : jusqu'à 10 % du BPA selon JPMorgan.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Valorisation sans marge d'erreur</div><div class="id">~42x les bénéfices 2026E après +148 % en un an. Une croissance décevante de 20-30 % ramènerait mécaniquement le cours vers ~960-1 050 €.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Concentration &amp; indigénisation chinoise</div><div class="id">Trois clients font l'essentiel des ventes de systèmes avancés. En parallèle, chaque restriction accélère l'effort national chinois sur le DUV d'immersion.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (67/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:67%"><div class="rmval">67</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span>Extrême</span><span>Élevé</span><span>Modéré</span><span>Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> ASML détient probablement <b>le fossé économique le plus large et le plus vérifiable de la cote mondiale</b> : 100 % de la lithographie EUV, plus de 90 % de la lithographie totale, un partenaire optique exclusif que personne ne peut dupliquer, et une base installée de plus de 5 000 machines qui génère une rente de services en croissance de 32 % par an. La santé financière est irréprochable — marge nette de 31 %, rentabilité des capitaux propres supérieure à 40 %, trésorerie nette, 12 Mds€ de rachats d'actions financés sans dette.<br><br>
+    Le risque ne vient donc <b>ni de l'entreprise, ni de son bilan</b>, mais de deux facteurs externes cumulés : une <b>valorisation de ~42 fois les bénéfices 2026</b> après une hausse de 148 % en douze mois, qui ne laisse aucune marge d'erreur ; et une <b>double dépendance</b> — au cycle d'investissement de trois clients dans un secteur historiquement le plus cyclique de la tech, et aux décisions de Washington et de La Haye sur les exportations vers la Chine.<br><br>
+    Le monopole garantit le prix des machines, pas le nombre de machines commandées. À ce niveau de multiple, l'investisseur n'achète pas la rareté technologique — il achète l'hypothèse que le capex d'intelligence artificielle ne connaîtra aucun trou d'air d'ici 2028. Profil adapté à un investisseur de long terme acceptant une volatilité élevée et un point d'entrée exigeant ; un étalement des achats paraît plus prudent qu'une entrée en une fois. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués de résultats ASML T2 2026 (15 juillet 2026), T1 2026, T4 et exercice 2025 (28 janvier 2026) ; dépôts 6-K auprès de la SEC ; rapport annuel 2025 ; données de marché et consensus (S&amp;P Global Market Intelligence, ChartMill, Simply Wall St, StockAnalysis) ; couverture presse (Reuters, CNBC, Caixin, Futurum, TrendForce) — arrêtées au 17 août 2026. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une notation d'agence ni un conseil financier. Plusieurs multiples de valorisation et l'ensemble des comparables sectoriels sont des ordres de grandeur estimés, à recalculer sur les documents de référence originaux (20-F, 10-K). Les projections de bénéfice par action sont des scénarios, pas des prévisions. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "ASML — ASML Holding N.V. | RAPPORT DE SCORE DE RISQUE (17 ao\u00fbt 2026)",
+    "\u00c9chelle : plus le risque est \u00e9lev\u00e9, plus le score est bas (0 = extr\u00eame, 100 = s\u00fbr)",
+    "",
+    "SCORE GLOBAL : 67/100 — RISQUE MOD\u00c9R\u00c9",
+    "Cours : 1 554 \u20ac (Amsterdam) / 1 844 $ (ADR) | Cap : ~710 Mds$ | +148 % sur 12 mois",
+    "",
+    "INDICATEURS CL\u00c9S",
+    "- CA 2025 32,7 Mds\u20ac | R\u00e9sultat net 2025 9,6 Mds\u20ac | Carnet fin 2025 38,8 Mds\u20ac",
+    "- Guidance 2026 : 43-45 Mds\u20ac de CA, marge brute 54-56 % (relev\u00e9e depuis 36-40 Mds\u20ac)",
+    "",
+    "VALORISATION (30/100)",
+    "- PER TTM ~56x | PER 2026E ~42x | EV/CA ~14x | PER 2028E ~30x",
+    "- Cible consensus ~2 117 $ soit ~+15 % | Prime d'environ 20 % vs AMAT/LRCX (~34x)",
+    "",
+    "SANT\u00c9 FINANCI\u00c8RE (86/100)",
+    "- Marge brute 54,0 % | Marge op\u00e9rationnelle 37,1 % | Marge nette 31,3 % | ROE > 40 %",
+    "- Tr\u00e9sorerie 7,58 Mds\u20ac | Rachats 12 Mds\u20ac (2026-2028) | Dividende ~0,5 %",
+    "",
+    "CROISSANCE (88/100)",
+    "- CA 2026E +35 % | BPA T2 7,59 \u20ac (+29 % a/a) | 86 syst\u00e8mes vendus (vs 67 au T1)",
+    "- Services 2,76 Mds\u20ac (+32 %) | Capacit\u00e9 EUV +30 % pour 2027 | Chine 33 % -> 20 %",
+    "",
+    "TENDANCE TRIMESTRIELLE (CA / marge brute / BPA)",
+    "- T3 25 : 7 516 M\u20ac / 51,6 % / 5,49 \u20ac | T4 25 : 9 718 M\u20ac / 52,2 % / 7,34 \u20ac",
+    "- T1 26 : 8 767 M\u20ac / 53,0 % / 7,15 \u20ac | T2 26 : 9 326 M\u20ac / 54,0 % / 7,59 \u20ac",
+    "- T3 26 guid\u00e9 : 11-12 Mds\u20ac / 55-57 %",
+    "",
+    "CATALYSEURS : intensit\u00e9 lithographique (fort), capacit\u00e9 +30 % (fort), rente services (fort), High NA (moyen)",
+    "RISQUES : cyclicit\u00e9 du capex IA (fort), MATCH Act / Chine (fort), valorisation (fort), concentration clients (moyen)",
+    "",
+    "VERDICT : monopole EUV incontestable et bilan irr\u00e9prochable, mais ~42x les b\u00e9n\u00e9fices 2026 apr\u00e8s +148 % en un an, avec une double d\u00e9pendance au capex de trois clients et aux contr\u00f4les \u00e0 l'export. Risque mod\u00e9r\u00e9. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "\u2713 Copi\u00e9 !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="\u2713 Copi\u00e9 !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="\u00c9chec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
