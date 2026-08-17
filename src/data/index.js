@@ -21,9 +21,11 @@ import amazon from "./amazon.js";
 import amd from "./amd.js";
 import anet from "./anet.js";
 import amtm from "./amtm.js";
+import asml from "./asml.js";
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
+  asml,
   amtm,
   anet,
   amd,
