@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXON — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --id:#ffd23f;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,210,63,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,210,63,.15),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.id{color:var(--id);border-color:var(--id);background:rgba(255,210,63,.10)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,210,63,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700;text-align:right}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,210,63,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:8px}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">AXON</div>
+      <div class="name">Axon Enterprise, Inc. · Nasdaq · Technologie de sécurité publique</div>
+      <div class="price">604,32 $ &nbsp;<span class="up">+78 % vs plus bas 52 sem.</span> &nbsp;<span class="down">−24 % vs plus haut</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">54</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge id">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:54%"><div class="mval">54</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché au 17 août 2026 — comptes du T2 2026 publiés le 5 août 2026</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~49 Mds$</div><div class="d">~81,2 M d'actions</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">604,32 $</div><div class="d">52 sem. 339 – 794 $</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">~254x</div><div class="d down">bénéfice GAAP quasi nul</div></div>
+  <div class="kpi"><div class="l">CA 2025</div><div class="v">2,8 Mds$</div><div class="d up">+33 % a/a</div></div>
+  <div class="kpi"><div class="l">ARR (T2 2026)</div><div class="v">1,64 Md$</div><div class="d up">+39 % · NRR 126 %</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">aucun dividende</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois — du sommet au creux, et retour</div>
+    <div class="r">Août 25 : <span class="up">794 $</span> → Juin 26 : <span class="down">339 $</span> → <span class="up">604 $</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <path d="M0,23 L67,58 L133,57 L200,126 L267,137 L333,159 L400,174 L467,196 L533,205 L600,223 L667,185 L733,141 L800,106"
+            fill="none" stroke="#ffd23f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,23 L67,58 L133,57 L200,126 L267,137 L333,159 L400,174 L467,196 L533,205 L600,223 L667,185 L733,141 L800,106 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="106" r="5" fill="#ffd23f"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Sommet août 25</span><span>T3 25 manqué</span><span>Purge janv. 26</span><span>Creux juin 26</span><span>T2 26 relevé</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime de croissance logicielle payée sur une entreprise qui ne dégage presque aucun bénéfice comptable.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">~254x</div><div class="cd">Bénéfice GAAP écrasé par la rémunération en actions.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">PER 2026e (non-GAAP)</div><div class="cv">~50x</div><div class="cd">Contre ~25 à 36x pour Motorola Solutions.</div><span class="tag rd">PRIME</span></div>
+  <div class="card"><div class="cl">EV / CA (TTM)</div><div class="cv">~15,5x</div><div class="cd">50 Mds$ de VE pour 3,2 Mds$ de revenus.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">EV / ARR</div><div class="cv">~31x</div><div class="cd">Défendable seulement si la rétention reste >120 %.</div><span class="tag am">À NUANCER</span></div>
+  <div class="card"><div class="cl">EV / EBITDA aj. 2026e</div><div class="cv">~53x</div><div class="cd">Sur ~940 M$ d'EBITDA ajusté attendu.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~693 – 731 $</div><div class="cd">Mais des modèles de juste valeur ressortent à 451 $.</div><span class="tag am">DISPERSÉ</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle — le pair le plus proche est Motorola Solutions</div>
+  <div class="mcomp"><div class="mk">PER 2026e</div><div class="mvals"><b>~50x</b><span class="sep">vs</span>MSI ~25-36x</div></div>
+  <div class="mcomp"><div class="mk">EV / CA</div><div class="mvals"><b>~15,5x</b><span class="sep">vs</span>MSI ~6,3x</div></div>
+  <div class="mcomp"><div class="mk">Croissance CA 2026</div><div class="mvals"><b>+32-34 %</b><span class="sep">vs</span>MSI ~+10-13 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un PER de 254x ne veut rien dire ici ?</summary>
+  <div class="body">Le PER rapporte le cours au bénéfice par action. Or Axon a dégagé seulement 125 M$ de résultat net en 2025 pour 2,8 Mds$ de chiffre d'affaires — une marge nette de 4,5 % — et même une perte d'exploitation de 62 M$. La cause principale n'est pas l'exploitation : c'est la rémunération en actions, attendue entre 590 et 620 M$ en 2026, soit environ 16 % du chiffre d'affaires. Divisez un gros cours par un tout petit bénéfice et vous obtenez un ratio absurde. Les professionnels utilisent donc le PER non-GAAP (environ 50x pour 2026), le rapport valeur d'entreprise sur revenus récurrents (environ 31x), ou le multiple d'EBITDA ajusté. Chacun de ces trois raccourcis exclut une charge bien réelle : celle-ci dilue les actionnaires, année après année.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Un bilan sain, un résultat opérationnel qui repasse dans le vert — mais une trésorerie toujours décalée.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Rés. opér. GAAP S1 2026</div><div class="cv">+76 M$</div><div class="cd">Retour au positif après une perte de 62 M$ en 2025.</div><span class="tag go">REDRESSÉ</span></div>
+  <div class="card"><div class="cl">EBITDA ajusté 2025</div><div class="cv">710 M$</div><div class="cd">Marge de 25,5 %, hors rémunération en actions.</div><span class="tag am">À NUANCER</span></div>
+  <div class="card"><div class="cl">Rém. en actions 2026e</div><div class="cv">590 – 620 M$</div><div class="cd">Environ 16 % du CA, dont 280 M$ pour le XSP et le CEO Award.</div><span class="tag rd">CRITIQUE</span></div>
+  <div class="card"><div class="cl">Dette nette</div><div class="cv">1,1 Md$</div><div class="cd">685 M$ de trésorerie, 1,8 Md$ d'obligations senior.</div><span class="tag go">MAÎTRISÉE</span></div>
+  <div class="card"><div class="cl">FCF S1 2026</div><div class="cv">−56 M$</div><div class="cd">Objectif annuel de 450 M$, à générer au second semestre.</div><span class="tag am">FRAGILE</span></div>
+  <div class="card"><div class="cl">Contrôle interne</div><div class="cv">Remédié</div><div class="cd">Faiblesse sur le revenu levée au 30 juin 2026.</div><span class="tag gr">RÉSOLU</span></div>
+</div>
+<details class="explainer">
+  <summary>La faiblesse de contrôle interne : où en est-on ?</summary>
+  <div class="body">Une entreprise cotée doit prouver chaque année que ses procédures comptables empêchent les erreurs. Axon avait reconnu, dans son rapport annuel 2025, que ses contrôles sur la comptabilisation du chiffre d'affaires n'étaient pas efficaces au 31 décembre 2025 : les politiques n'avaient pas été mises à jour pour suivre l'évolution des offres et des contrats. C'était le point le plus sensible du dossier, parce qu'il portait exactement sur la zone qui produit l'ARR, le carnet de commandes et le taux de rétention. Le rapport trimestriel du 30 juin 2026 referme le sujet : Axon a mis en place des contrôles pour réévaluer périodiquement ses politiques de revenu, les mettre à jour quand l'offre change et suivre les nouveaux flux, puis a achevé leurs tests au deuxième trimestre et conclu que <b>la faiblesse est remédiée au 30 juin 2026</b>. Deux nuances demeurent : cette conclusion est celle de la direction, et l'auditeur PwC se prononcera sur l'exercice complet fin 2026 ; et c'est le troisième épisode de contrôle interne chez Axon en huit ans, après la filiale britannique en 2017 et le cycle de facturation en 2022.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">C'est le pilier le plus solide du dossier — et de loin.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA T2 2026</div><div class="cv">+35 %</div><div class="cd">904 M$ · 10e trimestre consécutif au-dessus de 30 %.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Carnet contractualisé</div><div class="cv">15,1 Mds$</div><div class="cd">+41 % a/a · plus de quatre ans de CA courant.</div><span class="tag gr">EXCEPTIONNEL</span></div>
+  <div class="card"><div class="cl">Rétention nette</div><div class="cv">126 %</div><div class="cd">La base installée grossit d'un quart sans nouveau client.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Revenus IA</div><div class="cv">+~700 %</div><div class="cd">AI Era Plan · sur une base de départ faible.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Contre-drone (Dedrone)</div><div class="cv">>100 M$</div><div class="cd">Par trimestre, +300 % a/a — nouveau relais autonome.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Pénétration premium</div><div class="cv">~30 %</div><div class="cd">70 % de la base n'est pas encore montée en gamme.</div><span class="tag go">RÉSERVE</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:22%;background:var(--red)"></div></div>
+    <div class="bd-score">22 / 100 — ~50x les bénéfices 2026e, ~31x l'ARR, aucune marge de sécurité</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:58%;background:var(--gold)"></div></div>
+    <div class="bd-score">58 / 100 — bilan sain, résultat opérationnel GAAP redevenu positif, contrôle interne remédié ; FCF encore différé</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:88%;background:var(--green)"></div></div>
+    <div class="bd-score">88 / 100 — +35 % au T2, carnet de 15,1 Mds$, rétention nette de 126 %</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×22 + 0,35×58 + 0,30×88</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:54%;background:var(--id)"></div></div>
+    <div class="bd-score" style="color:var(--id)">54,4 → 54 / 100 — Risque modéré</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en amélioration · Rouge = en dégradation. Notez la régularité du chiffre d'affaires face à l'instabilité totale du résultat.</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Trimestre</th><th>CA</th><th>Croissance</th><th>Rés. net GAAP</th><th>Marge nette</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="dec"><td>T3 2025</td><td>710,6 M$</td><td>+31 %</td><td>−2,2 M$</td><td>−0,3 %</td><td><span class="flag rd">▼ Perte</span></td></tr>
+    <tr class="dec"><td>T4 2025</td><td>797 M$</td><td>+39 %</td><td>+3,0 M$</td><td>+0,4 %</td><td><span class="flag rd">▼ Quasi nul</span></td></tr>
+    <tr class="imp"><td>T1 2026</td><td>807 M$</td><td>+34 %</td><td>+169 M$</td><td>+21 %</td><td><span class="flag gr">▲ Gains hors expl.</span></td></tr>
+    <tr class="dec"><td>T2 2026</td><td>904,4 M$</td><td>+35 %</td><td>+29,4 M$</td><td>+3,3 %</td><td><span class="flag rd">▼ Recul a/a</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : au T1 2026, le résultat net GAAP (169 M$) dépasse le résultat non-GAAP (133 M$) grâce à des gains hors exploitation sur placements. Au T2 2026, le chiffre d'affaires progresse de 35 % mais le bénéfice par action dilué recule de 0,44 $ à 0,36 $. Le résultat net comptable d'Axon dépend encore largement du calendrier de sa rémunération en actions et de son portefeuille financier. En revanche, le résultat <i>opérationnel</i> GAAP, lui, est redevenu positif : +29,2 M$ au T1 et +46,8 M$ au T2 2026, contre une perte de 62 M$ sur l'exercice 2025.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Derniers résultats & objectifs</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T2 2026 (publié le 5 août 2026)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev up">904,4 M$ (+35 %)</span></div>
+    <div class="eline"><span>Software &amp; Services</span><span class="ev up">398 M$ (+36 %)</span></div>
+    <div class="eline"><span>EBITDA ajusté</span><span class="ev up">242 M$ (26,8 %)</span></div>
+    <div class="eline"><span>Rés. opérationnel GAAP</span><span class="ev up">+46,8 M$ (vs −1,0 M$)</span></div>
+    <div class="eline"><span>Résultat net GAAP</span><span class="ev">29,4 M$ (3,3 %)</span></div>
+    <div class="eline"><span>BPA dilué GAAP</span><span class="ev down">0,36 $ (vs 0,44 $)</span></div>
+    <div class="eline"><span>Marge brute ajustée</span><span class="ev">62,9 %</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Guidance 2026 & objectifs 2028</div>
+    <div class="eline"><span>Croissance CA 2026</span><span class="ev up">32 – 34 % (relevée)</span></div>
+    <div class="eline"><span>Marge EBITDA aj. 2026</span><span class="ev">~25,5 %</span></div>
+    <div class="eline"><span>Rém. en actions 2026</span><span class="ev down">590 – 620 M$</span></div>
+    <div class="eline"><span>Free cash-flow 2026</span><span class="ev">~450 M$</span></div>
+    <div class="eline"><span>Objectif CA 2028</span><span class="ev up">6 Mds$</span></div>
+    <div class="eline"><span>Objectif marge 2028</span><span class="ev up">28 % · dilution &lt;2,5 %</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi la rémunération en actions change tout dans ce dossier ?</summary>
+  <div class="body">Axon paie une partie importante de ses salariés et de ses dirigeants en actions plutôt qu'en espèces. Son fondateur touche un salaire au niveau du salaire minimum et a reçu en 2024 un plan conditionnel valorisé 164,5 M$ — le plus gros package du S&amp;P 500 cette année-là — subordonné à des jalons de cours et de performance jusqu'en 2030. Un plan équivalent, le XSP, est ouvert à l'ensemble des salariés. C'est un alignement remarquable : si le cours stagne, personne n'encaisse. Mais comptablement, ces attributions sont une charge — 590 à 620 M$ en 2026 — et elles créent de nouvelles actions, donc diluent les actionnaires existants. Toute la thèse de convergence vers un bénéfice repose sur une hypothèse : que ces plans, étant liés à des jalons finis, cessent de peser après 2027. Si ce n'est pas le cas, l'entreprise peut croître de 30 % par an indéfiniment sans jamais gagner d'argent au sens comptable.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Montée en gamme de la base installée</div><div class="id">Seulement 30 % des clients sont sur un plan premium, pour une rétention nette de 126 %. C'est le levier le plus mécanique du dossier.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Carnet de commandes de 15,1 Mds$</div><div class="id">En hausse de 41 %, il couvre plus de quatre années de chiffre d'affaires courant. Une visibilité rare sur un marché coté.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">International et entreprises</div><div class="id">Prises de commandes triplées sur les deux fronts ; l'international dépasse déjà 20 % du chiffre d'affaires. Le deuxième acte du modèle.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Deux verrous comptables qui sautent</div><div class="id">Résultat opérationnel GAAP redevenu positif (+76 M$ au S1) et faiblesse de contrôle interne remédiée au 30 juin 2026. Les deux principales objections comptables tombent la même année.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Le bénéfice par action ne suit pas</div><div class="id">BPA non-GAAP de 3,50 $ au S1 2026 contre 3,65 $ un an plus tôt, malgré +34,6 % de chiffre d'affaires. Et un FCF encore négatif à mi-année.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Valorisation sans marge de sécurité</div><div class="id">~50x les bénéfices 2026e et ~31x l'ARR. Une croissance ramenée à 22-25 % suffirait à comprimer le multiple de moitié.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Rémunération en actions et dilution</div><div class="id">590 à 620 M$ en 2026, stable en valeur absolue depuis deux ans, plus un programme ATM actif. Elle annule l'essentiel du levier opérationnel tout juste retrouvé.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Risque politique, réglementaire et de coûts</div><div class="id">Loi californienne SB 524 sur l'IA policière, critiques de l'EFF, effet de contagion Flock (plus de 50 juridictions), plus l'inflation du coût mémoire sur le matériel.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (54/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:54%"><div class="rmval">54</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span>Extrême</span><span>Élevé</span><span>Modéré</span><span>Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> Axon est une <b>machine d'exécution commerciale hors norme</b> — dix trimestres consécutifs au-dessus de 30 % de croissance, 80 à 85 % de part de marché sur les caméras-piétons des grandes villes américaines, un carnet de commandes contractualisé de 15,1 Mds$ et une rétention nette de 126 %. Le fossé concurrentiel est réel : changer de fournisseur oblige une agence à refaire valider une chaîne de garde judiciaire.<br><br>
+    Le score de 54 traduit une <b>tension entre trois piliers très inégaux</b>. La croissance est excellente (88/100). La santé financière remonte à 58/100 : le bilan est sain (1,1 Md$ de dette nette pour près d'un milliard d'EBITDA ajusté attendu), le <b>résultat opérationnel GAAP est redevenu positif au premier semestre 2026</b> (+76 M$ après une perte de 62 M$ en 2025), et la <b>faiblesse de contrôle interne sur la comptabilisation du revenu a été déclarée remédiée au 30 juin 2026</b> — l'objection comptable centrale du dossier est levée. Il reste un <b>free cash-flow de −56 M$ à mi-année</b> pour un objectif annuel de 450 M$, et une rémunération en actions qui absorbe l'essentiel du levier. La valorisation, elle, plafonne à 22/100 : à environ 50 fois les bénéfices non-GAAP 2026 et 31 fois les revenus récurrents, le cours intègre déjà la réalisation simultanée des objectifs 2028 — 6 Mds$ de chiffre d'affaires, 28 % de marge d'EBITDA ajusté et une dilution sous 2,5 %.<br><br>
+    Profil adapté à un investisseur de long terme convaincu par la trajectoire de plateforme, capable d'absorber une volatilité extrême — le titre a perdu 43 % entre août 2025 et février 2026, puis en a repris 78 % depuis son plus bas. Le véritable juge de paix n'est plus le contrôle interne mais la <b>conversion en free cash-flow</b> : objectif de 60 % de l'EBITDA ajusté en 2028, contre −56 M$ au premier semestre 2026. Et le rappel qui tempère tout : le <b>BPA non-GAAP recule</b> sur le semestre (3,50 $ contre 3,65 $) alors que le chiffre d'affaires bondit de 34,6 %. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués et lettres aux actionnaires d'Axon Enterprise (T4 2025 du 24 février 2026, T1 2026 du 6 mai 2026, T2 2026 du 5 août 2026), Formulaire 10-K 2025 et 10-Q du 30 juin 2026 déposés auprès de la SEC (dont l'Item 4 « Controls and Procedures » du 10-Q du T2 2026), transcriptions des conférences téléphoniques, données de cotation et de consensus (Nasdaq, CNBC, Morningstar, TipRanks, Simply Wall St, MarketBeat) — arrêtées au 17 août 2026. Le « score de risque » est un indicateur composite illustratif propre à 221 Bourse (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Plusieurs multiples sont des ordres de grandeur calculés à partir de données publiques et peuvent différer des chiffres retraités par les fournisseurs de données. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "AXON \u2014 Axon Enterprise, Inc. | RAPPORT DE SCORE DE RISQUE (17 ao\u00fbt 2026)",
+    "\u00c9chelle : plus le risque est \u00e9lev\u00e9, plus le score est bas (0 = extr\u00eame, 100 = s\u00fbr)",
+    "",
+    "SCORE GLOBAL : 54/100 \u2014 RISQUE MOD\u00c9R\u00c9",
+    "Cours : 604,32 $ | Cap : ~49 Mds$ | 52 sem. 339 \u2013 794 $ | Nasdaq",
+    "",
+    "INDICATEURS CL\u00c9S",
+    "- CA 2025 2,8 Mds$ (+33 %) | ARR 1,64 Md$ (+39 %) | NRR 126 % | Carnet 15,1 Mds$ (+41 %)",
+    "- Dividende 0 % | Cible analystes ~693\u2013731 $ (juste valeur mod\u00e9lis\u00e9e \u00e0 451 $)",
+    "",
+    "VALORISATION (22/100)",
+    "- PER TTM ~254x | PER 2026e non-GAAP ~50x | EV/CA ~15,5x | EV/ARR ~31x | EV/EBITDA aj. ~53x",
+    "- Comparaison : Motorola Solutions ~25-36x de PER pour ~10-13 % de croissance",
+    "",
+    "SANT\u00c9 FINANCI\u00c8RE (58/100)",
+    "- R\u00e9sultat op\u00e9rationnel GAAP S1 2026 +76 M$ (apr\u00e8s \u221262 M$ en 2025) | EBITDA ajust\u00e9 2025 710 M$ (25,5 %)",
+    "- R\u00e9mun\u00e9ration en actions 2026e 590\u2013620 M$ (~16 % du CA) | Dette nette 1,1 Md$",
+    "- FCF S1 2026 \u221256 M$ pour un objectif annuel de 450 M$",
+    "- R\u00c9SOLU : faiblesse de contr\u00f4le interne sur la comptabilisation du revenu REM\u00c9DI\u00c9E au 30/06/2026 (10-Q, Item 4)",
+    "",
+    "CROISSANCE (88/100)",
+    "- CA T2 2026 904,4 M$ (+35 %), 10e trimestre cons\u00e9cutif > 30 %",
+    "- Revenus IA +~700 % | Contre-drone Dedrone > 100 M$/trim. (+300 %) | International > 20 % du CA",
+    "- P\u00e9n\u00e9tration premium ~30 % seulement",
+    "",
+    "TENDANCE TRIMESTRIELLE (r\u00e9sultat net GAAP)",
+    "- T3 2025 \u22122,2 M$ | T4 2025 +3,0 M$ | T1 2026 +169 M$ | T2 2026 +29,4 M$",
+    "- BPA non-GAAP S1 2026 3,50 $ contre 3,65 $ un an plus t\u00f4t (avantage fiscal de 75 M$ en 2025)",
+    "",
+    "GUIDANCE : croissance 2026 32\u201334 %, marge EBITDA aj. ~25,5 %, FCF ~450 M$",
+    "OBJECTIFS 2028 : 6 Mds$ de CA, 28 % de marge EBITDA aj., dilution < 2,5 %/an",
+    "",
+    "CATALYSEURS : mont\u00e9e en gamme premium (fort), carnet 15,1 Mds$ (fort), international/entreprises (moyen), verrous comptables lev\u00e9s (moyen)",
+    "RISQUES : BPA qui ne suit pas (fort), valorisation (fort), r\u00e9mun\u00e9ration en actions et dilution (fort), risque politique et co\u00fbt m\u00e9moire (moyen)",
+    "",
+    "VERDICT : Ex\u00e9cution commerciale hors norme et foss\u00e9 concurrentiel r\u00e9el. Le r\u00e9sultat op\u00e9rationnel GAAP redevient positif et la faiblesse de contr\u00f4le interne est rem\u00e9di\u00e9e, mais la valorisation reste sans marge de s\u00e9curit\u00e9 et le BPA non-GAAP recule. Risque mod\u00e9r\u00e9. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "\u2713 Copi\u00e9 !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="\u2713 Copi\u00e9 !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="\u00c9chec \u2014 copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
