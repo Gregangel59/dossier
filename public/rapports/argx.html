@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARGX — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  /* zones : Rouge 0-30 | Orange 30-50 | Jaune 50-70 | Vert 70-100 */
+  /* couleur d'identite = zone du score global (71 -> Vert) */
+  --id:#28d17c;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(40,209,124,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(40,209,124,.14),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.zone{color:var(--id);border-color:var(--id);background:rgba(40,209,124,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.z.r{flex:30;background:var(--red)}.z.a{flex:20;background:var(--amber)}.z.g{flex:20;background:var(--gold)}.z.gr{flex:30;background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(40,209,124,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"\2212"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable tr.warn td{background:rgba(255,159,67,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700;text-align:right}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red) 0%,var(--red) 15%,var(--amber) 40%,var(--gold) 60%,var(--green) 78%,var(--green) 100%);position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(40,209,124,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{display:flex;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:8px}
+.rating-labels span{text-align:center}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">&#10697; Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">ARGX</div>
+      <div class="name">argenx SE &middot; Euronext &amp; Nasdaq &middot; Immunologie &mdash; maladies auto-immunes</div>
+      <div class="price">990,15 $ &nbsp;<span class="up">+16,3 % (17 août 2026)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">71</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge zone">RISQUE FAIBLE</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr &middot; 0 = risque extrême. Zones : rouge 0–30, orange 30–50, jaune 50–70, vert 70–100.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:71%"><div class="mval">71</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:30%">30</span><span style="left:50%">50</span><span style="left:70%">70</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché au 20 août 2026 &mdash; comptes semestriels publiés le 23 juillet 2026</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~62 Mds$</div><div class="d up">plus haut historique</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">990,15 $</div><div class="d up">+16,3 % le 17 août</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">~36×</div><div class="d">~34× sur 2026E</div></div>
+  <div class="kpi"><div class="l">CA 2025</div><div class="v">4,24 Mds$</div><div class="d up">+88 % a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">aucun dividende</div></div>
+  <div class="kpi"><div class="l">Plus haut 52 sem.</div><div class="v">1 002 $</div><div class="d">plus bas 650 $ &middot; bêta ~1,3</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (ADR Nasdaq, $)</div>
+    <div class="r">août 2025 : <span class="down">~660 $</span> &rarr; <span class="up">990,15 $</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#28d17c" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#28d17c" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <path d="M0.0,219.0 L66.7,200.6 L133.3,187.4 L200.0,195.3 L266.7,217.9 L333.3,205.8 L400.0,196.9 L466.7,179.6 L533.3,153.8 L600.0,139.1 L666.7,148.0 L733.3,110.7 L800.0,45.5"
+            fill="none" stroke="#28d17c" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0.0,219.0 L66.7,200.6 L133.3,187.4 L200.0,195.3 L266.7,217.9 L333.3,205.8 L400.0,196.9 L466.7,179.6 L533.3,153.8 L600.0,139.1 L666.7,148.0 L733.3,110.7 L800.0,45.5 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="45.5" r="5" fill="#28d17c"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>août 25</span><span>déc. 25</span><span>label gMG mai 26</span><span>T2 juil. 26</span><span>ALKIVIA</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime de croissance assumée, sur un titre au plus haut historique et sans marge de sécurité.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">~36×</div><div class="cd">BPA des 12 derniers mois ~27,5 $.</div><span class="tag am">TENDU</span></div>
+  <div class="card"><div class="cl">PER 2026E</div><div class="cv">~34×</div><div class="cd">BPA 2026 estimé ~28–29,5 $.</div><span class="tag am">TENDU</span></div>
+  <div class="card"><div class="cl">VE / CA 2026E</div><div class="cv">~9,5×</div><div class="cd">~59 Mds$ de VE pour ~6,2 Mds$ de CA.</div><span class="tag am">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">PEG</div><div class="cv">~1,0</div><div class="cd">Multiple rapporté à une croissance de ~45 %.</div><span class="tag go">COHÉRENT</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~1 100 $</div><div class="cd">Fourchette 932–1 203 $ &middot; 25 analystes.</div><span class="tag go">UPSIDE ~11 %</span></div>
+  <div class="card"><div class="cl">Trésorerie nette</div><div class="cv">~3,0 Mds$</div><div class="cd">5,2 Mds$ moins 2,2 Mds$ (Forte).</div><span class="tag gr">SOUTIEN</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle &mdash; multiples 2026E</div>
+  <div class="mcomp"><div class="mk">PER ARGX vs médiane biotech</div><div class="mvals"><b>~34×</b><span class="sep">vs</span>~23×</div></div>
+  <div class="mcomp"><div class="mk">PER vs UCB / Vertex</div><div class="mvals"><b>~34×</b><span class="sep">vs</span>~28× / ~26×</div></div>
+  <div class="mcomp"><div class="mk">Croissance CA vs pairs pharma</div><div class="mvals"><b>+46 %</b><span class="sep">vs</span>+3 à 6 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Un PER de 34× est-il cher pour argenx ?</summary>
+  <div class="body">Le PER (cours divisé par le bénéfice par action) indique combien d'années de bénéfices actuels on paie. 34×, c'est près du double d'un grand laboratoire comme Johnson &amp; Johnson (~16×). Mais J&amp;J croît de 3 à 6 % par an, quand argenx affiche +60 % sur son dernier trimestre. Le rapport entre le multiple et la croissance (le PEG) tombe alors autour de 1, ce qui est considéré comme raisonnable. Le piège : une croissance de 45 % ne dure jamais dix ans. Si elle retombe à 20 %, le multiple se comprime en même temps que les bénéfices ralentissent &mdash; un double effet ciseau. Voilà pourquoi la valorisation est notée en zone ambre malgré un PEG apparemment sage.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Le point le plus solide du dossier : rentable, sans dette, autofinancée.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Trésorerie (30 juin)</div><div class="cv">5,2 Mds$</div><div class="cd">+744 M$ depuis le 1er janvier 2026.</div><span class="tag gr">FORTERESSE</span></div>
+  <div class="card"><div class="cl">Dette financière</div><div class="cv">~40 M$</div><div class="cd">Quasi nulle &mdash; aucun levier.</div><span class="tag gr">EXCELLENT</span></div>
+  <div class="card"><div class="cl">Marge opér. T2 2026</div><div class="cv">32 %</div><div class="cd">contre 21 % un an plus tôt.</div><span class="tag gr">LEVIER</span></div>
+  <div class="card"><div class="cl">Marge brute</div><div class="cv">~89 %</div><div class="cd">Typique d'un biologique de spécialité.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Flux d'exploitation S1</div><div class="cv">+0,7 Md$</div><div class="cd">R&amp;D et pipeline autofinancés.</div><span class="tag gr">POSITIF</span></div>
+  <div class="card"><div class="cl">Acquisition Forte</div><div class="cv">−2,2 Mds$</div><div class="cd">~42 % de la trésorerie, actif précoce.</div><span class="tag am">À SURVEILLER</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi l'absence de dette compte-t-elle autant en biotech ?</summary>
+  <div class="body">La plupart des biotechs brûlent du cash pendant des années et doivent régulièrement émettre de nouvelles actions pour survivre. Chaque émission dilue les actionnaires existants : votre part du gâteau diminue même si le gâteau grossit. argenx a franchi ce cap. Avec 5,2 Mds$ de trésorerie, une dette quasi nulle et un flux d'exploitation positif de 0,7 Md$ au premier semestre, elle finance ses essais cliniques de Phase 3 avec ses propres bénéfices. Concrètement : pas de levée de fonds forcée au mauvais moment, pas de dépendance aux marchés de capitaux. C'est ce qui tire le pilier « santé financière » vers la zone verte, malgré le décaissement de 2,2 Mds$ pour l'acquisition de Forte Biosciences.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Hypercroissance validée &mdash; mais adossée à une seule molécule.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Ventes T2 2026</div><div class="cv">+60 %</div><div class="cd">1,516 Md$ contre 949 M$ un an plus tôt.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Séquentiel</div><div class="cv">+17 %</div><div class="cd">Réaccélération après le T1 2026.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Trimestres de hausse</div><div class="cv">18</div><div class="cd">Série ininterrompue depuis le lancement.</div><span class="tag gr">RÉGULIER</span></div>
+  <div class="card"><div class="cl">Consensus 2026</div><div class="cv">~6,2 Mds$</div><div class="cd">+46 % vs 4,24 Mds$ en 2025.</div><span class="tag gr">SOUTENU</span></div>
+  <div class="card"><div class="cl">Concentration produit</div><div class="cv">100 %</div><div class="cd">Tout le CA vient de l'efgartigimod.</div><span class="tag rd">RISQUE MAJEUR</span></div>
+  <div class="card"><div class="cl">Phase 3 myosite</div><div class="cv">p = 0,0011</div><div class="cd">ALKIVIA réussie &mdash; 5e indication en vue.</div><span class="tag gr">CATALYSEUR</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % &middot; Santé financière 35 % &middot; Croissance 30 %<br>Zones : <b style="color:var(--red)">Rouge 0–30</b> &middot; <b style="color:var(--amber)">Orange 30–50</b> &middot; <b style="color:var(--gold)">Jaune 50–70</b> &middot; <b style="color:var(--green)">Vert 70–100</b></div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:45%;background:var(--amber)"></div></div>
+    <div class="bd-score">45 / 100 &mdash; ~34× les bénéfices 2026 au plus haut historique, PEG ~1 mais aucune marge de sécurité</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:85%;background:var(--green)"></div></div>
+    <div class="bd-score">85 / 100 &mdash; 5,2 Mds$ de trésorerie, dette quasi nulle, marge opér. 32 %, autofinancement intégral</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:85%;background:var(--green)"></div></div>
+    <div class="bd-score">85 / 100 &mdash; +60 % a/a, 18 trimestres consécutifs, mais 100 % du CA sur une seule molécule</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×45 + 0,35×85 + 0,30×85</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:71%;background:var(--id)"></div></div>
+    <div class="bd-score" style="color:var(--id)">71 / 100 &mdash; Risque faible (zone verte, à 1 point du seuil)</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en amélioration &middot; Orange = point de vigilance &middot; Ventes nettes produit VYVGART</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Trimestre</th><th>Ventes</th><th>Croiss. a/a</th><th>Rés. opér.</th><th>Marge</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>T2 2025</td><td>949 M$</td><td>+74 %</td><td>201 M$</td><td>21 %</td><td><span class="flag gr">&#9650; Solide</span></td></tr>
+    <tr class="imp"><td>T3 2025 (est.)</td><td>~1,16 Md$</td><td>~+100 %</td><td>~290 M$</td><td>~25 %</td><td><span class="flag gr">&#9650; Accélère</span></td></tr>
+    <tr class="imp"><td>T4 2025 (est.)</td><td>~1,30 Md$</td><td>~+80 %</td><td>~360 M$</td><td>~28 %</td><td><span class="flag gr">&#9650; Accélère</span></td></tr>
+    <tr class="warn"><td>T1 2026</td><td>1,30 Md$</td><td>+63 %</td><td>394 M$</td><td>30 %</td><td><span class="flag am">&#9654; Saisonnalité</span></td></tr>
+    <tr class="imp"><td>T2 2026</td><td>1,516 Md$</td><td>+60 %</td><td>494 M$</td><td>32 %</td><td><span class="flag gr">&#9650; Réaccélère</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : les trimestres 2025 marqués « est. » sont reconstitués à partir des cumuls semestriels et annuels publiés. Le T2 2026 inclut ~25 M$ d'effet ponctuel favorable au Japon. La croissance a/a décélère mécaniquement (base de comparaison), mais la marge opérationnelle progresse sans interruption : c'est le levier opérationnel qui joue.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="two">
+  <div class="ecard">
+    <div class="eh">Derniers résultats (T2 2026, publié le 23 juillet)</div>
+    <div class="eline"><span>Ventes nettes produit</span><span class="ev up">1 516 M$ (+60 %)</span></div>
+    <div class="eline"><span>vs consensus</span><span class="ev up">~+20 % (att. ~1 260 M$)</span></div>
+    <div class="eline"><span>Résultat opérationnel</span><span class="ev up">494 M$ (+146 %)</span></div>
+    <div class="eline"><span>BPA dilué</span><span class="ev up">7,32 $ (+96 %)</span></div>
+    <div class="eline"><span>Résultat net S1 2026</span><span class="ev">838 M$</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Pipeline &amp; jalons</div>
+    <div class="eline"><span>ALKIVIA (myosite)</span><span class="ev up">Positif &mdash; 17 août 2026</span></div>
+    <div class="eline"><span>EMPASSION (NMM)</span><span class="ev">Attendu T4 2026</span></div>
+    <div class="eline"><span>gMG oculaire</span><span class="ev">Dossier en cours</span></div>
+    <div class="eline"><span>Auto-injecteur SC</span><span class="ev">Lancement 2027</span></div>
+    <div class="eline"><span>Objectif Vision 2030</span><span class="ev">10 indications</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le score n'est-il pas plus élevé malgré ces chiffres ?</summary>
+  <div class="body">Parce que la totalité de ces résultats repose sur un seul médicament : l'efgartigimod, vendu sous les marques VYVGART et VYVGART Hytrulo. Il n'y a aucune autre source de revenus. Un problème de tolérance en usage réel, une décision réglementaire défavorable ou l'arrivée d'un concurrent plus efficace ne toucherait pas une division parmi d'autres : cela toucherait 100 % du chiffre d'affaires. S'ajoute un risque moins visible mais plus probable, l'érosion du « prix net ». Le prix affiché n'est pas le prix encaissé : rabais obligatoires, remises négociées avec les intermédiaires américains et programmes d'aide au patient viennent en déduction. Avec cinq mécanismes concurrents désormais actifs dans la myasthénie, ces remises augmentent. argenx ne publie pas cet écart &mdash; l'investisseur ne peut donc pas distinguer une croissance de volume d'une croissance de prix.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>&#8599; Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Myosite auto-immune (ALKIVIA)</div><div class="id">Phase 3 réussie (p = 0,0011, +15,4 points de score TIS). Première thérapie jamais démontrée dans l'IMNM, sous-type sans traitement approuvé. Pic estimé jusqu'à ~3 Mds$.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Monopole réglementaire élargi</div><div class="id">Seul traitement approuvé pour tous les sérotypes adultes de gMG aux États-Unis, et seul biologique ciblé dans la PIDC. Un concurrent doit refaire des essais pour rattraper.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Marché sous-pénétré</div><div class="id">PIDC : 42 000 patients diagnostiqués dont 18 000 non traités, contre 12 000 visés au lancement. La croissance ne vient pas de parts prises à un rival.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Confort d'administration</div><div class="id">Seringue préremplie (80 % de nouvelles initiations au T2) puis auto-injecteur en 2027 : mécanisme de recrutement et de rétention.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>&#8600; Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Concentration totale</div><div class="id">100 % du chiffre d'affaires sur une molécule, ~84 % aux États-Unis. Aucune diversification avant 2028 au mieux. Un incident touche l'intégralité des revenus.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Érosion du prix net (gross-to-net)</div><div class="id">Cinq mécanismes concurrents en myasthénie donnent aux payeurs américains un levier croissant. Écart non divulgué : une baisse de 10 % du prix net effacerait ~un tiers du bénéfice 2028 projeté.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Valorisation sans marge de sécurité</div><div class="id">~34× les bénéfices 2026 au plus haut historique, après +16 % en une séance. Cinq conditions doivent toutes se réaliser pour justifier le cours.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Concurrence de nouvelle génération</div><div class="id">IMVT-1402 (Immunovant) vise une réduction des IgG sans chute de l'albumine ni du LDL. IMAAVY (J&amp;J) vise 5 Mds$ au pic. EMPASSION reste un risque binaire au T4 2026.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque faible (71/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:71%"><div class="rmval">71</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="flex:30">Extrême</span><span style="flex:20">Élevé</span><span style="flex:20">Modéré</span><span style="flex:30">Faible</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> argenx est une <b>réussite d'exécution rare en biotechnologie européenne</b> : premier bloqueur du FcRn approuvé au monde, 18 trimestres consécutifs de croissance, marge opérationnelle passée de 21 % à 32 % en un an, et une trésorerie de 5,2 Mds$ sans dette qui finance intégralement un pipeline de Phase 3. Le succès de la Phase 3 ALKIVIA en myosite, le 17 août 2026, a supprimé un risque binaire majeur et validé la thèse d'expansion par indication.<br><br>
+    Le score entre en zone <b>verte</b>, mais à un seul point du seuil de 70 &mdash; et deux réserves justifient qu'il n'aille pas plus haut. D'abord une <b>concentration absolue</b> : 100 % du chiffre d'affaires provient d'une seule molécule et ~84 % d'un seul pays, sans diversification avant 2028. Ensuite une <b>valorisation qui n'autorise aucune déception</b> : ~34× les bénéfices 2026, au plus haut historique, après un bond de +16 % en une séance. Le risque le plus probable n'est pas un accident spectaculaire mais une <b>normalisation</b> &mdash; érosion silencieuse du prix net sous la pression concurrentielle, ralentissement de la croissance, et compression simultanée du multiple.<br><br>
+    Profil adapté à un investisseur de croissance, capable de tolérer une volatilité élevée et des repricings violents à chaque lecture d'essai clinique. Le prochain rendez-vous à risque est <b>EMPASSION au quatrième trimestre 2026</b>. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués argenx SE (résultats semestriels 2026 du 23 juillet 2026, topline ALKIVIA du 17 août 2026, acquisition de Forte Biosciences du 27 juillet 2026), dépôts SEC formulaire 6-K, transcriptions de conférences de résultats, couverture d'analystes (Citi, Morgan Stanley, BofA, Wedbush, HC Wainwright, RBC, Oppenheimer, Truist, Barclays, Baird), données de cotation Nasdaq et Euronext &mdash; au 20 août 2026. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Plusieurs multiples et les trimestres 2025 reconstitués sont des ordres de grandeur. Des chiffres plus précis peuvent être tirés directement du formulaire 20-F et des dépôts 6-K. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "ARGX \u2014 argenx SE | RAPPORT DE SCORE DE RISQUE (20 ao\u00fbt 2026)",
+    "\u00c9chelle : plus le risque est \u00e9lev\u00e9, plus le score est bas (0 = extr\u00eame, 100 = s\u00fbr)",
+    "Zones : rouge 0-30 | orange 30-50 | jaune 50-70 | vert 70-100",
+    "",
+    "SCORE GLOBAL : 71/100 \u2014 RISQUE FAIBLE (zone verte, \u00e0 1 point du seuil de 70)",
+    "Cours : 990,15 $ (+16,3 % le 17 ao\u00fbt 2026) | Cap : ~62 Mds$ | 52 sem. 650\u20131 002 $",
+    "",
+    "INDICATEURS CL\u00c9S",
+    "- CA 2025 4,24 Mds$ (+88 %) | Consensus 2026 ~6,2 Mds$ (+46 %)",
+    "- PER TTM ~36x | PER 2026E ~34x | VE/CA 2026E ~9,5x | PEG ~1,0 | Dividende 0 %",
+    "",
+    "VALORISATION (45/100)",
+    "- ~34x les b\u00e9n\u00e9fices 2026 au plus haut historique, apr\u00e8s +16 % en une s\u00e9ance",
+    "- Cible analystes ~1 100 $ (fourchette 932\u20131 203 $) | m\u00e9diane biotech ~23x",
+    "",
+    "SANT\u00c9 FINANCI\u00c8RE (85/100)",
+    "- Tr\u00e9sorerie 5,2 Mds$ au 30 juin 2026 | Dette ~40 M$ | Flux d'exploitation S1 +0,7 Md$",
+    "- Marge op\u00e9r. T2 2026 : 32 % (contre 21 % un an plus t\u00f4t) | Marge brute ~89 %",
+    "- Acquisition Forte Biosciences : \u22122,2 Mds$ en num\u00e9raire (~42 % de la tr\u00e9sorerie)",
+    "",
+    "CROISSANCE (85/100)",
+    "- Ventes T2 2026 : 1,516 Md$ (+60 % a/a, +17 % t/t) | 18e trimestre cons\u00e9cutif de hausse",
+    "- R\u00e9sultat op\u00e9r. T2 494 M$ (+146 %) | BPA dilu\u00e9 7,32 $ (+96 %) | S1 net 838 M$",
+    "- CONCENTRATION : 100 % du CA sur l'efgartigimod, ~84 % aux \u00c9tats-Unis",
+    "",
+    "TENDANCE TRIMESTRIELLE (ventes / marge op\u00e9r.)",
+    "- T2 25 949 M$ / 21 % | T3 25 ~1,16 Md$ / ~25 % | T4 25 ~1,30 Md$ / ~28 %",
+    "- T1 26 1,30 Md$ / 30 % | T2 26 1,516 Md$ / 32 %",
+    "",
+    "PIPELINE : ALKIVIA myosite POSITIF (p=0,0011, +15,4 pts TIS) le 17 ao\u00fbt 2026",
+    "EMPASSION (NMM) attendu T4 2026 | gMG oculaire en instruction | auto-injecteur 2027",
+    "",
+    "CATALYSEURS : Myosite (fort), Monopole r\u00e9glementaire gMG/PIDC (fort), March\u00e9 sous-p\u00e9n\u00e9tr\u00e9 (moyen), Confort d'administration (moyen)",
+    "RISQUES : Concentration totale (fort), \u00c9rosion du prix net (fort), Valorisation sans marge (fort), Concurrence IMVT-1402/IMAAVY (moyen)",
+    "",
+    "VERDICT : Ex\u00e9cution remarquable, bilan sans dette, croissance valid\u00e9e par ALKIVIA \u2014 mais 100 % du CA sur une molécule et ~34x les b\u00e9n\u00e9fices au plus haut. Risque faible, en bas de zone verte. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "\u2713 Copi\u00e9 !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="\u2713 Copi\u00e9 !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="\u00c9chec \u2014 copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
