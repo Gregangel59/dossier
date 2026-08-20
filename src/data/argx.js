@@ -16,9 +16,44 @@ const meta = {
   tagline: "Pionnier du blocage du FcRn : une franchise VYVGART en hypercroissance, adossée à une plateforme d'anticorps en expansion.",
   riskScore: 71,                    // score du rapport de risque (ou null)
   riskLabel: "Risque faible",
+  riskColor: "#28d17c",             // couleur de zone du score global
+  riskZoneKey: "vert",              // rouge | orange | jaune | vert
   // Nom du fichier HTML déposé dans public/rapports/ (ou null si absent) :
   riskReport: "argx.html",
   updated: "2026-08",               // période des données
+};
+
+// --- Barème de zones du score de risque ---------------------
+// Le score monte quand le risque baisse : 0 = risque extrême, 100 = très sûr.
+// Ce tableau est la SOURCE UNIQUE du code couleur : le portail, le rapport
+// HTML et les visuels doivent tous en dériver leur teinte.
+export const riskZones = [
+  { min:   0, max:  30, key: "rouge", label: "Risque très élevé", color: "#ff4d5e" },
+  { min:  30, max:  50, key: "orange", label: "Risque élevé", color: "#ff9f43" },
+  { min:  50, max:  70, key: "jaune", label: "Risque modéré", color: "#ffd23f" },
+  { min:  70, max: 100, key: "vert", label: "Risque faible", color: "#28d17c" },
+];
+
+// Renvoie la zone d'un score (borne basse incluse, borne haute exclue
+// sauf pour la dernière zone).
+export function riskZoneOf(score) {
+  return riskZones.filter(z => score >= z.min).pop() || riskZones[0];
+}
+
+// --- Sous-scores par pilier ---------------------------------
+// Chaque barre de pilier porte SA PROPRE couleur de zone ; seul le score
+// global gouverne la couleur d'identité de la fiche.
+export const riskPillars = [
+  { key: "valorisation", label: "Valorisation", score: 45, weight: 0.35, color: "#ff9f43" },
+  { key: "santeFinanciere", label: "Santé financière", score: 85, weight: 0.35, color: "#28d17c" },
+  { key: "croissance", label: "Croissance", score: 85, weight: 0.3, color: "#28d17c" },
+];
+
+// = 0,35×45 + 0,35×85 + 0,30×85 = 71
+export const riskBreakdown = {
+  formula: "0,35×45 + 0,35×85 + 0,30×85",
+  total: 71,
+  zone: riskZoneOf(71),
 };
 
 const modules = [
@@ -784,4 +819,4 @@ argenx est une **excellente entreprise**. C'est même, sur le plan de l'exécuti
   },
 ];
 
-export default { ...meta, modules };
+export default { ...meta, modules, riskZones, riskPillars, riskBreakdown, riskZoneOf };
