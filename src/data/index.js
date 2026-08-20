@@ -23,9 +23,11 @@ import anet from "./anet.js";
 import amtm from "./amtm.js";
 import asml from "./asml.js";
 import axon from "./axon.js";
+import argx from "./argx.js";
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
+  argx,
   axon,
   asml,
   amtm,
