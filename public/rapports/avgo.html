@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVGO — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+  /* couleur d'identite du rapport = zone du SCORE GLOBAL (64 -> jaune) */
+  --id:var(--gold);
+  --id-soft:rgba(255,210,63,.13);
+  --id-glow:rgba(255,210,63,.45);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,210,63,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,var(--id-soft),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid;color:var(--id);border-color:var(--id);background:var(--id-soft)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* BARRE DE COULEUR — zones 0-30 / 30-50 / 50-70 / 70-100 */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.z.r{background:var(--red);flex:0 0 30%}
+.z.a{background:var(--amber);flex:0 0 20%}
+.z.g{background:var(--gold);flex:0 0 20%}
+.z.gr{background:var(--green);flex:0 0 30%}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px var(--id-glow);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTIONS */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}.neu{color:var(--mut)}
+/* GRAPHIQUE */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARTES */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIANE SECTEUR */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLICATIONS */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"\2212"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* DETAIL DU SCORE */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* TABLEAU TRIMESTRIEL */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable tr.est td{background:rgba(255,210,63,.06)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.go{color:var(--gold);background:rgba(255,210,63,.15)}
+/* CARTES RESULTATS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700;text-align:right}
+/* CATALYSEURS / RISQUES */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* CONCLUSION */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px;color:var(--id)}
+.rating-bar{height:15px;border-radius:9px;position:relative;margin:30px 0 8px;
+  background:linear-gradient(90deg,var(--red) 0 30%,var(--amber) 30% 50%,var(--gold) 50% 70%,var(--green) 70% 100%);}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px var(--id-glow)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:18px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--id);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--id)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">&#10697; Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">AVGO</div>
+      <div class="name">Broadcom Inc. &middot; Nasdaq &middot; Semi-conducteurs &amp; logiciels d'infrastructure</div>
+      <div class="price">366,92&nbsp;$ &nbsp;<span class="down">&minus;23,7&nbsp;% vs plus haut de clôture (480,77&nbsp;$)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">64</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle&nbsp;: <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr &middot; 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:64%"><div class="mval">64</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:30%">30</span><span style="left:50%">50</span><span style="left:70%">70</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== INDICATEURS CLÉS ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché au 21 août 2026 &mdash; dernière publication&nbsp;: T2 FY2026 (clos le 3 mai 2026)</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~1,73&nbsp;T$</div><div class="d neu">top 10 mondial</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">366,92&nbsp;$</div><div class="d down">&minus;26&nbsp;% depuis juin</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">~60x</div><div class="d neu">~20x sur FY2027E</div></div>
+  <div class="kpi"><div class="l">CA (12 mois)</div><div class="v">75,5&nbsp;Mds$</div><div class="d up">+34&nbsp;% a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0,72&nbsp;%</div><div class="d neu">2,60&nbsp;$/action</div></div>
+  <div class="kpi"><div class="l">52 semaines</div><div class="v">282&ndash;495&nbsp;$</div><div class="d neu">record le 3 juin 2026</div></div>
+</div>
+
+<!-- ===== GRAPHIQUE DU COURS ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois &mdash; du record à la correction</div>
+    <div class="r">Record&nbsp;: <span class="up">495&nbsp;$</span> &rarr; <span class="down">366,92&nbsp;$</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.26"/>
+          <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- serie mensuelle indicative sept. 2025 -> aout 2026, echelle 320-490 $ -->
+      <path d="M0,212 L73,187 L145,150 L218,131 L291,193 L364,218 L436,144 L509,94 L582,63 L655,31 L727,125 L800,172"
+            fill="none" stroke="#ffd23f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,212 L73,187 L145,150 L218,131 L291,193 L364,218 L436,144 L509,94 L582,63 L655,31 L727,125 L800,172 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="655" cy="31" r="5" fill="#28d17c"/>
+      <circle cx="800" cy="172" r="5" fill="#ff4d5e"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>sept. 25</span><span>déc. 25</span><span>mars 26</span><span>juin 26 &#9650;</span><span>août 26</span></div>
+</div>
+
+<!-- ===== VALORISATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Chère sur les bénéfices publiés, raisonnable sur les bénéfices promis&nbsp;— tout dépend d'un chiffre encore à venir.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">~60x</div><div class="cd">BPA GAAP glissant de 6,02&nbsp;$&nbsp;— alourdi par l'amortissement VMware.</div><span class="tag am">TENDU</span></div>
+  <div class="card"><div class="cl">PER FY2027E</div><div class="cv">~20x</div><div class="cd">Suppose plus de 100&nbsp;Mds$ de revenus IA en 2027.</div><span class="tag go">CONDITIONNEL</span></div>
+  <div class="card"><div class="cl">EV / CA</div><div class="cv">~24x</div><div class="cd">1,77&nbsp;T$ de valeur d'entreprise pour 75,5&nbsp;Mds$ de CA.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">EV / EBITDA</div><div class="cv">~44x</div><div class="cd">Élevé, mais sur une base qui double chaque année.</div><span class="tag am">À NUANCER</span></div>
+  <div class="card"><div class="cl">PEG</div><div class="cv">~0,45</div><div class="cd">Rapporté à la croissance, le multiple n'a rien d'aberrant.</div><span class="tag gr">ATTRACTIF</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~528&nbsp;$</div><div class="cd">Fourchette 340&ndash;580&nbsp;$&nbsp;— dispersion très large.</div><span class="tag am">INCERTAIN</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle &mdash; silicium et infrastructure IA</div>
+  <div class="mcomp"><div class="mk">EV / CA</div><div class="mvals"><b>~24x</b><span class="sep">vs</span>NVDA ~20x</div></div>
+  <div class="mcomp"><div class="mk">PER prospectif</div><div class="mvals"><b>~20x</b><span class="sep">vs</span>NVDA ~30x</div></div>
+  <div class="mcomp"><div class="mk">Rdt dividende</div><div class="mvals"><b>0,72&nbsp;%</b><span class="sep">vs</span>QCOM ~2,3&nbsp;%</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi deux PER aussi différents pour la même action&nbsp;?</summary>
+  <div class="body">Le PER rapporte le cours au bénéfice par action. Encore faut-il savoir <b>quel</b> bénéfice. Le PER de ~60x utilise le bénéfice comptable publié des douze derniers mois (6,02&nbsp;$), qui absorbe l'amortissement des actifs incorporels issus du rachat de VMware&nbsp;— une charge comptable sans sortie de trésorerie. Le PER de ~20x utilise le bénéfice ajusté que les analystes prévoient pour l'exercice 2027. L'écart n'est donc pas une astuce&nbsp;: il mesure la distance entre ce que l'entreprise gagne aujourd'hui et ce qu'elle promet de gagner demain. Acheter à 20x, c'est faire le pari que les 100&nbsp;Mds$ de revenus IA promis pour 2027 seront bien livrés&nbsp;— et payés.</div>
+</details>
+
+<!-- ===== SANTÉ FINANCIÈRE ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Un bilan de très grande qualité&nbsp;— et une nouvelle exposition qui n'y figure pas encore.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Free cash-flow</div><div class="cv">32,8&nbsp;Mds$</div><div class="cd">Sur 12 mois, pour seulement 860&nbsp;M$ d'investissements.</div><span class="tag gr">EXCELLENT</span></div>
+  <div class="card"><div class="cl">Marge opér. (T2)</div><div class="cv">67,3&nbsp;%</div><div class="cd">Record historique&nbsp;— le levier opérationnel joue à plein.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">ROIC / ROE</div><div class="cv">24&nbsp;% / 37&nbsp;%</div><div class="cd">Rentabilité du capital nettement au-dessus du coût.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Dette / capitaux propres</div><div class="cv">0,74</div><div class="cd">Trésorerie de 19,6&nbsp;Mds$&nbsp;; liquidité générale 2,24.</div><span class="tag gr">SAIN</span></div>
+  <div class="card"><div class="cl">Dette IA en discussion</div><div class="cv">&gt;60&nbsp;Mds$</div><div class="cd">Montage au bénéfice d'Anthropic et d'autres clients.</div><span class="tag am">À SURVEILLER</span></div>
+  <div class="card"><div class="cl">Exposition contingente</div><div class="cv">~370&nbsp;Mds$</div><div class="cd">Modélisation Bank of America sur la plateforme AI XPU.</div><span class="tag am">OPAQUE</span></div>
+</div>
+<details class="explainer">
+  <summary>Comment un bilan aussi solide peut-il quand même poser problème&nbsp;?</summary>
+  <div class="body">Les comptes publiés sont remarquables&nbsp;: 33&nbsp;Mds$ de trésorerie générée par l'activité, une dette modeste, une rentabilité du capital de 24&nbsp;%. Le risque n'est pas dans ce qui est écrit, il est dans ce qui commence à s'écrire à côté. Broadcom monte avec Apollo et Blackstone une plateforme destinée à déployer plus de 20&nbsp;GW de capacité de calcul, et négocierait plus de 60&nbsp;Mds$ de dette au bénéfice de clients qui achètent ses puces. Autrement dit&nbsp;: le vendeur aide l'acheteur à emprunter pour acheter. Tant que la demande d'IA progresse, le mécanisme accélère la croissance. S'il se retourne, un risque commercial se transforme en <b>risque de crédit</b>. Le point à vérifier dans les prochains dépôts trimestriels est simple&nbsp;: ces véhicules sont-ils consolidés au bilan, et quelles garanties Broadcom leur a-t-il accordées&nbsp;?</div>
+</details>
+
+<!-- ===== CROISSANCE ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Parmi les plus fortes du secteur en valeur absolue&nbsp;— adossée à six clients seulement.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA T2 FY2026</div><div class="cv">+48&nbsp;%</div><div class="cd">22,19&nbsp;Mds$, record trimestriel.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">CA IA T2</div><div class="cv">10,8&nbsp;Mds$</div><div class="cd">+143&nbsp;% a/a, près de la moitié du CA total.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Guidance T3</div><div class="cv">~29,4&nbsp;Mds$</div><div class="cd">+84&nbsp;% a/a&nbsp;; CA IA guidé à 16,0&nbsp;Mds$.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">CA IA FY2026E</div><div class="cv">~56&nbsp;Mds$</div><div class="cd">Environ +180&nbsp;% vs les 20&nbsp;Mds$ de FY2025.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Carnet IA</div><div class="cv">&gt;73&nbsp;Mds$</div><div class="cd">Sur 18 mois&nbsp;; 30&nbsp;Mds$ de prises de commandes au T2.</div><span class="tag gr">VISIBILITÉ</span></div>
+  <div class="card"><div class="cl">Logiciel (VMware)</div><div class="cv">+9&nbsp;%</div><div class="cd">Décélération nette après deux ans de forte hausse.</div><span class="tag am">RALENTIT</span></div>
+</div>
+
+<!-- ===== DÉTAIL DU SCORE ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération&nbsp;: Valorisation 35&nbsp;% &middot; Santé financière 35&nbsp;% &middot; Croissance 30&nbsp;%</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35&nbsp;%</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:38%;background:var(--amber)"></div></div>
+    <div class="bd-score">38 / 100 &mdash; ~24x les ventes, ~60x les bénéfices publiés, thèse adossée à un chiffre 2027 non encore réalisé</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35&nbsp;%</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:72%;background:var(--green)"></div></div>
+    <div class="bd-score">72 / 100 &mdash; 32,8&nbsp;Mds$ de free cash-flow, bilan sain, mais exposition de financement client en construction</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30&nbsp;%</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:85%;background:var(--green)"></div></div>
+    <div class="bd-score">85 / 100 &mdash; +48&nbsp;% puis +84&nbsp;% attendus, carnet supérieur à 73&nbsp;Mds$, mais concentrée sur six clients</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35&times;38 + 0,35&times;72 + 0,30&times;85</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:64%;background:var(--id)"></div></div>
+    <div class="bd-score" style="color:var(--id)">64 / 100 &mdash; Risque modéré</div>
+  </div>
+</div>
+
+<!-- ===== SAUT DE PAGE ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== TENDANCE TRIMESTRIELLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en amélioration &middot; Jaune = prévision &middot; Rouge = en dégradation</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Trimestre</th><th>CA</th><th>CA IA</th><th>Croiss.</th><th>Marge brute</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>T3 FY25 (août 25)</td><td>16,0&nbsp;Mds$</td><td>5,2&nbsp;Mds$</td><td>+22&nbsp;%</td><td>n.d.</td><td><span class="flag gr">&#9650; Accélère</span></td></tr>
+    <tr class="imp"><td>T4 FY25 (nov. 25)</td><td>18,0&nbsp;Mds$</td><td>6,5&nbsp;Mds$</td><td>+28&nbsp;%</td><td>77,9&nbsp;%</td><td><span class="flag gr">&#9650; Accélère</span></td></tr>
+    <tr class="imp"><td>T1 FY26 (févr. 26)</td><td>19,3&nbsp;Mds$</td><td>8,4&nbsp;Mds$</td><td>+29&nbsp;%</td><td>n.d.</td><td><span class="flag gr">&#9650; Accélère</span></td></tr>
+    <tr class="imp"><td>T2 FY26 (mai 26)</td><td>22,19&nbsp;Mds$</td><td>10,8&nbsp;Mds$</td><td>+48&nbsp;%</td><td>77,1&nbsp;%</td><td><span class="flag rd">&#9660; Marge brute</span></td></tr>
+    <tr class="est"><td>T3 FY26E (août 26)</td><td>~29,4&nbsp;Mds$</td><td>16,0&nbsp;Mds$</td><td>+84&nbsp;%</td><td>~74&nbsp;%</td><td><span class="flag go">&#9679; Prévision</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Lecture&nbsp;: la croissance accélère de trimestre en trimestre, mais la marge brute recule mécaniquement à mesure que les accélérateurs sur mesure (moins margés) prennent le pas sur les composants réseau. La marge opérationnelle, elle, reste stable autour de 67&nbsp;%.</div>
+
+<!-- ===== RÉSULTATS ET PROCHAIN RENDEZ-VOUS ===== -->
+<div class="sec-title">Dernier trimestre &amp; prochain rendez-vous</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T2 FY2026 &mdash; publié le 3 juin 2026</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev up">22,19&nbsp;Mds$ (+48&nbsp;%)</span></div>
+    <div class="eline"><span>BPA non-GAAP</span><span class="ev up">2,44&nbsp;$ (cons. 2,39&nbsp;$)</span></div>
+    <div class="eline"><span>EBITDA ajusté</span><span class="ev">15,2&nbsp;Mds$ (69&nbsp;%)</span></div>
+    <div class="eline"><span>Free cash-flow</span><span class="ev up">10,26&nbsp;Mds$ (46&nbsp;%)</span></div>
+    <div class="eline"><span>Réaction du titre</span><span class="ev down">&minus;12,6&nbsp;%</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">T3 FY2026 &mdash; le 2 septembre 2026</div>
+    <div class="eline"><span>CA attendu</span><span class="ev">~29,4&nbsp;Mds$</span></div>
+    <div class="eline"><span>BPA attendu</span><span class="ev">~3,22&nbsp;$</span></div>
+    <div class="eline"><span>CA IA guidé</span><span class="ev">16,0&nbsp;Mds$</span></div>
+    <div class="eline"><span>Objectif IA 2027</span><span class="ev">&gt;100&nbsp;Mds$</span></div>
+    <div class="eline"><span>Le point décisif</span><span class="ev go">révision ou non</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le titre a-t-il chuté de 12,6&nbsp;% après avoir <i>dépassé</i> les attentes&nbsp;?</summary>
+  <div class="body">Le 3 juin, Broadcom a battu le consensus sur le chiffre d'affaires <b>et</b> sur le bénéfice, et guidé le trimestre suivant très au-dessus des attentes. Le titre a perdu 12,6&nbsp;%. La raison tient en une phrase&nbsp;: la direction a <b>maintenu</b> son objectif de revenus IA 2027 à «&nbsp;plus de 100&nbsp;milliards&nbsp;$&nbsp;» alors que les analystes travaillaient déjà sur 120&nbsp;milliards. Quand une action se paie 20&nbsp;fois les bénéfices d'une année qui n'a pas encore eu lieu, le cours n'intègre plus une bonne exécution&nbsp;: il intègre une <b>accélération permanente</b>. Ne pas accélérer devient alors une déception. C'est le meilleur indicateur du niveau d'exigence intégré dans le cours.</div>
+</details>
+
+<!-- ===== CATALYSEURS VS RISQUES ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>&#8599; Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Relèvement de l'objectif IA 2027</div><div class="id">Le 2 septembre. Le consensus travaille déjà sur ~120&nbsp;Mds$&nbsp;; une confirmation chiffrée lèverait l'hypothèque posée en juin.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Position réseau Ethernet</div><div class="id">Tomahawk 6 à 102,4&nbsp;Tb/s, DSP 1,6&nbsp;Tb/s, optique co-packagée&nbsp;: près de 40&nbsp;% du CA IA, et ce pôle équipe aussi les grappes concurrentes.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Reprise du cycle hors IA</div><div class="id">4,2&nbsp;Mds$ au T2 (+6&nbsp;%) avec plus de 6&nbsp;Mds$ de prises de commandes&nbsp;: le creux cyclique semble passé.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Montée des clients XPU non nommés</div><div class="id">6&nbsp;Mds$ de commandes déjà reçues, livraisons à partir de fin 2026&nbsp;— la diversification passe du discours aux bons de commande.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>&#8600; Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Concentration de la clientèle</div><div class="id">Les cinq premiers clients pèsent environ 50&nbsp;% du chiffre d'affaires. Six clients seulement structurent tout le récit IA.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Financement circulaire</div><div class="id">Plateforme AI XPU avec Apollo et Blackstone, plus de 60&nbsp;Mds$ de dette en négociation au bénéfice de clients. Un risque de crédit vendu au prix d'un risque technologique.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Érosion de la part chez Google</div><div class="id">Accord Google-Marvell du 19 août 2026, adossé à un warrant de 12,2&nbsp;Mds$. 87&nbsp;Mds$ de capitalisation effacés en une séance.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Compression de la marge brute</div><div class="id">79,4&nbsp;% &rarr; 77,1&nbsp;% &rarr; ~74&nbsp;% en trois trimestres. Effet de mix réel, mais durable et orienté à la baisse.</div></div>
+  </div>
+</div>
+
+<!-- ===== EN RÉSUMÉ ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale&nbsp;: Risque modéré (64/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:64%"><div class="rmval">64</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:15%">Extrême</span><span style="left:40%">Élevé</span><span style="left:60%">Modéré</span><span style="left:85%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict&nbsp;:</b> Broadcom est une <b>entreprise d'exception</b>&nbsp;— 32,8&nbsp;Mds$ de free cash-flow annuel pour 860&nbsp;M$ d'investissements, une marge opérationnelle record de 67&nbsp;%, une position quasi monopolistique sur la mise en réseau Ethernet des data centers IA, et une rente logicielle VMware de 27&nbsp;Mds$ à 93&nbsp;% de marge brute. La croissance est spectaculaire et contractualisée&nbsp;: plus de 73&nbsp;Mds$ de carnet IA, un chiffre d'affaires attendu en hausse de 84&nbsp;% au trimestre en cours.<br><br>
+    Le score de 64 traduit trois réserves qui se cumulent&nbsp;: une <b>concentration extrême</b> (cinq clients pour la moitié du chiffre d'affaires, six clients pour tout le récit IA), un <b>financement devenu circulaire</b> (plateforme avec Apollo et Blackstone, plus de 60&nbsp;Mds$ de dette en négociation au bénéfice de clients qui ne sont pas tous autofinancés), et une <b>valorisation qui ne rémunère plus que la promesse</b> (~24x les ventes, ~20x un bénéfice 2027 encore hypothétique). L'accord Google-Marvell du 19 août a rappelé, en une séance et 87&nbsp;Mds$ de capitalisation, que le fossé concurrentiel ralentit les entrants sans les bloquer.<br><br>
+    Profil adapté à un investisseur de long terme acceptant une volatilité élevée et une dépendance assumée au cycle d'investissement IA, avec une taille de position modérée plutôt qu'une conviction maximale. Les deux points de contrôle sont datés&nbsp;: la publication du 2 septembre, et la lecture des annexes du prochain rapport trimestriel sur les engagements de financement. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources&nbsp;: communiqués de résultats Broadcom T1 et T2 FY2026 et FY2025 (investors.broadcom.com), transcriptions des conférences de résultats du 4 mars et du 3 juin 2026, formulaires 10-Q et 8-K déposés auprès de la SEC, couverture de presse (CNBC, Reuters, Bloomberg, Investing.com, Morningstar, The Register, PYMNTS), données de cotation et de valorisation (stockanalysis.com, Yahoo Finance, TipRanks) &mdash; au 21 août 2026. Le graphique de cours est une série mensuelle indicative reconstituée, non un relevé de clôtures officielles. Le «&nbsp;score de risque&nbsp;» est un indicateur composite illustratif (Valorisation 35&nbsp;% / Santé financière 35&nbsp;% / Croissance 30&nbsp;%, zones&nbsp;: 0&ndash;30 rouge, 30&ndash;50 orange, 50&ndash;70 jaune, 70&ndash;100 vert) et non une notation d'agence ni un conseil financier. Plusieurs multiples sectoriels sont des ordres de grandeur à affiner sur les dépôts réglementaires directs. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "AVGO — Broadcom Inc. | RAPPORT DE SCORE DE RISQUE (21 août 2026)",
+    "Échelle : plus le risque est élevé, plus le score est bas (0 = extrême, 100 = sûr)",
+    "Zones : 0-30 rouge · 30-50 orange · 50-70 jaune · 70-100 vert",
+    "",
+    "SCORE GLOBAL : 64/100 — RISQUE MODÉRÉ",
+    "Cours : 366,92 $ (-23,7 % vs record de clôture 480,77 $) | Cap : ~1,73 T$ | Nasdaq",
+    "",
+    "INDICATEURS CLÉS",
+    "- CA 12 mois 75,5 Mds$ (+34 %) | FCF 32,8 Mds$ | Capex 860 M$",
+    "- PER TTM ~60x | PER FY2027E ~20x | Dividende 2,60 $ (0,72 %)",
+    "- 52 sem. 281,87–495,00 $ | Record de clôture 480,77 $ le 2 juin 2026",
+    "",
+    "VALORISATION (38/100)",
+    "- EV/CA ~24x | EV/EBITDA ~44x | PEG ~0,45",
+    "- Cible consensus ~528 $ (fourchette 340–580 $) — dispersion très large",
+    "",
+    "SANTÉ FINANCIÈRE (72/100)",
+    "- Marge opér. record 67,3 % | ROIC 24 % | ROE 37 % | Dette/CP 0,74 | Trésorerie 19,6 Mds$",
+    "- MAIS : >60 Mds$ de dette en négociation au bénéfice de clients ; exposition contingente modélisée ~370 Mds$ (BofA)",
+    "",
+    "CROISSANCE (85/100)",
+    "- T2 FY26 : CA 22,19 Mds$ (+48 %), CA IA 10,8 Mds$ (+143 %)",
+    "- Guidance T3 : ~29,4 Mds$ (+84 %), CA IA 16,0 Mds$ | FY26 IA ~56 Mds$ | FY27 IA >100 Mds$",
+    "- Carnet IA >73 Mds$ sur 18 mois | Logiciel VMware +9 % (décélère)",
+    "",
+    "TENDANCE MARGE BRUTE : 79,4 % → 77,1 % → ~74 % (effet de mix XPU, durable)",
+    "",
+    "CLIENTS : 5 premiers ≈ 50 % du CA | 6 clients XPU (Google, Meta, Anthropic, OpenAI + 2 non nommés)",
+    "",
+    "CATALYSEURS : Relèvement objectif IA 2027 le 2 sept. (fort), Position réseau Ethernet (fort), Reprise hors IA (moyen), Clients XPU non nommés (moyen)",
+    "RISQUES : Concentration clients (fort), Financement circulaire (fort), Érosion part Google / accord Marvell (fort), Compression marge brute (moyen)",
+    "",
+    "VERDICT : Entreprise d'exception, croissance contractualisée, bilan solide. Mais concentration extrême, financement devenu circulaire et valorisation adossée à un bénéfice 2027 encore hypothétique. Risque modéré. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "\u2713 Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29C9 Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="\u2713 Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29C9 Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copie manuelle";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
