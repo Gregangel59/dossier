@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BE — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  /* couleur d'identité = zone du score global (49 -> Ambre / Risque élevé) */
+  --id:#ff9f43;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,159,67,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,159,67,.16),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid;color:var(--id);border-color:var(--id);background:rgba(255,159,67,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.z.r{background:var(--red);flex:30}
+.z.a{background:var(--amber);flex:20}
+.z.g{background:var(--gold);flex:20}
+.z.gr{background:var(--green);flex:30}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-zones{position:relative;height:17px;margin-top:1px}
+.cbar-zones span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,159,67,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700;text-align:right}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red) 0%,var(--red) 30%,var(--amber) 30%,var(--amber) 50%,var(--gold) 50%,var(--gold) 70%,var(--green) 70%,var(--green) 100%);position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,159,67,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:18px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--blue);color:var(--blue)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">BE</div>
+      <div class="name">Bloom Energy Corporation · NYSE · Équipements électriques &amp; production sur site</div>
+      <div class="price">201,45&nbsp;$ &nbsp;<span class="down">−0,5&nbsp;% (21 août 2026)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">49</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge">RISQUE ÉLEVÉ</div>
+  </div>
+  <div class="scale-note">Échelle&nbsp;: <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême. Zones&nbsp;: rouge 0–30 · ambre 30–50 · or 50–70 · vert 70–100.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:49%"><div class="mval">49</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-zones">
+      <span style="left:15%">Très élevé</span><span style="left:40%">Élevé</span><span style="left:60%">Modéré</span><span style="left:85%">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché au 21 août 2026 — comptes au 30 juin 2026 (T2 2026 publié le 28 juillet 2026)</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~59,3&nbsp;Mds$</div><div class="d">~294,5&nbsp;M d'actions</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">201,45&nbsp;$</div><div class="d down">52&nbsp;sem.&nbsp;: 43,62–351,28&nbsp;$</div></div>
+  <div class="kpi"><div class="l">PER (TTM, GAAP)</div><div class="v">~272×</div><div class="d down">BPA TTM 0,74&nbsp;$</div></div>
+  <div class="kpi"><div class="l">CA 2026E</div><div class="v">3,9–4,2&nbsp;Mds$</div><div class="d up">~+100&nbsp;% a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0&nbsp;%</div><div class="d">aucun dividende</div></div>
+  <div class="kpi"><div class="l">Bêta</div><div class="v">3,82</div><div class="d down">volatilité extrême</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (août 2025 → août 2026)</div>
+    <div class="r">Plus haut&nbsp;: <span class="up">351,28&nbsp;$</span> → actuel&nbsp;: <span class="down">201,45&nbsp;$</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ff9f43" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#ff9f43" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="29" x2="800" y2="29"/>
+        <line x1="0" y1="95" x2="800" y2="95"/>
+        <line x1="0" y1="161" x2="800" y2="161"/>
+        <line x1="0" y1="227" x2="800" y2="227"/>
+      </g>
+      <path d="M0,227 L61,207 L123,183 L184,194 L246,199 L307,199 L369,137 L430,168 L492,118 L553,86 L615,29 L676,149 L738,95 L800,124"
+            fill="none" stroke="#ff9f43" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,227 L61,207 L123,183 L184,194 L246,199 L307,199 L369,137 L430,168 L492,118 L553,86 L615,29 L676,149 L738,95 L800,124 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="615" cy="29" r="5" fill="#28d17c"/>
+      <circle cx="676" cy="149" r="5" fill="#ff4d5e"/>
+      <circle cx="800" cy="124" r="5" fill="#ff9f43"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Août 25 · 44&nbsp;$</span><span>Brookfield 5&nbsp;Mds$</span><span>Oracle 2,8&nbsp;GW</span><span>Sommet 351&nbsp;$</span><span>Hunterbrook</span><span>201&nbsp;$</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime d'infrastructure IA adossée à une rentabilité qui n'a que deux trimestres d'existence.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER 2026E</div><div class="cv">~75×</div><div class="cd">Sur la guidance BPA non-GAAP 2,55–2,85&nbsp;$.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">PER (TTM, GAAP)</div><div class="cv">~272×</div><div class="cd">Rentabilité GAAP née au T2 2026.</div><span class="tag rd">EXTRÊME</span></div>
+  <div class="card"><div class="cl">VE / CA 2026E</div><div class="cv">~14×</div><div class="cd">~59&nbsp;Mds$ pour ~4,05&nbsp;Mds$ de CA.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">VE / EBITDA aj. 26E</div><div class="cv">~58×</div><div class="cd">Décroît vite si la cadence tient.</div><span class="tag am">À NUANCER</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~275&nbsp;$</div><div class="cd">Fourchette 97–390&nbsp;$ — facteur 4.</div><span class="tag am">INCERTAIN</span></div>
+  <div class="card"><div class="cl">Prime vs pairs</div><div class="cv">~2,5×</div><div class="cd">75× vs 22–30× pour CAT / CMI.</div><span class="tag rd">PRIME IA</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison — médiane des pairs de l'alimentation des centres de données</div>
+  <div class="mcomp"><div class="mk">PER prospectif</div><div class="mvals"><b>~75×</b><span class="sep">vs</span>médiane ~30×</div></div>
+  <div class="mcomp"><div class="mk">VE / CA</div><div class="mvals"><b>~14×</b><span class="sep">vs</span>médiane ~5,5×</div></div>
+  <div class="mcomp"><div class="mk">Croissance du CA</div><div class="mvals"><b>~+100&nbsp;%</b><span class="sep">vs</span>~+25&nbsp;%</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi deux PER très différents (75× et 272×)&nbsp;?</summary>
+  <div class="body">Le PER rapporte le cours au bénéfice par action — encore faut-il choisir quel bénéfice. Le chiffre de 272× utilise le bénéfice <b>GAAP des douze derniers mois</b> (0,74&nbsp;$), lesté par trois trimestres où l'entreprise perdait encore de l'argent. Celui de 75× utilise la <b>guidance non-GAAP 2026</b> (2,55–2,85&nbsp;$), qui exclut notamment la rémunération en actions — 56,4&nbsp;M$ au seul T2 2026, soit environ 5&nbsp;% du chiffre d'affaires du trimestre. La vérité économique est entre les deux, et l'écart entre ces deux mesures est lui-même une information&nbsp;: une partie de la «&nbsp;rentabilité » affichée est payée en dilution des actionnaires, pas en trésorerie.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Un bilan sain et une génération de trésorerie enfin positive — face à une dépendance client extrême et un contentieux actif.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Trésorerie</div><div class="cv">2,69&nbsp;Mds$</div><div class="cd">Au 30 juin 2026, en hausse sur le trimestre.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Dette avec recours</div><div class="cv">2,48&nbsp;Mds$</div><div class="cd">Dont 2,5&nbsp;Mds$ de convertibles à 0&nbsp;%.</div><span class="tag go">MAÎTRISÉE</span></div>
+  <div class="card"><div class="cl">Position nette</div><div class="cv">~neutre</div><div class="cd">Revolving de 600&nbsp;M$ non tiré.</div><span class="tag go">ÉQUILIBRÉE</span></div>
+  <div class="card"><div class="cl">Cash-flow opér. S1</div><div class="cv">+300&nbsp;M$</div><div class="cd">Contre une sortie massive un an plus tôt.</div><span class="tag gr">RETOURNEMENT</span></div>
+  <div class="card"><div class="cl">Concentration client</div><div class="cv">~73&nbsp;%</div><div class="cd">Un seul client, non lié, au T2 2026.</div><span class="tag rd">CRITIQUE</span></div>
+  <div class="card"><div class="cl">Contentieux</div><div class="cv">Recours collectif</div><div class="cd">N.D. Cal., société et dirigeants visés.</div><span class="tag rd">ACTIF</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi une trésorerie de 2,7&nbsp;Mds$ ne suffit pas à rassurer&nbsp;?</summary>
+  <div class="body">Le bilan est effectivement sain&nbsp;: la trésorerie couvre la dette, et les 2,5&nbsp;Mds$ d'obligations convertibles ne coûtent <b>aucun intérêt</b> — un financement remarquable, obtenu au sommet de la valorisation. Mais deux réserves&nbsp;: ces obligations se paieront un jour en <b>actions</b> (environ 19,55&nbsp;millions d'actions potentielles), et le cash-flow d'exploitation du trimestre est soutenu à hauteur de 211,7&nbsp;M$ par la hausse des <b>acomptes clients et revenus différés</b>. Un encaissement d'avance n'est pas un bénéfice&nbsp;: c'est une promesse de livrer. Le vrai test viendra lorsque ces acomptes se transformeront en livraisons et en coûts.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Spectaculaire et vérifiée dans les comptes — mais adossée à un carnet dont la nature contractuelle est contestée.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA T2 2026</div><div class="cv">+165,5&nbsp;%</div><div class="cd">1,065&nbsp;Md$ — premier trimestre milliardaire.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Revenus produit</div><div class="cv">+215,4&nbsp;%</div><div class="cd">935,4&nbsp;M$ · ~88&nbsp;% du CA total.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">Guidance 2026</div><div class="cv">~+100&nbsp;%</div><div class="cd">3ᵉ relèvement en 3 trimestres.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Marge opér. n-GAAP</div><div class="cv">22,5&nbsp;%</div><div class="cd">+1&nbsp;536&nbsp;pb — vrai levier opérationnel.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Carnet vs RPO</div><div class="cv">20&nbsp;Mds$ / 0,49</div><div class="cd">Carnet annoncé vs obligations auditées.</div><span class="tag rd">À VÉRIFIER</span></div>
+  <div class="card"><div class="cl">Capacité annuelle</div><div class="cv">2&nbsp;GW</div><div class="cd">Fin 2026 · empreinte revendiquée 5&nbsp;GW.</div><span class="tag go">EN CONSTRUCTION</span></div>
+</div>
+<details class="explainer">
+  <summary>Carnet de commandes et RPO&nbsp;: pourquoi l'écart est le cœur du dossier</summary>
+  <div class="body">Le <b>carnet</b> («&nbsp;backlog ») est une communication d'entreprise&nbsp;: chacun le définit comme il l'entend. Les <b>obligations de prestation restantes</b> (RPO) sont une mesure comptable normée (ASC&nbsp;606) publiée dans les documents déposés auprès du régulateur&nbsp;: elles ne comptabilisent que les revenus issus de contrats qui <b>engagent réellement le client</b>. Bloom communique environ 20&nbsp;Mds$ de carnet&nbsp;; ses RPO s'élevaient à environ 493&nbsp;M$ au 31 mars 2026. Un accord-cadre «&nbsp;jusqu'à 2,8&nbsp;GW » n'est pas une commande de 2,8&nbsp;GW. Cela ne signifie pas que la demande est fictive — les livraisons du T2 2026 prouvent le contraire — mais que <b>l'investisseur doit suivre la progression des RPO trimestre après trimestre</b>, et non le chiffre du communiqué.</div>
+</details>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération&nbsp;: Valorisation 35&nbsp;% · Santé financière 35&nbsp;% · Croissance 30&nbsp;%</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35&nbsp;%</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:18%;background:var(--red)"></div></div>
+    <div class="bd-score">18 / 100 — ~75× le BPA 2026E, ~14× le CA, prime de 2,5× sur les pairs</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35&nbsp;%</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:46%;background:var(--amber)"></div></div>
+    <div class="bd-score">46 / 100 — bilan sain et cash positif, mais 73&nbsp;% du CA du T2 sur un client et litige actif</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30&nbsp;%</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:88%;background:var(--green)"></div></div>
+    <div class="bd-score">88 / 100 — +166&nbsp;% au T2, levier opérationnel prouvé, qualité du carnet à confirmer</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×18 + 0,35×46 + 0,30×88</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:49%;background:var(--id)"></div></div>
+    <div class="bd-score" style="color:var(--id)">48,8 → <b>49 / 100 — Risque élevé</b> (zone ambre 30–50)</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = accélération / amélioration · Ambre = point de vigilance</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Période</th><th>CA</th><th>Croiss. a/a</th><th>Marge brute</th><th>Rés. opér.</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>2024 (exercice)</td><td>1&nbsp;473,9&nbsp;M$</td><td>n.d.</td><td>28,7&nbsp;%</td><td>107,6&nbsp;M$</td><td><span class="flag am">▬ Base</span></td></tr>
+    <tr class="imp"><td>2025 (exercice)</td><td>2&nbsp;024,0&nbsp;M$</td><td>+37,3&nbsp;%</td><td>30,3&nbsp;%</td><td>221,0&nbsp;M$</td><td><span class="flag gr">▲ Progression</span></td></tr>
+    <tr class="imp"><td>T4 2025</td><td>777,7&nbsp;M$</td><td>+35,9&nbsp;%</td><td>31,9&nbsp;%</td><td>133,0&nbsp;M$</td><td><span class="flag gr">▲ Solide</span></td></tr>
+    <tr class="imp"><td>T1 2026</td><td>751,1&nbsp;M$</td><td>+130,4&nbsp;%</td><td>n.d.</td><td>129,7&nbsp;M$</td><td><span class="flag gr">▲ Rupture</span></td></tr>
+    <tr class="imp"><td>T2 2026</td><td>1&nbsp;065,4&nbsp;M$</td><td>+165,5&nbsp;%</td><td>34,3&nbsp;%</td><td>239,6&nbsp;M$</td><td><span class="flag gr">▲ Record</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note&nbsp;: marges brutes et résultats opérationnels en base non-GAAP pour permettre la comparaison. Le résultat net GAAP attribuable aux actionnaires ordinaires ressort à 196,3&nbsp;M$ au T2 2026 (BPA dilué GAAP 0,62&nbsp;$), contre une perte de 42,6&nbsp;M$ un an plus tôt.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Derniers résultats &amp; jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T2 2026 (28 juillet 2026)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev up">1&nbsp;065,4&nbsp;M$ (+165,5&nbsp;%)</span></div>
+    <div class="eline"><span>BPA non-GAAP</span><span class="ev up">0,78&nbsp;$ (cons. 0,39&nbsp;$)</span></div>
+    <div class="eline"><span>BPA dilué GAAP</span><span class="ev">0,62&nbsp;$</span></div>
+    <div class="eline"><span>EBITDA ajusté</span><span class="ev up">253,4&nbsp;M$ (×6,1)</span></div>
+    <div class="eline"><span>Free cash-flow</span><span class="ev up">175&nbsp;M$</span></div>
+    <div class="eline"><span>Réaction du titre</span><span class="ev up">+26,5&nbsp;% le 30 juillet</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Jalons &amp; gouvernance</div>
+    <div class="eline"><span>Cadre Brookfield</span><span class="ev up">25&nbsp;Mds$ (×5)</span></div>
+    <div class="eline"><span>Accord-cadre Oracle</span><span class="ev">jusqu'à 2,8&nbsp;GW</span></div>
+    <div class="eline"><span>Accord AEP</span><span class="ev">jusqu'à 1&nbsp;GW · ~2,65&nbsp;Mds$</span></div>
+    <div class="eline"><span>Ventes nettes d'initiés</span><span class="ev down">~−68&nbsp;M$ sur 12 mois</span></div>
+    <div class="eline"><span>Demandeur principal</span><span class="ev down">28 septembre 2026</span></div>
+    <div class="eline"><span>Prochains résultats</span><span class="ev">fin octobre 2026</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Que reproche exactement le recours collectif à Bloom Energy&nbsp;?</summary>
+  <div class="body">Le 8 juillet 2026, le vendeur à découvert Hunterbrook Media a publié un rapport affirmant avoir tracé quatre routes liées à la Chine dans l'approvisionnement en <b>oxyde de scandium</b> — le dopant qui stabilise l'électrolyte céramique au cœur de chaque pile. Le titre a perdu 5,7&nbsp;% ce jour-là. La plainte, déposée le 30 juillet 2026 devant le tribunal fédéral de Californie du Nord, vise la société et certains dirigeants pour des déclarations affirmant l'absence de dépendance à la Chine entre le 27 février 2025 et le 8 juillet 2026. Bloom a <b>catégoriquement rejeté</b> ces conclusions dans un dépôt réglementaire, affirmant disposer d'un approvisionnement suffisant, non dépendant de la Chine, et d'une visibilité permettant de soutenir 25&nbsp;GW de production annuelle. Pour l'investisseur, l'enjeu n'est pas seulement judiciaire&nbsp;: il est <b>opérationnel</b> — si la dépendance existe, elle constitue un levier géopolitique sur l'intrant le plus critique, au pire moment.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Conversion du carnet Oracle et Brookfield</div><div class="id">Accord-cadre jusqu'à 2,8&nbsp;GW, campus Project Jupiter 100&nbsp;% Bloom, cadre de financement porté à 25&nbsp;Mds$. Chaque conversion en commande ferme réévalue la visibilité.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Levier opérationnel prouvé</div><div class="id">Charges d'exploitation +48&nbsp;% pour un CA +166&nbsp;%. Marge opérationnelle non-GAAP portée à 22,5&nbsp;%, avec trois relèvements de guidance consécutifs.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Montée en capacité 2 → 5&nbsp;GW</div><div class="id">Chaque gigawatt de capacité produit soutient environ 700 à 800&nbsp;M$ de CA annuel. <i>Power Connect</i> réduit de plus de 40&nbsp;% le temps d'installation.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Élargissement de la base client</div><div class="id">Homologation revendiquée chez tous les grands hyperscalers américains et plus d'une dizaine de <i>neoclouds</i> — toute nouvelle signature réduit mécaniquement le risque de concentration.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Concentration client extrême</div><div class="id">~73&nbsp;% du CA du T2 2026 sur un seul client, non lié&nbsp;; ~44&nbsp;% et ~21&nbsp;% pour deux clients sur le semestre. Un décalage de calendrier n'atténue pas la croissance — il l'inverse.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Valorisation sans marge d'erreur</div><div class="id">~75× le BPA 2026E et ~14× le CA. Un titre de croissance qui déçoit ne passe pas de 75× à 60×, il passe à 20–25×. Bêta de 3,82.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Scandium et contentieux</div><div class="id">Recours collectif fédéral visant la société et ses dirigeants, période de classe de 17&nbsp;mois. Risque binaire, invérifiable de l'extérieur, sur l'intrant le plus critique.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Refermeture de la fenêtre temporelle</div><div class="id">GE Vernova vise 125&nbsp;GW de carnet et réservations à fin 2026. Quand les turbines redeviennent disponibles, l'avantage de délai — donc la prime — s'érode.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale&nbsp;: Risque élevé (49 / 100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:49%"><div class="rmval">49</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:15%">Très élevé</span><span style="left:40%">Élevé</span><span style="left:60%">Modéré</span><span style="left:85%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict&nbsp;:</b> Bloom Energy est devenue en dix-huit mois <b>l'un des maillons critiques de l'infrastructure de l'IA</b>. Sa pile à oxyde solide livre de la puissance en quelques mois là où le réseau demande cinq à sept ans et les turbines à gaz sont vendues jusqu'en 2029. Le T2 2026 valide la thèse dans les comptes&nbsp;: premier trimestre milliardaire, marge brute à 34&nbsp;%, marge opérationnelle non-GAAP à 22,5&nbsp;%, et — pour la première fois en vingt-cinq ans — un <b>bénéfice GAAP et un cash-flow d'exploitation simultanément positifs</b>. Ce n'est ni FuelCell ni Plug Power.<br><br>
+    Mais le profil de risque reste élevé pour trois raisons cumulées&nbsp;: une <b>concentration client extrême</b> (~73&nbsp;% du CA du T2 2026 sur un seul donneur d'ordre non nommé, 90&nbsp;% du CA aux États-Unis, sans amortisseur sectoriel), une <b>valorisation qui n'admet aucune déception</b> (~75× le BPA 2026 attendu, ~14× le chiffre d'affaires, bêta de 3,82, un carnet annoncé de 20&nbsp;Mds$ face à ~493&nbsp;M$ d'obligations de prestation auditées), et un <b>risque d'approvisionnement contesté en justice</b> sur l'oxyde de scandium, invérifiable de l'extérieur.<br><br>
+    La thèse ne se joue finalement ni sur la technologie ni sur la comptabilité, mais sur une variable exogène que ni l'entreprise ni les analystes ne contrôlent&nbsp;: <b>la durée du cycle d'investissement des hyperscalers</b>. Profil réservé à un investisseur capable d'assumer une volatilité de type option — le titre a fait 351&nbsp;$ puis 163&nbsp;$ en cinq semaines — et de dimensionner sa position en conséquence. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources&nbsp;: communiqué et présentation de résultats T2 2026 de Bloom Energy (28 juillet 2026), formulaires 10-Q et 8-K déposés auprès de la SEC (juillet 2026), transcription de la conférence de résultats T2 2026, communiqués Oracle (13 avril 2026), Brookfield (30 juin 2026) et AEP, rapport Hunterbrook Media du 8 juillet 2026 et réponse de la société (8-K du 9 juillet 2026), communiqués des cabinets d'avocats relatifs à l'affaire <i>Nevins v. Bloom Energy Corporation</i> (N.D. Cal.), données de cotation au 21 août 2026 (Investing.com, CNBC, Morningstar, Yahoo Finance) et couverture sectorielle (Reuters, Morgan Stanley, RBC, BMO, Motley Fool, TheStreet). Le «&nbsp;score de risque » est un indicateur composite illustratif (Valorisation 35&nbsp;% / Santé financière 35&nbsp;% / Croissance 30&nbsp;%, échelle 0–100 où 100 = plus sûr, zones 30 / 50 / 70) et non une note d'agence ni un conseil financier. Plusieurs multiples sont des ordres de grandeur calculés sur la guidance 2026 et devraient être affinés sur les dépôts SEC directs. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "BE \u2014 Bloom Energy Corporation | RAPPORT DE SCORE DE RISQUE (21 ao\u00fbt 2026)",
+    "\u00c9chelle : plus le risque est \u00e9lev\u00e9, plus le score est bas (0 = extr\u00eame, 100 = s\u00fbr). Zones : 0-30 rouge / 30-50 ambre / 50-70 or / 70-100 vert",
+    "",
+    "SCORE GLOBAL : 49/100 \u2014 RISQUE \u00c9LEV\u00c9",
+    "Cours : 201,45 $ | Cap : ~59,3 Mds$ | 52 sem. : 43,62-351,28 $ | B\u00eata 3,82",
+    "",
+    "INDICATEURS CL\u00c9S",
+    "- CA 2026E 3,9-4,2 Mds$ (~+100 %) | BPA non-GAAP 2026E 2,55-2,85 $ | Dividende 0 %",
+    "- PER TTM GAAP ~272x | PER 2026E ~75x | VE/CA 2026E ~14x",
+    "",
+    "VALORISATION (18/100)",
+    "- ~75x le BPA 2026E, ~14x le CA, prime ~2,5x vs pairs (CAT/CMI 22-30x)",
+    "- Cible analystes ~275 $ (fourchette 97-390 $) \u2014 dispersion extr\u00eame",
+    "",
+    "SANT\u00c9 FINANCI\u00c8RE (46/100)",
+    "- Tr\u00e9sorerie 2,69 Mds$ | Dette avec recours 2,48 Mds$ dont 2,5 Mds$ convertibles \u00e0 0 %",
+    "- Cash-flow op\u00e9rationnel S1 2026 +300 M$ | MAIS ~73 % du CA du T2 sur un seul client (non li\u00e9)",
+    "- Recours collectif f\u00e9d\u00e9ral en cours (N.D. Cal.) visant la soci\u00e9t\u00e9 et ses dirigeants",
+    "",
+    "CROISSANCE (88/100)",
+    "- T2 2026 : CA 1 065,4 M$ (+165,5 %), produit +215,4 %, marge brute 34,3 % non-GAAP",
+    "- Marge op\u00e9r. non-GAAP 22,5 % (+1 536 pb) | 3e rel\u00e8vement de guidance en 3 trimestres",
+    "- Carnet annonc\u00e9 ~20 Mds$ vs RPO audit\u00e9es ~493 M$ (31 mars 2026) \u2014 \u00e9cart \u00e0 surveiller",
+    "",
+    "R\u00c9SULTATS T2 2026 (28 juillet 2026)",
+    "- BPA non-GAAP 0,78 $ vs 0,39 $ attendu | BPA GAAP 0,62 $ | EBITDA aj. 253,4 M$ | FCF 175 M$",
+    "- R\u00e9action : +26,5 % le 30 juillet 2026",
+    "",
+    "JALONS : Brookfield 25 Mds$ (x5) | Oracle jusqu'\u00e0 2,8 GW | AEP jusqu'\u00e0 1 GW (~2,65 Mds$) | Capacit\u00e9 2 GW fin 2026",
+    "",
+    "CATALYSEURS : Conversion carnet Oracle/Brookfield (fort), Levier op\u00e9rationnel (fort), Capacit\u00e9 2->5 GW (moyen), \u00c9largissement client (moyen)",
+    "RISQUES : Concentration client 73 % (fort), Valorisation ~75x (fort), Scandium/contentieux (fort), Refermeture de la fen\u00eatre temporelle (moyen)",
+    "",
+    "VERDICT : Maillon critique de l'infrastructure IA, enfin rentable en GAAP et g\u00e9n\u00e9rateur de cash. Mais 73 % du CA du T2 sur un client, ~75x les b\u00e9n\u00e9fices attendus et un litige sur l'approvisionnement en scandium. Pari \u00e0 levier sur la dur\u00e9e du cycle d'investissement IA. Risque \u00e9lev\u00e9. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "\u2713 Copi\u00e9 !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="\u2713 Copi\u00e9 !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29c9 Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="\u00c9chec \u2014 copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
