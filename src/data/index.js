@@ -26,9 +26,11 @@ import axon from "./axon.js";
 import argx from "./argx.js";
 import avgo from "./avgo.js";
 import be from "./be.js";
+import blk from "./blk.js";
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
+  blk,
   be,
   avgo,
   argx,
