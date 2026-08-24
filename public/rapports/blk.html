@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLK — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --id:#28d17c;            /* couleur d'identite = zone du score global (72 = vert) */
+  --id-soft:rgba(40,209,124,.45);
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(40,209,124,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(40,209,124,.16),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.low{color:var(--id);border-color:var(--id);background:rgba(40,209,124,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{height:100%}
+.z.r{width:30%;background:var(--red)}.z.a{width:20%;background:var(--amber)}.z.g{width:20%;background:var(--gold)}.z.gr{width:30%;background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#08130c;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px var(--id-soft);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red) 0%,var(--red) 22%,var(--amber) 34%,var(--gold) 55%,var(--green) 74%,var(--green) 100%);position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#08130c;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px var(--id-soft)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:8px}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--id);color:var(--id)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">BLK</div>
+      <div class="name">BlackRock, Inc. · NYSE · Gestion d'actifs &amp; technologie financière</div>
+      <div class="price">1 156,55 $ &nbsp;<span class="up">+7,1 % sur 12 mois</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">72</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge low">RISQUE FAIBLE</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:72%"><div class="mval">72</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:30%">30</span><span style="left:50%">50</span><span style="left:70%">70</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché au 23 août 2026 — derniers comptes publiés : T2 2026 (15 juillet 2026)</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~188 G$</div><div class="d up">+6 % sur 1 an</div></div>
+  <div class="kpi"><div class="l">Encours (AUM)</div><div class="v">15,3 T$</div><div class="d up">record — +868 G$ collecte</div></div>
+  <div class="kpi"><div class="l">PER publié</div><div class="v">28,8×</div><div class="d">BPA 12 mois 40,33 $</div></div>
+  <div class="kpi"><div class="l">PER ajusté 2026E</div><div class="v">~21×</div><div class="d up">BPA ajusté ~55 $</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">~2,0 %</div><div class="d up">5,73 $/trim. (+10 %)</div></div>
+  <div class="kpi"><div class="l">Range 52 sem.</div><div class="v">917–1 220 $</div><div class="d">clôture 1 156,55 $</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (clôtures mensuelles indicatives)</div>
+    <div class="r">Août 25 : <span class="down">~1 080 $</span> → <span class="up">1 156,55 $</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#28d17c" stop-opacity="0.30"/>
+          <stop offset="100%" stop-color="#28d17c" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <path d="M0,121 L67,124 L133,120 L200,145 L267,160 L333,132 L400,172 L467,218 L533,166 L600,124 L667,109 L733,80 L800,74"
+            fill="none" stroke="#28d17c" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,121 L67,124 L133,120 L200,145 L267,160 L333,132 L400,172 L467,218 L533,166 L600,124 L667,109 L733,80 L800,74 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="74" r="5" fill="#28d17c"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Août 25</span><span>Nov 25</span><span>Mars 26 · creux 917 $</span><span>Juil. 26 · T2</span><span>1 156,55 $</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime assumée sur les gérants traditionnels, une décote sur les gérants alternatifs — le marché paie déjà une partie du pivot.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER publié</div><div class="cv">28,8×</div><div class="cd">Alourdi par l'amortissement des incorporels d'acquisition.</div><span class="tag am">TENDU</span></div>
+  <div class="card"><div class="cl">PER ajusté 2026E</div><div class="cv">~21×</div><div class="cd">Sur BPA ajusté ~55 $, croissance visée 12-15 %.</div><span class="tag go">CORRECT</span></div>
+  <div class="card"><div class="cl">Cap. / CA</div><div class="cv">~7×</div><div class="cd">24,2 G$ de CA 2025 pour ~188 G$ de capitalisation.</div><span class="tag go">MOYEN</span></div>
+  <div class="card"><div class="cl">Cap. / encours</div><div class="cv">~1,2 %</div><div class="cd">188 G$ pour 15,3 T$ gérés — mesure du mix de commissions.</div><span class="tag gr">SAIN</span></div>
+  <div class="card"><div class="cl">Objectif consensus</div><div class="cv">~1 300 $</div><div class="cd">Fourchette ~1 180–1 490 $ — potentiel ~12 %.</div><span class="tag gr">FAVORABLE</span></div>
+  <div class="card"><div class="cl">Écart publié / ajusté</div><div class="cv">36 %</div><div class="cd">35,31 $ contre 48,09 $ par action en 2025.</div><span class="tag am">À NUANCER</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle — gestion d'actifs cotée</div>
+  <div class="mcomp"><div class="mk">PER ajusté</div><div class="mvals"><b>~21×</b><span class="sep">vs</span>traditionnels ~11×</div></div>
+  <div class="mcomp"><div class="mk">PER vs alternatifs</div><div class="mvals"><b>~21×</b><span class="sep">vs</span>BX / KKR 24–35×</div></div>
+  <div class="mcomp"><div class="mk">Rendement du dividende</div><div class="mvals"><b>~2,0 %</b><span class="sep">vs</span>TROW ~5 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi deux PER différents pour la même action ?</summary>
+  <div class="body">BlackRock publie deux résultats. Le résultat « publié » suit les normes comptables américaines et intègre l'amortissement des actifs incorporels créés par les rachats de GIP, HPS et Preqin, ainsi que la réévaluation des compléments de prix. Le résultat « ajusté » retire ces éléments, considérés comme non liés à l'exploitation courante. En 2025, l'écart était de 36 % : 35,31 $ contre 48,09 $ par action. Le consensus et le management raisonnent sur le second, d'où un PER de ~21× là où le calcul brut donne 28,8×. Aucun des deux n'est faux : le premier mesure ce que l'entreprise gagne comptablement, le second ce que génère l'activité une fois les acquisitions digérées. La prudence consiste à regarder les deux — et à se méfier d'un ajustement qui revient chaque trimestre pendant des années.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Bilan de forteresse et marge record — la réserve porte sur la qualité des actifs, pas sur la solvabilité.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Dette nette / EBITDA</div><div class="cv">&lt; 1×</div><div class="cd">Plafond contractuel à 3,5× — très large marge.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Dette long terme</div><div class="cv">12,8 G$</div><div class="cd">Aucun papier commercial, ligne de crédit non tirée.</div><span class="tag gr">MAÎTRISÉE</span></div>
+  <div class="card"><div class="cl">Marge opér. ajustée</div><div class="cv">45,9 %</div><div class="cd">Plus haut niveau en près de cinq ans.</div><span class="tag gr">EXCELLENTE</span></div>
+  <div class="card"><div class="cl">Goodwill + incorporels</div><div class="cv">63,0 G$</div><div class="cd">Supérieurs aux capitaux propres (56,7 G$).</div><span class="tag am">À SURVEILLER</span></div>
+  <div class="card"><div class="cl">Compléments de prix</div><div class="cv">7,9 G$</div><div class="cd">Indexés sur le cours de l'action — mécanisme réflexif.</div><span class="tag am">RÉFLEXIF</span></div>
+  <div class="card"><div class="cl">Retour actionnaires</div><div class="cv">&gt; 5,7 G$</div><div class="cd">Prévu en 2026, +16 % — dividende et rachats.</div><span class="tag gr">GÉNÉREUX</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un goodwill supérieur aux capitaux propres est-il un point d'attention ?</summary>
+  <div class="body">Le goodwill est l'écart entre le prix payé pour une entreprise et la valeur comptable de ce qu'elle possède réellement. C'est un actif immatériel : il ne vaut que si l'entreprise rachetée produit bien les profits espérés. BlackRock a inscrit 63,0 G$ de goodwill et d'incorporels après les rachats de GIP, HPS et Preqin, alors que ses capitaux propres s'élèvent à 56,7 G$. Autrement dit, la totalité des fonds propres est adossée à des promesses de rentabilité future. Si l'une de ces acquisitions déçoit, un test annuel peut imposer une dépréciation : elle ne coûte pas de trésorerie, mais elle réduit les capitaux propres et signale que le prix payé était trop élevé. Ce n'est pas un risque de faillite — l'endettement est très faible — c'est un risque sur la qualité du bilan.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Collecte record et mix en amélioration — mais une part encore modeste des encours hors indiciel.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Collecte nette 12 mois</div><div class="cv">+868 G$</div><div class="cd">Dont 321 G$ au seul premier semestre 2026.</div><span class="tag gr">RECORD</span></div>
+  <div class="card"><div class="cl">Croissance organique</div><div class="cv">+10 %</div><div class="cd">Commissions de base — objectif de long terme : 5 %.</div><span class="tag gr">FORTE</span></div>
+  <div class="card"><div class="cl">CA T2 2026</div><div class="cv">+31 %</div><div class="cd">7,08 G$ — dont contribution HPS ~230 M$.</div><span class="tag gr">FORTE</span></div>
+  <div class="card"><div class="cl">BPA ajusté T2 2026</div><div class="cv">+15,5 %</div><div class="cd">13,91 $ contre 12,05 $ un an plus tôt.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Aladdin — ACV</div><div class="cv">+15 %</div><div class="cd">Revenus récurrents décorrélés des marchés.</div><span class="tag gr">QUALITATIVE</span></div>
+  <div class="card"><div class="cl">Part marchés privés</div><div class="cv">~5 %</div><div class="cd">Des encours, pour ~15 % des commissions.</div><span class="tag go">EN CONSTRUCTION</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:58%;background:var(--gold)"></div></div>
+    <div class="bd-score">58 / 100 — ~21× le bénéfice ajusté, prime sur les gérants traditionnels, pivot déjà partiellement dans les cours</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:82%;background:var(--green)"></div></div>
+    <div class="bd-score">82 / 100 — dette nette/EBITDA &lt; 1, marge 45,9 %, réserve sur le goodwill et les compléments de prix</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:76%;background:var(--green)"></div></div>
+    <div class="bd-score">76 / 100 — collecte record et mix en amélioration, mais dépendance persistante au niveau des marchés</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×58 + 0,35×82 + 0,30×76</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:72%;background:var(--id)"></div></div>
+    <div class="bd-score" style="color:var(--id)">72 / 100 — Risque faible</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en amélioration · Rouge = en dégradation</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Période</th><th>CA</th><th>BPA ajusté</th><th>Marge aj.</th><th>Collecte nette</th><th>Encours</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>Exercice 2025</td><td>24,22 G$</td><td>48,09 $</td><td>~44,5 %</td><td>+698 G$</td><td>14,04 T$</td><td><span class="flag gr">▲ Record</span></td></tr>
+    <tr class="imp"><td>T4 2025</td><td>7,01 G$</td><td>13,16 $</td><td>45,0 %</td><td>+342 G$</td><td>14,04 T$</td><td><span class="flag gr">▲ Accélération</span></td></tr>
+    <tr class="dec"><td>T1 2026</td><td>6,70 G$</td><td>≈ 12,50 $</td><td>≈ 44,5 %</td><td>+129 G$</td><td>13,90 T$</td><td><span class="flag rd">▼ Repli marchés</span></td></tr>
+    <tr class="imp"><td>T2 2026</td><td>7,08 G$</td><td>13,91 $</td><td>45,9 %</td><td>+192 G$</td><td>15,30 T$</td><td><span class="flag gr">▲ Record</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : le trimestre T1 2026 illustre exactement le risque central du dossier — un repli des marchés fait baisser les encours (14,04 → 13,90 T$) et la collecte trimestrielle, alors même que l'exécution commerciale reste bonne. Les valeurs précédées de « ≈ » sont des estimations.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Dernière publication &amp; jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">Résultats T2 2026 (15 juillet 2026)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev up">7,08 G$ (+31 %)</span></div>
+    <div class="eline"><span>Consensus CA</span><span class="ev">6,77 G$ — dépassé</span></div>
+    <div class="eline"><span>BPA ajusté</span><span class="ev up">13,91 $ (+10,8 % vs cons.)</span></div>
+    <div class="eline"><span>Marge opér. ajustée</span><span class="ev up">45,9 %</span></div>
+    <div class="eline"><span>Charges ajustées</span><span class="ev down">4,17 G$ (+25 %)</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Capital &amp; jalons stratégiques</div>
+    <div class="eline"><span>Dividende trimestriel</span><span class="ev up">5,73 $ (+10 %)</span></div>
+    <div class="eline"><span>Rachats d'actions</span><span class="ev">≥ 550 M$ / trimestre</span></div>
+    <div class="eline"><span>Encours iShares</span><span class="ev up">&gt; 6 T$</span></div>
+    <div class="eline"><span>Objectif 2030 — CA</span><span class="ev">&gt; 35 G$</span></div>
+    <div class="eline"><span>Prochaine publication</span><span class="ev">T3 2026 — octobre</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi la collecte nette compte plus que le niveau des encours ?</summary>
+  <div class="body">Les encours d'un gérant d'actifs montent pour deux raisons très différentes : parce que les marchés montent, ou parce que de nouveaux clients apportent de l'argent. La première est subie, la seconde est gagnée. La collecte nette isole précisément la part gagnée : 868 G$ sur douze mois signifie que BlackRock a attiré, net de retraits, l'équivalent de plusieurs grands gérants européens en un an. C'est le seul indicateur qui mesure la performance commerciale indépendamment du niveau des indices — et c'est pourquoi le marché y réagit davantage qu'au chiffre d'encours brut.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Conversion des actifs d'assurance</div><div class="id">800 G$ d'actifs d'assurance administrés, dont 5 à 10 % peuvent basculer vers le crédit privé — hausse de commission sans conquête commerciale.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Financement de l'infrastructure d'IA</div><div class="id">GIP et HPS originent conjointement sur les centres de données ; besoins de capitaux massifs et durables, en fonds propres comme en dette.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Aladdin et revenus technologiques</div><div class="id">Valeur contractuelle annuelle +15 %, coûts de changement élevés, revenus décorrélés du niveau des marchés.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Tokenisation et actifs numériques</div><div class="id">Gestionnaire de réserve de stablecoin, fonds monétaires tokenisés, leadership sur les ETF crypto — forte valeur d'option.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Dépendance au niveau des marchés</div><div class="id">55 % des encours en actions. Un marché baissier de 20-25 % ampute mécaniquement les commissions — démontré en 2022, encours passés sous 8 T$.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Compression des commissions</div><div class="id">Frais quasi nuls sur l'indiciel cœur. Vanguard, structure mutualiste, peut baisser ses tarifs indéfiniment sans marge à défendre.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Goodwill et compléments de prix</div><div class="id">63,0 G$ d'incorporels contre 56,7 G$ de capitaux propres ; 7,9 G$ de compléments de prix indexés sur le cours, réglés en actions.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Contentieux et risque politique</div><div class="id">Poursuite antitrust de treize procureurs généraux, requête en irrecevabilité largement rejetée en 2025 ; contentieux sur les frais et exposition politique.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque faible (72/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:72%"><div class="rmval">72</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span>0 · Extrême</span><span>30 · Élevé</span><span>50 · Modéré</span><span>70 · Sûr</span><span>100</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> BlackRock est un <b>actif de très haute qualité</b> : premier gestionnaire mondial avec 15,3 T$ d'encours, bilan de forteresse (dette nette/EBITDA inférieure à 1), marge opérationnelle ajustée record à 45,9 % et collecte nette de 868 G$ sur douze mois. L'exécution du plan 2030 dépasse pour l'instant les objectifs fixés par la direction elle-même.<br><br>
+    Trois réserves justifient de ne pas monter le score plus haut. D'abord, une <b>dépendance structurelle au niveau des marchés</b> : 55 % des encours sont en actions, et aucune décision managériale ne protège contre un marché baissier — 2022 l'a démontré. Ensuite, un <b>bilan dont les fonds propres sont intégralement adossés à du goodwill</b> (63,0 G$ contre 56,7 G$ de capitaux propres), avec 7,9 G$ de compléments de prix indexés sur le cours de l'action. Enfin, une <b>valorisation qui intègre déjà une partie du pivot</b> vers les marchés privés, lesquels ne représentent encore que ~5 % des encours.<br><br>
+    Profil adapté à un investisseur de long terme cherchant une exposition de qualité au secteur financier, conscient qu'il achète en pratique un actif fortement corrélé aux indices mondiaux, avec un dividende en croissance et un rachat d'actions soutenu. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués de résultats BlackRock T2 2026 (15 juillet 2026), T1 2026 et exercice 2025 (15 janvier 2026), formulaires 10-Q et 10-K déposés auprès de la SEC, transcriptions des conférences de résultats, données de cotation et de consensus (au 23 août 2026). Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. Les multiples prospectifs et les valeurs précédées de « ≈ » ou « ~ » sont des ordres de grandeur. Des chiffres plus précis peuvent être tirés directement des dépôts réglementaires. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "BLK — BlackRock, Inc. | RAPPORT DE SCORE DE RISQUE (23 ao\u00fbt 2026)",
+    "\u00c9chelle : plus le risque est \u00e9lev\u00e9, plus le score est bas (0 = extr\u00eame, 100 = s\u00fbr)",
+    "",
+    "SCORE GLOBAL : 72/100 — RISQUE FAIBLE",
+    "Cours : 1 156,55 $ (+7,1 % sur 12 mois) | Cap : ~188 G$ | Encours : 15,3 T$",
+    "",
+    "INDICATEURS CL\u00c9S",
+    "- CA 2025 24,22 G$ (+19 %) | BPA publi\u00e9 35,31 $ | BPA ajust\u00e9 48,09 $",
+    "- PER publi\u00e9 28,8x | PER ajust\u00e9 2026E ~21x | Dividende 5,73 $/trim. (+10 %), rdt ~2,0 %",
+    "",
+    "VALORISATION (58/100)",
+    "- ~21x le b\u00e9n\u00e9fice ajust\u00e9 2026E vs ~11x pour les g\u00e9rants traditionnels, 24-35x pour les alternatifs",
+    "- \u00c9cart b\u00e9n\u00e9fice publi\u00e9 / ajust\u00e9 de 36 % | Objectif consensus ~1 300 $",
+    "",
+    "SANT\u00c9 FINANCI\u00c8RE (82/100)",
+    "- Dette nette/EBITDA < 1 (plafond 3,5) | Dette LT 12,8 G$ | Marge op\u00e9r. ajust\u00e9e 45,9 %",
+    "- R\u00e9serve : goodwill + incorporels 63,0 G$ > capitaux propres 56,7 G$ ; compl\u00e9ments de prix 7,9 G$ index\u00e9s sur le cours",
+    "",
+    "CROISSANCE (76/100)",
+    "- Collecte nette 868 G$ sur 12 mois | Croissance organique des commissions +10 % (objectif 5 %)",
+    "- CA T2 2026 +31 % | BPA ajust\u00e9 +15,5 % | Aladdin ACV +15 % | March\u00e9s priv\u00e9s ~5 % des encours",
+    "",
+    "TENDANCE TRIMESTRIELLE",
+    "- T4 2025 : 7,01 G$, BPA aj. 13,16 $, collecte +342 G$, encours 14,04 T$",
+    "- T1 2026 : 6,70 G$, collecte +129 G$, encours 13,90 T$ (repli des march\u00e9s)",
+    "- T2 2026 : 7,08 G$, BPA aj. 13,91 $, marge 45,9 %, collecte +192 G$, encours 15,30 T$",
+    "",
+    "CATALYSEURS : Conversion des actifs d'assurance (fort), Infrastructure IA via GIP+HPS (fort), Aladdin (moyen), Tokenisation (moyen)",
+    "RISQUES : D\u00e9pendance au b\u00eata des march\u00e9s (fort), Compression des commissions (fort), Goodwill et compl\u00e9ments de prix (moyen), Contentieux antitrust (moyen)",
+    "",
+    "VERDICT : Qualit\u00e9 d'ex\u00e9cution et bilan de forteresse, mais un actif dont les revenus restent index\u00e9s sur le niveau des indices, un bilan adoss\u00e9 au goodwill et une valorisation qui int\u00e8gre d\u00e9j\u00e0 une partie du pivot vers les march\u00e9s priv\u00e9s. Risque faible. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "✓ Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="✓ Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
