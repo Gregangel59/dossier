@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAVA &mdash; Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  /* --id = couleur d'identite du rapport, derivee du score global (57 -> zone or) */
+  --id:#ffd23f;
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(255,210,63,.06),transparent 40%),radial-gradient(circle at 85% 100%,rgba(91,140,255,.06),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,210,63,.14),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid;color:var(--id);border-color:var(--id);background:rgba(255,210,63,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{height:100%}
+.z.r{background:var(--red);width:30%}
+.z.a{background:var(--amber);width:20%}
+.z.g{background:var(--gold);width:20%}
+.z.gr{background:var(--green);width:30%}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,210,63,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px;color:var(--mut)}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"\2212"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;gap:10px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px;text-align:right}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700;text-align:right}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id2{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px;color:var(--id)}
+.rating-bar{height:15px;border-radius:9px;position:relative;margin:30px 0 8px;
+  background:linear-gradient(90deg,var(--red) 0%,var(--red) 30%,var(--amber) 30%,var(--amber) 50%,var(--gold) 50%,var(--gold) 70%,var(--green) 70%,var(--green) 100%)}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,210,63,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:18px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--id);color:var(--id)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+#copyBtn:focus-visible{outline:2px solid var(--id);outline-offset:2px}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">&#8981; Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">CAVA</div>
+      <div class="name">CAVA Group, Inc. &middot; NYSE &middot; Restauration rapide d&eacute;contract&eacute;e</div>
+      <div class="price">67,59 $ &nbsp;<span class="down">-3,1 % (25 ao&ucirc;t 2026)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">57</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge">RISQUE MOD&Eacute;R&Eacute;</div>
+  </div>
+  <div class="scale-note">&Eacute;chelle : <b>plus le risque est &eacute;lev&eacute;, plus le score est bas.</b> 100 = tr&egrave;s s&ucirc;r &middot; 0 = risque extr&ecirc;me.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:57%"><div class="mval">57</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:30%">30</span><span style="left:50%">50</span><span style="left:70%">70</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque tr&egrave;s &eacute;lev&eacute;</span><span style="text-align:right">S&ucirc;r</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs cl&eacute;s</div>
+<div class="sec-sub">Donn&eacute;es de march&eacute; au 25 ao&ucirc;t 2026 &mdash; derniers comptes publi&eacute;s : T2 2026 (11 ao&ucirc;t 2026)</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursi&egrave;re</div><div class="v">~7,9 Mds$</div><div class="d">116,8 M d'actions</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">67,59 $</div><div class="d down">-61 % vs plus haut</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">~122x</div><div class="d down">tr&egrave;s tendu</div></div>
+  <div class="kpi"><div class="l">CA (TTM)</div><div class="v">~1,29 Md$</div><div class="d up">+31 % au T2</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">aucun dividende</div></div>
+  <div class="kpi"><div class="l">Range 52 sem.</div><div class="v">43&ndash;99 $</div><div class="d">plus haut 98,79 $</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois</div>
+    <div class="r">Plus bas <span class="down">43,41 $</span> &rarr; plus haut <span class="up">98,79 $</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cours de CAVA sur douze mois">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <path d="M0,123 L70,147 L170,180 L290,219 L380,173 L460,113 L545,33 L610,63 L670,103 L725,137 L765,157 L800,138"
+            fill="none" stroke="#ffd23f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,123 L70,147 L170,180 L290,219 L380,173 L460,113 L545,33 L610,63 L670,103 L725,137 L765,157 L800,138 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="138" r="5" fill="#ffd23f"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>ao&ucirc;t 25</span><span>d&eacute;c. 25</span><span>f&eacute;vr. 26</span><span>avr. 26</span><span>juil. 26</span><span>25 ao&ucirc;t</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Le point faible absolu du dossier : une prime de croissance qui n'offre aucune marge de s&eacute;curit&eacute;.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">~122x</div><div class="cd">BPA 12 mois de 0,56 $ pour un cours de 67,59 $.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">PER 2026E</div><div class="cv">~98x</div><div class="cd">BPA 2026 estim&eacute; entre 0,66 et 0,72 $.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">EV / EBITDA</div><div class="cv">~53x</div><div class="cd">M&eacute;diane fast-casual autour de 20x.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">EV / CA</div><div class="cv">~6,1x</div><div class="cd">Chipotle se paie ~3,5x le chiffre d'affaires.</div><span class="tag am">&Eacute;LEV&Eacute;</span></div>
+  <div class="card"><div class="cl">EV / FCF</div><div class="cv">~197x</div><div class="cd">39 M$ de FCF pour 7,9 Mds$ de capitalisation.</div><span class="tag rd">CRITIQUE</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~88 $</div><div class="cd">27 analystes, fourchette 70&ndash;107 $.</div><span class="tag go">D&Eacute;COTE ~30 %</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle &mdash; le m&ecirc;me mod&egrave;le, quatre fois moins cher</div>
+  <div class="mcomp"><div class="mk">PER</div><div class="mvals"><b>CAVA ~122x</b><span class="sep">vs</span>Chipotle ~30x</div></div>
+  <div class="mcomp"><div class="mk">EV / EBITDA</div><div class="mvals"><b>CAVA ~53x</b><span class="sep">vs</span>m&eacute;diane ~20x</div></div>
+  <div class="mcomp"><div class="mk">Croissance du CA</div><div class="mvals"><b>CAVA +31 %</b><span class="sep">vs</span>Chipotle +7 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un PER de 122x n'est-il pas automatiquement absurde &mdash; mais reste dangereux ?</summary>
+  <div class="body">Le PER rapporte le cours au b&eacute;n&eacute;fice d'une ann&eacute;e. Chez CAVA, ce b&eacute;n&eacute;fice est volontairement &eacute;cras&eacute; : chaque nouveau restaurant co&ucirc;te de l'argent avant d'en rapporter (co&ucirc;ts de pr&eacute;-ouverture, amortissements, si&egrave;ge dimensionn&eacute; pour un parc futur). Avec 476 restaurants aujourd'hui et un objectif de 1 000 en 2032, une part importante du parc n'est pas encore &agrave; maturit&eacute;. M&eacute;caniquement, le PER surestime la chert&eacute; d'une entreprise en expansion rapide. Le probl&egrave;me est ailleurs : m&ecirc;me en projetant 1 000 restaurants, un chiffre d'affaires de 3,3 Mds$ et une marge nette de 8 % en 2032, on obtiendrait un b&eacute;n&eacute;fice par action d'environ 2,10 $ &mdash; soit 32x les b&eacute;n&eacute;fices de 2032 pay&eacute;s aujourd'hui, six ans &agrave; l'avance et sans droit &agrave; l'erreur. Le cours n'int&egrave;gre pas la croissance : il int&egrave;gre la croissance <b>et</b> l'ex&eacute;cution parfaite.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Sant&eacute; financi&egrave;re</div>
+<div class="sec-sub">Un bilan de forteresse &mdash; c'est le pilier qui emp&ecirc;che ce dossier de basculer en zone rouge.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Dette financi&egrave;re</div><div class="cv">0 $</div><div class="cd">Uniquement des obligations locatives au passif.</div><span class="tag gr">EXEMPLAIRE</span></div>
+  <div class="card"><div class="cl">Tr&eacute;sorerie</div><div class="cv">393 M$</div><div class="cd">Tr&eacute;sorerie et placements &agrave; fin 2025.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Ratio courant</div><div class="cv">2,65</div><div class="cd">BFR n&eacute;gatif : le client paie avant le fournisseur.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Marge restaurant</div><div class="cv">25,7 %</div><div class="cd">Mesure non-GAAP ; marge op&eacute;rationnelle r&eacute;elle ~5,5 %.</div><span class="tag go">&Agrave; NUANCER</span></div>
+  <div class="card"><div class="cl">ROIC</div><div class="cv">6,2 %</div><div class="cd">&Agrave; peine au-dessus du co&ucirc;t du capital.</div><span class="tag am">FAIBLE</span></div>
+  <div class="card"><div class="cl">FCF (TTM)</div><div class="cv">~39 M$</div><div class="cd">210 M$ de cash op&eacute;rationnel, 171 M$ de capex.</div><span class="tag am">CONTRAINT</span></div>
+</div>
+<details class="explainer">
+  <summary>Comment une entreprise sans dette peut-elle ne g&eacute;n&eacute;rer que 39 M$ de tr&eacute;sorerie libre ?</summary>
+  <div class="body">Le free cash-flow est ce qui reste apr&egrave;s avoir pay&eacute; les investissements. CAVA a g&eacute;n&eacute;r&eacute; 210 M$ de tr&eacute;sorerie d'exploitation sur douze mois, mais en a r&eacute;investi 171 M$ dans l'ouverture de 75 &agrave; 77 restaurants et dans ses usines. Il ne reste donc que ~39 M$. Ce n'est pas un signe de faiblesse : c'est un <b>choix</b>, et il est enti&egrave;rement autofinanc&eacute;, sans emprunt ni augmentation de capital. Le piquant de la situation est ailleurs : cette tr&eacute;sorerie libre ne deviendra abondante que le jour o&ugrave; CAVA arr&ecirc;tera d'ouvrir des restaurants &mdash; c'est-&agrave;-dire le jour o&ugrave; le march&eacute; cessera de lui accorder 122x les b&eacute;n&eacute;fices. On ne peut pas avoir les deux en m&ecirc;me temps.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Le pilier le plus solide : une croissance port&eacute;e par le trafic clients, pas par les hausses de prix.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA T2 2026</div><div class="cv">+31,3 %</div><div class="cd">365,4 M$, au-dessus du consensus de 360,1 M$.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Ventes comparables</div><div class="cv">+9,0 %</div><div class="cd">Contre +0,5 % un an plus t&ocirc;t au T4 2025.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Trafic clients</div><div class="cv">+5,3 %</div><div class="cd">5,3 pts de trafic sur 9 pts de comparables.</div><span class="tag gr">QUALITATIF</span></div>
+  <div class="card"><div class="cl">Parc</div><div class="cv">476</div><div class="cd">+19,6 % sur un an ; objectif 1 000 en 2032.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">CA moyen / restaurant</div><div class="cv">3,1 M$</div><div class="cd">Productivit&eacute; des nouvelles unit&eacute;s &gt; 100 %.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Objectif comparables 2026</div><div class="cv">+4,5 &agrave; +6,5 %</div><div class="cd">Maintenu apr&egrave;s deux trimestres &agrave; +9 %.</div><span class="tag go">D&Eacute;C&Eacute;L&Eacute;RATION</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">D&eacute;tail du score</div>
+<div class="sec-sub">Pond&eacute;ration : Valorisation 35 % &middot; Sant&eacute; financi&egrave;re 35 % &middot; Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:22%;background:var(--red)"></div></div>
+    <div class="bd-score">22 / 100 &mdash; 122x les b&eacute;n&eacute;fices, 53x l'EBITDA, 197x le FCF</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Sant&eacute; financi&egrave;re</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:74%;background:var(--green)"></div></div>
+    <div class="bd-score">74 / 100 &mdash; z&eacute;ro dette, 393 M$ de tr&eacute;sorerie, mais ROIC &agrave; 6,2 %</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:78%;background:var(--green)"></div></div>
+    <div class="bd-score">78 / 100 &mdash; +31 % de CA, +9 % de comparables, mais base 2025 effondr&eacute;e</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pond&eacute;r&eacute;</span><span class="bw">= 0,35&times;22 + 0,35&times;74 + 0,30&times;78</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:57%;background:var(--id)"></div></div>
+    <div class="bd-score" style="color:var(--id)">57 / 100 &mdash; Risque mod&eacute;r&eacute;</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en am&eacute;lioration &middot; Rouge = en d&eacute;gradation. Attention : les trimestres font 16, 12, 12 et 12 semaines.</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Trimestre</th><th>CA</th><th>Comparables</th><th>Marge resto</th><th>R&eacute;sultat net</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="dec"><td>T3 2025</td><td>289,8 M$</td><td>+1,9 %</td><td>24,6 %</td><td>14,7 M$</td><td><span class="flag rd">&#9660; Ralentit</span></td></tr>
+    <tr class="dec"><td>T4 2025</td><td>~272 M$</td><td>+0,5 %</td><td>21,4 %</td><td>4,9 M$</td><td><span class="flag rd">&#9660; Point bas</span></td></tr>
+    <tr class="imp"><td>T1 2026 (16 sem.)</td><td>434,4 M$</td><td>+9,7 %</td><td>25,1 %</td><td>23,6 M$</td><td><span class="flag gr">&#9650; Inflexion</span></td></tr>
+    <tr class="imp"><td>T2 2026</td><td>365,4 M$</td><td>+9,0 %</td><td>25,7 %</td><td>23,0 M$</td><td><span class="flag gr">&#9650; Confirm&eacute;</span></td></tr>
+    <tr><td>Objectif 2026</td><td>&mdash;</td><td>+4,5 &agrave; +6,5 %</td><td>23,7 &agrave; 24,3 %</td><td>&mdash;</td><td><span class="flag am">&#9654; Prudent</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : maintenir un objectif de +4,5 &agrave; +6,5 % apr&egrave;s deux trimestres &agrave; +9 % revient, arithm&eacute;tiquement, &agrave; anticiper un second semestre nettement plus faible. La direction a reconnu que le bas de fourchette impliquerait des comparables l&eacute;g&egrave;rement n&eacute;gatives.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Derni&egrave;re publication &amp; perspectives</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T2 2026 (publi&eacute; le 11 ao&ucirc;t 2026)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev up">365,4 M$ (+31,3 %)</span></div>
+    <div class="eline"><span>Consensus CA</span><span class="ev">360,1 M$ &mdash; d&eacute;pass&eacute;</span></div>
+    <div class="eline"><span>BPA dilu&eacute;</span><span class="ev up">0,19 $ (cons. 0,18 $)</span></div>
+    <div class="eline"><span>EBITDA ajust&eacute;</span><span class="ev up">54,7 M$ (+30,0 %)</span></div>
+    <div class="eline"><span>Ouvertures nettes</span><span class="ev">17 &rarr; 476 restaurants</span></div>
+    <div class="eline"><span>Mix digital</span><span class="ev">39,0 %</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Objectifs 2026 (confirm&eacute;s sans changement)</div>
+    <div class="eline"><span>Ouvertures nettes</span><span class="ev">75 &agrave; 77</span></div>
+    <div class="eline"><span>Ventes comparables</span><span class="ev">+4,5 &agrave; +6,5 %</span></div>
+    <div class="eline"><span>Marge restaurant</span><span class="ev down">23,7 &agrave; 24,3 %</span></div>
+    <div class="eline"><span>EBITDA ajust&eacute;</span><span class="ev">181 &agrave; 191 M$</span></div>
+    <div class="eline"><span>Objectif long terme</span><span class="ev">1 000 restaurants en 2032</span></div>
+    <div class="eline"><span>Prochaine publication</span><span class="ev">10 nov. 2026</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi la &laquo;&nbsp;marge restaurant&nbsp;&raquo; de 25,7 % ne doit pas &ecirc;tre confondue avec la rentabilit&eacute; ?</summary>
+  <div class="body">La marge au niveau restaurant est une mesure <b>non-GAAP</b> : elle ne retient que les co&ucirc;ts d'un restaurant (mati&egrave;res, salaires en salle, charges d'occupation) et exclut les frais de si&egrave;ge, les amortissements, les co&ucirc;ts de pr&eacute;-ouverture et la r&eacute;mun&eacute;ration en actions. Elle mesure la qualit&eacute; de l'&eacute;conomie unitaire &mdash; et &agrave; 25,7 %, celle de CAVA est excellente, au niveau de Chipotle. Mais la marge op&eacute;rationnelle r&eacute;elle, celle qui figure au compte de r&eacute;sultat, ressort autour de <b>5,5 %</b>. L'&eacute;cart n'est pas une manipulation : c'est le co&ucirc;t de la structure et de la croissance. Il faut simplement le savoir, car une valorisation construite sur 25 % de marge se trompe d'un facteur cinq.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>&#8599; Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Croissance du parc autofinanc&eacute;e</div><div class="id2">476 restaurants, +19,6 % sur un an, objectif de 1 000 en 2032 &mdash; sans dette ni dilution par augmentation de capital.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Croissance port&eacute;e par le trafic</div><div class="id2">5,3 pts de trafic sur 9 pts de comparables, dans un secteur o&ugrave; la plupart des acteurs masquent une &eacute;rosion de fr&eacute;quentation par le prix.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">D&eacute;passement probable des objectifs</div><div class="id2">Objectifs maintenus apr&egrave;s deux trimestres &agrave; +9 % ; la direction indique qu'aucune tendance ne pointe vers le bas de fourchette.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Levier sur les frais g&eacute;n&eacute;raux</div><div class="id2">G&amp;A ramen&eacute;s de 12,5 % &agrave; 11,8 % du chiffre d'affaires en un an &mdash; principal gisement de marge d'ici 2028.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>&#8600; Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Valorisation sans marge de s&eacute;curit&eacute;</div><div class="id2">122x les b&eacute;n&eacute;fices contre ~30x pour Chipotle, m&ecirc;me mod&egrave;le et &eacute;conomie unitaire &eacute;quivalente. Une normalisation du multiple suffit &agrave; effacer 50 % du cours.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Risque sanitaire h&eacute;rit&eacute; de la cat&eacute;gorie</div><div class="id2">L'&eacute;pid&eacute;mie de cyclospora de juillet 2026 a co&ucirc;t&eacute; 4,2 % de fr&eacute;quentation et 16 % de capitalisation alors que CAVA n'&eacute;tait pas impliqu&eacute;e. Le pr&eacute;c&eacute;dent Chipotle 2015 chiffre le sc&eacute;nario o&ugrave; elle le serait.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Fragilit&eacute; d&eacute;montr&eacute;e des comparables</div><div class="id2">+0,5 % au T4 2025, il y a douze mois. Le concept peut caler vite d&egrave;s que le consommateur se r&eacute;tracte.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Ventes d'initi&eacute;s et rendement du capital</div><div class="id2">~17,3 M d'actions c&eacute;d&eacute;es par les initi&eacute;s en 18 mois contre 150 achet&eacute;es ; ROIC &agrave; 6,2 % et marge restaurant guid&eacute;e en baisse pour 2026.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En r&eacute;sum&eacute;</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque mod&eacute;r&eacute; (57/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:57%"><div class="rmval">57</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:15%">Extr&ecirc;me</span><span style="left:40%">&Eacute;lev&eacute;</span><span style="left:60%">Mod&eacute;r&eacute;</span><span style="left:85%">S&ucirc;r</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> CAVA est une <b>excellente entreprise</b> &mdash; seule enseigne m&eacute;diterran&eacute;enne fast-casual d'&eacute;chelle nationale, 476 restaurants d&eacute;tenus en propre, chiffre d'affaires moyen de 3,1 M$ par site, croissance de +31 % port&eacute;e par le trafic clients, et un bilan <b>sans aucune dette financi&egrave;re</b> avec 393 M$ de tr&eacute;sorerie.<br><br>
+    Le score de 57 refl&egrave;te un profil <b>d&eacute;s&eacute;quilibr&eacute; mais pas dangereux</b> : la sant&eacute; financi&egrave;re (74/100) et la croissance (78/100) sont solides, mais la valorisation (22/100) est extr&ecirc;me. Le march&eacute; paie <b>122x les b&eacute;n&eacute;fices, 53x l'EBITDA et 197x le free cash-flow</b> pour la promesse de devenir Chipotle &mdash; alors qu'il paie 30x pour Chipotle lui-m&ecirc;me. Deux fragilit&eacute;s compl&egrave;tent le tableau : des ventes comparables tomb&eacute;es &agrave; +0,5 % il y a seulement douze mois, et un risque sanitaire h&eacute;rit&eacute; de toute la cat&eacute;gorie du frais, d&eacute;montr&eacute; &agrave; l'&eacute;t&eacute; 2026.<br><br>
+    Le risque n'est donc <b>pas la faillite ni la destruction permanente de valeur</b> &mdash; le bilan l'exclut &mdash; mais la <b>compression du multiple</b>. Le titre a d&eacute;j&agrave; perdu 61 % depuis novembre 2024 sans qu'aucune mauvaise nouvelle fondamentale ne survienne. Profil adapt&eacute; &agrave; un investisseur de long terme conscient qu'il paie l'ex&eacute;cution parfaite &agrave; l'avance. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqu&eacute;s de r&eacute;sultats CAVA Group (8-K SEC des T3 2025, T4/FY 2025, T1 2026 et T2 2026), transcriptions des conf&eacute;rences t&eacute;l&eacute;phoniques, documents d'introduction en bourse (DRS/A 2023), couverture de presse (CNBC, Axios, Restaurant Business, Restaurant Dive, QSR Magazine), donn&eacute;es de march&eacute; et de valorisation (StockAnalysis, Morningstar, Yahoo Finance, TradingView, Google Finance) &mdash; arr&ecirc;t&eacute;es au 25 ao&ucirc;t 2026. Le &laquo;&nbsp;score de risque&nbsp;&raquo; est un indicateur composite illustratif (Valorisation 35 % / Sant&eacute; financi&egrave;re 35 % / Croissance 30 %, 0 = risque extr&ecirc;me, 100 = tr&egrave;s s&ucirc;r) et non une note d'agence ni un conseil financier. Plusieurs multiples sectoriels sont des ordres de grandeur &agrave; affiner sur les d&eacute;p&ocirc;ts SEC directs. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "CAVA \u2014 CAVA Group, Inc. | RAPPORT DE SCORE DE RISQUE (25 ao\u00fbt 2026)",
+    "\u00c9chelle : plus le risque est \u00e9lev\u00e9, plus le score est bas (0 = extr\u00eame, 100 = s\u00fbr)",
+    "",
+    "SCORE GLOBAL : 57/100 \u2014 RISQUE MOD\u00c9R\u00c9",
+    "Cours : 67,59 $ (-3,1 %) | Cap : ~7,9 Mds$ | 52 sem. : 43,41\u201398,79 $ | Plus haut historique 172,43 $ (nov. 2024)",
+    "",
+    "INDICATEURS CL\u00c9S",
+    "- CA TTM ~1,29 Md$ | CA T2 2026 365,4 M$ (+31,3 %) | BPA dilu\u00e9 0,19 $ | EBITDA aj. 54,7 M$ (+30 %)",
+    "- Dividende 0 % | Cible analystes ~88 $ (fourchette 70\u2013107 $, 27 analystes)",
+    "",
+    "VALORISATION (22/100)",
+    "- PER TTM ~122x | PER 2026E ~98x | EV/EBITDA ~53x | EV/CA ~6,1x | EV/FCF ~197x",
+    "- Comparaison : Chipotle ~30x les b\u00e9n\u00e9fices pour le m\u00eame mod\u00e8le, m\u00eame \u00e9conomie unitaire",
+    "",
+    "SANT\u00c9 FINANCI\u00c8RE (74/100)",
+    "- Aucune dette financi\u00e8re | 393 M$ de tr\u00e9sorerie | ratio courant 2,65 | BFR n\u00e9gatif",
+    "- Marge restaurant 25,7 % (non-GAAP) MAIS marge op\u00e9rationnelle ~5,5 % | ROIC 6,2 % | FCF TTM ~39 M$",
+    "",
+    "CROISSANCE (78/100)",
+    "- Comparables +9,0 % dont +5,3 % de trafic | parc 476 restaurants (+19,6 %) | AUV 3,1 M$",
+    "- Objectif 2026 maintenu : 75\u201377 ouvertures, comparables +4,5 \u00e0 +6,5 %, EBITDA aj. 181\u2013191 M$",
+    "",
+    "TENDANCE TRIMESTRIELLE (comparables)",
+    "- T3 2025 +1,9 % | T4 2025 +0,5 % | T1 2026 +9,7 % | T2 2026 +9,0 %",
+    "",
+    "CATALYSEURS : Croissance du parc autofinanc\u00e9e (fort), Croissance par le trafic (fort), D\u00e9passement probable des objectifs (moyen), Levier G&A (moyen)",
+    "RISQUES : Valorisation sans marge de s\u00e9curit\u00e9 (fort), Risque sanitaire de cat\u00e9gorie \u2014 cyclospora juillet 2026 (fort), Fragilit\u00e9 des comparables (moyen), Ventes d'initi\u00e9s et ROIC faible (moyen)",
+    "",
+    "VERDICT : Excellente entreprise, bilan sans dette, croissance port\u00e9e par le trafic \u2014 mais 122x les b\u00e9n\u00e9fices contre 30x pour Chipotle. Le risque n'est pas la faillite, c'est la compression du multiple. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "\u2713 Copi\u00e9 !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29C9 Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="\u2713 Copi\u00e9 !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="\u29C9 Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="\u00c9chec \u2014 copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
