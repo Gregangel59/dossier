@@ -27,10 +27,12 @@ import argx from "./argx.js";
 import avgo from "./avgo.js";
 import be from "./be.js";
 import blk from "./blk.js";
-import cava from "./cava.js";
+import nvda from "./nvda.js";
+
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
+  nvda,
   cava,
   blk,
   be,
