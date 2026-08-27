@@ -27,6 +27,7 @@ import argx from "./argx.js";
 import avgo from "./avgo.js";
 import be from "./be.js";
 import blk from "./blk.js";
+import cava from "./cava.js";
 import nvda from "./nvda.js";
 
 
