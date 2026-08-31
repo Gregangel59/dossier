@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BROS — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  /* couleur d'identite = zone du score global (51/100 -> Or) */
+  --id:#ffd23f;
+  --id-soft:rgba(255,210,63,.45);
+  --id-glow:rgba(255,210,63,.16);
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,210,63,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,var(--id-glow),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.mid{color:var(--id);border-color:var(--id);background:rgba(255,210,63,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR — zones 0-30 / 30-50 / 50-70 / 70-100 */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.z.r{background:var(--red);flex:0 0 30%}
+.z.a{background:var(--amber);flex:0 0 20%}
+.z.g{background:var(--gold);flex:0 0 20%}
+.z.gr{background:var(--green);flex:0 0 30%}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px var(--id-soft);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;gap:10px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px;text-align:right}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.tw{overflow-x:auto}
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line);white-space:nowrap}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700;text-align:right}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id2{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px;color:var(--id)}
+.rating-bar{height:15px;border-radius:9px;position:relative;margin:30px 0 8px;
+  background:linear-gradient(90deg,var(--red) 0%,var(--red) 30%,var(--amber) 30%,var(--amber) 50%,var(--gold) 50%,var(--gold) 70%,var(--green) 70%,var(--green) 100%)}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px var(--id-soft)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:18px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--id);color:var(--id)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+  .rating-labels span{font-size:12px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">BROS</div>
+      <div class="name">Dutch Bros Inc. · NYSE · Restauration rapide — boissons drive-thru</div>
+      <div class="price">49,91 $ &nbsp;<span class="down">-31,8 % (12 mois)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">51</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge mid">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:51%"><div class="mval">51</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:30%">30</span><span style="left:50%">50</span><span style="left:70%">70</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché au 28 août 2026 — derniers résultats publiés : T2 2026 (5 août 2026)</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cours</div><div class="v">49,91 $</div><div class="d down">-31,8 % sur 12 mois</div></div>
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">9,40 Mds$</div><div class="d">VE 10,34 Mds$</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">69,8x</div><div class="d down">prospectif 43,0x</div></div>
+  <div class="kpi"><div class="l">CA (TTM)</div><div class="v">1,88 Md$</div><div class="d up">+32,5 % au T2</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">aucun dividende</div></div>
+  <div class="kpi"><div class="l">Objectif consensus</div><div class="v">77,76 $</div><div class="d up">+59,9 % · 26 analystes</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois — de 73 $ à 50 $</div>
+    <div class="r">Haut : <span class="up">~74,65 $</span> → Actuel : <span class="down">49,91 $</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cours BROS sur douze mois">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.26"/>
+          <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="39" x2="800" y2="39"/>
+        <line x1="0" y1="108" x2="800" y2="108"/>
+        <line x1="0" y1="177" x2="800" y2="177"/>
+        <line x1="0" y1="240" x2="800" y2="240"/>
+      </g>
+      <path d="M0,39.2 L61.5,95.6 L123.1,139.6 L184.6,128.6 L246.2,150.6 L307.7,167.8 L369.2,222.1 L430.8,186.4 L492.3,137.6 L553.8,116.2 L615.4,99.1 L676.9,90.8 L738.5,176.1 L800,199.4"
+            fill="none" stroke="#ffd23f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,39.2 L61.5,95.6 L123.1,139.6 L184.6,128.6 L246.2,150.6 L307.7,167.8 L369.2,222.1 L430.8,186.4 L492.3,137.6 L553.8,116.2 L615.4,99.1 L676.9,90.8 L738.5,176.1 L800,199.4 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <line x1="676.9" y1="90.8" x2="738.5" y2="176.1" stroke="#ff4d5e" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="676.9" cy="90.8" r="5" fill="#ff4d5e"/>
+      <circle cx="800" cy="199.4" r="5" fill="#ffd23f"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>Sept. 25</span><span>Nov. 25</span><span>Mars 26</span><span>Juin 26</span><span>5 août</span><span>Auj.</span></div>
+  <div class="sec-sub" style="margin:8px 0 0;font-size:13px">Le segment rouge correspond aux 5 et 6 août 2026 : publication du T2 (dépassement du consensus + guidance relevée) suivie d'un repli de près de 19 % en une séance.</div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime de croissance qui a perdu un tiers de sa valeur en un an — et reste néanmoins tendue sur presque tous les axes.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">69,8x</div><div class="cd">0,71 $ de BPA sur 12 mois glissants.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">PER prospectif</div><div class="cv">43,0x</div><div class="cd">Sur bénéfice ajusté 2026 attendu.</div><span class="tag am">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">VE / EBITDA</div><div class="cv">32,1x</div><div class="cd">VE/EBIT à 55x — la structure pèse.</div><span class="tag rd">TENDU</span></div>
+  <div class="card"><div class="cl">Cours / FCF</div><div class="cv">125x</div><div class="cd">75 M$ de FCF pour 1,88 Md$ de CA.</div><span class="tag rd">CRITIQUE</span></div>
+  <div class="card"><div class="cl">PEG</div><div class="cv">1,34</div><div class="cd">Croissance BPA attendue ~28 %/an sur 3 ans.</div><span class="tag go">ACCEPTABLE</span></div>
+  <div class="card"><div class="cl">Décote vs consensus</div><div class="cv">+59,9 %</div><div class="cd">Objectif 77,76 $ — 26 analystes, Strong Buy.</div><span class="tag gr">DÉCOTE</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison sectorielle — restauration rapide et boissons</div>
+  <div class="mcomp"><div class="mk">PER (TTM)</div><div class="mvals"><b>69,8x</b><span class="sep">vs</span>médiane ~31x</div></div>
+  <div class="mcomp"><div class="mk">VE / EBITDA</div><div class="mvals"><b>32,1x</b><span class="sep">vs</span>médiane ~24x</div></div>
+  <div class="mcomp"><div class="mk">Cours / CA prospectif</div><div class="mvals"><b>3,9x</b><span class="sep">vs</span>SBUX ~3,8x</div></div>
+  <div class="mcomp"><div class="mk">ROIC</div><div class="mvals"><b>8,4 %</b><span class="sep">vs</span>CMG ~21,5 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un cours / FCF de 125x est-il plus parlant que le PER ici ?</summary>
+  <div class="body">Le PER compare le cours au bénéfice comptable. Mais le bénéfice comptable ne dit pas combien d'argent reste réellement dans la caisse. Dutch Bros a généré 365,7 M$ de trésorerie d'exploitation sur douze mois — un très bon chiffre. Sauf que 290,5 M$ sont repartis immédiatement en construction de nouvelles boutiques (capex). Il reste 75,2 M$ de flux de trésorerie disponible, soit 4 % du chiffre d'affaires. En payant 9,4 Mds$ pour cette entreprise, on paie 125 fois ce flux résiduel. Ce n'est pas anormal pour une enseigne en pleine expansion : elle choisit délibérément de tout réinvestir. Mais cela signifie que l'actionnaire ne perçoit aujourd'hui aucun retour et parie entièrement sur la valeur future des boutiques construites avec son argent.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Rentable, liquide, mais capitalistique : le rendement du capital investi reste inférieur à son coût.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Marge nette</div><div class="cv">4,91 %</div><div class="cd">92,4 M$ de résultat net sur 12 mois.</div><span class="tag am">MINCE</span></div>
+  <div class="card"><div class="cl">Dette nette</div><div class="cv">938 M$</div><div class="cd">Dette/EBITDA 3,12x — liquidité 699 M$.</div><span class="tag am">SURVEILLER</span></div>
+  <div class="card"><div class="cl">Couverture intérêts</div><div class="cv">6,6x</div><div class="cd">Ratio courant 1,35 — pas de tension.</div><span class="tag go">CORRECT</span></div>
+  <div class="card"><div class="cl">ROIC vs WACC</div><div class="cv">8,4 / 15,3</div><div class="cd">Le capital investi rend moins qu'il ne coûte.</div><span class="tag rd">DESTRUCTION</span></div>
+  <div class="card"><div class="cl">FCF vs capex</div><div class="cv">75 / 290</div><div class="cd">Capex 2026 relevé à 350-370 M$.</div><span class="tag rd">ABSORBÉ</span></div>
+  <div class="card"><div class="cl">Dilution 12 mois</div><div class="cv">+8,03 %</div><div class="cd">Altman Z à 2,7, sous le seuil de 3.</div><span class="tag am">CONTINUE</span></div>
+</div>
+<details class="explainer">
+  <summary>ROIC inférieur au WACC : qu'est-ce que cela signifie concrètement ?</summary>
+  <div class="body">Le ROIC (rendement du capital investi) mesure ce que rapporte chaque euro immobilisé dans l'entreprise : ici 8,4 %. Le WACC (coût moyen pondéré du capital) mesure ce que les apporteurs de fonds — actionnaires et créanciers — exigent en contrepartie du risque pris : ici environ 15,3 %, un niveau élevé qui reflète directement le bêta de 2,33 du titre. Quand le premier est inférieur au second, chaque nouvelle boutique construite détruit théoriquement de la valeur, même si elle est rentable en comptabilité. Deux nuances importantes : d'abord, une boutique ouverte cette année ne produit pas encore son plein rendement, donc un ROIC déprimé est normal en phase d'expansion rapide ; ensuite, un WACC calculé sur un bêta de 2,33 est mécaniquement pessimiste. Le ROIC progresse d'ailleurs régulièrement (environ 6 % en 2024, 8,4 % aujourd'hui). La question n'est donc pas « l'écart existe-t-il » — il existe — mais « se referme-t-il assez vite ».</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Le point fort incontestable du dossier — avec une fissure apparue au deuxième trimestre.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA T2 2026</div><div class="cv">+32,5 %</div><div class="cd">550,9 M$ — 5ᵉ dépassement consécutif.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Comparables système</div><div class="cv">+5,8 %</div><div class="cd">13ᵉ trimestre consécutif positif.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Trafic système</div><div class="cv">+1,7 %</div><div class="cd">Contre +5,1 % au T1 — décélération nette.</div><span class="tag am">EN REPLI</span></div>
+  <div class="card"><div class="cl">Parc de boutiques</div><div class="cv">1 225</div><div class="cd">+182 nettes en 12 mois · ≥ 185 en 2026.</div><span class="tag gr">EXPANSION</span></div>
+  <div class="card"><div class="cl">AUV systémique</div><div class="cv">~2,1 M$</div><div class="cd">Niveau record sur un format sans salle.</div><span class="tag gr">RECORD</span></div>
+  <div class="card"><div class="cl">Marge EBITDA aj.</div><div class="cv">20,6 %</div><div class="cd">En repli de 80 pb — café et occupation.</div><span class="tag am">SOUS PRESSION</span></div>
+</div>
+<details class="explainer">
+  <summary>Comparables à +5,8 % mais trafic à +1,7 % : quelle différence ?</summary>
+  <div class="body">Les ventes à périmètre comparable mesurent la progression du chiffre d'affaires des boutiques déjà ouvertes depuis plus de quinze mois. Elles se décomposent en deux moteurs : le nombre de clients (le trafic) et le montant dépensé par client (le ticket). Au T2 2026, sur les +5,8 % du système, seuls +1,7 % viennent de clients supplémentaires — le reste vient de prix et de mix. Or au trimestre précédent, le trafic apportait +5,1 %. C'est cette rupture, et non le niveau absolu, qui a fait chuter le titre de 19 % : une croissance portée par le prix est structurellement plus fragile qu'une croissance portée par le volume, surtout quand les clients peuvent traverser la rue pour trouver le même café moins cher.</div>
+</details>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:26%;background:var(--red)"></div></div>
+    <div class="bd-score">26 / 100 — PER 70x, VE/EBITDA 32x, cours/FCF 125x ; PEG 1,34 et décote de 60 % vs consensus évitent le pire</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:49%;background:var(--amber)"></div></div>
+    <div class="bd-score">49 / 100 — rentable et liquide, mais ROIC 8,4 % &lt; WACC 15,3 %, dilution 8 %/an, Altman Z 2,7</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:82%;background:var(--green)"></div></div>
+    <div class="bd-score">82 / 100 — CA +32,5 %, 13 trimestres de comparables positives, 185 ouvertures ; trafic en décélération</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×26 + 0,35×49 + 0,30×82</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:51%;background:var(--id)"></div></div>
+    <div class="bd-score" style="color:var(--id)">51 / 100 — Risque modéré (zone Or : 50-70)</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en amélioration · Rouge = en dégradation. Le chiffre d'affaires accélère ; le trafic décélère.</div>
+<div class="tw">
+<table class="qtable">
+  <thead>
+    <tr><th>Trimestre</th><th>CA</th><th>Croiss. a/a</th><th>Comp. système</th><th>Trafic</th><th>EBITDA aj.</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>T2 2025</td><td>415,8 M$</td><td>+28 %</td><td>n.d.</td><td>n.d.</td><td>~89 M$</td><td><span class="flag gr">▲ Solide</span></td></tr>
+    <tr class="imp"><td>T3 2025</td><td>424,0 M$</td><td>+25 %</td><td>n.d.</td><td>n.d.</td><td>n.d.</td><td><span class="flag gr">▲ Solide</span></td></tr>
+    <tr class="imp"><td>T4 2025</td><td>443,6 M$</td><td>+29,4 %</td><td>+7,7 %</td><td>+5,4 %</td><td>72,6 M$</td><td><span class="flag gr">▲ Accélération</span></td></tr>
+    <tr class="imp"><td>T1 2026</td><td>464,4 M$</td><td>+30,8 %</td><td>+8,3 %</td><td>+5,1 %</td><td>79,4 M$</td><td><span class="flag gr">▲ Point haut</span></td></tr>
+    <tr class="dec"><td>T2 2026</td><td>550,9 M$</td><td>+32,5 %</td><td>+5,8 %</td><td><b>+1,7 %</b></td><td>113,7 M$</td><td><span class="flag rd">▼ Trafic</span></td></tr>
+    <tr class="dec"><td>T3 2026 (guid.)</td><td>—</td><td>—</td><td>+4 à +5 %</td><td>n.d.</td><td>—</td><td><span class="flag am">▼ Décélération</span></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : le chiffre d'affaires accélère grâce aux ouvertures et aux rachats de franchisés, pas grâce à la demande à parc constant. C'est précisément cette dissociation que le marché a sanctionnée le 6 août.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Derniers résultats &amp; jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T2 2026 (5 août 2026)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev up">550,9 M$ (+32,5 %)</span></div>
+    <div class="eline"><span>vs consensus</span><span class="ev up">+4,9 % ✓</span></div>
+    <div class="eline"><span>BPA ajusté</span><span class="ev up">0,33 $ (cons. 0,30 $)</span></div>
+    <div class="eline"><span>Résultat net</span><span class="ev up">51,6 M$ (+34,5 %)</span></div>
+    <div class="eline"><span>EBITDA ajusté</span><span class="ev">113,7 M$ (+27,8 %)</span></div>
+    <div class="eline"><span>Réaction du titre</span><span class="ev down">-19 % en une séance</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Guidance 2026 &amp; expansion</div>
+    <div class="eline"><span>CA 2026</span><span class="ev up">2,10-2,13 Mds$</span></div>
+    <div class="eline"><span>EBITDA ajusté 2026</span><span class="ev up">385-390 M$</span></div>
+    <div class="eline"><span>Capex 2026</span><span class="ev down">350-370 M$ (relevé)</span></div>
+    <div class="eline"><span>Ouvertures 2026</span><span class="ev">≥ 185 boutiques</span></div>
+    <div class="eline"><span>Parc / objectif 2029</span><span class="ev">1 225 → 2 029</span></div>
+    <div class="eline"><span>Sites Salad and Go</span><span class="ev">105 M$ / 65 sites</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Comment un trimestre qui dépasse les attentes fait-il chuter le titre de 19 % ?</summary>
+  <div class="body">Parce que le cours de bourse ne rémunère pas le passé, mais les attentes futures. Avant la publication, le titre avait progressé d'environ 41 % depuis son plus bas de mars et se payait environ 75 fois ses bénéfices. À ce niveau, le trimestre parfait était déjà intégré dans le prix. Le communiqué a livré exactement cela — dépassement sur le chiffre d'affaires et sur le bénéfice, guidance annuelle relevée. Mais la conférence téléphonique a apporté un élément absent du communiqué : la direction attend +4 à +5 % de comparables au T3, contre +5,8 % au T2 et +8,3 % au T1. Le marché n'a pas révisé sa vision de l'entreprise ; il a révisé le multiple qu'il acceptait de payer pour elle. C'est le fonctionnement normal — et brutal — d'une valorisation sans marge de sécurité.</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Détente du prix du café</div><div class="id2">Récolte brésilienne 2026/27 annoncée record (~75-76 M de sacs, +15 %). L'arabica est déjà retombé à ~3,28 $/lb contre 4,41 $ au pic de février 2025. Les ~60 pb de pression COGS pourraient s'inverser en 2027.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Accélération du pipeline immobilier</div><div class="id2">65 sites Salad and Go rachetés 105 M$ dans quatre États à forte notoriété. William Blair estime que la croissance d'unités pourrait passer de ~16,5 % en 2026 à ~20 % en 2027.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Monétisation de Dutch Rewards</div><div class="id2">73 % des transactions contre ~60 % chez Starbucks. La segmentation client produit sa plus forte contribution aux comparables à ce jour — levier encore largement inexploité.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Positionnement technique et consensus</div><div class="id2">RSI à 35,7, cours sous les moyennes 50 et 200 jours, intérêt vendeur à 10,96 % du flottant, objectif consensus à 77,76 $. Un bon T3 déclencherait un rachat de découverts.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Rendement du capital sous son coût</div><div class="id2">ROIC 8,4 % contre un WACC estimé à 15,3 %, pour 350-370 M$ investis chaque année. Tant que l'écart ne se referme pas, l'expansion consomme de la valeur au coût du capital actuel.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Cannibalisation non quantifiée</div><div class="id2">Trafic système de +5,1 % à +1,7 % en un trimestre. La stratégie de densification rend le transfert de ventes entre boutiques mécaniquement inévitable — et aucune métrique n'est publiée.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Valorisation sans marge de sécurité</div><div class="id2">PER 70x, cours/FCF 125x, dilution +8,03 % sur douze mois. Le titre est déjà passé de 85,37 $ (février 2025) à 49,91 $ sans que le multiple redevienne raisonnable.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Surconstruction de la catégorie</div><div class="id2">7 Brew (Blackstone, franchisé, 777+ unités et ~340 en pipeline), Scooter's (932 unités), Black Rock, Swig, plus l'offensive boissons de McDonald's et Chick-fil-A sur le même bassin de clients.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Gouvernance verrouillée</div><div class="id2">Structure Up-C : ~73 % des droits de vote pour ~38,8 % du capital, statut de controlled company, accords fiscaux reversant 85 % de certains avantages aux détenteurs pré-IPO.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (51/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:51%"><div class="rmval">51</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:15%">Extrême</span><span style="left:40%">Élevé</span><span style="left:60%">Modéré</span><span style="left:85%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> Dutch Bros est une <b>enseigne opérationnellement solide</b>, dirigée avec compétence. Treize trimestres consécutifs de comparables positives, un chiffre d'affaires en hausse de 32,5 %, un AUV record d'environ 2,1 M$ sur un format de kiosque sans salle, et un programme de fidélité captant 73 % des transactions — au-dessus de Starbucks. Christine Barone a redressé un trafic qui était négatif en 2024.<br><br>
+    Le risque n'est pas dans l'exploitation, il est dans <b>l'équation capital-prix</b>. Le rendement du capital investi (8,4 %) reste nettement inférieur à son coût estimé (~15,3 %) alors même que l'entreprise déploie 350 à 370 M$ par an. Le flux de trésorerie disponible se limite à 75 M$ pour 1,88 Md$ de ventes. La dilution atteint 8 % par an. Et la décélération du trafic système de +5,1 % à +1,7 % pose une question que la direction n'aborde pas : <b>quelle part de la croissance nouvelle se contente de déplacer la croissance existante ?</b><br><br>
+    À 70 fois les bénéfices, le marché applique un multiple de plateforme technologique à un modèle fait de béton, de baux longue durée et de main-d'œuvre — sans coûts de changement, sans effet de réseau, sans pouvoir de prix démontré. La chute de 32 % sur douze mois a réduit l'anomalie sans la corriger. Profil adapté à un investisseur de long terme convaincu que le ROIC rejoindra le coût du capital à mesure que les cohortes de boutiques mûrissent, et capable de supporter un bêta de 2,33 dans l'intervalle. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués de résultats Dutch Bros Inc. (T4 2025, T1 2026, T2 2026), transcription de la conférence du 5 août 2026, données de marché et statistiques financières (S&amp;P Global Market Intelligence via StockAnalysis, Morningstar, TipRanks) au 28 août 2026, couverture sectorielle (Restaurant Dive, QSR Magazine, Nation's Restaurant News, Investing.com, Seeking Alpha, Simply Wall St), documents déposés au tribunal des faillites dans l'affaire Salad and Go, données café (USDA GAIN, ICE, Perfect Daily Grind). Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %, échelle inversée : 100 = risque le plus faible) et non une note d'agence ni un conseil financier. Les multiples de comparaison sectorielle proviennent de fournisseurs distincts à des dates légèrement décalées et constituent des ordres de grandeur. Le WACC de 15,3 % est une estimation de tiers fondée sur un bêta de 2,33 et doit être considérée comme conservatrice. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "BROS — Dutch Bros Inc. | RAPPORT DE SCORE DE RISQUE (28 aout 2026)",
+    "Echelle : plus le risque est eleve, plus le score est bas (0 = extreme, 100 = sur)",
+    "",
+    "SCORE GLOBAL : 51/100 — RISQUE MODERE (zone Or : 50-70)",
+    "Cours : 49,91 $ (-31,8 % sur 12 mois) | Cap : 9,40 Mds$ | VE : 10,34 Mds$",
+    "",
+    "INDICATEURS CLES",
+    "- CA TTM 1,88 Md$ | Resultat net 92,4 M$ | BPA 0,71 $ | EBITDA 322 M$",
+    "- Dividende 0 % | Objectif consensus 77,76 $ (+59,9 %, 26 analystes, Strong Buy)",
+    "",
+    "VALORISATION (26/100)",
+    "- PER 69,8x | PER prospectif 43,0x | VE/EBITDA 32,1x | VE/EBIT 55,1x",
+    "- Cours/FCF 125x | PEG 1,34 | Cours/CA prospectif 3,9x (vs SBUX ~3,8x)",
+    "",
+    "SANTE FINANCIERE (49/100)",
+    "- Marge nette 4,91 % | Dette nette 938 M$ | Dette/EBITDA 3,12x | Couverture 6,6x",
+    "- ROIC 8,42 % < WACC ~15,3 % | FCF 75,2 M$ vs capex 290,5 M$ | Dilution +8,03 %/an",
+    "- Altman Z 2,7 (sous le seuil de 3) | Liquidite 699 M$",
+    "",
+    "CROISSANCE (82/100)",
+    "- T2 2026 : CA 550,9 M$ (+32,5 %), RN 51,6 M$ (+34,5 %), EBITDA aj. 113,7 M$ (+27,8 %)",
+    "- Comparables systeme +5,8 % (13e trimestre positif) | Trafic +1,7 % (vs +5,1 % au T1)",
+    "- Parc 1 225 boutiques (+182 nettes) | >=185 ouvertures en 2026 | AUV ~2,1 M$",
+    "- Guidance T3 : comparables +4 a +5 % — deceleration annoncee",
+    "",
+    "GUIDANCE 2026 : CA 2,10-2,13 Mds$ | EBITDA aj. 385-390 M$ | Capex 350-370 M$ (releve)",
+    "GOUVERNANCE : Up-C, ~73 % des votes pour ~38,8 % du capital | controlled company | TRA 85 %",
+    "",
+    "CATALYSEURS : Detente du cafe (fort), pipeline Salad and Go 105 M$ (fort), Dutch Rewards (moyen), technique/consensus (moyen)",
+    "RISQUES : ROIC < WACC (fort), cannibalisation non quantifiee (fort), valorisation 70x (fort), surconstruction 7 Brew/Scooter's (moyen), gouvernance Up-C (moyen)",
+    "",
+    "VERDICT : Execution operationnelle solide et croissance reelle, mais capital deploye a un rendement inferieur a son cout, FCF minime, dilution 8 %/an et trafic en deceleration. Risque modere. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "✓ Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="✓ Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
