@@ -29,10 +29,12 @@ import be from "./be.js";
 import blk from "./blk.js";
 import cava from "./cava.js";
 import nvda from "./nvda.js";
+import bros from "./bros.js";
 
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
+  bros,
   nvda,
   cava,
   blk,
