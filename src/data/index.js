@@ -30,6 +30,7 @@ import blk from "./blk.js";
 import cava from "./cava.js";
 import nvda from "./nvda.js";
 import bros from "./bros.js";
+import blln from "./blln.js";
 
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
