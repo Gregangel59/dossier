@@ -35,7 +35,7 @@ import blln from "./blln.js";
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
-  blln
+  blln,
   bros,
   nvda,
   cava,
