@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLLN — Rapport de Score de Risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090d;
+  --panel:#10121a;
+  --panel2:#161925;
+  --line:#23273a;
+  --txt:#e8eaf2;
+  --mut:#8b90a6;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --blue:#5b8cff;
+  --id:#ffd23f;            /* couleur d'identité = zone du score global (66 -> Or/Jaune) */
+  --mono:'JetBrains Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 15% 0%,rgba(91,140,255,.07),transparent 40%),radial-gradient(circle at 85% 100%,rgba(255,210,63,.07),transparent 45%);}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,210,63,.16),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:4px}
+.tk .ticker{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:74px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid}
+.badge.mod{color:var(--gold);border-color:var(--gold);background:rgba(255,210,63,.1)}
+.scale-note{font-size:13px;color:var(--mut);margin-top:18px;position:relative}
+/* COLOUR BAR */
+.cbar-wrap{margin-top:26px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.cbar .z{flex:1}
+.z.r{background:var(--red)}.z.a{background:var(--amber)}.z.g{background:var(--gold)}.z.gr{background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-22px;transform:translateX(-50%);transition:left .3s;z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;box-shadow:0 2px 8px rgba(255,210,63,.45);margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0;box-shadow:0 0 0 2px #fff}
+/* SECTION */
+.sec-title{font-family:var(--head);font-size:27px;font-weight:800;margin:36px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:18px}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px}
+.up{color:var(--green)}.down{color:var(--red)}
+/* CHART */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:8px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+/* CARD GRID */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;position:relative}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.35}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MEDIAN ROW */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLAINER */
+.explainer{background:rgba(91,140,255,.06);border:1px solid rgba(91,140,255,.25);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:14px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px 16px;font-size:14px;color:#c4c8d8;line-height:1.55}
+/* BREAKDOWN BARS */
+.bd{margin-top:10px}
+.bd-row{margin-top:14px}
+.bd-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+/* QUARTERLY TABLE */
+.qtable{width:100%;border-collapse:collapse;margin-top:8px;font-family:var(--mono);font-size:14px;border-radius:12px;overflow:hidden}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.07)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+.flag.am{color:var(--amber);background:rgba(255,159,67,.15)}
+/* EARNINGS CARDS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline .ev{font-weight:700}
+/* CATALYSTS VS RISKS */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:14px;font-weight:600;margin-bottom:5px}
+.item .id{font-size:13px;color:var(--mut);line-height:1.4}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+/* BOTTOM LINE */
+.bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,210,63,.45)}
+.rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rating-labels{position:relative;height:16px;margin-top:8px}
+.rating-labels span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.rating-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.verdict{font-size:15px;line-height:1.6;color:#d4d8e6;margin-top:16px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:10px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
+#copyBtn:hover{border-color:var(--id);color:var(--id)}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:520px){
+  .tk .ticker{font-size:30px}
+  .score-box .num{font-size:58px}
+  .hero-row{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="ticker">BLLN</div>
+      <div class="name">BillionToOne, Inc. · Nasdaq · Diagnostic moléculaire</div>
+      <div class="price">94,43 $ &nbsp;<span class="down">−37 % depuis le pic (150 $)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num">66</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge mod">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
+  <div class="cbar-wrap">
+    <div class="cbar">
+      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+    </div>
+    <div class="marker" style="left:66%"><div class="mval">66</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:30%">30</span><span style="left:50%">50</span><span style="left:70%">70</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels">
+      <span>Risque très élevé</span><span style="text-align:right">Sûr</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI STRIP ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché et résultats au 28 août 2026 — IPO du 6 novembre 2025 à 60 $</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~4,5 Md$</div><div class="d">mid-cap Nasdaq</div></div>
+  <div class="kpi"><div class="l">Cours</div><div class="v">94,43 $</div><div class="d down">52 sem. : 60–150 $</div></div>
+  <div class="kpi"><div class="l">PER (TTM)</div><div class="v">~150×</div><div class="d down">bénéfice naissant</div></div>
+  <div class="kpi"><div class="l">CA 2025</div><div class="v">305,1 M$</div><div class="d up">+100 % a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">0 %</div><div class="d">réinvestissement</div></div>
+  <div class="kpi"><div class="l">Cible analystes</div><div class="v">~120 $</div><div class="d up">range 90–145 $</div></div>
+</div>
+
+<!-- ===== PRICE CHART ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours depuis l'IPO (proxy 12 mois)</div>
+    <div class="r">IPO : <span class="up">60 $</span> → pic <span class="up">150 $</span> → <span class="down">94 $</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#23273a" stroke-width="1">
+        <line x1="0" y1="40" x2="800" y2="40"/>
+        <line x1="0" y1="100" x2="800" y2="100"/>
+        <line x1="0" y1="160" x2="800" y2="160"/>
+        <line x1="0" y1="220" x2="800" y2="220"/>
+      </g>
+      <!-- proxy : IPO 60$ nov -> pic 108$ jour 1 -> creux 62$ mars -> montée 150$ aout (pic) -> chute post-T2 94$ -->
+      <path d="M0,150 L90,90 L200,175 L340,205 L470,150 L610,120 L680,20 L720,175 L800,150"
+            fill="none" stroke="#ffd23f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M0,150 L90,90 L200,175 L340,205 L470,150 L610,120 L680,20 L720,175 L800,150 L800,260 L0,260 Z"
+            fill="url(#fill)" stroke="none"/>
+      <circle cx="800" cy="150" r="5" fill="#ffd23f"/>
+    </svg>
+  </div>
+  <div class="cbar-labels" style="margin-top:4px"><span>IPO nov. 25</span><span>Creux mars 26</span><span>Pic 150 $ août</span><span>T2 −39 %</span><span>94 $</span></div>
+</div>
+
+<!-- ===== VALUATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Prime de croissance élevée, désormais adossée à une rentabilité GAAP réelle — mais un multiple qui ne pardonne pas.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER (TTM)</div><div class="cv">~150×</div><div class="cd">Bénéfice positif mais encore mince — multiple très tendu.</div><span class="tag am">TENDU</span></div>
+  <div class="card"><div class="cl">EV / CA (2026e)</div><div class="cv">~8,5×</div><div class="cd">~4,5 Md$ pour ~455 M$ de CA attendu.</div><span class="tag am">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">EV / CA (TTM)</div><div class="cv">~11×</div><div class="cd">Sur CA glissant ~397 M$ — riche mais crédible.</div><span class="tag am">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">Cible analystes</div><div class="cv">~120 $</div><div class="cd">6 Buy / 2 Hold, range 90–145 $ — upside ~27 %.</div><span class="tag gr">UPSIDE</span></div>
+  <div class="card"><div class="cl">Croissance CA</div><div class="cv">+48–52 %</div><div class="cd">Guidance 2026 — justifie une partie de la prime.</div><span class="tag gr">FORTE</span></div>
+  <div class="card"><div class="cl">vs pairs (Natera)</div><div class="cv">EV/CA ~15×</div><div class="cd">Natera se paie plus cher — BLLN n'est pas l'extrême du secteur.</div><span class="tag go">À NUANCER</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison — pairs du diagnostic moléculaire (ordres de grandeur)</div>
+  <div class="mcomp"><div class="mk">EV / CA BLLN</div><div class="mvals"><b>~8,5×</b><span class="sep">vs</span>Natera ~15×</div></div>
+  <div class="mcomp"><div class="mk">Rentabilité GAAP</div><div class="mvals"><b>BLLN +</b><span class="sep">vs</span>Natera/GH pertes</div></div>
+  <div class="mcomp"><div class="mk">Croissance CA</div><div class="mvals"><b>~50 %</b><span class="sep">vs</span>secteur ~20 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un PER de ~150× n'est pas forcément aberrant ici ?</summary>
+  <div class="body">Le PER (cours / bénéfice) paraît vertigineux, mais BillionToOne vient tout juste de basculer en bénéfice : le dénominateur est encore minuscule (résultat net 2025 de ~2,9 M$), donc le ratio explose mécaniquement. Ce qui compte davantage, c'est l'EV/CA (~8,5× sur le CA 2026 attendu) et la trajectoire de marge : la marge brute est passée de 53 % (2024) à 70 % (T2 2026), et l'entreprise génère déjà un résultat opérationnel positif. Le marché ne paie pas les bénéfices d'aujourd'hui, mais l'ampleur de ceux de 2027-2028. Le risque : à ce multiple, toute décélération de croissance se paie cash — comme l'a montré la chute de −39 % après le T2 2026.</div>
+</details>
+
+<!-- ===== FINANCIAL HEALTH ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Un profil rare pour un diagnostic en hypercroissance : rentable, forte marge brute, trésorerie abondante.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Rés. net 2025</div><div class="cv">+2,9 M$</div><div class="cd">Bascule en bénéfice GAAP vs −41,6 M$ en 2024.</div><span class="tag gr">RENTABLE</span></div>
+  <div class="card"><div class="cl">Marge brute (T2 26)</div><div class="cv">70 %</div><div class="cd">53 % → 68 % → 70 % : amélioration continue.</div><span class="tag gr">ÉLEVÉE</span></div>
+  <div class="card"><div class="cl">Rés. opér. 2025</div><div class="cv">+16,0 M$</div><div class="cd">vs perte de −47,1 M$ en 2024 — inflexion nette.</div><span class="tag gr">POSITIF</span></div>
+  <div class="card"><div class="cl">Trésorerie</div><div class="cv">~549 M$</div><div class="cd">Renflouée par l'IPO (~286 M$ nets) — coussin solide.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Dette</div><div class="cv">~91 M$</div><div class="cd">Faible ; position de trésorerie nette largement positive.</div><span class="tag gr">FAIBLE</span></div>
+  <div class="card"><div class="cl">Dépendance payeurs</div><div class="cv">&gt;90 %</div><div class="cd">Du CA via remboursement tiers — levier ET risque.</div><span class="tag am">À SURVEILLER</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi la dépendance aux payeurs est-elle le vrai point de vigilance ?</summary>
+  <div class="body">Plus de 90 % du chiffre d'affaires provient du remboursement par des tiers (assureurs privés, Medicaid, Medicare). C'est un moteur puissant — quand un test décroche une couverture, le prix moyen réalisé (ASP) bondit, ce qui explique la hausse simultanée des volumes ET des marges. Mais c'est aussi une vulnérabilité : une décision de tarification défavorable, un changement de politique de remboursement ou une révision de code peut comprimer l'ASP sans prévenir. Sur un business valorisé pour sa croissance, ce type de choc exogène frapperait directement le cœur de la thèse.</div>
+</details>
+
+<!-- ===== GROWTH ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Hypercroissance sur deux moteurs (prénatal + oncologie), mais une décélération de second semestre déjà anticipée.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA 2025</div><div class="cv">+100 %</div><div class="cd">305,1 M$ — doublement sur un an.</div><span class="tag gr">EXPLOSIF</span></div>
+  <div class="card"><div class="cl">CA T2 2026</div><div class="cv">+64 %</div><div class="cd">109,4 M$ vs 66,6 M$ un an plus tôt.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Tests livrés (T2)</div><div class="cv">196 000</div><div class="cd">+35 % a/a — hausse volume et ASP conjuguée.</div><span class="tag gr">FORT</span></div>
+  <div class="card"><div class="cl">Oncologie (T4 25)</div><div class="cv">×8</div><div class="cd">9,1 M$ vs 1,1 M$ — nouveau relais de croissance.</div><span class="tag gr">RELAIS</span></div>
+  <div class="card"><div class="cl">Croissance H2 impl.</div><div class="cv">~29–38 %</div><div class="cd">Guidance maintenue ⇒ décélération vs +74 % au H1.</div><span class="tag am">DÉCÉLÈRE</span></div>
+  <div class="card"><div class="cl">Guidance 2026</div><div class="cv">450–465 M$</div><div class="cd">Réitérée en août — pas relevée malgré le beat.</div><span class="tag am">MAINTENUE</span></div>
+</div>
+
+<!-- ===== SCORE BREAKDOWN ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd">
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:50%;background:var(--gold)"></div></div>
+    <div class="bd-score">50 / 100 — multiple tendu (EV/CA ~8,5×, PER ~150×) mais adossé à une croissance et une rentabilité réelles ; upside vs cible analystes</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:72%;background:var(--green)"></div></div>
+    <div class="bd-score">72 / 100 — rentable GAAP, marge brute 70 %, ~549 M$ de trésorerie, dette faible ; bémol : dépendance &gt;90 % aux payeurs</div>
+  </div>
+  <div class="bd-row">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:78%;background:var(--green)"></div></div>
+    <div class="bd-score">78 / 100 — CA +64 % au T2, +100 % en 2025, deux moteurs (prénatal + oncologie) ; bémol : décélération H2 signalée</div>
+  </div>
+  <div class="bd-row" style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35×50 + 0,35×72 + 0,30×78</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:66%;background:var(--gold)"></div></div>
+    <div class="bd-score" style="color:var(--gold)">66 / 100 — Risque modéré</div>
+  </div>
+</div>
+
+<!-- ===== PAGE BREAK ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== QUARTERLY TREND TABLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = en amélioration · Ambre = point de vigilance · Rouge = en dégradation</div>
+<table class="qtable">
+  <thead>
+    <tr><th>Trimestre</th><th>CA</th><th>Croiss. a/a</th><th>Marge brute</th><th>Rés. net</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>T3 2025</td><td>~78 M$</td><td>~+95 %</td><td>~67 %</td><td>+1,5 M$</td><td><span class="flag gr">▲ Bascule</span></td></tr>
+    <tr class="imp"><td>T4 2025</td><td>96,1 M$</td><td>+113 %</td><td>71 %</td><td>+4,4 M$</td><td><span class="flag gr">▲ Accélère</span></td></tr>
+    <tr class="imp"><td>T1 2026</td><td>108,4 M$</td><td>+84 %</td><td>~71 %</td><td>+18,0 M$</td><td><span class="flag gr">▲ Record</span></td></tr>
+    <tr class="dec"><td>T2 2026</td><td>109,4 M$</td><td>+64 %</td><td>70 %</td><td>+8,1 M$</td><td><span class="flag am">▼ Décélère</span></td></tr>
+  </tbody>
+</table>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Note : la croissance reste élevée mais ralentit séquentiellement (+113 % → +84 % → +64 %). Le maintien — non le relèvement — de la guidance annuelle a déclenché la chute de −39 % du 6 août 2026.</div>
+
+<!-- ===== EARNINGS CARDS ===== -->
+<div class="sec-title">Derniers résultats & jalons</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T2 2026 (5 août 2026)</div>
+    <div class="eline"><span>Chiffre d'affaires</span><span class="ev">109,4 M$ (+64 %)</span></div>
+    <div class="eline"><span>BPA dilué (GAAP)</span><span class="ev up">0,15 $</span></div>
+    <div class="eline"><span>BPA vs consensus</span><span class="ev down">0,15 $ vs 0,18–0,19 $</span></div>
+    <div class="eline"><span>Marge brute</span><span class="ev up">70 %</span></div>
+    <div class="eline"><span>Réaction du titre</span><span class="ev down">−39 % (6 août)</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">Jalons & gouvernance</div>
+    <div class="eline"><span>IPO</span><span class="ev">6 nov. 2025 · 60 $</span></div>
+    <div class="eline"><span>Produits phares</span><span class="ev">UNITY · Northstar</span></div>
+    <div class="eline"><span>Lancements 2026</span><span class="ev">Unity Confirm · Origin</span></div>
+    <div class="eline"><span>CEO co-fondateur</span><span class="ev">Dr O. Atay</span></div>
+    <div class="eline"><span>Prochains résultats</span><span class="ev">~déc. 2026</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le titre a-t-il chuté de 39 % malgré un chiffre d'affaires en hausse de 64 % ?</summary>
+  <div class="body">C'est le paradoxe classique d'une valeur d'hypercroissance très chère. Au T2 2026, le CA a bondi de 64 % et le bénéfice a largement dépassé le consensus GAAP — mais le BPA non-GAAP (0,15 $) est ressorti sous les attentes (~0,19 $), et surtout la direction a simplement <i>réitéré</i> sa prévision annuelle (450–465 M$) au lieu de la relever. Or maintenir la fourchette après un premier semestre à +74 % implique mécaniquement une croissance de « seulement » 29–38 % au second semestre. Un analyste a résumé : l'entreprise est « victime de son propre succès ». À ~150× les bénéfices, le marché n'a pas sanctionné les résultats, mais recalibré le rythme de sortie 2026. Plusieurs bureaux ont maintenu leur note d'achat en abaissant leur objectif (ex. 145 $ → 130 $).</div>
+</details>
+
+<!-- ===== CATALYSTS VS RISKS ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Montée en puissance de l'oncologie</div><div class="id">Northstar (liquid biopsy, suivi thérapeutique) croît ×8 en a/a — un second moteur qui s'ajoute au prénatal historique.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Expansion de la couverture payeurs</div><div class="id">Chaque nouveau contrat de remboursement relève l'ASP et les volumes simultanément — levier direct sur marge et CA.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Lancements de nouveaux tests</div><div class="id">Unity Confirm, Unity Fetal Risk Screen élargi, Northstar Origin — élargissement du menu et du marché adressable.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Technologie propriétaire (smNGS/QCT)</div><div class="id">Comptage moléculaire à la molécule unique — différenciation revendiquée sur la précision et le coût par test.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Valorisation qui ne pardonne pas</div><div class="id">~150× les bénéfices, EV/CA ~8,5×. Toute décélération, comme au T2, comprime brutalement le multiple.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Dépendance au remboursement (&gt;90 %)</div><div class="id">Une décision de tarification défavorable des payeurs frapperait directement l'ASP et le cœur de la thèse.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Concurrence de géants établis</div><div class="id">Natera (~39 Md$), Guardant Health, Myriad, GeneDx — acteurs mieux capitalisés sur le prénatal et l'oncologie.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Titre jeune & lock-ups</div><div class="id">Historique boursier court, forte volatilité, expiration des lock-ups post-IPO pouvant créer une pression vendeuse.</div></div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM LINE ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (66/100)</div>
+  <div class="rating-bar">
+    <div class="rm" style="left:66%"><div class="rmval">66</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:15%">Extrême</span><span style="left:40%">Élevé</span><span style="left:60%">Modéré</span><span style="left:85%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> BillionToOne présente un profil <b>rare</b> pour un diagnostic en hypercroissance : un chiffre d'affaires qui a doublé en 2025 (305 M$), une marge brute de 70 %, et surtout une <b>rentabilité GAAP déjà atteinte</b> — là où la plupart de ses pairs (Natera, Guardant) restent déficitaires. La trésorerie (~549 M$) et une dette quasi nulle offrent un coussin confortable.<br><br>
+    Le risque ne vient pas du bilan mais du <b>prix</b> et de la <b>dépendance structurelle aux payeurs</b>. À ~150× les bénéfices et ~8,5× le chiffre d'affaires, le titre intègre une exécution durablement excellente ; la chute de −39 % après un T2 pourtant solide illustre à quel point la moindre décélération se paie cher. Plus de 90 % du CA dépend du remboursement par des tiers, une variable exogène qui peut frapper l'ASP sans préavis.<br><br>
+    Profil pour un investisseur de croissance <b>tolérant à la volatilité</b>, qui achète une technologie différenciée et deux moteurs (prénatal + oncologie) en acceptant un multiple élevé et un historique boursier court. La récente correction améliore le rapport risque/rendement sans supprimer la sensibilité du titre aux attentes. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués de résultats BillionToOne (T4/FY 2025 du 4 mars 2026, T1 2026 du 6 mai, T2 2026 du 5 août), dépôts SEC (S-1, 8-K, 10-K), couverture IPO et marché (IPOScoop, Cooley, Benzinga, Seeking Alpha, Simply Wall St, Investing.com, TradingView, Robinhood, GuruFocus, CNN) — au 28 août 2026. Le « score de risque » est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %) et non une note d'agence ni un conseil financier. BLLN étant cotée depuis novembre 2025, l'historique boursier est court et plusieurs multiples sont des ordres de grandeur. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "BLLN — BillionToOne, Inc. | RAPPORT DE SCORE DE RISQUE (28 août 2026)",
+    "Échelle : plus le risque est élevé, plus le score est bas (0 = extrême, 100 = sûr)",
+    "",
+    "SCORE GLOBAL : 66/100 — RISQUE MODÉRÉ",
+    "Cours : 94,43 $ (−37 % depuis le pic de 150 $) | Cap : ~4,5 Md$ | IPO 6 nov. 2025 à 60 $",
+    "",
+    "INDICATEURS CLÉS",
+    "- CA 2025 305,1 M$ (+100 %) | Rés. net GAAP +2,9 M$ | Marge brute 70 % (T2 26)",
+    "- Dividende 0 % | Cible analystes ~120 $ (range 90–145 $)",
+    "",
+    "VALORISATION (50/100)",
+    "- PER ~150× (bénéfice naissant) | EV/CA ~8,5× (2026e) | tendu mais adossé à la croissance",
+    "- Croissance CA guidée +48–52 % en 2026 | upside vs cible analystes",
+    "",
+    "SANTÉ FINANCIÈRE (72/100)",
+    "- Rentable GAAP (rés. opér. +16 M$ en 2025) | marge brute 70 % | trésorerie ~549 M$, dette ~91 M$",
+    "- Bémol : >90 % du CA dépend du remboursement par des tiers (payeurs)",
+    "",
+    "CROISSANCE (78/100)",
+    "- CA 2025 +100 % | T2 2026 +64 % (109,4 M$) | 196 000 tests (+35 %) | oncologie ×8",
+    "- Bémol : décélération H2 implicite (~29–38 %) après un H1 à +74 %",
+    "",
+    "TRIMESTRES : T4 25 +113 % | T1 26 +84 % | T2 26 +64 % (ralentissement séquentiel)",
+    "T2 2026 : CA 109,4 M$, BPA 0,15 $ (sous consensus non-GAAP), titre −39 % le 6 août",
+    "",
+    "CATALYSEURS : Oncologie Northstar (fort), Couverture payeurs (fort), Nouveaux tests (moyen), Techno smNGS (moyen)",
+    "RISQUES : Valorisation (fort), Dépendance payeurs >90 % (fort), Concurrence Natera/Guardant (moyen), Lock-ups (moyen)",
+    "",
+    "VERDICT : Diagnostic en hypercroissance, rentable GAAP et bien capitalisé — rare dans le secteur. Risque = prix élevé (~150× bénéfices) et dépendance aux payeurs. Risque modéré. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "✓ Copié !";
+    btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="✓ Copié !";btn.classList.add('done');
+    setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200);}catch(_){btn.textContent="Échec — copier manuel";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
