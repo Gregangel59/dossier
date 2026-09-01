@@ -143,7 +143,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1
 /* BOTTOM LINE */
 .bottom{background:linear-gradient(135deg,#11131d,#0a0b11);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
 .bottom .blh{font-family:var(--head);font-size:23px;font-weight:800;margin-bottom:14px}
-.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red),var(--amber),var(--gold),var(--green));position:relative;margin:30px 0 8px}
+.rating-bar{height:15px;border-radius:9px;background:linear-gradient(90deg,var(--red) 0%,var(--red) 30%,var(--amber) 30%,var(--amber) 50%,var(--gold) 50%,var(--gold) 70%,var(--green) 70%,var(--green) 100%);position:relative;margin:30px 0 8px}
 .rating-bar .rm{position:absolute;top:-22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
 .rating-bar .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,210,63,.45)}
 .rating-bar .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
@@ -187,7 +187,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1
   <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr · 0 = risque extrême.</div>
   <div class="cbar-wrap">
     <div class="cbar">
-      <div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div>
+      <div class="z r" style="flex:30"></div><div class="z a" style="flex:20"></div><div class="z g" style="flex:20"></div><div class="z gr" style="flex:30"></div>
     </div>
     <div class="marker" style="left:66%"><div class="mval">66</div><div class="tri"></div><div class="dot"></div></div>
     <div class="cbar-ticks">
