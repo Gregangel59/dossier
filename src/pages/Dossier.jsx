@@ -2,13 +2,17 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { COMPANY_BY_SLUG } from "../data/index.js";
 import MarkdownRenderer, { CATEGORY_COLORS } from "../components/MarkdownRenderer.jsx";
+import DossierAccueil from "../components/DossierAccueil.jsx";
 
 export default function Dossier() {
   const { slug } = useParams();
   const company = COMPANY_BY_SLUG[slug];
 
   const [active, setActive] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  // Barre latérale fermée par défaut sur téléphone, ouverte sur ordinateur
+  const [sidebarOpen, setSidebarOpen] = useState(
+    () => typeof window === "undefined" || window.innerWidth > 768
+  );
 
   if (!company) {
     return (
@@ -54,6 +58,12 @@ export default function Dossier() {
   const current = modules.find((a) => a.id === active);
   const idx = current ? modules.findIndex((a) => a.id === current.id) : -1;
 
+  // Ouvre un module ; sur téléphone, referme la barre latérale pour libérer l'écran
+  const openModule = (id) => {
+    setActive(id);
+    if (typeof window !== "undefined" && window.innerWidth <= 768) setSidebarOpen(false);
+  };
+
   // base d'URL pour les rapports statiques (gère le déploiement sous sous-chemin)
   const reportHref = company.riskReport
     ? `${import.meta.env.BASE_URL}rapports/${company.riskReport}`
@@ -69,7 +79,9 @@ export default function Dossier() {
         flexDirection: "column",
       }}
     >
+      <style>{HEADER_CSS}</style>
       <header
+        className="dh-header"
         style={{
           background: "linear-gradient(90deg,#0a1628,#0d1f3a)",
           borderBottom: "1px solid #1e3a5f",
@@ -86,7 +98,9 @@ export default function Dossier() {
       >
         <button
           onClick={() => setSidebarOpen((v) => !v)}
+          aria-label={sidebarOpen ? "Masquer la liste des analyses" : "Afficher la liste des analyses"}
           style={{
+            flexShrink: 0,
             background: "none",
             border: "none",
             color: "#64748b",
@@ -105,6 +119,7 @@ export default function Dossier() {
             textDecoration: "none",
             fontSize: "0.95rem",
             padding: "0 0.2rem",
+            flexShrink: 0,
           }}
         >
           ←
@@ -128,11 +143,12 @@ export default function Dossier() {
         >
           {company.initials}
         </div>
-        <div>
-          <div style={{ color: "#f1f5f9", fontWeight: 700, fontSize: "0.9rem" }}>
+        <div className="dh-title">
+          <div className="dh-name" style={{ color: "#f1f5f9", fontWeight: 700, fontSize: "0.9rem" }}>
             {company.name}
           </div>
           <div
+            className="dh-sub"
             style={{
               color: "#475569",
               fontSize: "0.62rem",
@@ -143,7 +159,7 @@ export default function Dossier() {
             Analyse Institutionnelle — {modules.length} modules
           </div>
         </div>
-        <div style={{ marginLeft: "auto", display: "flex", gap: "0.5rem", alignItems: "center" }}>
+        <div style={{ marginLeft: "auto", display: "flex", gap: "0.5rem", alignItems: "center", flexShrink: 0 }}>
           {reportHref && (
             <a
               href={reportHref}
@@ -158,12 +174,15 @@ export default function Dossier() {
                 border: "1px solid rgba(255,210,63,.3)",
                 fontWeight: 600,
                 textDecoration: "none",
+                whiteSpace: "nowrap",
               }}
             >
-              Rapport de risque ↗
+              <span className="dh-long">Rapport de risque ↗</span>
+              <span className="dh-short">Risque ↗</span>
             </a>
           )}
           <span
+            className="dh-count"
             style={{
               background: "#0f2942",
               color: "#38bdf8",
@@ -172,6 +191,7 @@ export default function Dossier() {
               borderRadius: "10px",
               border: "1px solid #1e4976",
               fontWeight: 600,
+              whiteSpace: "nowrap",
             }}
           >
             {active ? `Projet ${active}/${modules.length}` : `${modules.length} analyses`}
@@ -219,7 +239,7 @@ export default function Dossier() {
                   .map((a) => (
                     <button
                       key={a.id}
-                      onClick={() => setActive(a.id)}
+                      onClick={() => openModule(a.id)}
                       style={{
                         width: "100%",
                         display: "flex",
@@ -320,141 +340,12 @@ export default function Dossier() {
 
         <main style={{ flex: 1, overflowY: "auto", background: "#060d1a" }}>
           {!current ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                minHeight: "100%",
-                padding: "2.5rem 1.5rem",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  minWidth: 96,
-                  height: 60,
-                  padding: "0 0.8rem",
-                  borderRadius: "8px",
-                  background: "linear-gradient(135deg,#016fd0,#38bdf8)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "1.35rem",
-                  fontWeight: 900,
-                  color: "#fff",
-                  marginBottom: "1.25rem",
-                  boxShadow: "0 0 40px rgba(56,189,248,0.15)",
-                  letterSpacing: "1px",
-                }}
-              >
-                {company.initials}
-              </div>
-              <h1
-                style={{
-                  color: "#f8fafc",
-                  fontSize: "2rem",
-                  fontWeight: 800,
-                  fontFamily: "Georgia, serif",
-                  margin: "0 0 0.4rem",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                {company.name}
-              </h1>
-              <p
-                style={{
-                  color: "#475569",
-                  fontSize: "1rem",
-                  maxWidth: 520,
-                  lineHeight: 1.7,
-                  marginBottom: "2rem",
-                }}
-              >
-                Plateforme d'analyse institutionnelle — {modules.length} modules.
-                Sélectionnez un projet dans la barre latérale.
-              </p>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fill,minmax(210px,1fr))",
-                  gap: "0.6rem",
-                  maxWidth: 820,
-                  width: "100%",
-                }}
-              >
-                {modules.map((a) => (
-                  <button
-                    key={a.id}
-                    onClick={() => setActive(a.id)}
-                    style={{
-                      background: "linear-gradient(135deg,#0d1f3a,#0a1628)",
-                      border: "1px solid #1e3a5f",
-                      borderRadius: "8px",
-                      padding: "0.9rem 1rem",
-                      cursor: "pointer",
-                      textAlign: "left",
-                      transition: "all 0.15s",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = CATEGORY_COLORS[a.category] || "#38bdf8";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = "#1e3a5f";
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.25rem" }}>
-                      <span style={{ fontSize: "1.05rem" }}>{a.icon}</span>
-                      <span style={{ color: "#64748b", fontSize: "0.75rem", fontWeight: 700 }}>
-                        {String(a.id).padStart(2, "0")}
-                      </span>
-                    </div>
-                    <div style={{ color: "#e2e8f0", fontSize: "0.95rem", fontWeight: 600 }}>
-                      {a.title}
-                    </div>
-                    <div style={{ color: "#475569", fontSize: "0.75rem", marginTop: "0.2rem" }}>
-                      {a.category}
-                    </div>
-                  </button>
-                ))}
-                {reportHref && (
-                  <a
-                    href={reportHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      background: "rgba(255,210,63,0.05)",
-                      border: "1px solid #ffd23f",
-                      borderRadius: "8px",
-                      padding: "0.9rem 1rem",
-                      cursor: "pointer",
-                      textAlign: "left",
-                      transition: "all 0.15s",
-                      textDecoration: "none",
-                      display: "block",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(255,210,63,0.12)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "rgba(255,210,63,0.05)";
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.25rem" }}>
-                      <span style={{ fontSize: "1.05rem" }}>🎯</span>
-                      <span style={{ color: "#a8821f", fontSize: "0.75rem", fontWeight: 700 }}>15</span>
-                    </div>
-                    <div style={{ color: "#ffd23f", fontSize: "0.95rem", fontWeight: 600 }}>
-                      Rapport de risque ↗
-                    </div>
-                    <div style={{ color: "#a8821f", fontSize: "0.75rem", marginTop: "0.2rem" }}>
-                      Synthèse · score /100
-                    </div>
-                  </a>
-                )}
-              </div>
-            </div>
+            <DossierAccueil
+              company={company}
+              modules={modules}
+              reportHref={reportHref}
+              onOpen={openModule}
+            />
           ) : (
             <div style={{ padding: "1.75rem", maxWidth: 840, margin: "0 auto" }}>
               <div style={{ marginBottom: "1.25rem", borderBottom: "1px solid #1e3a5f", paddingBottom: "0.9rem" }}>
@@ -542,3 +433,20 @@ export default function Dossier() {
     </div>
   );
 }
+
+// En-tête : sur téléphone, le nom se tronque proprement, le sous-titre disparaît
+// et le lien du rapport se raccourcit.
+const HEADER_CSS = `
+.dh-title{min-width:0;flex:1}
+.dh-name,.dh-sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dh-short{display:none}
+@media (max-width:560px){
+  .dh-header{padding:0 0.6rem !important;gap:0.45rem !important}
+  .dh-sub{display:none}
+  .dh-long{display:none}
+  .dh-short{display:inline}
+}
+@media (max-width:420px){
+  .dh-count{display:none}
+}
+`;
