@@ -10,7 +10,7 @@
 // ============================================================
 
 import lvmh from "./lvmh.js";
-import lvmh from "./duol.js";
+import duol from "./duol.js";
 
 
 
