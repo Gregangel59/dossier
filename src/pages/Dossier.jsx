@@ -482,7 +482,7 @@ export default function Dossier() {
                     <h2
                       style={{
                         color: "#f8fafc",
-                        fontSize: "1.2rem",
+                        fontSize: "1.55rem",
                         fontWeight: 800,
                         margin: 0,
                         fontFamily: "Georgia, serif",
