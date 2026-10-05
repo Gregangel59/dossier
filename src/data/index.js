@@ -10,12 +10,14 @@
 // ============================================================
 
 import lvmh from "./lvmh.js";
+import lvmh from "./duol.js";
 
 
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
  lvmh,
+ duol,
 
     // amd,
   // adyen,
