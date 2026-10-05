@@ -1,6 +1,8 @@
 // ============================================================
 //  MOTEUR DE RENDU MARKDOWN — mutualisé pour TOUS les dossiers.
 //  Géré une seule fois ici. Ne pas dupliquer par entreprise.
+// Palette « sombre chaleureux » (oct. 2026) : texte #d9ccb6, titres #f3e9d8,
+// accent ambre #f2b450, tableaux #221b13 / #1b1610, bordures #33291c.
 //  Typographie « lecture confortable » (oct. 2026) : texte 1,02 rem,
 //  titres 1,3 rem, sous-titres 1,1 rem, tableaux 0,9 rem.
 // ============================================================
@@ -10,13 +12,13 @@ export function renderInline(text) {
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**"))
       return (
-        <strong key={i} style={{ color: "#f1f5f9", fontWeight: 700 }}>
+        <strong key={i} style={{ color: "#f3e9d8", fontWeight: 700 }}>
           {part.slice(2, -2)}
         </strong>
       );
     if (part.startsWith("*") && part.endsWith("*"))
       return (
-        <em key={i} style={{ color: "#a5f3fc" }}>
+        <em key={i} style={{ color: "#f0d29a" }}>
           {part.slice(1, -1)}
         </em>
       );
@@ -25,8 +27,8 @@ export function renderInline(text) {
         <code
           key={i}
           style={{
-            background: "#1e293b",
-            color: "#7dd3fc",
+            background: "#33291c",
+            color: "#f5c977",
             padding: "0.1em 0.35em",
             borderRadius: "3px",
             fontSize: "0.82em",
@@ -68,7 +70,7 @@ export default function MarkdownRenderer({ text }) {
         <h3
           key={i}
           style={{
-            color: "#e2e8f0",
+            color: "#efe3cf",
             fontSize: "1.1rem",
             fontWeight: 700,
             margin: "1.2em 0 0.3em",
@@ -86,11 +88,11 @@ export default function MarkdownRenderer({ text }) {
         <h2
           key={i}
           style={{
-            color: "#f1f5f9",
+            color: "#f3e9d8",
             fontSize: "1.3rem",
             fontWeight: 700,
             margin: "1.4em 0 0.4em",
-            borderBottom: "1px solid #1e3a5f",
+            borderBottom: "1px solid #33291c",
             paddingBottom: "0.25em",
             fontFamily: "Georgia, serif",
           }}
@@ -107,7 +109,7 @@ export default function MarkdownRenderer({ text }) {
           key={i}
           style={{
             border: "none",
-            borderTop: "1px solid #1e3a5f",
+            borderTop: "1px solid #33291c",
             margin: "1em 0",
           }}
         />
@@ -141,11 +143,11 @@ export default function MarkdownRenderer({ text }) {
                   <th
                     key={j}
                     style={{
-                      background: "#0f172a",
-                      color: "#38bdf8",
+                      background: "#221b13",
+                      color: "#f2b450",
                       padding: "0.55em 0.8em",
                       textAlign: "left",
-                      border: "1px solid #1e293b",
+                      border: "1px solid #33291c",
                       fontWeight: 700,
                       whiteSpace: "nowrap",
                     }}
@@ -159,15 +161,15 @@ export default function MarkdownRenderer({ text }) {
               {rows.map((row, ri) => (
                 <tr
                   key={ri}
-                  style={{ background: ri % 2 === 0 ? "#0d1b2a" : "#0a1628" }}
+                  style={{ background: ri % 2 === 0 ? "#1b1610" : "#17130e" }}
                 >
                   {row.map((cell, ci) => (
                     <td
                       key={ci}
                       style={{
                         padding: "0.55em 0.8em",
-                        border: "1px solid #1e293b",
-                        color: "#cbd5e1",
+                        border: "1px solid #33291c",
+                        color: "#d9ccb6",
                       }}
                     >
                       {renderInline(cell)}
@@ -188,8 +190,8 @@ export default function MarkdownRenderer({ text }) {
           key={i}
           style={{ display: "flex", gap: "0.5em", margin: "0.2em 0 0.2em 0.3em" }}
         >
-          <span style={{ color: "#38bdf8", flexShrink: 0 }}>›</span>
-          <span style={{ color: "#cbd5e1", lineHeight: 1.75, fontSize: "1.02rem" }}>
+          <span style={{ color: "#f2b450", flexShrink: 0 }}>›</span>
+          <span style={{ color: "#d9ccb6", lineHeight: 1.75, fontSize: "1.02rem" }}>
             {renderInline(line.slice(2))}
           </span>
         </div>
@@ -207,7 +209,7 @@ export default function MarkdownRenderer({ text }) {
         >
           <span
             style={{
-              color: "#38bdf8",
+              color: "#f2b450",
               fontWeight: 700,
               flexShrink: 0,
               minWidth: "1.3em",
@@ -216,7 +218,7 @@ export default function MarkdownRenderer({ text }) {
           >
             {numMatch[1]}.
           </span>
-          <span style={{ color: "#cbd5e1", lineHeight: 1.75, fontSize: "1.02rem" }}>
+          <span style={{ color: "#d9ccb6", lineHeight: 1.75, fontSize: "1.02rem" }}>
             {renderInline(numMatch[2])}
           </span>
         </div>
@@ -229,7 +231,7 @@ export default function MarkdownRenderer({ text }) {
       <p
         key={i}
         style={{
-          color: "#cbd5e1",
+          color: "#d9ccb6",
           lineHeight: 1.8,
           margin: "0.35em 0",
           fontSize: "1.02rem",
