@@ -185,7 +185,7 @@ export default function Home() {
 
       <main className="hp-main">
         <section className="hp-intro">
-          <h1 className="hp-title">Univers de couverture</h1>
+          <h1 className="hp-title">Les enquêtes en cours</h1>
           <p className="hp-lead">
             Chaque dossier se lit comme une enquête en cinq étapes : quatorze analyses fondamentales,
             de la compréhension du métier à la critique la plus sévère, puis un rapport de risque en deux pages.
