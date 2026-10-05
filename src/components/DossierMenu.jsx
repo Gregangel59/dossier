@@ -5,6 +5,8 @@
 //  Palette « sombre chaleureux » (oct. 2026).
 // ============================================================
 
+import { Link } from "react-router-dom";
+
 export default function DossierMenu({ phases, active, onOpen, onHome, reportHref }) {
   const total = phases.reduce((n, p) => n + p.items.length, 0);
   const currentPhase = phases.findIndex((p) => p.items.some((i) => i.module.id === active));
@@ -12,6 +14,10 @@ export default function DossierMenu({ phases, active, onOpen, onHome, reportHref
   return (
     <nav className="dm-root" aria-label="Parcours du dossier">
       <style>{CSS}</style>
+
+      <Link to="/" className="dm-portal">
+        <span aria-hidden="true">←</span> Toutes les enquêtes
+      </Link>
 
       <button type="button" className={`dm-home${active == null ? " is-on" : ""}`} onClick={onHome}>
         <span className="dm-home-icon" aria-hidden="true">⌂</span>
@@ -74,6 +80,10 @@ export default function DossierMenu({ phases, active, onOpen, onHome, reportHref
 
 const CSS = `
 .dm-root{padding:.8rem 0 1.4rem;font-family:'IBM Plex Sans',system-ui,sans-serif}
+.dm-portal{display:flex;align-items:center;gap:.45rem;margin:0 .6rem .55rem;padding:.4rem .7rem;border-radius:10px;
+  font-size:.8rem;font-weight:600;color:#b9a98f;text-decoration:none}
+.dm-portal:hover{color:#f2b450;background:#1f1912}
+.dm-portal:focus-visible{outline:2px solid #f2b450;outline-offset:1px}
 .dm-home{display:flex;align-items:center;gap:.65rem;width:calc(100% - 1.2rem);margin:0 .6rem .9rem;padding:.6rem .7rem;
   font:inherit;text-align:left;cursor:pointer;background:#1f1912;border:1px solid #33291c;border-radius:12px;color:#f3e9d8}
 .dm-home:hover{border-color:#f2b45088}

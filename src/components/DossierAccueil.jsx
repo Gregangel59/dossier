@@ -5,6 +5,8 @@
 //  ce qui fonctionne quel que soit l'ordre du fichier de données.
 // ============================================================
 
+import { Link } from "react-router-dom";
+
 const C = {
   bg: "#120f0b",
   surface: "#1b1610",
@@ -257,6 +259,14 @@ export default function DossierAccueil({ company, modules, reportHref, onOpen })
           )}
         </ol>
 
+        <Link to="/" className="da-more">
+          <span className="da-more-text">
+            <span className="da-more-title">Les autres enquêtes en cours</span>
+            <span className="da-more-sub">Retrouvez toutes les sociétés suivies par le cabinet.</span>
+          </span>
+          <span className="da-more-arrow" aria-hidden="true">→</span>
+        </Link>
+
         <p className="da-sign">221 Bourse — Élémentaire, mon cher Buffett.</p>
       </div>
     </div>
@@ -314,6 +324,14 @@ const CSS = `
 .da-report .da-tile-title{color:${C.gold}}
 .da-tip{margin:.9rem 0 0;font-size:.92rem;line-height:1.55;color:#e9c98f;background:rgba(242,180,80,.07);
   border:1px dashed ${C.amber}55;border-radius:12px;padding:.7rem .9rem}
+.da-more{display:flex;align-items:center;gap:1rem;margin-top:2.6rem;padding:1.1rem 1.3rem;border-radius:16px;text-decoration:none;
+  background:#1b1610;border:1px solid #33291c;transition:border-color .15s ease,background .15s ease}
+.da-more:hover{border-color:#f2b45088;background:#241d14}
+.da-more:focus-visible{outline:2px solid #f2b450;outline-offset:3px}
+.da-more-text{flex:1;display:flex;flex-direction:column;gap:.2rem}
+.da-more-title{font-family:Georgia,serif;font-size:1.15rem;font-weight:800;color:#f3e9d8}
+.da-more-sub{font-size:.9rem;color:#b9a98f}
+.da-more-arrow{font-size:1.5rem;color:#f2b450}
 .da-sign{margin:2.6rem 0 0;text-align:center;font-size:.85rem;font-style:italic;color:${C.faint}}
 .da-cta:focus-visible,.da-tile:focus-visible,.da-report:focus-visible{outline:2px solid ${C.amber};outline-offset:3px}
 @media (max-width:560px){
