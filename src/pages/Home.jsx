@@ -361,7 +361,7 @@ const CSS = `
   .hp-tools{width:100%}
   .hp-row{flex-wrap:wrap;gap:.7rem .9rem}
   .hp-row-id{flex:1 1 calc(100% - 70px)}
-  .hp-row-side{flex-direction:row;align-items:center;width:100%;justify-content:space-between;padding-left:calc(46px + .9rem)}
+  .hp-row-side{flex-direction:row;flex-wrap:wrap;align-items:center;width:100%;justify-content:space-between;gap:.4rem .8rem;padding-left:calc(46px + .9rem)}
   .hp-chevron{display:none}
 }
 @media (prefers-reduced-motion:reduce){.hp-feature,.hp-row{transition:none}.hp-feature:hover{transform:none}}

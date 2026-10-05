@@ -129,18 +129,10 @@ export default function Dossier() {
         >
           ☰
         </button>
-        <Link
-          to="/"
-          title="Retour au portail"
-          style={{
-            color: "#8c7c65",
-            textDecoration: "none",
-            fontSize: "0.95rem",
-            padding: "0 0.2rem",
-            flexShrink: 0,
-          }}
-        >
-          ←
+        <Link to="/" className="dh-back" title="Revenir à la liste des enquêtes" aria-label="Revenir à la liste des enquêtes">
+          <span aria-hidden="true">←</span>
+          <span className="dh-long">Les enquêtes</span>
+          <span className="dh-short">Enquêtes</span>
         </Link>
         <div
           style={{
@@ -355,6 +347,10 @@ const HEADER_CSS = `
 .dn-btn:focus-visible{outline:2px solid #f2b450;outline-offset:2px}
 @media (max-width:560px){.dn-btn{max-width:100%;width:100%}.dn-next{align-items:flex-end}}
 .dh-title{min-width:0;flex:1}
+.dh-back{flex:none;display:inline-flex;align-items:center;gap:.4rem;padding:.32rem .8rem;border-radius:999px;
+  font-size:.78rem;font-weight:600;color:#f2b450;text-decoration:none;border:1px solid #4a3a24;background:#2a2116}
+.dh-back:hover{border-color:#f2b450;background:#33281a}
+.dh-back:focus-visible{outline:2px solid #f2b450;outline-offset:2px}
 .dh-name,.dh-sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dh-short{display:none}
 @media (max-width:560px){
@@ -362,8 +358,11 @@ const HEADER_CSS = `
   .dh-sub{display:none}
   .dh-long{display:none}
   .dh-short{display:inline}
+  .dh-count{display:none}
 }
 @media (max-width:420px){
-  .dh-count{display:none}
+  /* Très petit écran : le bouton de retour garde sa pastille ambrée mais ne montre que la flèche */
+  .dh-back .dh-short{display:none}
+  .dh-back{padding:.32rem .7rem;font-size:.95rem}
 }
 `;
