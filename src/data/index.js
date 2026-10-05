@@ -10,53 +10,13 @@
 // ============================================================
 
 import lvmh from "./lvmh.js";
-import ferrari from "./ferrari.js";
-import meta from "./meta.js";
-import toast from "./tost.js";
-import airliquide from "./air-liquide.js";
-import intuitivesurgical from "./isrg.js";
-import spacex from "./spacex.js";
-import americanExpress from "./amex.js";
-import amazon from "./amazon.js";
-import amd from "./amd.js";
-import anet from "./anet.js";
-import amtm from "./amtm.js";
-import asml from "./asml.js";
-import axon from "./axon.js";
-import argx from "./argx.js";
-import avgo from "./avgo.js";
-import be from "./be.js";
-import blk from "./blk.js";
-import cava from "./cava.js";
-import nvda from "./nvda.js";
-import bros from "./bros.js";
-import blln from "./blln.js";
+
 
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
-  blln,
-  bros,
-  nvda,
-  cava,
-  blk,
-  be,
-  avgo,
-  argx,
-  axon,
-  asml,
-  amtm,
-  anet,
-  amd,
-  amazon,
-  lvmh,
-  ferrari,
-  meta,
-  toast,
-  airliquide,
-  intuitivesurgical,
-  spacex,
-  americanExpress,
+ lvmh,
+
     // amd,
   // adyen,
   // toast,
