@@ -12,7 +12,7 @@ const meta = {
   name: "Duolingo, Inc.",
   exchange: "NASDAQ",
   sector: "Éducation numérique grand public (applications d'apprentissage)",
-  initials: "DUO",                  // affiché dans la pastille
+  initials: "DUOL",                 // affiché dans la pastille (= ticker)
   tagline: "L'application éducative la plus utilisée au monde, qui sacrifie une année de monétisation pour viser 100 millions d'utilisateurs quotidiens.",
   riskScore: 55,                    // score du rapport de risque (grille v1)
   riskLabel: "Risque modéré",       // indicatif : la couleur se dérive toujours de riskScore
