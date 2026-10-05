@@ -1,24 +1,24 @@
 // ============================================================
-//  DOSSIER : Dutch Bros Inc. (BROS)
+//  DOSSIER : Dutch Bros Inc. (BROS)
 //  Fichier de DONNÉES uniquement — aucun rendu ici.
-//  Pour créer un nouveau dossier, copie ce fichier, change le
-//  bloc "meta" et remplace les "modules".
+//  Données publiées jusqu'au 2 octobre 2026
+//  (cours de référence : 38,71 $ le 2 octobre 2026).
 // ============================================================
 
 // --- Métadonnées de l'entreprise (carte d'accueil + en-tête) ---
 const meta = {
-  slug: "bros",                     // identifiant d'URL : /dossier/bros
+  slug: "bros",                     // identifiant d'URL : /dossier/bros
   ticker: "BROS",
   name: "Dutch Bros Inc.",
   exchange: "NYSE",
-  sector: "Restauration rapide — boissons drive-thru",
+  sector: "Restauration rapide — boissons en drive-thru",
   initials: "BROS",                 // affiché dans la pastille
-  tagline: "Machine à ouvrir des kiosques à café : croissance record, valorisation record, marges sous pression.",
-  riskScore: 51,                    // score du rapport de risque (ou null)
-  riskLabel: "Risque modéré",
-  // Nom du fichier HTML déposé dans public/rapports/ (ou null si absent) :
+  tagline: "Des kiosques drive-thru qui vendent 2,2 M$ par an chacun : 1 225 boutiques aujourd'hui, 2 029 visées en 2029.",
+  riskScore: 65,                    // score du rapport de risque (grille v1)
+  riskLabel: "Risque modéré",       // indicatif : la couleur se dérive toujours de riskScore
+  // Nom du fichier HTML déposé dans public/rapports/ :
   riskReport: "bros.html",
-  updated: "2026-08",               // période des données
+  updated: "2026-10",               // période des données
 };
 
 const modules = [
@@ -29,44 +29,40 @@ const modules = [
     icon: "🏢",
     content: `## Modèle économique
 
-Dutch Bros exploite une chaîne de **kiosques à boissons en drive-thru** aux États-Unis. Fondée en 1992 à Grants Pass (Oregon) par les frères **Dane et Travis Boersma** — deux éleveurs laitiers d'origine néerlandaise reconvertis dans le café —, l'entreprise est cotée au NYSE depuis septembre 2021 et pilotée depuis Tempe (Arizona).
+Dutch Bros exploite une chaîne de **boutiques de boissons en drive-thru** aux États-Unis. Fondée en 1992 à Grants Pass (Oregon) par les frères **Dane et Travis Boersma** autour d'un chariot à expresso, l'entreprise est cotée au NYSE depuis septembre 2021 (introduction à 23 $) et a transféré son siège à Tempe (Arizona) en 2025.
 
-Le modèle est d'une simplicité redoutable et tient en quatre paramètres :
+En termes simples : Dutch Bros vend **de la vitesse et de la bonne humeur dans un gobelet**. Le format est minuscule — un kiosque sans salle, souvent à double file, avec des équipiers qui prennent les commandes sur tablette le long de la file — mais il produit le chiffre d'affaires d'un restaurant complet : **AUV systémique record de 2,19 M$** sur douze mois glissants à fin juin 2026.
 
-- **Un format minuscule** : ~800 à 1 000 pieds carrés, deux files de drive-thru, une fenêtre piétonne, **pas de salle**. Coût de construction bien inférieur à un café traditionnel.
-- **Un volume par unité élevé** : AUV systémique record d'environ **2,1 à 2,2 M$** en 2025-2026. Un kiosque de la taille d'un garage produit le chiffre d'affaires d'un restaurant complet.
-- **Un débit, pas un lieu** : la vitesse de service et le rituel quotidien remplacent l'expérience « troisième lieu » de Starbucks.
-- **Une culture de service** comme actif : les employés (« broistas ») sont la promesse de marque. Dutch Bros ne vend pas du café — il vend une interaction de 90 secondes qui met de bonne humeur.
+Le modèle tient en quatre paramètres :
+- **Un coût d'ouverture faible** : environ **1,3 M$ par boutique** grâce au passage au « build-to-suit » (un promoteur construit, Dutch Bros loue), contre ~1,8 M$ en 2024.
+- **Un volume élevé** : 2,19 M$ de ventes annuelles par boutique, soit un ratio ventes / investissement supérieur à 1,5.
+- **Une marge de boutique solide** : contribution des boutiques en propre de **30,6 %** au T2 2026.
+- **Une machine d'ouverture** : 154 boutiques ouvertes en 2025, au moins **185** prévues en 2026, objectif de **2 029 boutiques en 2029** et potentiel revendiqué de plus de 7 000 à long terme.
 
-Le mix boisson est atypique : le café expresso ne représente qu'une partie des ventes. **Blue Rebel** (l'énergisant maison), les smoothies, les thés, les limonades et les boissons givrées sucrées et hautement personnalisables constituent l'essentiel du panier — ce qui rend l'enseigne **structurellement moins exposée au cours de l'arabica** qu'un torréfacteur pur, mais plus exposée aux modes de consommation des 18-34 ans.
+**Ordres de grandeur** : CA 2025 de **1,64 Md$ (+27,9 %)**, EBITDA ajusté de **303 M$ (+31 %)**, BPA ajusté de **0,76 $**. Au T2 2026 : CA de **550,9 M$ (+32,5 %)**, résultat net de 51,6 M$, EBITDA ajusté de 113,7 M$. Prévision 2026 relevée à **2,10–2,13 Md$**.
 
 ## Principaux produits et services
 
-- **Boissons expresso** chaudes, glacées et givrées (le cœur historique)
-- **Blue Rebel** : marque d'énergisant propriétaire, mélangée à des sirops et fruits — moteur de différenciation et de marge
-- **Thés, limonades, smoothies, sodas aromatisés** — la vague « dirty soda » profite directement au format
-- **Programme alimentaire** : lancé en 2025, déployé dans plus de 750 boutiques en avance sur le calendrier, destiné à faire monter le ticket et à ouvrir le créneau du petit-déjeuner
-- **Café conditionné (CPG)** et merchandising — levier annexe présenté à l'Investor Day 2025
+- **Boissons sur mesure** : cafés à base d'expresso, cold brew infusé à l'azote, thés, limonades, smoothies, boissons givrées — très personnalisables, souvent sucrées, orientées vers une clientèle jeune.
+- **Dutch Bros Rebel** : boisson énergisante maison, devenue l'un des piliers du panier ; complétée par le **Myst Energy Refresher**. Une part importante des ventes ne dépend donc pas du café.
+- **Offre alimentaire** : passée de quatre boutiques à Phoenix début 2025 à plus de 300 boutiques dans 11 États fin 2025 ; déploiement sur tout le réseau prévu **d'ici fin 2026**.
+- **Application Dutch Rewards et commande mobile** : **73 % des transactions** passent par le programme de fidélité au T2 2026.
 
 ## Clients, fournisseurs, concurrents
 
-**Clients** : consommateurs individuels, très majoritairement des habitués. **Dutch Rewards** capte plus de **73 %** des transactions — un taux de pénétration de fidélité supérieur à celui de Starbucks (~60 %). L'« Order Ahead » représente environ 16 % des commandes.
+**Clients** : le grand public, avec une forte surreprésentation des 18–34 ans ; visites fréquentes, souvent quotidiennes. Aucun client ne pèse individuellement.
 
-**Fournisseurs** : importateurs de café vert d'Amérique latine (Brésil, Colombie, Guatemala, Pérou, Mexique) — torréfaction internalisée dans l'Oregon ; produits laitiers ; sirops et arômes ; emballages ; distributeurs logistiques tiers ; bailleurs et promoteurs immobiliers (poste devenu critique).
+**Fournisseurs** : café vert acheté auprès d'importateurs et torréfié en interne à Grants Pass ; produits laitiers, sirops, emballages et ingrédients de l'offre alimentaire achetés auprès de fournisseurs non publiés nominativement ; promoteurs et bailleurs immobiliers pour les terrains et les bâtiments.
 
-**Concurrents** : **Starbucks** (~16 000 unités aux États-Unis), **7 Brew** (adossé à Blackstone, 700+ unités dont ~340 en pipeline), **Scooter's Coffee** (932 unités fin 2025), **Black Rock Coffee**, **Swig**, **Dunkin'**, et l'offensive boissons de **McDonald's, Chick-fil-A et Taco Bell**.
+**Concurrents** : **Starbucks** (le géant, en reprise avec des ventes comparables mondiales de +7,9 % au T3 de son exercice 2026), **7 Brew** (le rival direct du drive-thru, ~777 boutiques et ~2 M$ d'AUV), **Scooter's Coffee**, **McDonald's** (McCafé), **Black Rifle Coffee**, ainsi que les chaînes régionales de boissons et de sodas personnalisés.
 
-## Modalités contractuelles
+## Modalités contractuelles et de paiement
 
-Il n'y a **ni contrat client, ni abonnement, ni take-or-pay**. Chaque transaction se rejoue chaque matin. Le revenu est encaissé au comptant ou par carte, immédiatement — d'où un **besoin en fonds de roulement négatif** et une conversion de trésorerie d'exploitation excellente.
+- **Boutiques en propre (888 sur 1 225)** : paiement immédiat par carte, application ou espèces — **pas de créances clients** significatives (18,9 M$ au bilan). Les cartes cadeaux et les points de fidélité créent des **produits constatés d'avance** (53,7 M$).
+- **Franchise (337 boutiques)** : Dutch Bros n'accorde plus de nouvelles franchises depuis 2017. Les franchisés historiques versent des **redevances et contributions marketing** sur leurs ventes et **achètent leurs produits** (café, Rebel, ingrédients) à Dutch Bros. L'entreprise **rachète progressivement** ces franchises (Phoenix East Valley, 31 boutiques, en juillet 2026).
+- **Immobilier** : baux de long terme — **1,0 Md$ de dettes locatives** au 30 juin 2026 — plutôt que propriété des murs.
 
-Deux segments de revenus :
-- **Boutiques exploitées en propre** — ~93 % du chiffre d'affaires (510 M$ sur 550,9 M$ au T2 2026)
-- **Franchise et autres** — redevances et ventes de produits aux franchisés, une part résiduelle et **décroissante** puisque Dutch Bros rachète progressivement ses franchisés (Phoenix en 2026)
-
-Le vrai contrat structurant n'est pas commercial mais **immobilier** : le passage à des baux **build-to-suit** (bâtiment construit sur mesure pour l'enseigne) allonge les engagements locatifs et pousse mécaniquement les charges d'occupation à la hausse. C'est le prix payé pour sécuriser 185 ouvertures par an.
-
-> **Note de lecture** : Dutch Bros est une **histoire d'unités**, pas une histoire de marge. Le chiffre d'affaires suit le nombre de kiosques ; la question d'investissement porte entièrement sur la durabilité du rythme d'ouverture et sur ce qu'il coûte en capital et en marge.`,
+**Lecture** : Dutch Bros est un modèle d'**expansion d'unités** à forte marge de boutique, autofinancé mais très consommateur de capital. La valeur repose sur trois questions : les nouvelles boutiques atteignent-elles l'AUV des anciennes, le trafic par boutique continue-t-il de croître, et le rendement du capital investi finit-il par dépasser son coût ?`,
   },
   {
     id: 2,
@@ -75,58 +71,56 @@ Le vrai contrat structurant n'est pas commercial mais **immobilier** : le passa
     icon: "🔗",
     content: `## Position de Dutch Bros dans la chaîne de valeur
 
-Dutch Bros est un **transformateur-détaillant intégré verticalement sur l'amont café** : l'entreprise achète du café vert, le **torréfie elle-même**, le distribue à son propre réseau et le vend directement au consommateur final. Cette intégration est inhabituelle pour une chaîne de cette taille et constitue un levier réel de contrôle des coûts et de la qualité.
+Dutch Bros est un **transformateur-distributeur verticalisé** : il achète des matières premières agricoles, torréfie son café, conçoit ses recettes, produit sa boisson énergisante sous sa marque, fournit ses franchisés et vend lui-même au consommateur final dans des boutiques qu'il exploite à 72 %.
 
-### Amont — Intrants
+### Amont — Matières premières et intrants
 
-**Café vert** (l'intrant symbolique, pas le plus lourd budgétairement) :
-- Origines d'Amérique latine : **Brésil, Colombie, Guatemala, Pérou, Mexique**, via des importateurs et négociants spécialisés
-- Achats couverts par contrats à terme et engagements d'achat pluri-mois — d'où un **décalage de 6 à 12 mois** entre le cours de l'arabica et le coût réellement comptabilisé
+**Café vert** : arabica acheté auprès d'importateurs et de négociants. Le cours de l'arabica, à des niveaux historiquement élevés en 2025, se répercute dans les comptes avec **deux à trois trimestres de décalage** (rotation des stocks), selon la direction. Les coûts de boissons, nourriture et emballages sont passés de 25,3 % à **26,1 % du CA des boutiques** entre le T2 2025 et le T2 2026.
 
-**Produits laitiers** : lait, crème, alternatives végétales — fournisseurs régionaux ; poste de coût au moins aussi important que le café dans une boisson givrée
+**Autres intrants** : produits laitiers et alternatives végétales, sirops et arômes, base de la boisson énergisante Rebel, gobelets et emballages, ingrédients de l'offre alimentaire. Les fournisseurs ne sont pas publiés nominativement : c'est un point de transparence limité, mais aussi le signe qu'aucun fournisseur n'est jugé critique.
 
-**Sirops, arômes, concentrés** : formulations propriétaires et fournisseurs d'arômes ; **Blue Rebel** est produit en marque propre
-
-**Emballages** : gobelets, couvercles, pailles, dômes — exposés au coût des résines et au fret
-
-**Équipement de boutique** : machines expresso, blenders, systèmes de point de vente et de commande vocale
-
-**Immobilier et construction** : promoteurs, entreprises générales, bailleurs institutionnels. Avec **185 ouvertures visées en 2026** et un capex de **350 à 370 M$**, c'est devenu la chaîne d'approvisionnement la plus critique du groupe.
+**Droits de douane** : le café n'est pas produit aux États-Unis ; toute taxe à l'importation pèse sur le coût des boissons. La direction indique avoir sécurisé ses approvisionnements et limité son exposition en 2025.
 
 ---
 
-### Dutch Bros — Torréfaction, distribution, exploitation
+### Dutch Bros — Transformation et distribution
 
-**Torréfaction** : usine détenue en propre dans l'Oregon (Grants Pass, berceau historique de l'enseigne). Le contrôle du profil de torréfaction est un actif de marque autant qu'un actif industriel.
+**Torréfaction interne** à Grants Pass (Oregon) : maîtrise des recettes et de la qualité, approvisionnement des boutiques en propre et des franchisés.
 
-**Distribution** : centres de distribution et transporteurs tiers desservant 26 États. La densité régionale — « fill in the map » plutôt que planter des drapeaux — réduit le coût logistique par boutique.
+**Logistique** : approvisionnement des boutiques en café, ingrédients et emballages (modalités non détaillées publiquement) ; les franchisés achètent leurs produits à Dutch Bros, ce qui alimente le segment « Franchise et autres ».
 
-**Exploitation** : ~1 225 boutiques fin juin 2026, ~32 000 employés. Le goulot d'étranglement n'est pas le café, c'est le **vivier de managers** : Dutch Bros revendique 525 candidats « operator » avec une ancienneté moyenne de huit ans, formés en interne avant toute ouverture.
+**Immobilier** : le modèle « build-to-suit » confie la construction à des **promoteurs**, Dutch Bros signant ensuite un bail de long terme. Les conversions de sites existants complètent le pipeline : **Clutch Coffee Bar** (20 boutiques dans les Carolines, ~20 M$, janvier 2026), rachat de la franchise **Phoenix East Valley** (31 boutiques, juillet 2026), offre de **105 M$** sur d'anciens sites **Salad and Go** (perdue face à 7 Brew en septembre 2026).
 
----
-
-### Aval — Client final
-
-Vente directe au consommateur, sans intermédiaire. Trois canaux :
-- **Drive-thru** (le cœur : plus de 60 % du chiffre d'affaires de la catégorie café aux États-Unis passe désormais par ce canal)
-- **Fenêtre piétonne**
-- **Order Ahead** via l'application Dutch Rewards (~16 % des commandes)
+**Numérique** : application Dutch Rewards (73 % des transactions), commande mobile, publicité payante.
 
 ---
 
-### Cartographie simplifiée du flux
+### Aval — Clients finaux
 
-\`\`\`
-AMONT                    DUTCH BROS                    AVAL
-Café vert LatAm     →    Torréfaction Oregon      →    Drive-thru
-Produits laitiers        Centres de distribution       Fenêtre piétonne
-Sirops / Blue Rebel      ~1 225 kiosques               Order Ahead (app)
-Emballages               ~32 000 broistas              
-Promoteurs / bailleurs   Vivier d'operators            Consommateur final
-(build-to-suit)          (525 candidats)               (73 % en Dutch Rewards)
-\`\`\`
+**Consommateurs** : clientèle jeune, achats fréquents, panier moyen modeste ; 25 États desservis fin 2025, avec une forte densité dans l'Ouest (Oregon, Californie, Arizona, Texas).
 
-**Le point de fragilité** : l'entreprise a solidement verrouillé l'amont café, mais la contrainte qui décide de la trajectoire 2026-2029 est **immobilière et humaine**, pas agricole. Trouver 185 emplacements par an, les construire, et y placer un manager déjà formé — voilà la vraie chaîne d'approvisionnement de Dutch Bros. Le rachat de **65 sites Salad and Go pour 105 M$** en août 2026 est la traduction directe de cette contrainte : quand le pipeline immobilier devient rare, on achète les carcasses d'un concurrent en faillite.`,
+**Franchisés historiques** : clients de Dutch Bros pour les produits, partenaires pour les redevances ; leur base se réduit à mesure que l'entreprise rachète leurs boutiques.
+
+---
+
+### Cartographie du flux
+
+| Étape | Acteurs | Rôle |
+|---|---|---|
+| Matières | Producteurs et importateurs d'arabica, laiteries, fabricants de sirops et d'emballages | Intrants des boissons |
+| Production | **Dutch Bros (torréfaction à Grants Pass)** | Café torréfié, recettes, boisson Rebel sous marque propre |
+| Immobilier | Promoteurs « build-to-suit », bailleurs, vendeurs de sites à convertir (Clutch Coffee, franchisés) | Terrains, bâtiments, baux |
+| Distribution | Logistique d'approvisionnement (non détaillée publiquement) | Livraison des boutiques et des franchisés |
+| Vente | **888 boutiques en propre**, **337 boutiques franchisées** | Préparation et service au drive-thru |
+| Client final | Consommateurs (via file, fenêtre ou application) | Achat quotidien |
+
+---
+
+### Les deux points de friction
+
+**1. Le coût du café** : c'est le seul intrant dont le prix peut varier de 50 % en un an. Le mix de Dutch Bros (énergisants, thés, limonades) l'amortit mieux qu'un pur torréfacteur, mais ne l'efface pas.
+
+**2. Les sites** : la croissance dépend de la capacité à trouver des emplacements drive-thru de qualité. La concurrence de 7 Brew, Starbucks et des chaînes de restauration rapide pour ces mêmes parcelles renchérit l'accès — l'enchère perdue sur Salad and Go l'a montré : **7 Brew a offert ~36 % de plus** que Dutch Bros en montant total (pour 73 sites contre 65).`,
   },
   {
     id: 3,
@@ -135,483 +129,485 @@ Promoteurs / bailleurs   Vivier d'operators            Consommateur final
     icon: "📊",
     content: `## Ventilation du chiffre d'affaires
 
-Dutch Bros publie **deux segments seulement**, ce qui simplifie la lecture mais limite la granularité offerte à l'analyste.
+Dutch Bros publie **deux secteurs opérationnels** : les **boutiques en propre** (company-operated shops) et **Franchise et autres** (redevances, contributions marketing, ventes de produits aux franchisés). Il n'existe pas d'EBITDA ni de résultat net publiés par secteur : la mesure de rentabilité sectorielle est la **contribution des boutiques** (marge brute avant amortissements), le reste se lit au niveau consolidé.
 
-### Structure au T2 2026
+### Par secteur
 
-| Segment | CA T2 2026 | Poids | Dynamique |
-|---|---|---|---|
-| Boutiques en propre | ~510 M$ | ~93 % | Moteur unique ; marge de contribution ~30,6 % |
-| Franchise et autres | ~41 M$ | ~7 % | En **décroissance structurelle** (rachat des franchisés) |
-| **Total** | **550,9 M$** | **100 %** | **+32,5 % a/a** |
-
-Le rachat de la franchise de Phoenix en 2026 illustre la trajectoire : Dutch Bros **internalise** progressivement son parc. Cela gonfle le chiffre d'affaires (on consolide 100 % des ventes au lieu d'une redevance) mais **dilue la marge** (une redevance est de la marge pure ; exploiter un kiosque ne l'est pas) et **consomme du capital**.
-
----
-
-### Décomposition de la croissance du chiffre d'affaires
-
-C'est l'exercice le plus révélateur du dossier. Sur le T2 2026, la croissance de +32,5 % se décompose ainsi :
-
-| Source | Contribution approximative | Nature |
-|---|---|---|
-| Nouvelles boutiques (182 nettes sur 12 mois) | ~20-24 points | **Achetée** par le capex |
-| Ventes à périmètre comparable (système) | +5,8 points | **Organique** |
-| Rachat de franchisés / conversions | Quelques points | **Achetée** par acquisition |
-
-**Lecture** : environ **quatre cinquièmes de la croissance sont financés par l'investissement**, pas par la demande à parc constant. Ce n'est ni anormal ni condamnable pour une enseigne en expansion — mais cela signifie que le multiple de valorisation rémunère une croissance **capitalistique**, pas une croissance gratuite.
-
----
-
-### Ventes à périmètre comparable — l'écart qui compte
-
-| Trimestre | SSS système | Transactions système | SSS boutiques propres | Transactions propres |
+| Secteur | T2 2025 | T2 2026 | Croissance | Poids |
 |---|---|---|---|---|
-| T4 2025 | +7,7 % | +5,4 % | +9,7 % | +7,6 % |
-| T1 2026 | +8,3 % | +5,1 % | +10,6 % | +6,9 % |
-| T2 2026 | **+5,8 %** | **+1,7 %** | **+8,3 %** | **+3,4 %** |
-| T3 2026 (guidance) | **+4 à +5 %** | — | — | — |
+| Boutiques en propre | 380,5 M$ | **510,0 M$** | +34,0 % | 92,6 % |
+| Franchise et autres | 35,3 M$ | 40,8 M$ | +15,6 % | 7,4 % |
+| **Total** | **415,8 M$** | **550,9 M$** | **+32,5 %** | 100 % |
 
-L'écart persistant entre boutiques en propre (+8,3 %) et système (+5,8 %) indique que **les franchisés sous-performent** le parc intégré — argument implicite en faveur des rachats, mais aussi signal que la performance dépend fortement de l'exécution opérationnelle interne.
+**Lecture** : le secteur en propre croît deux fois plus vite que la franchise, parce que **~90 % des ouvertures sont en propre** et que Dutch Bros rachète ses franchisés. Ces rachats gonflent mécaniquement la croissance du secteur en propre (et réduisent les redevances) sans créer de ventes nouvelles pour le système.
 
-Plus important : la **décélération du trafic système de +5,1 % à +1,7 %** en un trimestre. Le management l'attribue à des bases de comparaison plus exigeantes, à l'extinction de la hausse tarifaire prise en début d'année et à l'anniversaire du lancement alimentaire. C'est plausible. C'est aussi exactement ce que dirait une direction confrontée à un début de saturation.
+### Rentabilité des boutiques en propre (T2)
+
+| % du CA des boutiques | T2 2025 | T2 2026 | Évolution |
+|---|---|---|---|
+| Boissons, nourriture, emballages | 25,3 % | 26,1 % | +0,8 pt — café et offre alimentaire |
+| Main-d'œuvre | 26,6 % | 25,4 % | −1,2 pt — productivité |
+| Loyers et autres | 15,8 % | 16,3 % | +0,5 pt — baux build-to-suit |
+| Coûts de pré-ouverture | 1,2 % | 1,6 % | +0,4 pt — rythme d'ouvertures |
+| **Contribution des boutiques** | **31,1 %** | **30,6 %** | **−0,5 pt** |
+
+### Trajectoire consolidée
+
+| Période | CA | Croissance | Comparables système | Transactions | EBITDA ajusté | Marge | BPA ajusté |
+|---|---|---|---|---|---|---|---|
+| T1 2025 | 355,2 M$ | +29,1 % | +4,7 % | +1,3 % | 62,9 M$ | 17,7 % | 0,14 $ |
+| T2 2025 | 415,8 M$ | +28,0 % | +6,1 % | +3,7 % | 89,0 M$ | 21,4 % | 0,26 $ |
+| T3 2025 | 423,6 M$ | +25 % | +5,7 % | positive | ~78 M$ | ~18,4 % | ~0,19 $ |
+| T4 2025 | 443,6 M$ | +29,4 % | +7,7 % | +5,4 % | ~73 M$ | ~16,5 % | 0,17 $ |
+| T1 2026 | 464,4 M$ | +30,8 % | +8,3 % | +5,1 % | 79,4 M$ | 17,1 % | 0,16 $ |
+| T2 2026 | **550,9 M$** | **+32,5 %** | **+5,8 %** | **+1,7 %** | **113,7 M$** | **20,6 %** | **0,33 $** |
+
+*T3 et T4 2025 : EBITDA et BPA ajustés reconstitués par différence à partir des totaux annuels publiés (303 M$ et 0,76 $).*
+
+**Résultat net consolidé** : 51,6 M$ au T2 2026 contre 38,4 M$ (+34,5 %) ; 75,3 M$ au premier semestre contre 60,8 M$. Le résultat attribuable aux actionnaires de classe A (37,4 M$ au T2) est inférieur au résultat consolidé, une partie revenant aux porteurs de parts de la société opérationnelle (structure « Up-C », voir Red Flags).
+
+### Annuel
+
+| Exercice | CA | Croissance | EBITDA ajusté | Boutiques fin d'année |
+|---|---|---|---|---|
+| 2022 | 739,0 M$ | +48,4 % | — | — |
+| 2023 | 965,8 M$ | +30,7 % | — | — |
+| 2024 | 1 281,0 M$ | +32,6 % | ~231 M$ | 982 |
+| 2025 | 1 638,2 M$ | +27,9 % | 303 M$ | 1 136 |
+| 2026e (prévision) | 2 100–2 130 M$ | ~+29 % | 385–390 M$ | ≥ 1 321 |
 
 ---
 
 ### Répartition géographique
 
-Présence dans **26 États** (le Mississippi est devenu le 26ᵉ en juillet 2026). Cœur historique : Oregon, Californie, Arizona, Idaho, Washington. Marchés d'expansion : **Texas** (performance citée comme exceptionnelle), Sud-Est, Midwest, et désormais **Chicago** — où la deuxième boutique tourne à un rythme d'environ 7 M$ de volume annuel et a établi un record d'ouverture, ce que la direction présente comme la preuve de la portabilité de la marque.
+Dutch Bros ne publie pas de ventilation géographique : **100 % du CA est réalisé aux États-Unis**, dans 25 États fin 2025. Le cœur historique est le Nord-Ouest (Oregon, Washington), l'expansion se fait vers le Sud-Ouest et le Sud (Arizona, Texas, Oklahoma), puis le Sud-Est et le Midwest (entrée dans les Carolines via Clutch Coffee).
 
-Aucune exposition internationale. Aucune couverture de change. C'est un pur actif domestique américain.
+**Point clé** : les nouveaux marchés de l'Est sont moins familiers de la marque. La direction affirme que la productivité des nouvelles boutiques reste proche de la moyenne du système, mais c'est **l'hypothèse la plus importante du dossier** : si les boutiques ouvertes loin du berceau historique vendent moins, la croissance par ouverture perd de sa valeur.
 
 ---
 
-### Profil de marge
+### Évolution récente — Pourquoi les chiffres ont bougé
 
-- **Marge brute** : ~25,1 % (TTM)
-- **Marge de contribution boutique** : ~30,6 % au T2 2026, quasi stable
-- **COGS boutiques** : **26,1 %** du CA, en hausse (déploiement alimentaire + café)
-- **Charges d'occupation** : **16,3 %**, en hausse (transition vers les baux build-to-suit)
-- **Marge d'EBITDA ajusté** : 20,6 % au T2 2026, **en repli de 80 pb**
-- **Marge opérationnelle** : ~9,96 % (TTM) — **Marge nette** : ~4,91 %
-
-**Le nœud du dossier** : la marge de contribution par boutique tient, mais la marge d'EBITDA se contracte parce que la croissance elle-même coûte cher (pré-ouverture, occupation, structure). Dutch Bros paie pour grandir, et le compte de résultat le montre.`,
+- **Accélération du CA** (+29 % → +32,5 %) : ouvertures en hausse (48 au T2 contre 31 un an plus tôt) et rachat de franchises.
+- **Décélération du trafic** : transactions système passées de +5,1 % au T1 à +1,7 % au T2 ; la croissance des comparables repose davantage sur le **ticket moyen** (+4,1 %) — prix, offre alimentaire, personnalisation.
+- **Marge** : EBITDA ajusté de 20,6 % au T2 contre 21,4 % un an plus tôt — café plus cher et coûts d'ouverture plus élevés, partiellement compensés par la productivité de la main-d'œuvre et le levier sur les frais généraux (13,2 % du CA contre 14,1 %).`,
   },
   {
     id: 4,
     title: "Avantages compétitifs",
     category: "Compréhension du business",
     icon: "🏆",
-    content: `## Les fossés économiques (Moats) — réels, revendiqués, absents
+    content: `## Les fossés économiques (moats)
 
-### 1. Le format et l'économie unitaire — le moat le plus tangible
-Un kiosque Dutch Bros génère environ **2,1-2,2 M$ d'AUV** sur ~900 pieds carrés sans salle. Le coût de construction (~1,4 M$ de capex moyen par boutique au T2 2026) est amorti rapidement. Comparé à un café assis, le ratio ventes/mètre carré est difficile à égaler. **Mais** : c'est un avantage de **format**, pas de propriété intellectuelle. 7 Brew, Scooter's et Black Rock exploitent exactement le même modèle. Le format se copie ; il ne se protège pas.
+### 1. Économie unitaire et vitesse de service — moat FORT
+Un kiosque d'environ 1,3 M$ qui vend 2,19 M$ par an avec une contribution de ~30 % rembourse son investissement en quelques années. Le format double file, les équipiers qui prennent les commandes le long de la file et la commande mobile augmentent le **débit par heure de pointe**, qui est la vraie contrainte d'un drive-thru. C'est l'avantage le plus mesurable du dossier : l'AUV progresse alors même que le réseau s'étend.
 
-### 2. La densité régionale et l'immobilier — un moat qui se construit
-Dutch Bros pratique le remplissage de marché plutôt que la dispersion. La densité crée de la notoriété locale, un coût logistique plus faible et un effet de rappel quotidien. L'acquisition des **65 sites Salad and Go** (105 M$, Arizona, Nevada, Oklahoma, Texas) et des **20 unités Clutch Coffee Bar** (~20 M$, Carolines) montre que l'enseigne traite les emplacements drive-thru comme une ressource rare à sécuriser avant les concurrents. **C'est un moat par préemption** — réel tant qu'il reste des emplacements, mais consommable.
+### 2. Culture de service et marque émotionnelle — moat RÉEL, difficile à copier
+Dutch Bros ne vend pas seulement une boisson : il vend une **interaction de quelques dizaines de secondes** avec des équipiers (les « broistas ») recrutés et promus en interne. Les responsables de boutique sont presque tous issus du réseau, ce qui transmet la culture d'une boutique à l'autre. Une culture ne se brevète pas, mais elle se reproduit mal : c'est ce que 7 Brew tente de copier avec un modèle très proche.
 
-### 3. La culture et le vivier de managers — le moat le plus sous-estimé
-Ouvrir 185 boutiques par an suppose 185 managers déjà formés. Dutch Bros revendique **525 candidats operator avec une ancienneté moyenne de huit ans**, formés exclusivement en interne, jamais recrutés à l'extérieur. C'est une barrière de **temps** : un concurrent avec du capital peut construire des kiosques en 12 mois, mais pas fabriquer huit ans d'ancienneté. Dans un secteur où le service *est* le produit, c'est probablement le vrai fossé.
+### 3. Fidélisation numérique — moat RÉEL
+**73 % des transactions** passent par l'application Dutch Rewards. Les données de fréquence permettent des promotions ciblées et une publicité payante plus efficace. Ce taux est parmi les plus élevés de la restauration américaine.
 
-### 4. Dutch Rewards — un moat de données, à moitié exploité
-Plus de **73 %** des transactions passent par le programme de fidélité, contre ~60 % chez Starbucks. Cela donne une visibilité sur les habitudes individuelles et permet une segmentation client fine, que la direction cite comme la plus forte contribution aux comparables depuis le lancement du programme. La donnée est là. La monétisation systématique reste à démontrer.
+### 4. Gamme propriétaire — moat RÉEL mais COPIABLE
+La boisson énergisante **Rebel** et les boissons très personnalisées (dont beaucoup sans café) différencient l'offre de Starbucks et réduisent la dépendance à l'arabica. Mais une recette se copie : 7 Brew, Swig ou Sonic proposent des boissons comparables.
 
-### 5. Pouvoir de fixation des prix — LIMITÉ
-C'est la faiblesse structurelle. Le client Dutch Bros vient en partie **pour le prix** relatif à Starbucks. Les coûts de changement sont nuls : le kiosque 7 Brew d'en face vend la même boisson 2 à 4 dollars moins cher qu'un Starbucks équivalent. Le décrochage du trafic système à **+1,7 %** au T2 2026, après l'extinction de la hausse tarifaire, suggère que **l'élasticité-prix est réelle**. Dutch Bros n'a pas le pouvoir de prix d'une marque de luxe ; il a celui d'une habitude quotidienne — ce qui n'est pas la même chose.
+### 5. Pipeline immobilier et échelle — moat EN CONSTRUCTION
+Avec plus de 1 200 boutiques, Dutch Bros dispose d'équipes de développement, de relations avec les promoteurs et d'une marque qui facilite l'accès aux meilleurs emplacements. La direction indique disposer de **~90 % du pipeline** nécessaire pour atteindre 2 029 boutiques. Limite : l'enchère perdue sur Salad and Go montre que cet avantage ne suffit pas face à un concurrent prêt à payer plus.
+
+### 6. Coûts de changement — FAIBLES
+Rien n'empêche un client d'aller au drive-thru d'en face. La fidélité repose sur l'habitude, la vitesse et l'expérience — elle doit être **regagnée chaque jour**.
 
 ## Positionnement vs concurrence
 
-| Critère | Dutch Bros | Starbucks | 7 Brew | Scooter's |
+| Critère | Dutch Bros | Starbucks | 7 Brew | McDonald's (McCafé) |
 |---|---|---|---|---|
-| Unités (US) | ~1 225 | ~16 000 | ~700-780 | ~932 |
-| AUV | ~2,1-2,2 M$ | Élevé, format mixte | ~2 M$ | ~0,88 M$ |
-| Format | Drive-thru pur | Café + drive | Drive-thru pur | Kiosque drive |
-| Modèle capital | Intégré (capex lourd) | Mixte | Franchise (Blackstone) | Franchise |
-| Croissance unités | ~16-20 %/an | Faible | Très forte | ~10 %/an |
-| Marge nette | ~4,9 % | ~5 % | n.d. (privé) | n.d. (privé) |
+| Format | Kiosque drive-thru, sans salle | Café avec salle + drive-thru | Kiosque drive-thru | Restaurant + drive-thru |
+| Offre | Boissons personnalisées, énergisants | Café, gamme large, nourriture | Boissons personnalisées, énergisants | Café d'appoint, prix bas |
+| Prix perçu | Moyen | Élevé | Moyen | Bas |
+| Expérience | Service jovial, rapidité | « Troisième lieu », en reprise | Copie du modèle Dutch Bros | Fonctionnelle |
+| Modèle | 72 % en propre | Majoritairement en propre aux États-Unis | Franchise | Franchise |
+| Croissance du réseau | ~16 % par an | Faible aux États-Unis | Très rapide | Faible |
+
+**Valeur perçue et image de marque** : Dutch Bros est perçu comme **plus jeune, plus chaleureux et moins cher** que Starbucks, avec une identité visuelle (moulin à vent bleu) et une culture d'entreprise très présentes sur les réseaux sociaux. Le marketing repose sur la fidélisation, la publicité payante (introduite récemment) et les nouveautés saisonnières plutôt que sur les promotions agressives.
 
 ## Pouvoir de négociation
 
-- **Vis-à-vis des clients** : **Faible à modéré** — aucun coût de changement, forte substituabilité, sensibilité prix démontrée
-- **Vis-à-vis des fournisseurs de café** : **Modéré et croissant** — la torréfaction intégrée et l'échelle donnent un accès direct aux négociants, mais le prix de l'arabica reste subi
-- **Vis-à-vis des bailleurs et promoteurs** : **En dégradation** — la transition vers le build-to-suit signifie que Dutch Bros paie une prime pour obtenir l'emplacement qu'il veut, quand il le veut. Les charges d'occupation à 16,3 % du CA en sont la preuve comptable
-- **Vis-à-vis des employés** : **Fort par la culture, pas par le marché** — le vivier interne réduit la dépendance au recrutement externe`,
+- **Vis-à-vis des clients** : **modéré** — la marque permet des hausses de prix (ticket +4,1 % au T2), mais le ralentissement du trafic montre que cette marge de manœuvre a des limites dans une clientèle jeune et sensible au prix.
+- **Vis-à-vis des fournisseurs** : **modéré** — Dutch Bros est un acheteur significatif de café et d'emballages, mais reste preneur du prix mondial de l'arabica.
+- **Vis-à-vis des bailleurs et promoteurs** : **en hausse mais contesté** — la marque est un locataire recherché, mais 7 Brew, Starbucks et les chaînes de restauration rapide se disputent les mêmes parcelles drive-thru.
+- **Vis-à-vis des salariés** : **bon** — culture, promotion interne et rémunération attractive pour le secteur réduisent la rotation ; la main-d'œuvre reste néanmoins le premier poste de coût avec le café.
+- **Vis-à-vis des franchisés** : **élevé** — plus de nouvelles franchises depuis 2017 et des rachats au gré des opportunités.`,
   },
   {
     id: 5,
     title: "Compétition",
     category: "Comparaison sectorielle",
     icon: "🌍",
-    content: `## Tableau comparatif — Restauration rapide et boissons (août 2026)
+    content: `## Tableau comparatif — Restauration et boissons à emporter (octobre 2026)
 
-| Société | Code Bloomberg | Capitalisation (Mds$) | EV/CA | EV/EBIT | P/E | Rendement div. | ROE 5 ans moy. |
+| Société | Code Bloomberg | Cap. boursière | EV/CA | EV/EBIT | P/E | Rdt div. | ROE moy. 5 ans |
 |---|---|---|---|---|---|---|---|
-| **Dutch Bros** | **BROS US** | **~9,4** | **~5,5x** | **~55x** | **~70x** | **0 %** | **~8-10 %** |
-| Starbucks | SBUX US | ~122 | ~3,8x | ~38x | ~62x | ~2,3 % | n.s. (fonds propres négatifs) |
-| Chipotle | CMG US | ~48 | ~3,3x | ~22x | ~28x | 0 % | ~40 % |
-| CAVA Group | CAVA US | ~9,8 | ~7,5x | ~75x | ~125x | 0 % | ~8 % |
-| Wingstop | WING US | ~3,6 | ~6,7x | ~24x | ~31x | ~0,7 % | n.s. (fonds propres négatifs) |
-| 7 Brew | Non coté | n/a | n/a | n/a | n/a | n/a | n/a |
-| Scooter's Coffee | Non coté | n/a | n/a | n/a | n/a | n/a | n/a |
+| **Dutch Bros** | **BROS US** | **~6,8 Md$** | **~3,2× (2026e)** | **~34× (TTM)** | **~54× TTM · ~35× 12 mois** | **0 %** | **~4 % (faible)** |
+| Starbucks | SBUX US | ~120 Md$ | ~3,6× | ~35× | ~61× TTM · ~36× fwd | ~2,4 % | n.s. (fonds propres négatifs) |
+| McDonald's | MCD US | ~215 Md$ | ~10× | ~22× | ~25× | ~2,4 % | n.s. (fonds propres négatifs) |
+| Chipotle | CMG US | ~55 Md$ | ~4,5× | ~25× | ~30× | 0 % | ~40 % |
+| Wingstop | WING US | ~8 Md$ | ~12× | ~45× | ~55× | ~0,4 % | n.s. (fonds propres négatifs) |
+| CAVA | CAVA US | ~8 Md$ | ~6× | n.s. | ~100× | 0 % | faible |
+| Luckin Coffee | LKNCY US | ~10 Md$ | ~1,8× | ~15× | ~20× | 0 % | ~20 % |
+| 7 Brew | Non coté | n.a. | n.a. | n.a. | n.a. | n.a. | n.a. |
 
-*Données estimatives au 28 août 2026, agrégées de plusieurs fournisseurs et à des dates légèrement décalées. À reconstruire sur filings SEC directs pour un usage décisionnel.*
+*Dutch Bros : cours de 38,71 $ au 2 octobre 2026, ~178 M d'actions sur une base « entièrement échangée », BPA ajusté 2026e ~0,95 $. Starbucks : données de marché de septembre 2026 (forward P/E ~36×, rendement ~2,4 %). Autres pairs : ordres de grandeur à confirmer sur Bloomberg avant toute utilisation chiffrée.*
 
 ---
 
 ### Analyse comparative
 
-**Dutch Bros vs Starbucks — la comparaison que les haussiers aiment**
-À un P/CA prospectif d'environ **3,9x**, Dutch Bros se paie à peu près comme Starbucks — un groupe dix fois plus gros, en croissance faible, engagé dans un lourd redressement opérationnel. L'argument haussier est imparable dans sa forme : à multiple de ventes égal, on préfère l'actif qui croît de 30 % à celui qui croît de 3 %.
+**Starbucks — Le géant qui se réveille**
+Après deux années difficiles, Starbucks a renoué avec la croissance : ventes comparables mondiales de **+7,9 %** au T3 de son exercice 2026 et prévision de BPA relevée. Pour Dutch Bros, c'est la menace la plus sous-estimée : un Starbucks qui retrouve son trafic aux États-Unis récupère une partie des clients que Dutch Bros avait conquis pendant ses difficultés. Starbucks se paie ~36× ses bénéfices attendus, soit à peu près le même multiple que Dutch Bros, pour une croissance bien plus lente mais un dividende de 2,4 %.
 
-L'argument a toutefois deux failles. D'abord, Starbucks convertit ses ventes en trésorerie ; Dutch Bros réinvestit tout (**FCF 75 M$ pour 1,88 Md$ de CA**). Ensuite, Starbucks détient un **pouvoir de prix** que Dutch Bros n'a pas démontré. Le multiple de ventes est le seul terrain où la comparaison flatte Dutch Bros ; sur le P/E (70x contre 62x) et sur l'EV/EBITDA (32x contre 27x), la prime réapparaît.
+**7 Brew — Le clone qui accélère**
+Fondé en 2017 en Arkansas, 7 Brew compte environ **777 boutiques** avec un AUV d'environ 2 M$, très proche de celui de Dutch Bros. Modèle franchisé, donc **peu consommateur de capital** et capable de croître très vite. En septembre 2026, 7 Brew a remporté les anciens sites Salad and Go en offrant ~143 M$ contre 105 M$ pour Dutch Bros (63 sites finalement cédés pour ~123,5 M$). C'est le concurrent direct le plus dangereux, mais non coté : aucune transparence sur sa rentabilité.
 
-**Dutch Bros vs Chipotle — le miroir désagréable**
-Chipotle est l'archétype de ce que Dutch Bros veut devenir : une enseigne à croissance d'unités devenue machine à cash, avec un **ROE de ~40 %**, un ROIC de ~21 % et un P/E de 28x. Chipotle se paie **deux fois et demie moins cher** que Dutch Bros pour une rentabilité quatre fois supérieure. La différence n'est pas de la croissance — Chipotle croît encore — c'est la **conversion de la croissance en rentabilité du capital**. Le ROIC de Dutch Bros à **8,4 %** contre un WACC estimé à **15,3 %** est le chiffre le plus dérangeant de tout le dossier : à ces niveaux, chaque dollar investi dans une nouvelle boutique détruit théoriquement de la valeur au coût du capital actuel.
+**McDonald's et Chipotle — Les références de qualité**
+Deux modèles matures, très rentables, qui se paient 25 à 30× les bénéfices. Ils rappellent qu'une chaîne de restauration, même excellente, se valorise rarement au-delà de 30× une fois sa croissance normalisée.
 
-**Dutch Bros vs CAVA — la comparaison qui rassure**
-CAVA se paie **125x les bénéfices** et 53x l'EBITDA pour une croissance comparable et un ROE de 8 %. Sur cette base, Dutch Bros n'est pas la valeur la plus chère de son univers. C'est un réconfort relatif, pas une thèse : deux actifs surévalués ne se valident pas mutuellement.
+**Wingstop et CAVA — Les autres valeurs de croissance**
+Croissance d'unités comparable et multiples plus élevés. Ils montrent que le marché paie encore des primes importantes aux « histoires d'expansion », mais ces primes sont volatiles.
 
-**7 Brew et Scooter's — les concurrents invisibles dans le tableau**
-Ils ne figurent dans aucune comparaison de multiples parce qu'ils ne sont pas cotés. C'est précisément pourquoi ils sont dangereux. **7 Brew**, adossé à **Blackstone**, exploite un modèle franchisé — donc **capital-light** — a dépassé sa 777ᵉ unité et dispose d'environ 340 ouvertures en pipeline. Il croît plus vite que Dutch Bros **sans consommer son propre bilan**. En janvier 2026, Technomic a classé pour la première fois **trois enseignes de café** (7 Brew, Scooter's, Dutch Bros) dans le top 10 des chaînes préférées des Américains : validation de la catégorie, et avertissement sur son encombrement.
+**Luckin Coffee — Le contre-modèle**
+Petits points de vente à emporter, prix bas, forte digitalisation : Luckin a démontré en Chine qu'un format compact peut évincer Starbucks. Peu de recoupement géographique, mais un rappel que le format de Dutch Bros n'est pas unique.
 
 ---
 
-### Le ratio qui compte : ROIC vs WACC
-Pour une enseigne dont la thèse repose sur le déploiement de capital, la seule question qui compte est : **le rendement du capital investi dépasse-t-il son coût ?** Aujourd'hui, non (8,4 % contre ~15,3 %). Le pari haussier consiste à croire que le ROIC monte à mesure que les cohortes de boutiques mûrissent et que la structure se dilue. Le pari baissier consiste à croire que la hausse des coûts d'occupation et la cannibalisation l'en empêchent.`,
+### Lecture de la valorisation
+
+À ~35× les bénéfices des douze prochains mois, Dutch Bros se paie **en ligne avec la médiane de ses pairs de croissance** (~33×) et deux fois la médiane du secteur de la restauration (~18× selon GuruFocus). C'est la première fois depuis son introduction en bourse que le titre n'affiche plus de prime massive : il se payait plus de 100× ses bénéfices en 2025. Le ROE moyen sur cinq ans, faible, rappelle que la rentabilité comptable est récente et que l'essentiel de la valeur repose sur l'expansion future du réseau.`,
   },
   {
     id: 6,
     title: "Résultats financiers",
     category: "Analyse financière",
     icon: "📈",
-    content: `## Résultats T2 2026 (publiés le 5 août 2026) — Analyse
+    content: `## Résultats du T2 2026 (publiés le 5 août 2026)
 
 ### Chiffre d'affaires et bénéfices vs consensus
 
-| Indicateur | T2 2026 | Consensus | Écart |
-|---|---|---|---|
-| Chiffre d'affaires | **550,9 M$** | ~525,4 M$ | **+4,9 % ✓** |
-| BPA ajusté | **0,33 $** | ~0,30 $ | **+11 % ✓** |
-| BPA dilué (GAAP) | 0,28 $ | — | vs 0,20 $ au T2 2025 |
-| Résultat net | **51,6 M$** | — | **+34,5 %** a/a |
-| EBITDA ajusté | **113,7 M$** | — | **+27,8 %** a/a |
-| SSS système | +5,8 % | — | Transactions +1,7 % |
-| SSS boutiques propres | +8,3 % | — | Ticket +4,9 %, trafic +3,4 % |
+| Indicateur | T2 2026 | Consensus | Écart | T2 2025 |
+|---|---|---|---|---|
+| Chiffre d'affaires | **550,9 M$** | ~525 M$ | **+4,8 %** | 415,8 M$ |
+| BPA ajusté | **0,33 $** | 0,29–0,30 $ | **+11 à +14 %** | 0,26 $ |
+| BPA GAAP (classe A) | 0,28 $ | 0,28 $ | conforme | 0,20 $ |
+| EBITDA ajusté | 113,7 M$ | ~106 M$ | +7 % | 89,0 M$ |
+| Comparables système | +5,8 % | — | — | +6,1 % |
+| Comparables boutiques en propre | +8,3 % | — | — | +7,8 % |
+| Transactions système | +1,7 % | — | — | +3,7 % |
+| Ouvertures | 48 (dont 44 en propre) | — | — | 31 |
 
-**Dutch Bros a dépassé le consensus sur les deux lignes** — cinquième trimestre consécutif de dépassement du BPA — et a **relevé sa guidance annuelle**. Et le titre s'est effondré de **~19 % en une séance**.
+**Verdict** : dépassement sur le CA et l'EBITDA, BPA ajusté au-dessus du consensus, BPA GAAP conforme. C'est le **cinquième trimestre consécutif** de dépassement du consensus sur le BPA. Treizième trimestre consécutif de comparables positifs, huitième de transactions positives.
 
 ---
 
 ### Facteurs clés
 
-- **48 boutiques ouvertes** au trimestre, parc porté à **1 225 unités** contre 1 043 un an plus tôt (+182 nettes)
-- **13ᵉ trimestre consécutif** de comparables positives, **8ᵉ** de croissance du trafic
-- **Dutch Rewards** au-dessus de 73 % des transactions — plus forte contribution aux comparables depuis le lancement de la segmentation client
-- **SG&A ajusté en baisse de 90 pb** en pourcentage du CA : le levier de structure fonctionne
-- **Deuxième boutique de Chicago** en rythme de ~7 M$ de volume annuel, record d'ouverture — validation de la portabilité de la marque hors Ouest américain
+- **Ouvertures** : 48 boutiques au T2, 89 sur le semestre ; parc de **1 225 boutiques** au 30 juin.
+- **Rachat de franchise** : Phoenix East Valley (31 boutiques) finalisé fin juillet — environ 25 M$ de CA et 5 M$ d'EBITDA ajusté supplémentaires sur le reste de l'année.
+- **Ticket moyen** : +4,1 % au niveau système — prix, offre alimentaire et personnalisation.
+- **Ralentissement notable** : les transactions système passent de +5,1 % au T1 à +1,7 % au T2, et la direction anticipe des comparables de **+4 à +5 % au T3**, en raison de bases de comparaison plus exigeantes et de l'effet prix qui s'estompe.
 
 ---
 
 ### Évolution des marges
 
-- **Marge d'EBITDA ajusté : 20,6 %, en repli de 80 pb** — la croissance du CA (+32,5 %) dépasse celle de l'EBITDA (+27,8 %)
-- **COGS boutiques à 26,1 %** du CA, en hausse — déploiement du programme alimentaire et coût du café
-- **Charges d'occupation à 16,3 %**, en hausse — transition vers les baux build-to-suit
-- **Marge de contribution boutique maintenue à ~30,6 %** — l'économie unitaire tient
-- Guidance : **~60 pb de pression COGS** et **~20 pb de pression sur la marge d'EBITDA ajusté** sur l'ensemble de 2026
+- **Contribution des boutiques en propre** : 30,6 % contre 31,1 % — café plus cher (+0,8 pt) et coûts de pré-ouverture plus élevés (+0,4 pt), compensés en partie par la main-d'œuvre (−1,2 pt).
+- **Frais généraux ajustés** : 13,2 % du CA contre 14,1 % — levier opérationnel au siège.
+- **EBITDA ajusté** : 20,6 % contre 21,4 %. Sur l'année, la prévision (385–390 M$ pour ~2,12 Md$) implique ~18,3 %, quasi stable par rapport à 2025 (18,5 %).
 
 ---
 
-### Perspectives et guidance relevée
+### Prévisions — Deuxième relèvement de l'année
 
-| Métrique | Guidance T1 2026 | Guidance T2 2026 |
-|---|---|---|
-| Chiffre d'affaires | 2,05-2,08 Mds$ | **2,10-2,13 Mds$** |
-| SSS système | +4 à +6 % | **+5 à +6 %** |
-| EBITDA ajusté | 370-380 M$ | **385-390 M$** |
-| Capex | 270-290 M$ | **350-370 M$** |
-| Ouvertures | ≥ 185 | ≥ 185 |
+| Indicateur 2026 | Février | Mai | Août |
+|---|---|---|---|
+| Chiffre d'affaires | 2,00–2,03 Md$ | relevé (~2,07 Md$ au point médian) | **2,10–2,13 Md$** |
+| Comparables système | +3 à +5 % | relevés | **+5 à +6 %** |
+| EBITDA ajusté | 355–365 M$ | relevé | **385–390 M$** |
+| Ouvertures | ≥ 181 | ≥ 185 | ≥ 185 |
+| Investissements | — | — | **350–370 M$** |
 
-Deux mouvements à ne pas confondre. Le relèvement du chiffre d'affaires et de l'EBITDA est une bonne nouvelle. **Le relèvement du capex de 270-290 M$ à 350-370 M$ — soit +80 M$, environ +29 % — n'en est pas une** : c'est le coût d'acquisition de la croissance qui monte en même temps que la croissance. La guidance exclut par ailleurs l'opération Salad and Go.
-
-L'élément qui a fait basculer le marché n'est pas dans le communiqué mais dans la conférence : le management attend **+4 à +5 % de comparables système au T3**, contre +5,8 % au T2 et +8,3 % au T1. Motifs invoqués : bases de comparaison, extinction de la hausse tarifaire du début d'année, anniversaire du programme alimentaire.
+**Changement de ton** : confiant sur l'année, plus prudent sur le trimestre en cours. La prévision exclut l'opération Salad and Go, finalement perdue face à 7 Brew.
 
 ---
 
-### Signaux d'alerte bilan
+### Signaux d'alerte du bilan
 
-- **Free cash-flow de 75,2 M$ sur 12 mois glissants** pour 365,7 M$ de trésorerie d'exploitation : **290,5 M$ absorbés par le capex**. Le P/FCF ressort à **125x**
-- **Dette totale 1,21 Md$**, trésorerie 269 M$, **dette nette ~938 M$** — dette/EBITDA à 3,12x, couverture des intérêts 6,6x
-- **Nombre d'actions +8,03 % sur un an** (+5,79 % sur le seul trimestre) : la dilution est un poste permanent
-- **Altman Z-Score à 2,7** — sous le seuil de 3,0, à surveiller compte tenu de l'intensité capitalistique
-- Liquidité de **699 M$** au 30 juin 2026 : le financement des 185 ouvertures est sécurisé à court terme
+- **Trésorerie** : 268,6 M$ ; dette financière de 198,5 M$ — **trésorerie nette positive** hors loyers.
+- **Loyers** : **1,01 Md$ de dettes locatives**, en hausse de 120 M$ en six mois avec le modèle build-to-suit.
+- **Accord de partage d'économies fiscales (TRA)** : passif de **973 M$**, en hausse de 152 M$ depuis décembre — dû aux anciens propriétaires à mesure qu'ils échangent leurs parts (voir Red Flags).
+- **Flux d'exploitation** : 196,9 M$ au premier semestre (+55 %), mais **investissements prévus à 350–370 M$** sur l'année, en forte hausse : le free cash-flow reste mince (~75 M$ sur douze mois glissants).
+- **Stocks** : 41,3 M$ contre 48,9 M$ en décembre — pas d'accumulation anormale.
 
 ---
 
 ### Réaction du marché
 
-Le titre a clôturé à **65,67 $** le 5 août, perdu **12,2 %** hors séance, puis **~19 % le lendemain** pour terminer à **53,32 $**, portant le recul hebdomadaire à plus de 18 %. Il cote **49,91 $** au 28 août 2026, en baisse de **31,8 % sur douze mois**.
+Malgré des chiffres supérieurs aux attentes, le titre a perdu **~12 % après séance** et **~19,5 % sur la semaine**. Lecture : le marché ne payait plus la croissance du CA, mais celle du **trafic** — et la prévision de comparables de +4 à +5 % au T3, avec des transactions en net ralentissement, a remis en cause l'idée que la croissance par boutique pouvait rester forte. L'annonce simultanée d'une acquisition immobilière coûteuse a renforcé les doutes sur l'intensité capitalistique. En septembre, la perte de l'enchère Salad and Go et une série d'objectifs abaissés (JPMorgan, DA Davidson et Jefferies à 60 $) ont prolongé la baisse jusqu'à un plus bas de **37,40 $** le 28 septembre.
 
-Ce qu'il faut en retenir : le marché **ne conteste pas les résultats — il reprice l'hypothèse implicite**. À 70x les bénéfices, aucun titre ne survit à une décélération annoncée de la croissance comparable, même quand tout le reste dépasse les attentes. Le mouvement est un ajustement de multiple, pas un verdict sur l'entreprise. C'est aussi le signal que la marge de sécurité était nulle avant la publication.`,
+**Prochain rendez-vous** : résultats du T3 2026 attendus début novembre. Le juge de paix sera le **trafic** : des transactions positives avec des comparables dans la fourchette de +4 à +5 % rassureraient ; des transactions négatives confirmeraient le scénario de saturation.`,
   },
   {
     id: 7,
     title: "Earnings Calls",
     category: "Analyse financière",
     icon: "📞",
-    content: `## Analyse du discours du management
+    content: `## Analyse des conférences de résultats — Priorités de la direction
 
-### Ton général — évolution 2024-2026
+### Évolution du ton
 
-**2024 — Transition et reconstruction.** Christine Barone prend la direction générale en janvier 2024, Travis Boersma passe président exécutif. Le discours est celui d'une professionnalisation : structuration du programme de fidélité, discipline immobilière, refonte de la stratégie de sélection des sites. Le trafic à périmètre comparable est alors **négatif** (-2,0 % au T2 2024) et la direction ne le masque pas.
+**T4 2025 (12 février 2026) — Confiance structurée** : trimestre record en trafic (+5,4 % de transactions système), 19ᵉ année consécutive de comparables positifs, pipeline de sites « plus que doublé » en approbations. Prévision 2026 prudente (+22 à +24 % de CA, comparables de +3 à +5 %) avec ~60 points de base de pression sur la marge d'EBITDA (café, pré-ouvertures). Christine Barone insiste : la route vers 2 029 boutiques en 2029 est « très claire ».
 
-**2025 — Reprise en main assumée.** Le ton devient nettement plus confiant à mesure que les comparables redeviennent positives et que le trafic repart. L'Investor Day 2025 relève l'ambition à **7 000 boutiques** à terme, avec l'objectif intermédiaire de **2 029 unités en 2029** — un chiffre choisi pour son effet mnémotechnique, ce qui en dit long sur la dimension narrative de la communication.
+**T1 2026 (6 mai 2026) — Accélération** : comparables système de +8,3 %, dont +5,1 % de transactions ; relèvement de toutes les prévisions. Ton enthousiaste sur l'offre alimentaire et la commande mobile, présentées comme des leviers pluriannuels. Le titre réagit positivement.
 
-**2026 — Confiance opérationnelle, prudence chiffrée.** Barone parle de « culture people-led », de « proposition de valeur convaincante », de résultats « au-dessus de nos attentes ». Mais la direction ne publie **pas de guidance trimestrielle formelle** et livre les chiffres qui fâchent oralement, en réponse aux questions. La décélération des comparables du T3 à **+4-5 %** est apparue de cette façon.
+**T2 2026 (5 août 2026) — Confiance affichée, prudence chiffrée** : record d'AUV, relèvement des prévisions annuelles, mais comparables du T3 guidés à +4 à +5 %. Le directeur financier Josh Guenser explique le ralentissement par des bases de comparaison plus exigeantes et un effet prix qui s'estompe. Barone met en avant les opportunités de conversion de sites « auprès de concepts émergents et d'acteurs historiques des boissons et du drive-thru » et n'exclut pas d'autres acquisitions.
+
+**31 août 2026 — Communiqué hors calendrier** : Dutch Bros annonce ne pas relever son offre sur Salad and Go et met en avant sa « discipline » d'allocation du capital.
 
 ---
 
-### Priorités répétées du management
+### Priorités répétées de la direction
 
-**1. Le nombre d'unités avant tout.** « Nous restons très confiants dans l'ouverture d'au moins 185 boutiques système en 2026. » L'objectif 2 029 en 2029 est réaffirmé à chaque appel, avec la précision que **90 % du pipeline nécessaire** est déjà sécurisé.
+**1. Le trafic avant le prix** — Chaque appel revient sur les transactions : innovation de boissons, publicité payante, fidélisation, commande mobile, offre alimentaire. C'est le cœur du discours depuis 2024 — et c'est précisément l'indicateur qui a ralenti au T2.
 
-**2. La productivité des nouvelles boutiques.** Les AUV systémiques sont présentés comme atteignant des records. Le cas de Chicago (~7 M$ annualisés sur la deuxième unité) est répété comme preuve que la marque fonctionne hors de son berceau.
+**2. L'expansion du réseau** — 2 029 boutiques en 2029, ~90 % du pipeline identifié, coût d'ouverture ramené à ~1,3 M$, conversions de sites (Clutch, franchises, sites tiers).
 
-**3. Dutch Rewards et la segmentation client.** Plus de 73 % de pénétration, Order Ahead à ~16 %. Le management insiste sur le fait que la segmentation produit sa plus forte contribution aux comparables à ce jour.
+**3. L'offre alimentaire** — De quatre boutiques à plus de 300 en un an, déploiement complet fin 2026 ; la direction y voit un relais pour les créneaux de l'après-midi et pour le ticket moyen.
 
-**4. Les vents contraires sur les coûts — reconnus sans détour.** Café (~60 pb de pression COGS en 2026), occupation (transition build-to-suit), main-d'œuvre. Josh Guenser chiffre les impacts plutôt que de les diluer dans la rhétorique. **C'est à porter au crédit de la direction.**
+**4. La productivité des nouvelles boutiques** — Réaffirmée à chaque appel : les ouvertures récentes vendraient autant que la moyenne du système.
 
-**5. Le vivier de talents.** 525 candidats operator, huit ans d'ancienneté moyenne. Ce point revient systématiquement quand la question de la faisabilité du rythme d'ouverture est posée — c'est la réponse standard, et elle est solide.
+**5. La discipline sur les marges** — Levier sur les frais généraux, productivité de la main-d'œuvre, gestion du coût du café avec un décalage de deux à trois trimestres.
 
 ---
 
 ### Analyse du sentiment
 
-- **Confiance** : élevée et stable. Pas de rupture de discours entre 2025 et 2026, pas de révision à la baisse de la trajectoire d'unités.
-- **Transparence sur les coûts** : bonne. La direction chiffre les pressions au point de base plutôt que de les qualifier.
-- **Transparence sur la demande** : **plus faible**. La décélération du trafic système de +5,1 % à +1,7 % en un trimestre est expliquée par trois facteurs techniques (base, prix, anniversaire alimentaire) sans discussion de l'hypothèse alternative : **la cannibalisation entre boutiques**. C'est l'angle mort de la communication.
-- **Structure de la communication** : absence de guidance trimestrielle publiée. Ce choix maximise la flexibilité de la direction et **minimise l'information préalable de l'actionnaire** — il explique une partie de la violence de la réaction du 6 août.
+| Appel | Ton | Confiance | Sujets défensifs |
+|---|---|---|---|
+| T4 2025 | Positif, prudent sur les chiffres | Élevée | Coût du café, marges |
+| T1 2026 | Très positif | Très élevée | Peu |
+| T2 2026 | Positif mais mesuré | Élevée | Trafic du T3, Salad and Go, investissements |
 
-> **À lire entre les lignes** : le management vend un **compteur d'unités** et un **discours de culture**. Ce sont ses deux points forts et ils sont authentiques. Ce qu'il évite systématiquement de discuter, c'est le rendement du capital investi dans la 1 226ᵉ boutique par rapport à la 500ᵉ. Tant que la question n'est pas posée frontalement en conférence, l'investisseur doit la poser lui-même.`,
+- **Confiance** : élevée et crédible — la direction a relevé ses prévisions deux fois en 2026 et dépassé le consensus cinq trimestres de suite.
+- **Transparence** : bonne sur les indicateurs de boutique (AUV, comparables, transactions, fidélisation) ; **plus faible** sur le rendement des nouvelles boutiques par cohorte et sur les marchés de l'Est.
+- **Signal à surveiller** : le passage d'un discours « nous gagnons du trafic » à un discours « nous ouvrons des boutiques et convertissons des sites ». Si la croissance future vient surtout des ouvertures et des acquisitions plutôt que du trafic par boutique, la qualité de la croissance baisse.`,
   },
   {
     id: 8,
     title: "Management",
     category: "Gouvernance",
     icon: "👔",
-    content: `## Évaluation du management
+    content: `## Évaluation de la direction
 
-### Christine Barone — Directrice Générale et Présidente (depuis janvier 2024)
+### Christine Barone — Directrice générale (depuis janvier 2024) et présidente (depuis février 2023)
 
-**Parcours** : Bain & Company, puis Raymond James, puis **plus de cinq ans chez Starbucks** à des postes de vice-présidente, puis **directrice générale de True Food Kitchen** (2016-2023), enseigne de restauration en forte croissance. Arrivée chez Dutch Bros comme présidente en février 2023, promue directrice générale en janvier 2024, également administratrice.
+**Parcours** : diplômée en mathématiques appliquées et MBA de Harvard ; passée par Bain & Company et Raymond James ; plusieurs postes de direction chez **Starbucks** ; directrice générale de **True Food Kitchen** de 2016 à 2023, une chaîne de restauration en forte croissance. Administratrice de Yelp.
 
-**Bilan chiffré depuis sa prise de fonction** :
-- Chiffre d'affaires passé de **1,28 Md$ (2024)** à **~1,60 Md$ (2025)** puis une guidance de **2,10-2,13 Mds$ (2026)**
-- Résultat net de **66,5 M$ (2024)** à **117,3 M$ (2025)** — BPA de 0,34 $ à 0,64 $
-- Retournement du trafic : d'un trafic comparable **négatif** au T2 2024 à **huit trimestres consécutifs** de croissance
-- Parc de ~950 à **1 225 boutiques**, extension à 26 États
-- Déploiement du programme alimentaire à plus de 750 boutiques, en avance sur le calendrier
+**Bilan chiffré** :
+- CA de 965,8 M$ en 2023 à **1,64 Md$ en 2025**, puis ~2,12 Md$ attendus en 2026.
+- EBITDA ajusté de ~231 M$ en 2024 à 303 M$ en 2025, puis 385–390 M$ en 2026.
+- **Huit trimestres consécutifs de transactions positives**, alors que la majorité de la restauration américaine perdait du trafic.
+- Programme de leviers de trafic (publicité payante, commande mobile, offre alimentaire) lancé et déployé.
+- Coût d'ouverture abaissé de ~1,8 M$ à ~1,3 M$ ; première acquisition de marque (Clutch Coffee).
 
-C'est un bilan opérationnel **solide et vérifiable**. Le profil — Starbucks pour le métier, True Food Kitchen pour la croissance, Bain pour la rigueur analytique — est bien calibré au problème posé.
-
-**La réserve** : Barone n'a pas encore été testée sur un **cycle défavorable**. Toute sa direction générale s'est déroulée dans une phase d'accélération. La question du T3 2026 — que fait-on quand le trafic ralentit et que le capex a déjà été engagé ? — sera son premier vrai examen.
+**Participation** : rémunération essentiellement en actions de performance ; participation personnelle modeste au regard de la capitalisation — c'est une dirigeante professionnelle, pas une propriétaire.
 
 ---
 
-### Travis Boersma — Cofondateur et Président exécutif
+### Josh Guenser — Directeur financier (depuis mai 2024)
 
-Cofondateur avec son frère **Dane Boersma** (décédé en 2009) de la première charrette à café en 1992. Directeur général de l'entité opérationnelle jusqu'en 2021, président exécutif depuis. Il **fixe l'orientation stratégique et préside le conseil**, tandis que Barone dirige l'exploitation.
+Ancien directeur financier de **MOD Pizza** (2020–2024), chaîne de pizzas en restauration rapide, diplômé en comptabilité de l'université de Washington. Profil de finance de la restauration multi-sites. Premier bilan : amélioration de la discipline de coûts (frais généraux de 14,6 % à 13,6 % du CA au premier semestre), relèvements de prévisions réguliers.
 
-**Le point de gouvernance central** : Boersma détient environ **73 % des droits de vote pour ~38,8 % du capital économique** (~83,4 millions de titres toutes classes confondues en mars 2026), via une structure **Up-C multi-classes** — les actions de classe B lui confèrent **dix voix chacune sans droit économique**. Dutch Bros est de ce fait une **« controlled company »** au sens du NYSE : Boersma peut, seul, l'emporter sur l'ensemble des autres actionnaires réunis pour l'élection des administrateurs et les décisions majeures.
+### Travis Boersma — Cofondateur et président exécutif du conseil
 
-**Cessions de titres** : les 24 et 25 novembre 2025, Boersma a vendu **2,5 millions d'actions pour ~136,9 M$** (prix moyen pondéré 54,77 $), soit la quasi-totalité de sa détention **directe**. L'opération s'est faite sous plans **Rule 10b5-1** adoptés un an plus tôt — cadre qui neutralise l'accusation d'opportunisme. Ses intérêts **indirects** (via DM Trust Aggregator et DM Individual Aggregator) restent massifs et le contrôle en votes est intact. Sur douze mois, les initiés ont été **vendeurs nets d'environ 103 M$**.
+Fondateur en 1992 avec son frère Dane (décédé en 2009), président exécutif depuis 2021, très impliqué dans la culture. **Contrôle majoritaire des droits de vote** via des actions de classe B à dix voix (~74,6 % des droits de vote en mars 2025, plafond statutaire sous 80 %). **Ventes d'actions massives et régulières** : 1,25 M d'actions en août 2025, **136,9 M$** en novembre 2025, et d'autres cessions depuis.
 
 ---
 
-### Allocation du capital — l'enjeu réel
+### Allocation du capital — Historique
 
 | Décision | Montant | Lecture |
 |---|---|---|
-| Capex organique 2026 | **350-370 M$** | Relevé de +80 M$ en un trimestre |
-| Clutch Coffee Bar (janv. 2026) | ~20 M$ / 20 unités | Conversion, Carolines |
-| Sites Salad and Go (août 2026) | **105 M$ / jusqu'à 65 sites** | Préemption immobilière opportuniste |
-| Rachat franchise Phoenix (2026) | n.d. | Internalisation, relutif selon la direction |
-| Dividendes / rachats d'actions | **0 $** | Réinvestissement intégral |
+| Ouvertures 2025–2026 | ~154 puis ≥ 185 boutiques | Moteur principal, ~1,3 M$ par boutique |
+| Investissements 2026 | 350–370 M$ (~+49 % selon DA Davidson) | Hausse marquée de l'intensité capitalistique |
+| Clutch Coffee (20 boutiques) | ~20 M$ | Conversion rapide et peu coûteuse |
+| Franchise Phoenix East Valley (31 boutiques) | ~63 M$ (estimation de marché) | Rachat d'un flux de redevances existant |
+| Offre Salad and Go | 105 M$ (perdue) | Discipline de prix revendiquée face à 7 Brew |
+| Dividendes / rachats d'actions | Aucun | Réinvestissement total |
 
-| Indicateur | 2024 | 2025 | TTM 2026 |
-|---|---|---|---|
-| ROE | ~9 % | ~13 % | **14,56 %** |
-| ROIC | ~6 % | ~7 % | **8,42 %** |
-| ROCE | — | — | **6,02 %** |
-| WACC estimé | — | — | **~15,3 %** |
-
-**Le verdict est double.** Le ROE et le ROIC **progressent régulièrement** sous la direction Barone — c'est incontestable et positif. Mais le **ROIC reste très inférieur au coût du capital**. Sur la base des chiffres de marché actuels, l'entreprise investit 350 M$ par an à un rendement inférieur à ce que les apporteurs de capitaux exigent. Le pari implicite est que la maturation des cohortes récentes de boutiques comble l'écart. C'est plausible ; ce n'est pas démontré.
+**ROE / ROIC** : le ROE est d'environ **10 %** sur douze mois glissants ; le ROIC (ordre de grandeur 221 Bourse, loyers inclus dans le capital investi) progresse d'environ 2–4 % en 2022–2023 à **~8–9 %** aujourd'hui. Il reste **inférieur au coût du capital** pour un titre aussi volatil (bêta supérieur à 2), ce qui signifie qu'à ce stade la croissance crée moins de valeur que ne le suggèrent les marges de boutique. La tendance est cependant clairement ascendante.
 
 ---
 
 ### Signaux d'alerte
 
-- **Structure Up-C et double classe** : contrôle actionnarial verrouillé, actionnaire minoritaire sans recours effectif. Le principal risque de gouvernance du dossier.
-- **Accords de restitution d'impôt (TRA)** : Dutch Bros Inc. s'engage à reverser **85 %** de certains avantages fiscaux aux détenteurs pré-IPO. Un transfert de valeur structurel, contractuel et permanent, du flottant vers les initiés.
-- **Partie liée sur l'opération Salad and Go** : les documents déposés au tribunal des faillites mentionnent **Boersma Bros, LLC**, holding liée aux fondateurs, comme partie à l'accord de rachat des actifs à 105 M$. Point à documenter précisément dans les annexes du prochain 10-Q avant toute conclusion.
-- **Dilution** : +8,03 % d'actions sur douze mois. La rémunération en actions et les échanges d'unités OpCo diluent en continu.
-- **Type de dirigeants** : **fondateur-contrôlant + gestionnaire professionnelle recrutée**. C'est la bonne configuration à ce stade — le fondateur protège la culture, la professionnelle industrialise l'exécution — à condition que la répartition des rôles tienne. Elle tient pour l'instant.`,
+- **Ventes d'initiés** du fondateur et des fonds historiques, à des cours très supérieurs au cours actuel.
+- **Structure à plusieurs catégories d'actions** et contrôle du fondateur : l'actionnaire de classe A n'a pas de poids réel sur les décisions.
+- **Accord de partage d'économies fiscales (TRA)** : 973 M$ à verser aux anciens propriétaires, dont le fondateur — un transfert de valeur légal mais significatif.
+- **Rémunération** : sans excès apparent ; la rémunération en actions (~6,9 M$ au T2) reste modérée.
+- **Stratégie** : cohérente depuis 2024, pas de comportement promotionnel marqué, hormis l'objectif symbolique « 2 029 en 2029 ».
+
+---
+
+### Fondateur ou gestionnaire professionnel ?
+
+**Les deux.** La culture et le contrôle appartiennent au fondateur ; l'exécution est confiée à une directrice générale professionnelle, issue de Starbucks et rompue à la croissance d'une chaîne. À ce stade — passage de chaîne régionale à marque nationale —, ce partage est un **atout** : Barone apporte méthodes, données et discipline, Boersma garantit l'identité de la marque. Le risque tient à l'alignement : un fondateur qui vend massivement tout en conservant le contrôle des votes envoie un signal ambigu aux actionnaires minoritaires.`,
   },
   {
     id: 9,
     title: "Analyse du cours",
     category: "Marché",
     icon: "📉",
-    content: `## Facteurs historiques ayant influencé le cours (2021-2026)
+    content: `## Facteurs historiques du cours (2021-2026)
 
 ### Contexte
-Introduction en bourse en **septembre 2021** à 23 $, avec un bond spectaculaire dès le premier jour. Le titre est **extrêmement volatil** : **bêta de 2,33**, intérêt vendeur de **7,57 % du capital** (10,96 % du flottant), volume moyen de 4,6 millions de titres par jour. Le plus haut historique en clôture reste **85,37 $, atteint le 18 février 2025**.
+Dutch Bros est un titre **très volatil** (bêta de l'ordre de 2,3), qui a connu des dizaines de séances à plus de 5 % depuis son introduction. Il est passé de 23 $ à l'introduction à un plus haut historique de **85,37 $** en clôture (18 février 2025), puis à **74,02 $** le 2 juillet 2026 et à **37,40 $** le 28 septembre 2026. Il cote **38,71 $** le 2 octobre 2026, en baisse d'environ 37 % depuis le début de l'année.
+
+### Hausses significatives
+
+**15 septembre 2021 — Introduction en bourse** : prix fixé à 23 $, premier jour en hausse d'environ 55 % ; le titre dépasse 80 $ dans les semaines qui suivent, porté par l'engouement pour les valeurs de croissance.
+
+**Novembre 2024 — Résultats du T3 2024** : forte hausse après des résultats supérieurs aux attentes et un relèvement des prévisions, qui marquent le retour du trafic positif sous la direction de Christine Barone.
+
+**13 février 2025 — Résultats du T4 2024** : **jusqu'à +33 % en séance** (+25 % après la clôture la veille) après une croissance de 35 % du CA et un BPA ajusté de 0,07 $ contre 0,02 $ attendu. Le titre atteint son plus haut historique cinq jours plus tard.
+
+**8 mai 2025 — Résultats du T1 2025** : **jusqu'à +10 %** après un BPA ajusté de 0,14 $ contre 0,11 $ attendu et des prévisions orientées vers le haut de fourchette.
+
+**Mai 2026 — Résultats du T1 2026** : hausse après des comparables de +8,3 % et un relèvement de toutes les prévisions ; le titre remonte ensuite jusqu'à **74 $ début juillet**.
 
 ---
 
-### Hausses significatives (> +5 %)
+### Baisses significatives
 
-**Septembre 2021 — Introduction en bourse.** Envolée dès la première séance. L'histoire « le Starbucks de l'Ouest en drive-thru » séduit immédiatement un marché encore en régime de multiples élevés.
+**2022 — Rotation hors des valeurs de croissance** : la remontée des taux d'intérêt fait chuter le titre de plus de 50 % depuis ses plus hauts de fin 2021, avec plusieurs séances à −10 % ou plus lors des publications (marges de boutique sous pression, inflation des coûts).
 
-**2024 — Le retournement du trafic.** Après deux années difficiles, l'arrivée de Christine Barone et le retour à une croissance du trafic comparable relancent le titre. Chaque trimestre de dépassement du consensus est récompensé.
+**Fin 2023 — Changement de direction** : départ du directeur général Joth Ricci, remplacé par Christine Barone au 1ᵉʳ janvier 2024 ; incertitude temporaire.
 
-**Février 2025 — Le sommet.** Publication des résultats 2024 (chiffre d'affaires +33 %, 151 ouvertures) et franchissement du cap des 1 000 boutiques. Le titre atteint **85,37 $** en clôture le 18 février. À ce niveau, le P/E dépasse 150x.
+**Août 2024 — Résultats du T2 2024** : forte chute (de l'ordre de −20 %) après des comparables en ralentissement et une prévision prudente.
 
-**Mars-août 2026 — Rebond de ~41 %.** Depuis le plus bas annuel du 27 mars jusqu'à la clôture du 5 août, le titre progresse d'environ 41 %, porté par la publication du T1 (comparables système à +8,3 %, plus haut depuis le T1 2024) et le relèvement de la guidance.
+**Mars–avril 2025 — Droits de douane et consommation** : repli marqué avec le marché, sur fond de craintes sur le café importé et le pouvoir d'achat des jeunes consommateurs.
 
----
+**6 août 2026 — Résultats du T2 2026** : **−12 % après séance**, **~−19,5 % sur la semaine**, malgré des chiffres supérieurs aux attentes : ralentissement des transactions et prévision de comparables de +4 à +5 % au T3.
 
-### Baisses significatives (> -5 %)
-
-**Mai 2022 — Le choc d'inflation.** Le titre chute d'environ **41 % à l'ouverture** après une perte trimestrielle ajustée et l'aveu que l'inflation a dépassé les prévisions internes. Première démonstration que le modèle, à ce niveau de valorisation, ne tolère aucune compression de marge.
-
-**2022 dans son ensemble — Compression de multiple.** La remontée des taux réels frappe frontalement les actifs de croissance non générateurs de trésorerie. Dutch Bros en fait partie par construction.
-
-**Novembre 2025 — Cession du président exécutif.** Boersma vend 2,5 millions d'actions pour 136,9 M$. Opération pré-planifiée sous 10b5-1, mais le signal pèse mécaniquement sur le sentiment.
-
-**6 août 2026 — La séance qui définit le dossier.** Malgré un dépassement du consensus sur le chiffre d'affaires **et** le bénéfice, un cinquième trimestre consécutif de surprise positive et une guidance relevée, le titre perd **~19 % en une séance** pour clôturer à 53,32 $. Le déclencheur : une guidance orale de comparables T3 à **+4-5 %**, contre +5,8 % au T2, et la confirmation des pressions sur les coûts du café et de l'occupation. Le repli hebdomadaire dépasse 18 %.
+**Septembre 2026 — Enchère perdue et objectifs abaissés** : 7 Brew remporte les sites Salad and Go (1ᵉʳ septembre) ; série de baisses d'objectifs (Seaport à 50 $, Melius de 95 à 70 $, Oppenheimer de 82 à 66 $, DA Davidson de 85 à 60 $, JPMorgan de 75 à 60 $). Le titre perd ~24 % sur le mois et touche **37,40 $** le 28 septembre.
 
 ---
 
-### Où en est le titre aujourd'hui
+### Facteurs structurels
 
-| Indicateur | Valeur |
-|---|---|
-| Cours (28 août 2026) | **49,91 $** |
-| Performance 52 semaines | **-31,8 %** |
-| Plus haut / plus bas 52 sem. | ~74,65 $ / ~44,58 $ |
-| Moyenne mobile 50 j / 200 j | 61,43 $ / 57,39 $ |
-| RSI | 35,7 |
-| Objectif consensus (26 analystes) | **77,76 $ (+59,9 %)** — « Strong Buy » |
-
-Le titre cote **sous ses deux moyennes mobiles**, dans un RSI proche de la zone de survente, avec un écart de près de 60 % vis-à-vis de l'objectif consensus.
-
----
-
-### Facteurs structurels de volatilité
-
-- **Bêta 2,33** : le titre amplifie systématiquement les mouvements de marché
-- **Valorisation à effet de levier sur la croissance** : à 70x les bénéfices, chaque point de comparable vaut plusieurs points de cours
-- **Intérêt vendeur élevé** (10,96 % du flottant) : rallyes brutaux possibles sur bonne nouvelle
-- **Flottant restreint** : 130 millions de titres sur 188 millions, contrôle verrouillé — l'offre disponible est limitée
-- **Absence de guidance trimestrielle** : l'information arrive par blocs, tous les 90 jours, ce qui concentre la volatilité sur les jours de publication`,
+- **Le trafic comme indicateur roi** : le marché réagit davantage aux transactions qu'au chiffre d'affaires ; chaque inflexion du trafic provoque des mouvements de 10 à 30 %.
+- **Sensibilité au multiple** : longtemps payé plus de 100× ses bénéfices, le titre subit une **compression de multiple** à mesure que la croissance se normalise.
+- **Offre de titres** : les cessions des actionnaires historiques (fondateur, fonds TSG) ont pesé régulièrement sur le cours.
+- **Consommation des jeunes** : le titre est sensible aux données de consommation discrétionnaire et à l'emploi des moins de 35 ans.`,
   },
   {
     id: 10,
     title: "Projections BPA",
     category: "Valorisation prospective",
     icon: "🔮",
-    content: `## Estimations BPA 2026-2028
+    content: `## Estimations du BPA 2026-2028
+
+### Avertissement
+Les estimations portent sur le **BPA ajusté par action « entièrement échangée »** (référence de la direction et du consensus), qui suppose l'échange de toutes les parts de la société opérationnelle en actions de classe A et exclut la rémunération en actions et les réévaluations du TRA. Le BPA GAAP des actions de classe A est inférieur d'environ 15 %.
 
 ### Hypothèses de modélisation
 
-**Croissance du chiffre d'affaires** :
-- **Nouvelles unités** : ≥ 185 ouvertures en 2026 ; l'acquisition des 65 sites Salad and Go pourrait porter le rythme d'expansion à ~20 % en 2027 contre ~16,5 % en 2026 (estimation William Blair). Contribution : **+18 à +22 points/an**
-- **Comparables** : +5 à +6 % en 2026 (guidance), puis normalisation attendue vers **+3 à +5 %** — bases plus exigeantes, cannibalisation croissante, élasticité-prix démontrée
-- **Effet prix** : +2 à +3 %/an ; la sensibilité du trafic au T2 2026 limite la marge de manœuvre
-- **Croissance totale du CA** : **~28-30 % en 2026**, puis **~20-24 %** en 2027-2028 (consensus 3 ans : ~25 %/an)
+**Croissance du secteur** : la restauration rapide de boissons croît de quelques pourcents par an en volume ; le segment drive-thru de boissons personnalisées croît plus vite, porté par les jeunes consommateurs.
 
-**Levier opérationnel** :
-- **SG&A ajusté** en repli de 90 pb au T2 2026 : le levier de structure est réel et devrait se poursuivre
-- **Contrepoids** : ~60 pb de pression COGS (café + alimentaire) et hausse continue des charges d'occupation avec les baux build-to-suit
-- **Net** : marge d'EBITDA ajusté attendue autour de **18,3-18,5 %** en 2026 (385-390 M$ sur 2,10-2,13 Mds$), soit **en léger repli** ; retour à l'expansion possible en 2027-2028 si le café se détend
+**Gains de parts de marché** : ~16 % de croissance du réseau par an jusqu'en 2028 (de 1 136 boutiques fin 2025 vers ~1 900 fin 2028), un peu en dessous de la trajectoire de 2 029 en 2029, par prudence après l'enchère perdue.
 
-**Coûts financiers** : dette totale 1,21 Md$, couverture des intérêts 6,6x. Le capex relevé à 350-370 M$ dépasse le FCF — un recours accru à la dette ou aux capitaux propres est probable si le rythme d'ouverture accélère en 2027.
+**Hausses de prix et trafic** : comparables système de +5 à +6 % en 2026, puis **+3 à +4 %** par an — trafic légèrement positif, ticket soutenu par l'offre alimentaire.
 
-**Dilution** : **+8,03 % d'actions sur douze mois**. C'est l'hypothèse la plus sous-estimée du modèle. Rémunération en actions, échanges d'unités OpCo et financement de la croissance érodent le BPA d'environ **3 à 5 points par an** même quand le résultat net progresse.
+**Pressions sur les coûts** : café (avec deux à trois trimestres de décalage), salaires minimum dans les États de l'Ouest, loyers des nouveaux sites, coûts de pré-ouverture.
+
+**Effet de levier opérationnel** : marge d'EBITDA ajusté de ~18,3 % en 2026, ~18,8 % en 2027 et ~19,3 % en 2028, grâce aux frais généraux.
+
+**Coûts de financement** : charge d'intérêts nette d'environ 28–32 M$ par an ; taux d'imposition sur base « entièrement échangée » d'environ 22–25 %.
+
+**Dilution** : rémunération en actions, ~1 % par an — de ~178 M à ~182 M d'actions.
+
+| Hypothèse | 2026E | 2027E | 2028E |
+|---|---|---|---|
+| Chiffre d'affaires | ~2,12 Md$ (+29 %) | ~2,55 Md$ (+20 %) | ~3,0 Md$ (+18 %) |
+| EBITDA ajusté | ~388 M$ | ~480 M$ | ~580 M$ |
+| Amortissements | ~155 M$ | ~185 M$ | ~220 M$ |
+| Actions diluées | ~178 M | ~180 M | ~182 M |
 
 ---
 
-### Estimations BPA
+### Estimations du BPA
 
-| Exercice | BPA (dilué, GAAP) | Croissance | P/E au cours actuel (~49,91 $) |
+| Exercice | BPA estimé | Croissance | PER au cours actuel (38,71 $) |
 |---|---|---|---|
-| 2024 (réalisé) | **0,34 $** | — | — |
-| 2025 (réalisé) | **0,64 $** | +88 % | — |
-| TTM (juin 2026) | **0,71 $** | — | **~70x** |
-| **2026E** | **0,78-0,85 $** | **+22-33 %** | **~59-64x** |
-| **2027E** | **1,00-1,15 $** | **+25-35 %** | **~43-50x** |
-| **2028E** | **1,25-1,50 $** | **+22-30 %** | **~33-40x** |
+| 2024 (réalisé) | 0,49 $ | — | — |
+| 2025 (réalisé) | 0,76 $ | +55 % | ~51× |
+| **2026E** | **0,92–0,98 $ (base 0,95 $)** | **+25 %** | **~41×** |
+| **2027E** | **1,05–1,25 $ (base 1,15 $)** | **+21 %** | **~34×** |
+| **2028E** | **1,25–1,65 $ (base 1,42 $)** | **+23 %** | **~27×** |
 
-*Le consensus de marché anticipe une croissance du BPA d'environ **28 %/an sur trois ans** et un P/E prospectif 2026 de **~43x** sur la base du bénéfice ajusté (supérieur au BPA GAAP retenu ci-dessus).*
+**Repères de consensus** : environ 0,93–0,95 $ pour 2026 et 1,20–1,25 $ pour 2027. Notre base 2027 est légèrement inférieure au consensus, par prudence sur le trafic et sur les amortissements liés au programme d'investissement.
 
 ---
 
 ### Sensibilité
 
-- **Scénario haussier** (comparables ≥ 6 %, café détendu par la récolte brésilienne record 2026/27, occupation maîtrisée, 200+ ouvertures) : BPA 2028 vers **1,60 $** → P/E 2028 ~31x au cours actuel. Cohérent avec l'objectif consensus de 77,76 $.
-- **Scénario de base** : BPA 2028 ~**1,35 $** → P/E 2028 ~37x. Correct pour une croissance de 20 %+, mais sans marge de sécurité.
-- **Scénario baissier** (comparables à +2 %, cannibalisation, occupation qui dérape, dilution à 8 %/an) : BPA 2028 ~**1,00 $** → P/E 2028 ~50x. À ce niveau, le multiple se comprime brutalement.
+- **Scénario haussier** (trafic de +3 % par an, ouvertures au rythme de 2 029 en 2029, café en baisse) : BPA 2028 ~1,70 $ → PER 2028 ~23× — le titre serait alors bon marché pour une croissance de 20 % par an.
+- **Scénario de base** : BPA 2028 ~1,42 $ → PER 2028 ~27× — valorisation raisonnable si la croissance se maintient.
+- **Scénario baissier** (transactions négatives, cannibalisation, ouvertures ralenties) : BPA 2028 ~1,05 $ → PER 2028 ~37× — peu de marge de sécurité.
 
-**Conclusion** : le BPA de Dutch Bros n'est pas le bon indicateur de suivi à court terme — il est écrasé par l'amortissement des ouvertures et la dilution. Les deux juges de paix réels sont **la croissance du trafic à périmètre comparable** et le **capex par boutique**. Si le trafic tient au-dessus de +3 % et que le capex par unité reste sous 1,5 M$, le BPA suit mécaniquement. Sinon, aucune projection ne tient.`,
+**Conclusion** : après une baisse de près de 50 % depuis juillet, le cours n'intègre plus une exécution parfaite. Le juge de paix n'est pas le BPA de 2026 mais le **trafic par boutique** et le **rendement des nouvelles ouvertures** : si les deux tiennent, le multiple actuel est l'un des plus bas jamais payés pour cette croissance.`,
   },
   {
     id: 11,
     title: "Bull & Bear",
     category: "Valorisation & thèses",
     icon: "⚖️",
-    content: `## 🐂 Scénario Optimiste (Bull Case)
+    content: `## 🐂 Scénario optimiste (bull case)
 
-### Avantages concurrentiels et pérennité des barrières
+### Leviers de croissance structurels
 
-**1. Une piste d'expansion exceptionnellement longue et documentée.** 1 225 boutiques aujourd'hui, **2 029 visées en 2029**, **7 000 en cible de long terme**. Le management affirme détenir **90 % du pipeline immobilier** nécessaire pour atteindre le jalon 2029. Dans un secteur où l'incertitude porte habituellement sur la demande, elle porte ici sur l'exécution — un problème beaucoup plus maîtrisable.
+**1. Une économie unitaire parmi les meilleures de la restauration** : ~1,3 M$ d'investissement, 2,19 M$ de ventes, ~30 % de contribution. Chaque nouvelle boutique est rentable rapidement — et l'AUV continue de progresser alors que le réseau s'étend.
 
-**2. Une économie unitaire qui reste intacte.** AUV d'environ 2,1-2,2 M$ sur un format sans salle, marge de contribution boutique maintenue à **~30,6 %** malgré l'inflation du café et de l'occupation. Le modèle n'est pas cassé par la croissance — il est simplement plus cher à répliquer.
+**2. Un réseau qui peut encore plus que doubler** : 1 225 boutiques aujourd'hui, 2 029 visées en 2029, plus de 7 000 à terme selon la direction. Avec ~90 % du pipeline identifié jusqu'en 2029, la croissance du CA de 15 à 20 % par an est visible pour plusieurs années.
 
-**3. Un moteur organique authentique.** **Treize trimestres consécutifs** de comparables positives, **huit** de croissance du trafic. Les boutiques en propre affichent +8,3 % au T2 2026. Ce n'est pas de la croissance achetée : c'est de la demande.
+**3. Des leviers de trafic encore jeunes** : offre alimentaire (déploiement complet fin 2026), commande mobile, publicité payante, fidélisation à 73 % des transactions. Ces leviers peuvent soutenir les comparables au-delà de 2026.
 
-**4. Un actif de fidélité de premier ordre.** **73 % des transactions** passent par Dutch Rewards, contre ~60 % chez Starbucks. La segmentation client produit sa plus forte contribution aux comparables à ce jour. La monétisation systématique de cette base est un levier **encore largement non exploité**.
+**4. Un levier sur les marges** : frais généraux en baisse en proportion du CA, productivité de la main-d'œuvre, et un **café qui pourrait devenir un vent porteur** si les cours de l'arabica reculent — avec deux à trois trimestres de décalage.
 
-**5. Une portabilité de marque désormais prouvée.** La deuxième boutique de Chicago tourne à ~7 M$ annualisés avec un record d'ouverture. L'objection historique — « ça ne marche qu'à l'ouest des Rocheuses » — vient d'être invalidée sur le marché urbain le plus exigeant.
+**5. Un bilan sain hors loyers** : trésorerie supérieure à la dette financière, flux d'exploitation en hausse de 55 % au premier semestre, aucune dépendance au marché pour financer les ouvertures.
 
-**6. Une préemption immobilière opportuniste.** L'achat de **65 sites Salad and Go pour 105 M$** dans quatre États où la notoriété est déjà installée transforme la faillite d'un concurrent en accélérateur de pipeline. William Blair estime que cela pourrait porter la croissance d'unités à **~20 % en 2027**.
-
-**7. Une valorisation qui vient de se dégonfler de 32 %.** Le titre a perdu près d'un tiers de sa valeur sur douze mois et cote sous ses moyennes mobiles 50 et 200 jours, avec un objectif consensus à **77,76 $** (26 analystes, « Strong Buy »). À P/CA prospectif de 3,9x, Dutch Bros se paie comme Starbucks tout en croissant dix fois plus vite.
+**6. Une valorisation enfin raisonnable** : ~35× les bénéfices des douze prochains mois, ~27× ceux de 2028, moins de 14× l'EBITDA 2027 selon Oppenheimer — contre plus de 100× les bénéfices en 2025.
 
 ---
 
-## 🐻 Scénario Pessimiste (Bear Case)
+## 🐻 Scénario pessimiste (bear case)
 
-### Risques susceptibles de nuire durablement
+### Risques susceptibles d'affecter durablement l'activité
 
-**1. Le rendement du capital est inférieur à son coût.** **ROIC 8,42 % contre un WACC estimé à 15,34 %.** Pour une entreprise dont la thèse consiste à déployer 350-370 M$ par an, c'est le chiffre qui condamne ou sauve le dossier. Tant que cet écart ne se referme pas, chaque nouvelle boutique **détruit théoriquement de la valeur** au coût du capital actuel. Le pari haussier suppose que la maturation des cohortes le comble ; rien ne le garantit.
+**1. La saturation et la cannibalisation** : les transactions système passent de +5,1 % à +1,7 % en un trimestre. Si les nouvelles boutiques prennent des clients aux anciennes dans les marchés denses, les comparables deviennent négatifs et le modèle d'expansion perd sa valeur.
 
-**2. Le trafic système s'effondre de +5,1 % à +1,7 % en un trimestre.** Le management invoque bases de comparaison, extinction de la hausse tarifaire et anniversaire alimentaire. L'hypothèse alternative — que **les nouvelles boutiques cannibalisent les anciennes** dans une stratégie de densification assumée — n'est jamais discutée en conférence. C'est mathématiquement le risque numéro un d'un modèle qui ouvre 185 unités par an dans ses propres marchés.
+**2. La concurrence pour le client et pour les sites** : 7 Brew copie le modèle avec un réseau franchisé peu consommateur de capital, et Starbucks retrouve son trafic. Le coût des meilleurs emplacements augmente, comme l'a montré l'enchère Salad and Go.
 
-**3. La croissance ne se convertit pas en trésorerie.** 365,7 M$ de flux d'exploitation, **290,5 M$ absorbés par le capex**, **75,2 M$ de FCF** pour 1,88 Md$ de chiffre d'affaires. Un P/FCF de **125x**. Ajoutez une dilution de **8 %/an** et une dette nette de 938 M$ : l'actionnaire finance une croissance dont il ne perçoit encore rien.
-
-**4. Une concurrence capital-light qui court plus vite.** **7 Brew**, adossé à Blackstone, franchisé donc sans consommation de bilan propre, a dépassé 777 unités avec ~340 en pipeline. **Scooter's** compte 932 unités. Starbucks contre-attaque avec 1 500 rénovations de format. Dutch Bros paie chaque boutique cash pendant que ses concurrents les font financer par des franchisés.
+**3. Un rendement du capital insuffisant** : ROIC de ~8–9 % pour un coût du capital supérieur, investissements en hausse de ~49 %, free cash-flow d'environ 75 M$ sur douze mois. Si le ROIC ne progresse pas, chaque boutique ouverte crée moins de valeur que prévu.
 
 ### Analyse pré-mortem
-**Que s'est-il passé si le titre vaut 30 $ dans deux ans ?** Séquence probable : les comparables système passent sous +2 % à mesure que la densification cannibalise ; les charges d'occupation continuent de monter avec les baux build-to-suit ; le capex reste engagé sur des ouvertures décidées 18 mois plus tôt ; la marge d'EBITDA se contracte de 100 à 150 pb ; le marché cesse de valoriser le compteur d'unités et exige du FCF. Le multiple passe de 70x à 30x les bénéfices. Aucune de ces étapes ne suppose un échec — seulement une normalisation.
+Que se serait-il passé si Dutch Bros cotait 22 $ en octobre 2028 ? Scénario : transactions négatives à partir de 2027, comparables proches de zéro, productivité des nouvelles boutiques à 80 % de la moyenne dans l'Est, ouvertures ramenées à 120 par an, marge d'EBITDA plafonnée à 17 %. Le BPA 2028 atteindrait ~1,00 $ et le marché le paierait comme une chaîne mature, ~22×. Aucun accident n'est nécessaire : seulement une **normalisation de la croissance par boutique**.
 
-### Les multiples actuels sont-ils trop élevés ?
-**Oui, à peu près sur tous les axes sauf un.** P/E 70x, EV/EBITDA 32x, EV/EBIT 55x, P/FCF 125x, P/B 8,6x. Le seul ratio défendable est le P/CA prospectif à 3,9x — et il ne l'est que parce qu'on le compare à Starbucks, qui convertit ses ventes en trésorerie alors que Dutch Bros ne le fait pas encore. **Un PEG de 1,34 empêche toutefois de qualifier la valorisation d'absurde** : elle est tendue, pas délirante.
+### Les multiples sont-ils trop élevés ?
+**Plus vraiment.** À ~41× le BPA 2026, le titre reste deux fois plus cher que la médiane du secteur de la restauration, mais à peu près au niveau de Starbucks et des autres valeurs de croissance. La valorisation n'intègre plus une perfection d'exécution — elle intègre une **croissance de 20 % par an qui reste à confirmer en trafic**.
+
+---
 
 ### Point de vue à contre-courant
-**Ce que le marché refuse de voir** : les deux camps se trompent d'indicateur. Les haussiers comptent les boutiques ; les baissiers comptent les multiples. Le seul chiffre qui décide de l'issue est l'**écart ROIC-WACC**, et il n'apparaît dans aucun communiqué de presse ni aucune question d'analyste.
 
-Il y a plus dérangeant. Dutch Bros est une **enseigne de restauration valorisée comme une plateforme technologique** alors qu'elle possède les caractéristiques économiques inverses : intensité capitalistique élevée, coûts de changement nuls, pouvoir de prix limité, aucun effet de réseau. La croissance est réelle et l'exécution est bonne — mais elle s'achète, boutique par boutique, à 1,4 M$ pièce. **Le marché paie un multiple de logiciel pour un modèle de béton.** Ce décalage se résout de deux façons : soit le ROIC monte vers 15 %, soit le multiple descend vers 30x. La deuxième option est plus courante que la première.`,
+**Ce que le marché refuse de voir** : le marché a sanctionné un trimestre de trafic faible comme s'il s'agissait d'un retournement, alors que le T2 2025 servait de base exigeante (+3,7 % de transactions) et que les boutiques en propre ont encore gagné 3,4 % de trafic. Dans le même temps, l'enchère perdue a été lue comme un échec, alors que refuser de surenchérir d'un tiers pour des sites est exactement la discipline que les baissiers réclamaient. Le vrai risque n'est pas là où le marché regarde : il est dans la **performance des boutiques ouvertes loin de l'Ouest** et dans le **coût réel du modèle locatif**, deux points peu discutés. Si ces deux indicateurs tiennent, le titre est aujourd'hui payé comme une chaîne en fin de croissance alors qu'il est au milieu de la sienne.`,
   },
   {
     id: 12,
@@ -620,173 +616,139 @@ Il y a plus dérangeant. Dutch Bros est une **enseigne de restauration valorisé
     icon: "🚩",
     content: `## Audit forensique — Signaux d'alerte comptables
 
-### Structure Up-C, double classe et TRA — RISQUE ÉLEVÉ
-C'est le signal structurel dominant du dossier. Dutch Bros Inc. est la société cotée ; l'activité réside dans **Dutch Bros OpCo**, dont elle est membre gérant. Les détenteurs pré-IPO conservent des unités OpCo échangeables contre des actions de classe A.
+### Comptabilisation des produits — RISQUE FAIBLE
+Ventes au comptant en boutique, reconnues au moment de l'achat. Seuls points de jugement : les **cartes cadeaux et points de fidélité** (produits constatés d'avance de 53,7 M$, dont une partie de « breakage » reconnue en CA lorsque les cartes ne sont jamais utilisées) et les redevances franchisées, calculées sur des ventes déclarées par les franchisés.
 
-Trois conséquences comptables directes :
-- Un **intérêt minoritaire (non-controlling interest) important** : le résultat net consolidé et le résultat attribuable à Dutch Bros Inc. divergent significativement. Au T2 2026, le résultat net progresse de 34,5 % tandis que le résultat attribuable à Dutch Bros progresse de 46,0 % — l'écart provient entièrement de l'allocation aux intérêts minoritaires. **Toute comparaison de BPA doit préciser quel numérateur est utilisé.**
-- Deux **accords de restitution d'impôt (TRA)** — Exchange TRA et Reorganization TRA — engageant la société à reverser **85 % de certains avantages fiscaux** aux membres continuants et aux détenteurs pré-IPO. Il s'agit d'un **passif à long terme réel** dont le montant dépend d'hypothèses de taux et de résultats futurs, révisé à chaque échange d'unités.
-- Des **classes B, C et D** sans droits économiques équivalents, dont la classe B à **dix voix par action** détenue par le président exécutif.
+### Information sectorielle et indicateurs clés — RISQUE MODÉRÉ
+- **Changement de définition en 2026** : les AUV sont désormais calculés sur douze mois glissants pour l'ensemble des boutiques, et la base des comparables a été redéfinie (boutiques ouvertes depuis au moins 15 mois complets au premier jour du trimestre). Les périodes antérieures **n'ont pas été retraitées**, la société jugeant l'effet non significatif. Un changement de définition au moment où l'AUV atteint des records mérite d'être vérifié.
+- **Rachats de franchises** : ils gonflent la croissance du secteur en propre sans croissance du système ; il faut suivre les **ventes systémiques** (+23 % au T2) plutôt que le seul CA.
+- **Pas de données par cohorte** : la productivité des nouvelles boutiques est affirmée mais non publiée par année d'ouverture ou par région.
 
-**À surveiller** : l'évolution du passif TRA d'un trimestre à l'autre, et les révisions d'estimation qui le concernent — elles transitent par le compte de résultat.
+### Contrats de location — RISQUE MODÉRÉ À ÉLEVÉ
+**1,01 Md$ de dettes locatives** et 984 M$ de droits d'utilisation au 30 juin 2026, en hausse rapide avec le modèle build-to-suit. Les loyers sont en dehors de la « dette » et de l'EBITDA ajusté présentés : un ratio dette nette / EBITDA proche de zéro devient d'environ **2,7× en incluant les loyers** (sur l'EBITDA ajusté de douze mois glissants). Le coût d'ouverture réduit à ~1,3 M$ est en partie un **transfert de capital vers des loyers futurs**.
 
-### Contrats de location (IFRS 16 / ASC 842) — RISQUE ÉLEVÉ ET CROISSANT
-C'est le poste que la croissance rend le plus opaque. La transition vers des **baux build-to-suit** allonge la durée et le montant des engagements. Les charges d'occupation atteignent **16,3 % du chiffre d'affaires**, en hausse.
+### Parties liées et accord fiscal (TRA) — RISQUE ÉLEVÉ
+La structure « Up-C » héritée de l'introduction en bourse prévoit que Dutch Bros reverse **85 % des économies d'impôt** réalisées grâce aux échanges de parts aux anciens propriétaires — dont le fondateur et le fonds TSG Consumer Partners. Le passif atteint **973 M$** (+152 M$ en six mois, au rythme des échanges), face à un actif d'impôt différé de 1,11 Md$. Ce passif n'apparaît pas dans les ratios d'endettement usuels ; ses réévaluations sont **exclues de l'EBITDA et du BPA ajustés**. C'est un transfert de trésorerie futur vers des parties liées, qui réduit la valeur des économies fiscales pour l'actionnaire de classe A.
 
-**À surveiller** :
-- Le **droit d'utilisation et le passif locatif** rapportés aux capitaux propres (975 M$) et à l'EBITDA
-- La **durée moyenne résiduelle** des baux et le **taux d'actualisation** retenu — un taux optimiste minore le passif
-- Les **engagements sur baux signés mais non commencés** : avec 185 ouvertures par an, ce hors-bilan est significatif et ne figure pas dans la dette de 1,21 Md$
-- Le traitement comptable des opérations **build-to-suit** : la qualification en bail simple plutôt qu'en actif financé déplace des centaines de millions hors du bilan
+### Engagements conditionnels — RISQUE FAIBLE À MODÉRÉ
+Une action collective en valeurs mobilières a été intentée en mars 2023 (mentionnée au 10-K) ; contentieux sociaux et de consommation habituels dans la restauration. Engagements d'achat de café et de loyers futurs non encore commencés.
 
-### Métrique ajustée — RISQUE MODÉRÉ À ÉLEVÉ
-L'EBITDA ajusté (**113,7 M$** au T2 2026) est la métrique mise en avant par le management et sert de base à la guidance. Il exclut l'amortissement, la rémunération en actions et divers éléments. Le résultat net GAAP du trimestre est de **51,6 M$**, soit **moins de la moitié**.
+### Rémunération en actions — RISQUE FAIBLE
+6,9 M$ au T2 2026 (1,2 % du CA), exclue des mesures ajustées. Niveau raisonnable pour le secteur ; dilution d'environ 1 % par an.
 
-**À surveiller** : l'écart entre EBITDA ajusté et EBITDA standardisé (**322 M$ TTM**), et la récurrence des éléments exclus. Des retraitements qui se répètent chaque trimestre ne sont pas exceptionnels — ce sont des coûts.
-
-### Rémunération en actions et dilution — RISQUE MODÉRÉ À ÉLEVÉ
-Nombre d'actions en hausse de **+8,03 % sur douze mois** et **+5,79 % sur le seul trimestre**. Le rendement de rachat est de **-8,03 %** : l'actionnaire est dilué, pas rémunéré.
-
-**À surveiller** : la part de la SBC dans le retraitement de l'EBITDA ajusté, et le rythme d'échange des unités OpCo — chaque échange dilue et déclenche simultanément une obligation TRA.
-
-### Parties liées — RISQUE MODÉRÉ, À DOCUMENTER
-Les documents déposés au tribunal des faillites du Texas dans l'affaire Salad and Go mentionnent **Boersma Bros, LLC**, holding de l'Oregon liée aux fondateurs, comme partie à l'accord d'acquisition d'actifs à **105 M$**. La transaction est présentée par ailleurs comme une acquisition de Dutch Bros Inc.
-
-**À vérifier impérativement** dans le prochain 10-Q : l'entité acquéreuse effective, le traitement comptable de l'opération, et l'existence éventuelle de baux ou de transferts entre l'entité liée et la société cotée. Ce n'est pas un signal de fraude ; c'est un point qui exige un éclaircissement explicite dans les annexes.
-
-### Goodwill et immobilisations incorporelles — RISQUE FAIBLE À MODÉRÉ
-Les acquisitions (Clutch Coffee Bar ~20 M$, franchise Phoenix, sites Salad and Go 105 M$) génèrent du goodwill, mais les montants restent modestes rapportés à un actif total de plusieurs milliards. Le bilan est dominé par des actifs corporels et des droits d'utilisation, pas par de l'incorporel. **C'est le seul poste où le profil est plus sain que la moyenne du secteur.**
-
-### Comptabilisation des revenus — RISQUE FAIBLE
-Ventes au comptant au consommateur final, reconnaissance immédiate. Aucune complexité de délimitation. Deux points mineurs : les **passifs de fidélité Dutch Rewards** (revenus différés liés aux points non consommés) et les **cartes cadeaux non utilisées** (breakage). À taille croissante, ces estimations méritent un suivi.
+### Goodwill et immobilisations incorporelles — RISQUE FAIBLE
+Peu de goodwill historiquement ; les acquisitions récentes (Clutch, Phoenix East Valley) créent des actifs incorporels (droits de franchise rachetés) qui seront amortis. À surveiller si les acquisitions se multiplient.
 
 ### Flux de trésorerie vs résultat — RISQUE MODÉRÉ
-Flux d'exploitation de 365,7 M$ pour un résultat net de 92,4 M$ : l'écart s'explique normalement par 134,6 M$ d'amortissements et la SBC. **Rien d'anormal ici.** Le problème n'est pas la qualité du résultat, c'est sa destination : **290,5 M$ partent en capex**, laissant 75,2 M$ de FCF.
+Flux d'exploitation solide (196,9 M$ au premier semestre), mais **free cash-flow mince** une fois déduits des investissements prévus à 350–370 M$ en 2026 : ~75 M$ sur douze mois glissants pour un résultat net consolidé d'environ 140 M$. Les paiements du TRA, appelés à croître, réduiront encore la trésorerie disponible.
+
+### Intérêts minoritaires — POINT DE LECTURE
+Une partie du résultat (14,2 M$ sur 51,6 M$ au T2) revient aux porteurs de parts de la société opérationnelle. Le BPA ajusté « entièrement échangé » neutralise cet effet ; le BPA GAAP de classe A, lui, l'intègre.
 
 ---
 
 ### Verdict global
-**Risque comptable : MODÉRÉ — structurel plutôt que discrétionnaire.** Aucun signal de comptabilité agressive n'apparaît sur les postes classiques (revenus, goodwill, créances). L'entreprise est auditée, la communication chiffrée est précise et les pressions de coûts sont quantifiées au point de base — ce qui est à porter au crédit de la direction.
-
-Les zones de vigilance sont **architecturales** : la structure Up-C et les TRA transfèrent de la valeur du flottant vers les initiés de façon contractuelle et permanente ; les engagements locatifs build-to-suit constituent un levier hors bilan croissant ; et l'Altman Z-Score à **2,7**, sous le seuil de 3,0, rappelle que l'intensité capitalistique laisse peu de marge d'erreur. Ce ne sont pas des dissimulations — ce sont des choix de structure que l'investisseur doit accepter en connaissance de cause.`,
+**Risque comptable : MODÉRÉ.** Pas de signe de manipulation des produits ni de fragilité financière : ventes au comptant, trésorerie nette positive hors loyers, rémunération en actions modérée. Mais trois éléments imposent de **retraiter les chiffres présentés** : le **TRA de 973 M$**, la **dette locative de 1,01 Md$** et les **changements de définition des indicateurs de boutique**. L'investisseur doit raisonner sur les ventes systémiques, l'EBITDA après loyers et le free cash-flow après paiements du TRA.`,
   },
   {
     id: 13,
     title: "Questions au Management",
     category: "Préparation d'entretien",
     icon: "❓",
-    content: `## 15 questions prioritaires pour Christine Barone et l'équipe Dutch Bros
+    content: `## 15 questions prioritaires pour Christine Barone, classées par importance
 
-### Allocation du capital et rendement
+### Stratégie et avantage concurrentiel
 
-**1.** Votre ROIC ressort à **8,4 %** pour un coût moyen pondéré du capital estimé autour de **15 %**. Vous investissez 350 à 370 M$ par an. **À quelle échéance précise le ROIC dépasse-t-il le WACC**, et quels jalons trimestriels devons-nous suivre pour vérifier votre trajectoire ?
+**1.** Les transactions système sont passées de +5,1 % au T1 à +1,7 % au T2. **Quelle part de ce ralentissement vient de la cannibalisation** des boutiques existantes par les nouvelles ouvertures dans les marchés denses, et comment la mesurez-vous ?
 
-**2.** Vous avez relevé le capex de 270-290 M$ à **350-370 M$ en un seul trimestre**, soit près de +29 %, pour un nombre d'ouvertures inchangé. **Qu'est-ce qui a changé** : le coût par boutique, le mix build-to-suit, ou l'anticipation d'ouvertures 2027 ?
+**2.** Vous affirmez que la productivité des nouvelles boutiques est proche de la moyenne. **Pouvez-vous publier l'AUV de la cohorte 2024–2025 dans les marchés de l'Est et du Midwest**, comparé à celui de l'Ouest historique ?
 
-**3.** Quel est aujourd'hui le **capex moyen par boutique** et la **période de retour sur investissement** pour la cohorte 2026, comparée à la cohorte 2022 ? Si l'écart se creuse, comment le justifiez-vous ?
+**3.** 7 Brew copie votre format avec un modèle franchisé et a offert ~36 % de plus que vous pour les sites Salad and Go. **Quel est votre avantage durable face à un concurrent qui croît plus vite avec moins de capital** ?
 
-**4.** À quel niveau de dette nette sur EBITDA ajusté ralentiriez-vous le rythme d'ouverture ? Vous êtes à **3,12x** avec un FCF de 75 M$ inférieur au capex.
+**4.** Starbucks a retrouvé des comparables positifs. **Avez-vous mesuré un effet sur vos marchés communs** depuis le début de 2026 ?
 
-### Trafic et cannibalisation — le point aveugle
+### Allocation du capital
 
-**5.** Le trafic système est passé de **+5,1 % au T1 à +1,7 % au T2**. Vous invoquez les bases de comparaison, le prix et l'anniversaire alimentaire. **Quelle part attribuez-vous à la cannibalisation** entre boutiques dans vos marchés densifiés ? Publiez-vous cette mesure en interne ?
+**5.** Quel est le **rendement après impôt** (cash-on-cash et ROIC, loyers inclus) d'une boutique ouverte en 2025, et à partir de quel niveau d'AUV une ouverture détruit-elle de la valeur ?
 
-**6.** Quel est l'**impact moyen sur les ventes d'une boutique existante** lorsqu'une nouvelle ouvre dans un rayon de trois kilomètres ? Combien de temps met-elle à récupérer ?
+**6.** Les investissements augmentent d'environ 49 % en 2026. **Quelle part est liée à des sites détenus en propre plutôt qu'en location**, et à quel horizon le free cash-flow dépassera-t-il durablement 200 M$ ?
 
-**7.** L'écart entre comparables des boutiques en propre (+8,3 %) et du système (+5,8 %) persiste depuis plusieurs trimestres. **Pourquoi vos franchisés sous-performent-ils**, et cela justifie-t-il d'accélérer les rachats ?
+**7.** Pourquoi avoir refusé de relever l'offre sur Salad and Go, et **quel prix par site jugez-vous rationnel** pour une conversion ? D'autres acquisitions de marques sont-elles à l'étude ?
 
-### Prix, coûts et marge
+**8.** Le passif du TRA atteint 973 M$. **Quel calendrier de paiements anticipez-vous** sur 2027–2030, et envisagez-vous de le racheter par anticipation ?
 
-**8.** La décélération du trafic coïncide avec l'extinction de la hausse tarifaire de début d'année. **Quelle élasticité-prix mesurez-vous** réellement, et cela limite-t-il votre capacité à répercuter la hausse du café en 2027 ?
+### Marges et coûts
 
-**9.** Vous chiffrez la pression café à ~60 pb de COGS en 2026. La récolte brésilienne 2026/27 est annoncée record. **Quelle part de vos besoins 2027 est déjà couverte, et à quel prix moyen** par rapport au spot actuel ?
+**9.** Avec deux à trois trimestres de décalage, **quel effet aura l'évolution actuelle de l'arabica** sur la marge de contribution en 2027 ?
 
-**10.** Les charges d'occupation atteignent **16,3 % du chiffre d'affaires** et vous anticipez une hausse supplémentaire. **Où est le plafond ?** Quelle marge de contribution boutique cible visez-vous à horizon 2028 ?
+**10.** L'offre alimentaire est déployée sur tout le réseau d'ici fin 2026. **Quel effet a-t-elle sur le débit au drive-thru et sur la marge de boutique** dans les marchés où elle est installée depuis plus d'un an ?
 
-### Concurrence
+**11.** Quelle part de la hausse de 4,1 % du ticket moyen au T2 vient des **prix**, et quelle part du **mix** (nourriture, personnalisation, tailles) ?
 
-**11.** **7 Brew** croît plus vite que vous **sans consommer son propre bilan**, grâce à un modèle franchisé adossé à Blackstone. Vous avez au contraire choisi d'internaliser vos franchisés. **Pourquoi le modèle intégré est-il supérieur** quand le capital est cher ?
+### Risques
 
-**12.** Trois enseignes de café figuraient pour la première fois dans le top 10 Technomic en janvier 2026. **Combien de vos marchés sont désormais en concurrence directe avec 7 Brew ou Scooter's**, et quel effet mesurez-vous sur les comparables de ces zones ?
+**12.** Votre clientèle est jeune et sensible au prix. **Quels indicateurs suivez-vous pour détecter un recul de la fréquence** chez les 18–34 ans, et quel serait votre plan d'action ?
 
-### Gouvernance et structure
+**13.** Les loyers représentent plus d'1 Md$ d'engagements. **Que se passe-t-il si une cohorte de boutiques sous-performe** : avez-vous des clauses de sortie ou de sous-location ?
 
-**13.** La structure Up-C avec double classe donne à Travis Boersma **~73 % des droits de vote pour ~38,8 % du capital**, et les TRA transfèrent **85 % de certains avantages fiscaux** aux détenteurs pré-IPO. **Existe-t-il un calendrier de simplification** de cette structure, ou l'actionnaire minoritaire doit-il la considérer comme permanente ?
+### Gouvernance et vision long terme
 
-**14.** Les documents de faillite de Salad and Go mentionnent **Boersma Bros, LLC** comme partie à l'acquisition des 105 M$ d'actifs. **Quelle est l'entité acquéreuse effective**, et quelles relations contractuelles lieront cette entité à Dutch Bros Inc. après la clôture ?
+**14.** Le fondateur a cédé une part importante de ses titres tout en conservant le contrôle des droits de vote. **Quel est le calendrier d'extinction de la structure à plusieurs catégories d'actions** ?
 
-### Vision
-
-**15.** Quel est le **risque que vous sous-estimez le plus** aujourd'hui — et que le marché n'a pas encore identifié ?`,
+**15.** Quel est le **risque que vous estimez le plus sous-évalué par le marché aujourd'hui** — et celui que vous surveillez le plus en conseil d'administration ?`,
   },
   {
     id: 14,
     title: "Avocat du Diable",
     category: "Analyse critique / Short",
     icon: "😈",
-    content: `## Thèse short — Démontage de l'argumentaire haussier
+    content: `## Thèse vendeuse — Démontage de l'argumentaire haussier
 
-### 1. Le moat n'existe pas — il y a un format, et un format se copie
+### 1. Ce qui peut compromettre structurellement le modèle
 
-Les haussiers parlent de « marque », de « culture », de « fidélité ». Regardons ce qui protège réellement les marges. Coûts de changement : **nuls**. Effet de réseau : **aucun**. Brevet, licence, actif rare : **aucun**. Pouvoir de prix : **démontré comme limité** — le trafic système s'effondre à +1,7 % dès l'extinction de la hausse tarifaire.
+Dutch Bros est un **modèle d'expansion d'unités** : sa valeur repose sur l'hypothèse qu'une boutique ouverte demain vendra autant qu'une boutique ouverte hier. Or les boutiques historiques sont concentrées dans l'Ouest, où la marque est une institution locale. Plus le réseau s'étend vers l'Est — marchés moins familiers, concurrence installée —, plus cette hypothèse devient fragile. Une baisse de 15 % de l'AUV des nouvelles boutiques suffit à transformer une machine à créer de la valeur en machine à consommer du capital.
 
-Ce que possède Dutch Bros, c'est un **format de kiosque à double drive-thru** et un savoir-faire de service. Le format est reproduit à l'identique par **7 Brew**, **Scooter's**, **Black Rock** et **Swig**. Le savoir-faire est réel mais s'érode statistiquement à mesure qu'on embauche des milliers de personnes par an pour ouvrir 185 boutiques. Un moat qui exige une exécution parfaite et permanente pour subsister n'est pas un moat : **c'est une contrainte d'exploitation**.
+### 2. Où se concentrent les revenus — et que se passe-t-il si cela change
 
-### 2. La croissance est achetée, pas gagnée
+Les revenus ne sont pas concentrés sur des clients, mais sur **une démographie** : les 18–34 ans, grands consommateurs de boissons sucrées et énergisantes. C'est la tranche la plus exposée au chômage, au remboursement des prêts étudiants et aux modes. Un changement de goûts (moins de sucre, retour du café « classique ») ou un choc sur leur pouvoir d'achat frapperait directement la fréquence. Le ralentissement des transactions de +5,1 % à +1,7 % en un trimestre est peut-être le premier signe.
 
-Sur les +32,5 % de croissance du T2 2026, environ **quatre cinquièmes proviennent des nouvelles unités et des rachats de franchisés** — c'est-à-dire du capital déployé. La demande organique, à parc constant, contribue pour **+5,8 %**, et **+1,7 % en volume**.
+### 3. Pourquoi l'avantage concurrentiel est plus fragile qu'il n'y paraît
 
-Or ce capital coûte cher : **350-370 M$ par an**, en hausse de +29 % en un trimestre, pour un ROIC de **8,4 %** contre un coût du capital de **~15 %**. Autrement dit : **Dutch Bros achète du chiffre d'affaires à un prix supérieur à sa valeur actualisée.** Tant que le marché valorise le compteur d'unités, ça fonctionne. Le jour où il valorise le rendement, ça s'arrête.
+La « culture » est un argument séduisant mais **non mesurable**, et le format se copie : 7 Brew a reproduit le kiosque, l'énergisant maison et le service jovial, avec ~777 boutiques et un AUV proche. Les coûts de changement du client sont nuls. Ce qui reste — l'emplacement — se négocie aux enchères, et Dutch Bros vient de perdre la plus visible d'entre elles.
 
-### 3. Concentration du risque : tout repose sur un seul chiffre
+### 4. Le concurrent le plus dangereux : 7 Brew
 
-Il n'y a pas de concentration client (aucun client ne pèse plus qu'un gobelet) ni de concentration géographique catastrophique. **La concentration est ailleurs, et elle est totale : sur le rythme d'ouverture.** Retirez les 185 ouvertures annuelles et le chiffre d'affaires croît de 5 %, l'EBITDA de moins, et le titre ne vaut plus 70x les bénéfices.
+Les haussiers regardent Starbucks. C'est une erreur : le vrai rival est **7 Brew**, franchisé donc peu consommateur de capital, financé par des fonds de capital-investissement, prêt à payer plus cher pour les mêmes parcelles et présent dans les marchés de croissance de Dutch Bros (Texas, Oklahoma, Sud-Est). Dans un même carrefour, deux kiosques identiques se partagent la clientèle — et c'est celui qui a le coût du capital le plus bas qui gagne.
 
-Ce rythme dépend de trois ressources rares et non contrôlées : des **emplacements drive-thru** (raison pour laquelle il a fallu acheter les carcasses d'un concurrent en faillite pour 105 M$), des **managers formés** (525 candidats, contrainte revendiquée par la direction elle-même), et du **capital** (FCF de 75 M$ pour un capex de 290 M$). **Les trois se resserrent simultanément.**
+### 5. Les pires décisions d'allocation du capital
 
-### 4. La cannibalisation est le sujet que personne ne veut nommer
+- Une **offre de 105 M$ pour des sites d'une chaîne en faillite**, perdue, qui a surtout révélé la cherté des emplacements.
+- Une **hausse d'environ 49 % des investissements** l'année même où le trafic ralentit.
+- Un **modèle build-to-suit** qui réduit le coût apparent d'ouverture en le transformant en loyers : 1,01 Md$ de dettes locatives qui ne figurent pas dans les ratios mis en avant.
 
-La stratégie assumée est la **densification** : remplir la carte plutôt que planter des drapeaux. Mécaniquement, ouvrir 185 boutiques par an dans ses propres marchés déplace des clients existants. La chute du trafic système de **+5,1 % à +1,7 % en un trimestre** est exactement la signature statistique d'une cannibalisation qui commence à mordre.
+### 6. Comptabilité et incitations
 
-Le management propose trois explications techniques — base, prix, anniversaire alimentaire — et **ne mentionne jamais la cannibalisation**. Aucun analyste ne pose la question. **Aucune métrique de transfert de ventes n'est publiée.** Quand une entreprise ne communique pas un chiffre que son modèle rend inévitable, l'investisseur doit supposer qu'il n'est pas flatteur.
+- **Un TRA de 973 M$** qui transfère 85 % des économies d'impôt vers les anciens propriétaires — dont le fondateur qui contrôle les votes.
+- **Des cessions massives du fondateur** (136,9 M$ en novembre 2025 seulement) pendant qu'il conserve le contrôle.
+- **Des indicateurs de boutique redéfinis en 2026** sans retraitement des périodes antérieures.
+- **Des mesures ajustées** qui excluent la rémunération en actions et les réévaluations du TRA.
 
-### 5. Le concurrent que les haussiers sous-estiment : 7 Brew
+Aucun de ces éléments n'est illégal ; ensemble, ils créent un **décalage d'intérêts** entre les initiés et l'actionnaire de classe A.
 
-Tout le monde compare Dutch Bros à Starbucks. C'est confortable : Starbucks est gros, lent et en redressement. **Le vrai danger est 7 Brew.**
+### 7. Les hypothèses nécessaires pour justifier le cours
 
-Fondé en 2017, adossé à **Blackstone**, il a dépassé sa **777ᵉ unité** dans 38 États avec ~340 ouvertures en pipeline. Il vend des boissons **2 à 4 dollars moins cher** que Starbucks, sur exactement le même format double drive-thru, en visant des zones sous-desservies. Et surtout : **il est franchisé.** Sa croissance est financée par le bilan de ses franchisés, pas par le sien.
+À 38,71 $ (~6,8 Md$), il faut : (a) ~16 % de croissance du réseau par an jusqu'en 2028 ; (b) des comparables de +3 à +4 % par an, avec un trafic positif ; (c) une marge d'EBITDA en progression vers 19 % ; (d) un ROIC qui finit par dépasser le coût du capital ; (e) le maintien d'un multiple d'environ 27× les bénéfices de 2028.
 
-Comparons les modèles. Dutch Bros paie 1,4 M$ par boutique, porte le bail, l'exploitation et le risque. 7 Brew encaisse une redevance et n'immobilise rien. **À croissance égale, 7 Brew est structurellement plus rentable en capital.** Dutch Bros a choisi la voie inverse — internaliser ses franchisés — précisément au moment où le capital est devenu cher. Ajoutez **Scooter's** (932 unités), **Black Rock**, **Swig** et l'offensive boissons de McDonald's, Chick-fil-A et Taco Bell : la catégorie que Dutch Bros a contribué à créer est en train d'être **surconstruite par cinq acteurs simultanément**.
+### 8. Et si la croissance déçoit de 20 à 30 %
 
-### 6. La structure de gouvernance et les transferts de valeur
+Avec un CA 2028 de 2,4 à 2,6 Md$ au lieu de 3,0 Md$ et une marge d'EBITDA ramenée à 17,5 %, le BPA 2028 tombe entre **1,00 et 1,15 $**. À 25× — un multiple encore généreux pour une chaîne qui ralentit —, le titre vaudrait **25 à 29 $**, soit **−25 % à −35 %** depuis le cours actuel, déjà divisé par deux depuis juillet.
 
-**Travis Boersma détient ~73 % des droits de vote pour ~38,8 % du capital.** Dutch Bros est une « controlled company » : l'actionnaire minoritaire n'a **aucun recours** sur l'élection du conseil ou une décision majeure. Il a par ailleurs vendu **2,5 millions d'actions pour 136,9 M$** en novembre 2025, soit la quasi-totalité de sa détention directe — sous plan 10b5-1, donc irréprochable sur la forme, mais les initiés ont été vendeurs nets d'environ **103 M$** sur douze mois.
+### Le scénario catastrophe unique
 
-Plus structurel : les **accords de restitution d'impôt** engagent la société à reverser **85 % de certains avantages fiscaux** aux détenteurs pré-IPO. C'est un transfert permanent et contractuel du flottant vers les initiés, dont le montant croît avec les échanges d'unités OpCo — lesquels **diluent simultanément** l'actionnaire de classe A. La dilution atteint **+8,03 % sur douze mois**. Enfin, l'entité mentionnée dans les documents de faillite de Salad and Go, **Boersma Bros, LLC**, appelle une clarification explicite.
+**La saturation des marchés historiques combinée à une mode qui passe.** Si les boissons énergisantes et sucrées perdent la faveur des jeunes consommateurs au moment où 7 Brew et Starbucks densifient leurs réseaux, Dutch Bros se retrouverait avec un parc de plus de 1 500 boutiques louées sur le long terme, des comparables négatifs et un TRA à payer. **Plausibilité : 15 à 25 %** sur trois ans — l'histoire de la restauration américaine compte de nombreuses chaînes « tendance » dont la croissance s'est arrêtée brutalement après une expansion trop rapide.
 
-### 7. Quelles hypothèses doivent se vérifier pour justifier le cours actuel ?
-
-À 49,91 $ pour un BPA TTM de 0,71 $, il faut simultanément :
-- une croissance du BPA de **~28 %/an sur trois ans** (hypothèse consensus)
-- un maintien des comparables **au-dessus de +4 %** malgré la densification
-- un **arrêt de la contraction de la marge d'EBITDA**, alors que le café et l'occupation poussent en sens inverse
-- une **dilution qui ralentit** sous 5 %/an
-- 185+ ouvertures par an **sans dégradation du capex par unité**
-
-**Cinq conditions, toutes nécessaires.** Le titre est déjà passé de 85,37 $ à 49,91 $ précisément parce que le marché commence à douter de la deuxième.
-
-### Que se passe-t-il si la croissance déçoit de 20 à 30 % ?
-Croissance du BPA ramenée de 28 % à 20 %/an : BPA 2028 vers **1,05 $** au lieu de 1,35 $. À ce moment-là, le marché ne paie plus 40x mais 25-30x une enseigne de restauration à croissance de 15 %. **Cours implicite : 26 à 31 $, soit -38 % à -48 %.** Ce n'est pas un scénario catastrophe — c'est simplement le multiple d'un Chipotle appliqué à une entreprise moins rentable.
-
-### Le scénario unique de dommage permanent
-**La surconstruction de la catégorie drive-thru café.** Dutch Bros, 7 Brew, Scooter's, Black Rock et Swig ouvrent simultanément des milliers de kiosques sur le même bassin de consommateurs, tandis que Starbucks, McDonald's, Chick-fil-A et Taco Bell défendent leur créneau boissons. Le résultat mécanique d'une saturation : **AUV en baisse, guerre des prix, marges de contribution qui se compriment**. Dans ce scénario, les 185 ouvertures annuelles cessent d'être un actif pour devenir **un passif de baux longue durée sur des emplacements devenus marginaux**.
-
-Probabilité ? **25 à 35 %** à horizon 2029. Ce n'est pas le scénario le plus probable, mais c'est celui qui rend les 350 M$ de capex annuel irrécupérables.
-
-### Conclusion short
-Dutch Bros est une **bonne entreprise dirigée avec compétence** — les comparables sont réelles, le trafic est réel, le programme de fidélité est de première qualité, et Christine Barone a redressé une trajectoire dégradée. **Ce n'est pas la thèse qui est contestée : c'est le prix.**
-
-Le marché applique un multiple de plateforme technologique à un modèle de **béton, de baux et de main-d'œuvre** : intensité capitalistique élevée, ROIC sous le WACC, coûts de changement nuls, pouvoir de prix limité, dilution permanente, contrôle actionnarial verrouillé. Les 32 % de baisse sur douze mois n'ont pas corrigé cette anomalie — ils l'ont seulement rendue moins extrême. Tant que le ROIC ne rejoint pas le coût du capital, **chaque nouvelle boutique est une décision d'investissement dont l'actionnaire minoritaire supporte le coût sans en percevoir le rendement.**`,
+### Conclusion vendeuse
+Dutch Bros est une **excellente machine opérationnelle** — AUV record, marges de boutique solides, culture forte. Mais sa valeur dépend de la répétition de cette performance dans des marchés où la marque n'a pas d'histoire, face à un clone mieux financé et à un leader qui se réveille. **Le marché a cessé de payer pour la perfection ; il ne paie pas encore pour la saturation.** Tant que le trafic par boutique n'est pas redevenu solidement positif, la décote peut se creuser.`,
   },
 ];
 
