@@ -9,15 +9,18 @@
 //       public/rapports/<slug>.html
 // ============================================================
 
-import lvmh from "./lvmh.js";
 import duol from "./duol.js";
+import bros from "./bros.js";
+import be from "./be.js";
 
 
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
 export const COMPANIES = [
- lvmh,
  duol,
+ bros,
+ be,
+ 
 
     // amd,
   // adyen,
