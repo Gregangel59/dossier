@@ -178,7 +178,7 @@ export default function Home() {
       <header className="hp-header">
         <div className="hp-logo" aria-hidden="true">221</div>
         <div className="hp-header-title">
-          <div className="hp-header-name">Dossiers d'analyse institutionnelle</div>
+          <div className="hp-header-name">Le cabinet d'analyse fondamentale</div>
           <div className="hp-header-sub">221 Bourse — {n} {n > 1 ? "sociétés couvertes" : "société couverte"}</div>
         </div>
       </header>

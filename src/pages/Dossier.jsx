@@ -159,7 +159,7 @@ export default function Dossier() {
               textTransform: "uppercase",
             }}
           >
-            Analyse Institutionnelle — {modules.length} modules
+            Le cabinet d'analyse fondamentale — {modules.length} modules
           </div>
         </div>
         <div style={{ marginLeft: "auto", display: "flex", gap: "0.5rem", alignItems: "center", flexShrink: 0 }}>
