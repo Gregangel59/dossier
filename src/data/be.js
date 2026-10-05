@@ -1,8 +1,8 @@
 // ============================================================
 //  DOSSIER : Bloom Energy Corporation (BE)
 //  Fichier de DONNÉES uniquement — aucun rendu ici.
-//  Pour créer un nouveau dossier, copie ce fichier, change le
-//  bloc "meta" et remplace les "modules".
+//  Données publiées jusqu'au 30 septembre 2026
+//  (cours de référence : clôture du 29 septembre 2026).
 // ============================================================
 
 // --- Métadonnées de l'entreprise (carte d'accueil + en-tête) ---
@@ -11,14 +11,14 @@ const meta = {
   ticker: "BE",
   name: "Bloom Energy Corporation",
   exchange: "NYSE",
-  sector: "Équipements électriques / Production d'énergie sur site",
+  sector: "Production d'électricité sur site (piles à combustible SOFC)",
   initials: "BE",                   // affiché dans la pastille
-  tagline: "Piles à combustible à oxyde solide pour l'alimentation sur site des centres de données IA — croissance explosive, valorisation extrême.",
-  riskScore: 49,                    // score du rapport de risque (ou null)
-  riskLabel: "Risque élevé",
-  // Nom du fichier HTML déposé dans public/rapports/ (ou null si absent) :
+  tagline: "Des piles à combustible à oxyde solide qui livrent l'électricité des data centers IA en mois, pas en années.",
+  riskScore: 66,                    // score du rapport de risque (grille v1)
+  riskLabel: "Risque modéré",       // indicatif : la couleur se dérive toujours de riskScore
+  // Nom du fichier HTML déposé dans public/rapports/ :
   riskReport: "be.html",
-  updated: "2026-08",               // période des données
+  updated: "2026-09",               // période des données
 };
 
 const modules = [
@@ -29,37 +29,44 @@ const modules = [
     icon: "🏢",
     content: `## Modèle économique
 
-Bloom Energy conçoit, fabrique, vend et installe des **piles à combustible à oxyde solide (SOFC)** — les *Bloom Energy Servers* — qui produisent de l'électricité **sur le site du client**, sans combustion, par un procédé électrochimique. Fondée en 2001 (sous le nom Ion America), cotée au NYSE depuis 2018, l'entreprise emploie plus de 2 000 personnes et fabrique aux États-Unis (Sunnyvale et Fremont en Californie, Newark dans le Delaware).
+Bloom Energy conçoit, fabrique, installe et entretient des **piles à combustible à oxyde solide (SOFC)** qui produisent de l'électricité **directement sur le site du client**, sans combustion, à partir de gaz naturel, de biogaz ou d'hydrogène. Fondée en 2001 sous le nom d'Ion America par **KR Sridhar**, toujours PDG, l'entreprise est cotée au NYSE depuis juillet 2018. Son siège est à San Jose et sa principale usine à Fremont, en Californie.
 
-Le modèle a basculé d'une niche « énergie propre » à un rôle d'**infrastructure critique de l'IA** : quand le raccordement au réseau demande 5 à 7 ans dans les principaux bassins de centres de données, Bloom livre de la puissance en quelques mois. Le CA 2025 s'établit à **2,02 milliards $** (+37,3 %) ; le seul deuxième trimestre 2026 atteint **1,065 milliard $** (+165,5 %), premier trimestre milliardaire de l'histoire du groupe.
+En termes simples : Bloom vend **du temps**. Là où un raccordement au réseau électrique peut prendre plusieurs années pour un grand data center, Bloom livre des blocs de production modulaires en quelques semaines ou quelques mois — un déploiement pour Oracle a été mis en service en 55 jours au lieu des 90 prévus. L'électricité produite coûte souvent plus cher que celle du réseau ; le client paie pour l'accès immédiat et la fiabilité.
 
-Trois flux de revenus structurent le compte de résultat :
+Le chiffre d'affaires se décompose en quatre lignes :
+- **Produit** : vente des Energy Servers — **935,4 M$ au T2 2026, soit ~88 % du CA** (+215 % sur un an)
+- **Installation** : pose et mise en service des systèmes sur site
+- **Service** : contrats de maintenance pluriannuels et remplacement périodique des piles — marge brute non-GAAP de 22 % au T2 2026, positive depuis plus de deux ans
+- **Électricité** : ventes d'électricité via des structures de financement (contrats d'achat d'électricité de long terme)
 
-- **Produit (Product)** — vente des serveurs eux-mêmes. 935,4 M$ au T2 2026, soit ~88 % du CA, en hausse de 215,4 % sur un an. C'est le moteur, et c'est un revenu **transactionnel et lumpy**, reconnu à la livraison.
-- **Service** — contrats d'exploitation et de maintenance long terme, avec remplacement périodique des piles. 69,0 M$ au T2 2026, marge de service à 22 % (+977 points de base sur un an). **100 % des nouvelles commandes produit sont assorties d'un contrat de service** — c'est la brique récurrente du modèle.
-- **Installation** (51,0 M$) et **Électricité** (9,95 M$, en repli de 22,3 %) — l'électricité correspond aux anciens contrats où Bloom vendait des kWh plutôt que des machines ; ce modèle est en extinction volontaire au profit de la vente d'équipement.
+**Ordres de grandeur** : CA 2025 de 2,02 Md$ (+37,3 %), T2 2026 de **1 065,4 M$ (+165,5 %)**, premier trimestre au-dessus du milliard de l'histoire du groupe. Prévision 2026 relevée à **3,9–4,2 Md$**, soit ~100 % de croissance au point médian. Base installée d'environ 1,4 GW sur plus de 1 000 sites dans neuf pays à fin 2025.
 
 ## Principaux produits et services
 
-- **Bloom Energy Server** : module SOFC alimenté au gaz naturel, au biogaz ou à l'hydrogène, architecture **800 V continu** particulièrement adaptée aux salles informatiques IA, capable de suivre la charge (*load following*).
-- **Power Connect** (lancé en août 2026) : système de déploiement réduisant de plus de 40 % le temps d'installation sur site.
-- **Bloom Electrolyzer** : électrolyseur haute température pour la production d'hydrogène — activité marginale à ce stade, conservée comme option long terme.
+- **Bloom Energy Server (SOFC)** : modules de quelques centaines de kW, empilables jusqu'à plusieurs centaines de MW. Toutes les livraisons sont compatibles avec le **courant continu 800 V** depuis fin 2025, le standard vers lequel migrent les baies de calcul IA de nouvelle génération.
+- **Étude 800 V du 16 septembre 2026** : pour un data center d'1 GW, Bloom modélise une baisse de 27 % des investissements hors calcul (~3,6 Md$) et de 9 % du coût total de possession sur cinq ans (~5,5 Md$). Il s'agit d'une modélisation interne, dépendante des hypothèses de site.
+- **Électrolyseurs à oxyde solide et captage de carbone** : options technologiques, marginales dans le CA actuel.
+- **Services** : maintenance, garanties de disponibilité et de rendement, renouvellement des empilements de cellules.
+- **Écosystème de financement** : Bloom ne porte pas les actifs à son bilan. Le client achète directement ou passe par un tiers financeur — **Brookfield** a porté son cadre de financement de 5 Md$ (octobre 2025) à **25 Md$ (30 juin 2026)**.
 
 ## Clients, fournisseurs, concurrents
 
-**Clients** : hyperscalers américains, *neoclouds*, laboratoires d'IA et opérateurs de colocation. **Oracle** est le partenaire de référence (accord-cadre jusqu'à 2,8 GW, dont 1,2 GW déjà contractés, et alimentation intégrale du campus Project Jupiter au Nouveau-Mexique). **American Electric Power (AEP)** a signé un accord jusqu'à 1 GW (~2,65 Mds$). Historiquement : hôpitaux, campus universitaires, distribution, semi-conducteurs, utilities.
+**Clients** : le moteur est désormais l'IA. **Oracle** (accord-cadre jusqu'à 2,8 GW, dont 1,2 GW contractés et en cours de déploiement) ; **AEP** (accord d'environ 2,65 Md$ portant sur jusqu'à 1 GW) ; **Nebius** (328 MW) ; **Aligned Data Centers** (projet Phoenix de 2 GW, cité par RBC). Base historique en commercial et industriel : distribution, santé, éducation, télécoms, industrie ; partenariat coréen de longue date avec SK ecoplant.
 
-**Fournisseurs** : **MTAR Technologies** (Inde) pour les composants critiques, fournisseurs de céramiques dopées à l'**oxyde de scandium**, fournisseurs de gaz naturel via les réseaux locaux. Le scandium est le point de vulnérabilité mis en cause depuis juillet 2026 (voir Red Flags).
+**Concentration** : selon le 10-Q/A du 29 juillet 2026, **un seul client a représenté 73 % du CA du T2 2026** (non nommé ; il peut s'agir d'une structure de financement plutôt que de l'utilisateur final). Les États-Unis pèsent ~90 % du CA contre 59 % un an plus tôt.
 
-**Concurrents** : **GE Vernova**, **Caterpillar**, **Cummins**, **Mitsubishi Power** et **Siemens Energy** sur les turbines à gaz et groupes électrogènes ; **FuelCell Energy**, **Plug Power**, **Ballard** et **Doosan Fuel Cell** sur les piles à combustible ; les **utilities** elles-mêmes lorsqu'elles parviennent à raccorder à temps.
+**Fournisseurs** : céramiques et zircone stabilisée (dont le **scandium**, au cœur d'une controverse), métaux spéciaux, électronique de puissance, sous-traitance de précision (MTAR Technologies en Inde) ; le gaz est acheminé par des opérateurs de pipelines (Energy Transfer pour le projet Jupiter).
+
+**Concurrents** : turbines à gaz (**GE Vernova**, Siemens Energy, Mitsubishi Heavy), moteurs alternatifs (**Caterpillar**, Cummins, Wärtsilä), autres piles à combustible (FuelCell Energy, Doosan Fuel Cell, Ceres Power sous licence), et à plus long terme le réseau lui-même et les petits réacteurs nucléaires.
 
 ## Modalités contractuelles
 
-Les commandes produit sont **fermes mais non assimilables à un carnet contractuel classique** : Bloom communique un *backlog* d'environ **20 milliards $** (dont ~6 Mds$ de produit et ~14 Mds$ de service), alors que ses **obligations de prestation restantes (RPO) auditées au sens d'ASC 606** ne s'élevaient qu'à ~441 M$ (produit et installation) et ~51,5 M$ (service) au 31 mars 2026. Cet écart d'ordre de grandeur est **le débat central** sur le titre.
+- **Ventes de produits** : CA reconnu à la livraison ou à l'acceptation ; acomptes et produits constatés d'avance en hausse (233 M$ à fin mars 2026 contre 144 M$ fin 2025).
+- **Financement par des tiers** : le financeur achète les systèmes et vend l'électricité au client final sur 10 à 20 ans ; Bloom conserve des **garanties de performance et de disponibilité**.
+- **Accords-cadres (MSA)** : formulés en « jusqu'à » — seule la tranche contractée est ferme. Sur les 2,8 GW d'Oracle, **1,2 GW** sont engagés.
+- **Incitations aux clients** : Oracle a reçu un bon de souscription (3,53 M d'actions à 113,28 $), comptabilisé en **réduction du chiffre d'affaires** au fil des livraisons.
 
-Le financement des projets est de plus en plus externalisé : **Brookfield** a porté son cadre de financement de 5 à **25 milliards $** le 30 juin 2026 pour déployer les systèmes chez les opérateurs d'IA. Les partenaires financiers sont **contractuellement tenus de prendre livraison**, ce qui limite l'exposition de Bloom aux retards de chantier côté client.
-
-> **Note de prudence** : Bloom Energy est une entreprise qui vient tout juste de basculer en **bénéfice GAAP** (196,3 M$ au T2 2026) après vingt-cinq ans de pertes. Toute analyse de multiples doit intégrer ce point d'inflexion très récent et la **concentration extrême** de la clientèle (un seul client, non lié, a représenté **~73 % du chiffre d'affaires du seul deuxième trimestre 2026**).`,
+**Lecture** : Bloom est passée en 18 mois d'un fournisseur de niche du commercial et industriel à une **infrastructure critique de l'IA**, avec des résultats désormais bénéficiaires en normes GAAP. Le revers : un portefeuille de clients très concentré et un modèle dont la valeur repose sur la rareté de l'électricité réseau.`,
   },
   {
     id: 2,
@@ -68,60 +75,65 @@ Le financement des projets est de plus en plus externalisé : **Brookfield** a 
     icon: "🔗",
     content: `## Position de Bloom Energy dans la chaîne de valeur
 
-Bloom occupe une position d'**équipementier-intégrateur** : il transforme des matières céramiques et métalliques spécialisées en systèmes de production électrique livrés clés en main, puis en assure l'exploitation via des contrats de service. Contrairement à un producteur d'électricité, il ne détient pas les actifs finaux ; contrairement à un pur industriel, il conserve une relation de service sur 10 à 20 ans.
+Bloom occupe une position de **fabricant-intégrateur** : elle transforme des matériaux céramiques et métalliques en systèmes de production électrique, les installe, puis les entretient pendant toute leur durée de vie. Elle ne produit pas le combustible, ne porte pas les actifs et ne revend pas l'électricité en direct à grande échelle — ce sont respectivement le rôle des gaziers, des financeurs et des exploitants de data centers.
 
-### Amont — Intrants critiques
+### Amont — Matières, composants et combustible
 
-**Oxyde de scandium (Sc₂O₃)** : dopant qui stabilise l'électrolyte céramique en zircone au cœur de chaque pile. C'est **l'intrant le plus stratégique et le plus contesté**. La direction affirme disposer d'une visibilité permettant de soutenir 25 GW de production annuelle et de **ne pas dépendre de la Chine** ; le vendeur à découvert Hunterbrook affirme le contraire (voir Red Flags et Avocat du Diable).
+**Matériaux de la pile** :
+- **Zircone stabilisée au scandium** (électrolyte) — le scandium est un métal rare, produit en faible volume dans le monde, majoritairement en Chine
+- Nickel, aciers inoxydables et alliages chromés (interconnecteurs), céramiques techniques
+- Électronique de puissance et onduleurs — la pénurie mondiale de composants électroniques de 2026 n'a pas, selon le 10-Q, affecté la production
 
-**Composants mécaniques et sous-ensembles** :
-- **MTAR Technologies** (Hyderabad, Inde) — fournisseur historique et concentré des *hot boxes* et pièces de précision
-- Fournisseurs de tôlerie, d'électronique de puissance, d'onduleurs et de systèmes de conversion 800 V
+**Sous-traitance** : usinage et assemblages de précision, notamment **MTAR Technologies** (Inde, commande d'environ 44 M$ en 2025).
 
-**Matières premières** : zircone, yttrium, nickel, acier inoxydable, terres rares en faible quantité.
-
-**Énergie d'entrée** : **gaz naturel** dans la quasi-totalité des déploiements actuels (biogaz et hydrogène restant marginaux). Bloom ne l'achète généralement pas : c'est le client ou le développeur qui contracte le gaz.
+**Combustible** : gaz naturel acheminé par pipeline. Pour le projet Jupiter au Nouveau-Mexique, le gazoduc de 17,8 miles d'**Energy Transfer** a été repoussé au 1ᵉʳ février 2027 après deux refus de tracé par le New Mexico State Land Office.
 
 ---
 
 ### Bloom Energy — Fabrication et déploiement
 
-**Usines** : Fremont et Sunnyvale (Californie), Newark (Delaware). Capacité annuelle portée à **2 GW fin 2026**, avec une empreinte industrielle que la direction dit capable de soutenir **5 GW par an** moyennant des investissements complémentaires.
+**Usine de Fremont** : capacité portée de 1 GW à **2 GW par an d'ici fin 2026**, extensible à ~5 GW sur le même site. Chaque gigawatt supplémentaire demande **6 à 9 mois et 100 à 150 M$** d'investissement — un capex remarquablement faible pour de la production électrique.
 
-**Déploiement** : modules préfabriqués, mise en service en quelques mois. Le premier système livré à Oracle l'a été en **55 jours**, soit 35 jours d'avance sur la cible de 90 jours. *Power Connect* (août 2026) vise à réduire encore de 40 % le temps d'installation.
+**Installation et mise en service** : équipes Bloom et partenaires d'ingénierie ; délais de quelques semaines à quelques mois selon la taille du site.
 
-**Financement** : **Brookfield** (cadre porté à 25 Mds$ le 30 juin 2026) et **structures de projet dédiées** portent le capital, permettant à Bloom de facturer l'équipement sans immobiliser son propre bilan.
+**Maintenance** : parc de 1,4 GW installé suivi à distance, remplacement périodique des empilements de cellules.
+
+---
+
+### Financement — Le maillon qui débloque la demande
+
+- **Brookfield** : cadre porté à **25 Md$** (juin 2026), adossé à son fonds d'infrastructure IA de 100 Md$
+- **Blue Owl Capital** : développeur et financeur du campus Jupiter (via une filiale)
+- Banques et fonds d'infrastructure pour les contrats d'achat d'électricité du segment commercial
 
 ---
 
 ### Aval — Clients finaux
 
-**Centres de données IA** : Oracle (jusqu'à 2,8 GW, campus Project Jupiter au Nouveau-Mexique, 2,45 GW), hyperscalers américains, plus d'une dizaine de *neoclouds*, laboratoires d'IA et opérateurs de colocation.
+**Hyperscalers et clouds IA** : **Oracle** (et, derrière lui, le programme Stargate d'**OpenAI** pour Jupiter), **Nebius**, **Aligned Data Centers**, **Equinix** (client historique).
 
-**Utilities** : **American Electric Power** (jusqu'à 1 GW, ~2,65 Mds$) — l'électricien devient revendeur/déployeur.
+**Utilities** : **AEP**, qui revend la capacité à ses propres grands clients industriels et numériques.
 
-**Industrie et institutions** : fabrication de semi-conducteurs, hôpitaux, campus universitaires, distribution, sites industriels — la base historique, aujourd'hui minoritaire en part de CA.
-
-**International** : Corée du Sud via **SK ecoplant** (actionnaire à plus de 10 % et partenaire de distribution historique), Inde, Italie, Japon, Taïwan.
+**Commercial et industriel** : sites de distribution, hôpitaux, universités, usines, opérateurs télécoms ; à l'international, **SK ecoplant** en Corée du Sud.
 
 ---
 
-### Cartographie simplifiée du flux
+### Cartographie du flux
 
-\`\`\`
-AMONT                    BLOOM ENERGY               AVAL
-Oxyde de scandium    →   Fabrication US        →    Oracle (2,8 GW)
-Zircone, nickel          Fremont / Sunnyvale        AEP (1 GW)
-MTAR Technologies        Newark (Delaware)          Hyperscalers, neoclouds
-Électronique 800 V       2 GW (fin 2026)            Colocation, labos IA
-                         → 5 GW (empreinte)         SK ecoplant (Corée)
-Gaz naturel (client)     Service 10-20 ans          Industrie, hôpitaux
-                              ↑
-                    Brookfield — 25 Mds$
-                    (capital de déploiement)
-\`\`\`
+| Étape | Acteurs | Rôle |
+|---|---|---|
+| Matières | Producteurs de scandium, zircone, nickel, aciers | Électrolyte et structure de la pile |
+| Composants | MTAR Technologies, fournisseurs d'électronique | Pièces de précision, conversion de puissance |
+| Fabrication | **Bloom Energy (Fremont)** | Cellules, empilements, Energy Servers |
+| Financement | Brookfield, Blue Owl, banques | Achat des systèmes, contrats de long terme |
+| Combustible | Energy Transfer et opérateurs gaziers | Acheminement du gaz naturel |
+| Utilisateurs | Oracle, OpenAI (Stargate), AEP, Nebius, Aligned, Equinix, SK ecoplant | Consommation de l'électricité sur site |
 
-**Le point de tension** : toute la thèse repose sur la capacité à **industrialiser plus vite que la demande ne s'évapore**, avec deux goulots identifiés — l'oxyde de scandium et la montée en cadence des fournisseurs de composants. La direction reconnaît elle-même que Bloom ne peut pas croître au rythme d'un éditeur logiciel : c'est un métier d'usine.`,
+---
+
+### Le point de friction : le scandium
+
+Le 8 juillet 2026, le média d'investigation **Hunterbrook** a affirmé avoir identifié quatre routes d'approvisionnement en scandium d'origine chinoise transitant par la Thaïlande, le Japon et la Corée du Sud, citant un représentant de **Hunan Oriental Scandium**. Bloom rejette ces conclusions, affirme ne pas dépendre de la Chine et disposer d'une visibilité sur du scandium suffisant pour **25 GW par an**. Une action collective en valeurs mobilières a été déposée sur la base de ces allégations. L'enjeu n'est pas seulement juridique : dans un contexte de droits de douane et de restrictions d'exportation, la **sécurité d'approvisionnement en scandium** est la seule vraie contrainte physique du modèle, au-delà de la capacité d'usine.`,
   },
   {
     id: 3,
@@ -130,449 +142,456 @@ Gaz naturel (client)     Service 10-20 ans          Industrie, hôpitaux
     icon: "📊",
     content: `## Ventilation du chiffre d'affaires
 
-**Avertissement méthodologique** : Bloom Energy publie **un seul segment opérationnel**. La ventilation utile est donc celle des **flux de revenus** et de la **géographie**, pas celle de divisions. Par ailleurs, le périmètre économique change de nature très vite : le CA a été multiplié par plus de 2,5 entre le T2 2025 et le T2 2026.
+**Avertissement méthodologique** : Bloom Energy ne publie qu'**un seul secteur opérationnel**. Il n'existe donc pas d'EBITDA ni de résultat net par segment dans les comptes. La ventilation disponible porte sur les **lignes de revenus** (produit, installation, service, électricité), sur les **marges brutes par ligne** et sur la **géographie**. Les chiffres ci-dessous sont consolidés.
 
-### Ventilation par flux de revenus — T2 2026
+### Par nature de revenus
 
-| Flux | CA T2 2026 | T2 2025 | Variation | Poids |
-|---|---|---|---|---|
-| Produit | 935,4 M$ | 296,6 M$ | **+215,4 %** | ~88 % |
-| Service | 69,0 M$ | 54,4 M$ | +26,8 % | ~6 % |
-| Installation | 51,0 M$ | 37,4 M$ | +36,4 % | ~5 % |
-| Électricité | 9,95 M$ | 12,8 M$ | **−22,3 %** | ~1 % |
-| **Total** | **1 065,4 M$** | **401,2 M$** | **+165,5 %** | 100 % |
+| Ligne | T2 2025 | T2 2026 | Tendance |
+|---|---|---|---|
+| Produit | 296,6 M$ | **935,4 M$** | +215 %, moteur quasi exclusif |
+| Installation, service, électricité | 104,6 M$ | 130,0 M$ | +24 %, part en recul |
+| **Total** | **401,2 M$** | **1 065,4 M$** | **+165,5 %** |
 
-**Lecture** : la croissance est **quasi intégralement une croissance de vente de machines**. Le service progresse mais reste résiduel en poids — c'est pourtant lui qui, à terme, doit constituer la rente. L'électricité recule volontairement : Bloom sort du modèle où il vendait des kWh pour vendre des équipements.
+**Marges brutes non-GAAP par ligne** : produit **37,2 %** au T2 2026 (35,3 % au T1) ; service **22 %** au T2 (18 % au T1, 4,8 % au T1 2025). Le service, longtemps déficitaire, contribue désormais positivement.
 
----
+### Trajectoire trimestrielle consolidée
 
-### Trajectoire trimestrielle
+| Trimestre | CA | Croissance a/a | Marge brute non-GAAP | Rés. opérationnel non-GAAP | EBITDA ajusté |
+|---|---|---|---|---|---|
+| T1 2025 | 326,0 M$ | +38,6 % | 28,7 % | 13,2 M$ | 25,2 M$ |
+| T2 2025 | 401,2 M$ | +19,5 % | 28,2 % | 28,6 M$ | 41,2 M$ |
+| T3 2025 | 519,0 M$ | +57 % | 30,4 % | 46,2 M$ | n.c. |
+| T4 2025 | 777,7 M$ | +35,9 % | 31,9 % | 133,0 M$ | 146,1 M$ |
+| T1 2026 | 751,1 M$ | +130,4 % | 31,5 % | 129,7 M$ | 143,0 M$ |
+| T2 2026 | **1 065,4 M$** | **+165,5 %** | **34,3 %** | **239,6 M$** | **253,4 M$** |
 
-| Trimestre | CA | Croissance a/a | Marge brute | Rés. opér. non-GAAP |
-|---|---|---|---|---|
-| T4 2025 | 777,7 M$ | +35,9 % | 31,9 % (n-GAAP) | 133,0 M$ |
-| T1 2026 | 751,1 M$ | +130,4 % | — | 129,7 M$ (GAAP) |
-| T2 2026 | **1 065,4 M$** | **+165,5 %** | **34,3 % (n-GAAP)** | **239,6 M$** |
+**Résultat net attribuable (GAAP)** : perte au T2 2025 (BPA de −0,18 $), puis **70,7 M$ au T1 2026 et 196,3 M$ au T2 2026**. L'exercice 2025 est le premier à dégager un résultat opérationnel GAAP positif sur l'année (72,8 M$).
 
-L'accélération du T1 au T2 2026 est de **+42 % en séquentiel** — un rythme qui n'a rien d'industriel classique et qui reflète le déblocage des livraisons pour les projets de centres de données.
+### Pourquoi ces chiffres ont bougé
+
+- **Mix data centers** : les commandes IA sont des blocs de plusieurs dizaines à centaines de MW, livrés en série — d'où l'explosion des ventes de produits.
+- **Effet d'échelle** : l'usine absorbe des volumes deux à trois fois supérieurs avec une structure de coûts fixes modestement plus lourde ; le levier opérationnel porte la marge opérationnelle non-GAAP de 7,1 % à 22,5 % en un an.
+- **Réduction des coûts unitaires** : programmes de productivité et hausse des prix de vente sur les commandes récentes (Mizuho évoque un « pricing » plus ferme).
+- **Service** : fin des contrats historiques déficitaires et meilleure fiabilité des piles.
 
 ---
 
 ### Répartition géographique
 
-Les **États-Unis** représentent **90 % du chiffre d'affaires** au T2 comme sur le premier semestre 2026 — contre seulement **59 % et 58 %** un an plus tôt. Le basculement domestique est donc récent et brutal. Historiquement, la **Corée du Sud** pesait lourd via **SK ecoplant**, actionnaire à plus de 10 % et partenaire de coentreprise : le chiffre d'affaires avec les parties liées atteignait encore **376,1 M$ sur le premier semestre 2026** (~21 % du total, concentré sur le T1) mais n'était plus que de **2,8 M$ au T2**, soit 0,26 %. Présence secondaire en Inde, en Italie, au Japon et à Taïwan.
+| Zone | Il y a un an | 10-Q du T2 2026 | Lecture |
+|---|---|---|---|
+| États-Unis | ~59 % | **~90 %** | Hyperscalers et utilities américains |
+| Corée du Sud et reste du monde | ~41 % | ~10 % | Recul relatif, pas forcément absolu |
 
-**Conséquence** : l'exposition de Bloom est aujourd'hui **presque intégralement domestique et presque intégralement adossée au cycle d'investissement IA américain**. Il n'y a pas de diversification géographique susceptible d'amortir un retournement de ce cycle.
+**Point clé** : la croissance est devenue **quasi exclusivement américaine et concentrée sur quelques clients**. La diversification internationale (Corée, Inde, Japon, Europe) existe commercialement mais pèse peu aujourd'hui.
 
 ---
 
-### Profil de marge et rentabilité
+### Perspectives 2026 (prévision du 28 juillet)
 
-- **Marge brute GAAP** : **33,4 %** au T2 2026 (contre 26,7 % un an plus tôt, soit +668 points de base) ; **34,3 %** en non-GAAP
-- **Marge opérationnelle** : **17,1 %** GAAP / **22,5 %** non-GAAP au T2 2026 — contre une marge quasi nulle un an plus tôt
-- **EBITDA ajusté** : 253,4 M$ au T2 2026 (41,2 M$ au T2 2025)
-- **Levier opérationnel** : les charges d'exploitation ont crû de 48 % quand le CA croissait de 166 %. Le CFO attribue cet écart à une base fixe de R&D et de frais généraux
-- **Concentration** : **un seul client, non lié, a représenté ~73 % du CA du T2 2026** ; sur le premier semestre, deux clients ont pesé ~44 % et ~21 % (le second étant la partie liée coréenne)
-
-**Lecture** : la structure de coûts se comporte exactement comme le management le promettait. Le problème n'est pas la marge — c'est **la dépendance à une poignée de donneurs d'ordre** dans un cycle d'investissement dont la durabilité fait débat.`,
+- CA **3,9–4,2 Md$** ; marge brute non-GAAP **~34 %** ; résultat opérationnel non-GAAP **800–900 M$** (~21 % de marge) ; BPA non-GAAP **2,55–2,85 $**
+- Le premier semestre (1,82 Md$ de CA, 369 M$ de résultat opérationnel non-GAAP) implique un second semestre d'environ **2,2 Md$** de CA : la trajectoire suppose une stabilisation autour d'1,1 Md$ par trimestre.`,
   },
   {
     id: 4,
     title: "Avantages compétitifs",
     category: "Compréhension du business",
     icon: "🏆",
-    content: `## Les fossés économiques (Moats)
+    content: `## Les fossés économiques (moats)
 
-### 1. Le délai de mise sous tension — le moat réel, et il est temporel
-« *Time to power* » est passé du statut de critère d'achat à celui de contrainte existentielle. Un centre de données de 1 GW peut générer 12 à 24 milliards $ de revenus annuels pour son exploitant : **un mois de retard coûte 1 à 2 milliards $**. Face à des files d'attente de raccordement de 5 à 7 ans et à des carnets de commandes de turbines à gaz saturés jusqu'en 2029-2030, Bloom livre en quelques mois. C'est un avantage **réel, mesurable et immédiatement monétisable** — mais c'est aussi un avantage **de fenêtre**, pas de forteresse.
+### 1. Le délai de mise sous tension — moat FORT, mais conjoncturel
+C'est l'avantage décisif. Le réseau américain est saturé : les files d'attente de raccordement se comptent en années et les turbines à gaz de grande taille sont réservées jusqu'à la fin de la décennie. Bloom livre en **semaines ou mois**, par blocs modulaires, sans permis de combustion lourde. Pour un hyperscaler qui immobilise des milliards de dollars de GPU, chaque mois de retard coûte plus cher que le surcoût de l'électricité. **Limite** : cet avantage dépend de la rareté de l'électricité réseau. Si les goulets d'étranglement se résorbent (nouvelles lignes, turbines disponibles, nucléaire), la prime de vitesse s'érode.
 
-### 2. Validation par les donneurs d'ordre — un moat d'homologation
-La direction affirme que **tous les grands hyperscalers américains** et plus d'une dizaine de *neoclouds*, laboratoires d'IA et opérateurs de colocation ont **validé et homologué** ses solutions. Dans l'infrastructure critique, l'homologation est un coût d'entrée considérable : un opérateur ne remet pas en jeu la disponibilité de son campus pour économiser quelques points de prix. Oracle, ayant reçu son premier système en 55 jours, a élargi son accord de 1,2 à 2,8 GW.
+### 2. Technologie et courbe d'apprentissage — moat RÉEL
+Plus de 20 ans de R&D, plus de 1 000 brevets, un rendement électrique élevé sans combustion (émissions locales de NOx et de particules quasi nulles, ce qui facilite les autorisations en zone urbaine) et une architecture **800 V DC native** alignée sur les baies IA de nouvelle génération. La fiabilité des empilements de cellules — longtemps le point faible — s'est nettement améliorée, comme le montre la marge de service passée de ~5 % à 22 % en cinq trimestres.
 
-### 3. Vingt-cinq ans d'apprentissage industriel sur la SOFC
-La pile à oxyde solide est une chimie difficile : température élevée, dégradation céramique, cyclage thermique. Bloom a accumulé des milliers de gigawattheures d'exploitation et une base installée de retours terrain que personne d'autre ne possède à cette échelle sur cette technologie. Les capitaux ne suffisent pas à rattraper cette courbe.
+### 3. Capacité industrielle modulaire — moat RÉEL mais copiable à terme
+2 GW par an fin 2026, extensibles à ~5 GW sur le même site pour **100 à 150 M$ par gigawatt**. Aucun autre fabricant de piles SOFC n'opère à cette échelle aux États-Unis. Un concurrent bien capitalisé pourrait toutefois construire une usine comparable en deux à trois ans.
 
-### 4. Le capital tiers — Brookfield comme accélérateur commercial
-Le passage du cadre Brookfield de **5 à 25 milliards $** ne fait pas que financer : il **retire l'obstacle du bilan client**. Un opérateur peut déployer du Bloom sans immobiliser de capital, et les partenaires financiers sont **tenus de prendre livraison**, ce qui protège Bloom des retards de chantier. C'est un avantage distributif que les concurrents de niche n'ont pas.
+### 4. Écosystème de financement — moat RÉEL
+Le cadre **Brookfield à 25 Md$** transforme un achat d'équipement en service d'électricité clés en main pour le client. C'est une barrière commerciale : peu de concurrents de la pile à combustible disposent d'un partenaire financier de cette taille.
 
-### 5. Fabrication américaine — un moat politique conjoncturel
-Production intégralement aux États-Unis, dans un contexte de droits de douane et de sécurisation des chaînes critiques. Argument commercial fort auprès des clients fédéraux et des hyperscalers sensibles au risque géopolitique — **précisément l'argument que le rapport Hunterbrook attaque** en contestant l'origine du scandium.
-
-### 6. Ce qui n'est PAS un moat
-- **Le coût de changement client est faible entre projets** : chaque nouveau campus est un nouvel appel d'offres. Bloom doit regagner sa place à chaque cycle
-- **La technologie n'est pas protégée par un effet de réseau** : ni plateforme, ni écosystème verrouillé
-- **Le pouvoir de prix vient de la pénurie, pas de la marque** : si les turbines à gaz rattrapent leur retard de production vers 2028-2029, l'argument temporel s'érode
+### 5. Base installée et service — moat en construction
+1,4 GW installés génèrent des revenus de service récurrents et une connaissance opérationnelle difficile à répliquer. Le contrat de service long terme verrouille partiellement le client.
 
 ## Positionnement vs concurrence
 
-| Critère | Bloom Energy | GE Vernova (turbines) | FuelCell / Plug (SOFC-PEM) |
-|---|---|---|---|
-| Délai de mise sous tension | **Mois** | Années (carnet saturé) | Mois, mais échelle faible |
-| Échelle industrielle | 2 GW/an (fin 2026) | Très élevée | Très faible |
-| Rentabilité | Positive depuis 2026 | Élevée et stable | Structurellement négative |
-| Bilan | Net cash, converti à 0 % | Investment grade | Fragile |
-| Diversification client | **Très faible** | Très élevée | Faible |
-| Valorisation | Extrême | Élevée | Décotée |
+| Critère | Bloom (SOFC) | Turbines à gaz | Moteurs alternatifs | Réseau électrique |
+|---|---|---|---|---|
+| Délai de déploiement | Semaines à mois | 3 à 6 ans (grandes unités) | Mois | Plusieurs années |
+| Émissions locales | Très faibles | Élevées | Élevées | Nulles sur site |
+| Rendement électrique | Élevé | Moyen à élevé (cycle combiné) | Moyen | n.a. |
+| Coût du kWh | Élevé | Plus faible à grande échelle | Moyen | Le plus faible |
+| Modularité | Très forte | Faible | Forte | Nulle |
+| Dépendance au gaz | Oui | Oui | Oui | Non |
+
+**Valeur perçue et image de marque** : Bloom est devenue, pour les acheteurs d'infrastructure IA, synonyme d'« électricité rapide ». Le marketing est porté par des références prestigieuses (Oracle, AEP, Brookfield) plus que par la publicité. Le récit « énergie propre » de 2018-2021 s'est effacé au profit d'un récit de disponibilité.
 
 ## Pouvoir de négociation
 
-- **Vis-à-vis des clients** : **temporairement élevé** — la direction indique que les clients acceptent des prix plus hauts parce que l'accès anticipé à l'électricité leur permet d'amortir plus tôt des GPU très coûteux. Mais ce pouvoir est **adossé à la pénurie**, pas à une dépendance structurelle
-- **Vis-à-vis des fournisseurs** : **modéré et fragile** — concentration sur un fournisseur de composants (MTAR) et sur une filière matière (scandium) étroite. C'est le maillon faible du dispositif
-- **Vis-à-vis des financeurs** : **renforcé** — le cadre Brookfield à 25 Mds$ change la nature de la conversation commerciale`,
+- **Vis-à-vis des clients** : **Modéré à élevé tant que l'électricité est rare** — les hausses de prix récentes le prouvent. Mais les clients sont peu nombreux et puissants (Oracle a obtenu un bon de souscription d'actions en échange de son engagement), ce qui plafonne ce pouvoir.
+- **Vis-à-vis des fournisseurs** : **Élevé** pour les composants standard, **faible** pour le scandium, dont l'offre mondiale est étroite et géographiquement concentrée.
+- **Vis-à-vis des financeurs** : **Interdépendance** — Brookfield a besoin des actifs de Bloom pour déployer son fonds IA, Bloom a besoin du capital de Brookfield pour convertir ses commandes.
+- **Vis-à-vis des gaziers** : **Faible** — le projet Jupiter montre qu'un gazoduc retardé bloque un déploiement entier.`,
   },
   {
     id: 5,
     title: "Compétition",
     category: "Comparaison sectorielle",
     icon: "🌍",
-    content: `## Tableau comparatif — Alimentation des centres de données IA (août 2026)
+    content: `## Tableau comparatif — Production d'électricité pour data centers (septembre 2026)
 
-| Société | Code Bloomberg | Capitalisation | EV/CA | EV/EBIT | P/E | Rdt div. | ROE 5 ans moy. |
+| Société | Code Bloomberg | Cap. boursière | EV/CA | EV/EBIT | P/E | Rdt div. | ROE moy. 5 ans |
 |---|---|---|---|---|---|---|---|
-| **Bloom Energy** | **BE US** | **~59 Mds$** | **~14x (2026E)** | **~70x** | **~75x (2026E)** | **0 %** | **négatif** |
-| GE Vernova | GEV US | ~263 Mds$ | ~5,5x | ~35x | ~40x | ~0,3 % | n.s. (scission 2024) |
-| Caterpillar | CAT US | ~440 Mds$ | ~6,5x | ~28x | ~30x | ~1,0 % | ~45 % |
-| Cummins | CMI US | ~83 Mds$ | ~2,4x | ~17x | ~22x | ~1,3 % | ~25 % |
-| Vertiv | VRT US | ~100 Mds$ | ~7,3x | ~38x | ~52x | ~0,1 % | ~25 % |
-| FuelCell Energy | FCEL US | ~0,5 Md$ | ~3x | n.s. | n.s. | 0 % | négatif |
-| Plug Power | PLUG US | ~3 Mds$ | ~3x | n.s. | n.s. | 0 % | négatif |
+| **Bloom Energy** | **BE US** | **~86 Md$** | **~27× (TTM)** | **~240× (GAAP TTM)** | **~320× TTM · ~106× 2026e** | **0 %** | **négatif** |
+| GE Vernova | GEV US | ~255 Md$ | ~6× | ~70× | ~28× TTM · ~46× fwd | ~0,2 % | n.s. (cotée depuis 2024) |
+| Caterpillar | CAT US | ~390 Md$ | ~5,5× | ~33× | ~35–40× | ~0,8 % | ~45 % |
+| Siemens Energy | ENR GY | ~120 Md$ | ~3× | ~45× | ~40× fwd | ~0,3 % | faible (pertes 2023) |
+| Cummins | CMI US | ~65 Md$ | ~2× | ~18× | ~22× | ~1,5 % | ~25 % |
+| FuelCell Energy | FCEL US | < 1 Md$ | n.s. | n.s. (pertes) | n.s. | 0 % | très négatif |
+| Doosan Fuel Cell | 336260 KS | ~2 Md$ | ~3× | n.s. | n.s. | 0 % | faible |
 
-*Données estimatives établies à partir des cours et publications disponibles au 21 août 2026. Les multiples de Bloom Energy sont calculés sur la guidance 2026 (CA 3,9-4,2 Mds$, BPA non-GAAP 2,55-2,85 $) ; sur les bénéfices GAAP des douze derniers mois, le P/E dépasse 250x. À affiner sur filings SEC directs.*
+*Bloom : cours de 291,25 $ au 29 septembre 2026, CA TTM ~3,1 Md$, BPA non-GAAP 2026 attendu ~2,71 $ (consensus). GE Vernova et Caterpillar : capitalisation, P/E et rendement de septembre 2026 ; EV/CA et EV/EBIT en ordres de grandeur. Siemens Energy, Cummins, FuelCell et Doosan : ordres de grandeur à confirmer sur Bloomberg avant toute utilisation chiffrée.*
 
 ---
 
 ### Analyse comparative
 
-**GE Vernova — le concurrent structurel, pas le concurrent immédiat**
-GEV domine la turbine à gaz, la solution que Morgan Stanley identifie comme le plus gros contributeur potentiel (15 à 20 GW d'ici 2028) au comblement du déficit de puissance. Son carnet de commandes et réservations de créneaux atteint **116 GW** au T2 2026, avec une cible d'au moins 125 GW à fin d'année, et un carnet total de **176 Mds$**. Les commandes de matériel pour centres de données ont dépassé 5 Mds$ au seul premier semestre 2026, plus du double de l'ensemble de 2025. **Le point clé : GEV vend déjà des créneaux 2029-2030.** C'est exactement cette saturation qui crée la fenêtre de Bloom — et c'est sa fermeture qui la refermera.
+**GE Vernova — Le rival le plus crédible**
+Numéro un mondial des turbines à gaz, carnet de commandes record, génération de trésorerie massive. Ses grandes turbines sont réservées pour des années, ce qui a **ouvert la fenêtre** dont profite Bloom. Mais GE Vernova augmente ses capacités et développe des turbines aérodérivées plus petites, plus rapides à livrer — l'offensive la plus directe contre l'argument de vitesse.
 
-**Caterpillar et Cummins — le contre-modèle de rentabilité**
-CAT réalise désormais presque autant de chiffre d'affaires en production d'énergie qu'en équipement de construction. CMI, malgré une exposition réelle, reste valorisé à ~22x : le marché refuse de lui accorder une prime d'électrification. Ce sont les **miroirs de valorisation** : ils montrent à quel niveau se paie l'équipement électrique quand la croissance est de 20 à 40 % et non de 166 %.
+**Caterpillar — Le vétéran des moteurs**
+Groupes électrogènes à gaz et diesel, réseau de concessionnaires mondial, solution rapide et éprouvée. Moins propre et moins efficace que la pile SOFC, mais **moins chère au kW installé**. Caterpillar a profité du même boom et se paie ~35–40× les bénéfices, loin des multiples de Bloom.
 
-**Vertiv — le comparable de multiple, pas de technologie**
-VRT à ~52x les bénéfices anticipés, avec un carnet de 15 Mds$ et une croissance de ~31 %, constitue la borne haute « raisonnable » du complexe IA infrastructure. Bloom se paie **une fois et demie ce multiple pour une croissance quatre à cinq fois supérieure** — la question est de savoir combien de trimestres cette croissance tient.
-
-**FuelCell Energy et Plug Power — l'avertissement**
-Ce sont les cadavres du cycle précédent de la pile à combustible : promesses de décarbonation, capitaux levés, rentabilité jamais atteinte. Ils rappellent que **la chimie de la pile à combustible n'a jamais, historiquement, produit de champion durablement rentable**. Bloom vient d'y parvenir — c'est la nouveauté fondamentale de 2026, et le socle du scénario haussier.
+**Les « purs » de la pile à combustible**
+FuelCell Energy, Plug Power (technologie PEM, orientée hydrogène), Doosan Fuel Cell et Ceres Power (licences) restent sous-dimensionnés, déficitaires ou positionnés sur d'autres usages. **Aucun n'a l'échelle industrielle ni l'écosystème de financement de Bloom** — c'est la preuve empirique de son avance.
 
 ---
 
-### Le ratio qui compte : le prix du gigawatt livrable
-Bloom se juge sur sa capacité à **convertir une empreinte industrielle en gigawatts effectivement livrés**. À ~700-800 M$ de CA annuel par gigawatt de capacité produit, l'écart entre 2 GW (fin 2026) et 5 GW (empreinte revendiquée) représente l'essentiel de la valeur actuelle du titre. Ce n'est pas un débat de multiple : c'est un débat d'exécution industrielle.`,
+### Lecture de la valorisation
+
+Bloom se paie **environ trois fois plus cher** que les meilleurs industriels de l'électrification sur les bénéfices attendus à douze mois (PER ~70× contre une médiane des pairs rentables autour de 33×) et **quatre à cinq fois plus** sur le chiffre d'affaires. Cette prime n'est défendable que si la croissance reste supérieure à 50 % par an jusqu'en 2028 : le consensus attend un BPA non-GAAP 2027 d'environ 4,9 $ (+80 %), avec une fourchette extrêmement large (≈ 3 à 7 $). Le ROE moyen sur cinq ans, négatif, rappelle que la rentabilité de Bloom est **récente** — elle n'a pas encore été testée sur un cycle complet.`,
   },
   {
     id: 6,
     title: "Résultats financiers",
     category: "Analyse financière",
     icon: "📈",
-    content: `## Résultats T2 2026 (publiés le 28 juillet 2026) — Analyse
+    content: `## Résultats du T2 2026 (publiés le 28 juillet 2026)
 
 ### Chiffre d'affaires et bénéfices vs consensus
 
-| Indicateur | T2 2026 | T2 2025 | Consensus | Écart |
+| Indicateur | T2 2026 | Consensus | Écart | T2 2025 |
 |---|---|---|---|---|
-| Chiffre d'affaires | **1 065,4 M$** | 401,2 M$ | ~814 M$ | **+30,8 %** |
-| BPA non-GAAP | **0,78 $** | 0,10 $ | 0,39 $ | **+100 %** |
-| BPA dilué GAAP | 0,62 $ | (0,18) $ | — | Retournement |
-| Marge brute GAAP | 33,4 % | 26,7 % | — | +668 pb |
-| Rés. opér. non-GAAP | 239,6 M$ | 28,6 M$ | — | ×8,4 |
-| EBITDA ajusté | 253,4 M$ | 41,2 M$ | — | ×6,1 |
+| Chiffre d'affaires | **1 065,4 M$** | ~826 M$ | **+29 %** | 401,2 M$ |
+| BPA non-GAAP dilué | **0,78 $** | 0,39 $ | **×2** | 0,10 $ |
+| BPA GAAP dilué | 0,62 $ | — | — | −0,18 $ |
+| Marge brute non-GAAP | 34,3 % | — | — | 28,2 % |
+| Rés. opérationnel GAAP | 182,2 M$ | — | — | −3,5 M$ |
+| Rés. opérationnel non-GAAP | 239,6 M$ (22,5 %) | — | — | 28,6 M$ (7,1 %) |
+| Flux de trésorerie d'exploitation | 226,4 M$ | — | — | −213,1 M$ |
+| Free cash-flow | ~175 M$ | — | — | négatif |
 
-**Bloom a écrasé le consensus sur les deux lignes** : +214 M$ de CA au-dessus des attentes, BPA doublé. Le résultat net attribuable aux actionnaires ordinaires atteint **196,3 M$**, contre une perte de 42,6 M$ un an plus tôt.
+**Verdict** : dépassement massif sur toutes les lignes. Le CA dépasse le consensus de près d'un tiers et le BPA double les attentes. C'est le **troisième trimestre consécutif** de dépassement large.
 
 ---
 
-### Facteurs clés par flux
+### Facteurs clés
 
-- **Produit** : 935,4 M$, **+215,4 %** — la totalité de l'accélération, tirée par les livraisons aux centres de données IA
-- **Service** : 69,0 M$, marge portée à **22 %** (+977 pb) — la brique récurrente commence à devenir rentable, ce qui n'était historiquement pas le cas
-- **Installation** : 51,0 M$
-- **Électricité** : 9,95 M$, **−22,3 %** — extinction volontaire de l'ancien modèle de vente de kWh
-
-**Accélération** : +42 % en séquentiel après un T1 déjà à +130,4 %. Il s'agit de la première séquence de deux trimestres à plus de 100 % de croissance dans l'histoire cotée du groupe.
+- **Produit** : 935,4 M$ (+215 %), tiré par les livraisons aux data centers IA — l'accélération est nette (+208 % au T1, +215 % au T2).
+- **Service** : marge brute non-GAAP de 22 %, cinquième trimestre consécutif à deux chiffres.
+- **Accélération** : la croissance du CA passe de +130 % au T1 à +166 % au T2 ; la marge opérationnelle non-GAAP de 17,3 % à 22,5 %.
 
 ---
 
 ### Évolution des marges
 
-Le levier opérationnel est **le fait marquant du trimestre** : charges d'exploitation +48 % pour un CA +166 %. La marge opérationnelle non-GAAP passe de ~7 % à **22,5 %**, soit une expansion d'environ 1 536 points de base. Le CFO Simon Edwards attribue cet écart à la nature largement fixe des dépenses de R&D et de frais généraux, et anticipe la poursuite de cette divergence.
+- **Marge brute** : 33,4 % en GAAP, 34,3 % en non-GAAP (+604 points de base) — effet volume, réduction des coûts unitaires, prix plus fermes.
+- **Marge opérationnelle** : les charges d'exploitation GAAP passent de 111 M$ à 173 M$ (+57 %), bien moins vite que la marge brute (×3,3) ; **l'effet de levier est spectaculaire**.
+- **Écart GAAP / non-GAAP** : ~57 M$ au niveau opérationnel ce trimestre, essentiellement rémunération en actions — un écart à surveiller.
 
 ---
 
-### Prévisions et perspectives — guidance relevée
+### Prévisions — Troisième relèvement de l'année
 
-| Métrique | Guidance 2026 relevée | Variation vs 2025 |
-|---|---|---|
-| Chiffre d'affaires | **3,9 – 4,2 Mds$** | ~+100 % (point médian) |
-| Marge brute non-GAAP | ~34 % | +374 pb |
-| Rés. opér. non-GAAP | **800 – 900 M$** | ×3,8 |
-| BPA non-GAAP | **2,55 – 2,85 $** | ×3,6 |
+| Indicateur 2026 | Février | Avril | Juillet |
+|---|---|---|---|
+| Chiffre d'affaires | 3,1–3,3 Md$ | 3,4–3,8 Md$ | **3,9–4,2 Md$** |
+| Marge brute non-GAAP | ~32 % | ~34 % | ~34 % |
+| Rés. opérationnel non-GAAP | 425–475 M$ | 600–750 M$ | **800–900 M$** |
+| BPA non-GAAP | 1,33–1,48 $ | 1,85–2,25 $ | **2,55–2,85 $** |
 
-La fourchette précédente était de 3,4-3,8 Mds$ ; elle-même relevée depuis 3,1-3,3 Mds$ en début d'année. **Trois relèvements successifs en trois trimestres** — c'est le signal opérationnel le plus fort du dossier. En revanche, la direction **refuse de guider le free cash-flow**, se contentant d'indiquer une conversion « forte » et une base de trésorerie d'exploitation supérieure à 375 M$.
-
----
-
-### Signaux d'alerte au bilan
-
-- **Trésorerie** : 2 666,9 M$ (plus 1,1 M$ restreint) au 30 juin 2026, contre 2 454,1 M$ fin 2025
-- **Dette avec recours** : **2 475,4 M$**, dont 2 500 M$ de **notes convertibles à 0 % échéance 2030** et des *Green Notes* à 3 % (2028 / 2029). Revolving de 600 M$ non tiré
-- **Position nette** : quasi neutre — mais la dette est **convertible en actions**, soit ~19,55 millions d'actions potentielles sur les seules notes à 0 %
-- **Flux de trésorerie d'exploitation** : **+300,0 M$ sur le premier semestre 2026**, contre une sortie massive un an plus tôt. FCF T2 : 175 M$. C'est le test de durabilité que le titre attendait
-- **Revenus différés et acomptes clients** : +211,7 M$ sur le trimestre — un signal de carnet, mais aussi un flatteur temporaire du cash
-- **Contra-revenue Oracle** : le warrant exercé (2 154 231 actions émises, 324,4 M$ de juste valeur agrégée) est comptabilisé **en réduction du chiffre d'affaires** au fur et à mesure des livraisons — un frein mécanique de plusieurs centaines de millions sur le CA futur publié
-- **Concentration client** : **~73 % du CA du T2 2026 attribuable à un seul client**, non lié ; sur le semestre, deux clients pèsent ~44 % et ~21 %. Au 30 juin 2026, trois clients concentrent **36 %, 34 % et 17 % des créances**
+**Changement de ton** : plus assuré encore qu'en avril. Le directeur financier Simon Edwards décrit le trimestre comme le plus solide de l'histoire du groupe. **Mais la prévision de free cash-flow annuelle a été retirée**, ce que plusieurs analystes ont relevé.
 
 ---
 
-### Point de forme à signaler
+### Signaux d'alerte du bilan
 
-Bloom a déposé un **10-Q/A le 29 juillet 2026**, le lendemain de la publication, pour corriger une **inversion des mentions « six mois » et « trois mois »** dans la note de concentration client. La version corrigée fait foi : **73 % sur le trimestre**, 44 % et 21 % sur le semestre. La quasi-totalité des reprises de presse s'appuie sur la version initiale, erronée.
+- **Trésorerie** : 2,69 Md$ (y compris trésorerie soumise à restrictions) ; ligne de crédit renouvelable de 600 M$ non tirée.
+- **Dette** : ~2,6 Md$ de dette avec recours, essentiellement des **obligations convertibles** (2,2 Md$ à 0 % échéance 2030, prix de conversion ~194,97 $ — **dans la monnaie** au cours actuel). Dette nette proche de zéro, mais risque de dilution.
+- **Concentration** : un client = **73 % du CA du trimestre**. Le 10-Q/A déposé le 29 juillet corrige une inversion « trois mois / six mois » dans la note de concentration — erreur de forme, mais signal de rigueur perfectible.
+- **Bon de souscription Oracle** : juste valeur de 251,6 M$ + 72,3 M$ d'actions d'incitation, imputées en **réduction du CA** au fil des livraisons à Oracle.
 
 ---
 
 ### Réaction du marché
 
-Le titre a bondi de **~26,5 %** le 30 juillet 2026 pour clôturer à 207,21 $, après avoir déjà rebondi depuis un point bas de ~163 $ fin juillet. Ce que cela indique : **le marché avait intégré le scénario Hunterbrook** (dépendance chinoise au scandium, retards de projets Oracle, qualité du carnet) et la publication a servi de démenti opérationnel. Depuis, le titre est retombé vers **~200 $** dans un contexte de repli général des valeurs d'infrastructure IA et de multiplication des recours collectifs.
+Le titre avait perdu près d'un tiers de sa valeur en juillet (rapport Hunterbrook le 8, puis séances de −15 % le 24 et −11 % le 28). Il a rebondi de **+26,5 % en une séance** (clôture à 207,12 $ le 30 juillet) dans la foulée de la publication. Lecture : le marché avait intégré une **déception** liée à la controverse sur le scandium ; les chiffres ont rappelé que l'exécution industrielle était intacte. Depuis, l'inclusion dans le S&P 500 (21 septembre) a porté le titre à **291,25 $** (29 septembre), encore ~17 % sous son plus haut de juin.
 
-**Élément inhabituel par rapport à l'historique** : c'est le **premier trimestre de l'histoire de Bloom où le résultat GAAP, l'EBITDA ajusté et le cash-flow d'exploitation sont simultanément et significativement positifs**. Sur vingt-cinq ans d'existence, c'est un basculement, pas une simple bonne saison.`,
+**Prochain rendez-vous** : résultats du T3 2026 attendus fin octobre. Le consensus vise ~1,07 Md$ de CA et ~0,72 $ de BPA — une **stabilisation séquentielle**, pas une nouvelle accélération.`,
   },
   {
     id: 7,
     title: "Earnings Calls",
     category: "Analyse financière",
     icon: "📞",
-    content: `## Analyse du discours du management
+    content: `## Analyse des conférences de résultats — Priorités de la direction
 
-### Ton général — évolution 2025 → 2026
+### Évolution du ton
 
-**2025** : Ton de **conquête prudente**. Le message central est l'homologation : convaincre que la pile à oxyde solide est une solution sérieuse pour les charges critiques. KR Sridhar formule la thèse du *bring your own power* : « *Bring-your-own-power est passé du slogan à la nécessité pour les hyperscalers de l'IA. Ce basculement est séculaire et croissant.* »
+**T4 2025 (5 février 2026) — Confiance retrouvée** : record annuel de 2,02 Md$, carnet total annoncé d'environ 20 Md$ (dont ~6 Md$ de carnet produits, ×2,5 sur un an), toutes les livraisons « prêtes pour le 800 V DC ». Prévision 2026 prudente (3,1–3,3 Md$). Ton assuré mais encore mesuré.
 
-**T1 2026** : Ton de **validation**. Premier trimestre à plus de 100 % de croissance, formule qui devient le mantra du dossier : « *Le délai de mise sous tension est passé d'un critère de sélection à une nécessité existentielle.* » Guidance relevée à 3,4-3,8 Mds$.
+**T1 2026 (28 avril 2026) — Accélération et nouvelle équipe** : premier appel du nouveau directeur financier Simon Edwards, ex-dirigeant de Groq. CA +130 %, prévision relevée à ~80 % de croissance. KR Sridhar martèle que la rapidité d'accès à l'électricité est passée de critère d'achat à **condition de survie** pour les acteurs de l'IA. Annonce de l'extension Oracle à 2,8 GW deux semaines plus tôt.
 
-**T2 2026** : Ton de **revendication de position dominante**. Sridhar : les clients qui se tournaient par défaut vers les technologies de combustion **choisissent désormais Bloom de manière proactive** ; tous les grands hyperscalers américains et plus d'une dizaine de *neoclouds*, laboratoires d'IA et opérateurs de colocation ont validé les solutions. Le mot employé est **« standard »** — Bloom serait devenu *le* standard de l'alimentation sur site pour les usines d'IA.
+**T2 2026 (28 juillet 2026) — Triomphe maîtrisé, sous pression** : premier trimestre au-dessus du milliard, prévision relevée pour la troisième fois. La direction présente Bloom comme **un standard de l'alimentation sur site pour l'IA**. Le contexte est pourtant tendu : l'appel intervient trois semaines après le rapport Hunterbrook, et une partie significative des questions porte sur le scandium et sur le retrait de la prévision de free cash-flow.
 
 ---
 
-### Priorités répétées du management
+### Priorités répétées de la direction
 
-**1. Le temps comme argument économique** — La direction quantifie systématiquement : un centre de 1 GW génère 12 à 24 Mds$ de revenus annuels pour son exploitant, un mois de retard coûte 1 à 2 Mds$. Le corollaire, formulé au T2 2026, est **un argument de prix** : les clients peuvent accepter des tarifs plus élevés parce qu'ils démarrent plus tôt l'amortissement de leur matériel de calcul. Morgan Stanley y a vu un signal positif sur le *pricing*.
+**1. La vitesse comme proposition de valeur** — Omniprésente. Chaque appel revient sur les délais de déploiement (55 jours pour Oracle) et sur l'insuffisance structurelle du réseau.
 
-**2. Le levier opérationnel** — Simon Edwards, arrivé comme CFO en avril 2026 (ex-CEO de Groq, ex-CFO de GE Digital), en fait sa signature : charges d'exploitation croissant durablement moins vite que le CA, base fixe de R&D et de frais généraux.
+**2. La capacité industrielle** — Passage à 2 GW fin 2026 « dans les temps et dans le budget », extension possible à 5 GW. La direction présente la capacité comme l'unique contrainte, pas la demande.
 
-**3. La réponse au scandium** — Après le rapport Hunterbrook du 8 juillet 2026, la direction a répondu par un 8-K et une note technique publique. Trois messages martelés au T2 : quantité de scandium économiquement récupérable suffisante à l'échelle mondiale, **visibilité sur 25 GW de déploiements**, absence de dépendance à la Chine. Le reste est déclaré « propriétaire ». **C'est le point de communication le plus défensif du dossier — et le moins vérifiable de l'extérieur.**
+**3. La marge et le levier opérationnel** — Edwards insiste sur la « transmission » des volumes au résultat : marge opérationnelle non-GAAP visée à ~21 % en 2026 contre 14 % dans la prévision initiale.
 
-**4. La protection contractuelle contre les retards** — Interrogé sur l'exposition financière aux décalages de projets, Edwards répond que les contrats comportent des protections fortes, que les équipements sont **redéployables** vers d'autres sites, et que **les partenaires financiers sont tenus de prendre livraison**. La guidance 2026 ne dépend d'aucun projet unique.
+**4. La trésorerie** — Un flux d'exploitation supérieur à 375 M$ est présenté comme un nouveau socle, avec une forte conversion du résultat en cash. Pourtant, la prévision annuelle de free cash-flow n'est plus donnée, et aucune nouvelle cible chiffrée ne l'a remplacée.
 
-**5. Le refus de guider le free cash-flow** — Question récurrente des analystes (Evercore notamment), réponse constante : pas de guidance formelle de FCF, seulement une indication de conversion. Avec 2,7 Mds$ de trésorerie et aucune politique de retour aux actionnaires, **l'allocation du capital reste la zone la plus floue du discours.**
+**5. La défense de la chaîne d'approvisionnement** — Réponse ferme : pas de dépendance à la Chine, visibilité sur du scandium pour 25 GW par an, diversification des sources.
 
 ---
 
 ### Analyse du sentiment
 
-- **Confiance** : très élevée et en hausse continue. Trois relèvements de guidance en trois trimestres, chacun accompagné d'un langage plus affirmatif.
-- **Registre** : **promotionnel**. Le vocabulaire (« standard », « les clients nous choisissent de manière proactive ») dépasse le registre descriptif habituel d'un équipementier. Sur un titre déjà valorisé pour la perfection, c'est un facteur d'amplification dans les deux sens.
-- **Transparence** : bonne sur les métriques opérationnelles, **délibérément partielle sur deux points** — la composition exacte de la chaîne d'approvisionnement en scandium et la conversion en trésorerie.
-- **Cohérence** : remarquable. La thèse n'a pas dévié depuis 2025 : le temps est le produit, la puissance est la contrainte, la pile à oxyde solide est la réponse.
+| Appel | Ton | Confiance | Sujets défensifs |
+|---|---|---|---|
+| T4 2025 | Positif, prudent sur les chiffres | Élevée | Peu |
+| T1 2026 | Très positif | Très élevée | Transition de CFO |
+| T2 2026 | Très positif, combatif | Très élevée | Scandium, FCF, concentration |
 
-> **À lire entre les lignes** : le management vend une **position de marché** (« le standard ») plus qu'un carnet contractuel. Or l'écart entre le *backlog* revendiqué (~20 Mds$) et les obligations de prestation restantes auditées (~493 M$ au 31 mars 2026) signifie que cette position doit être **reconfirmée commande par commande**. Tant que la pénurie de puissance dure, le discours tient. Il devient fragile le jour où les turbines rattrapent leur retard.`,
+- **Confiance** : en hausse continue et **justifiée par les chiffres** — la direction a relevé ses prévisions à chaque trimestre et les a dépassées.
+- **Transparence** : bonne sur les volumes et les marges ; **plus faible** sur l'identité des clients, la conversion du carnet en CA et le calendrier de trésorerie.
+- **Signal à surveiller** : le passage d'un discours « nous livrons ce que nous annonçons » à un discours de **standard de marché** est typique des phases euphoriques ; il rend chaque déception plus coûteuse.`,
   },
   {
     id: 8,
     title: "Management",
     category: "Gouvernance",
     icon: "👔",
-    content: `## Évaluation du management
+    content: `## Évaluation de la direction
 
-### KR Sridhar — Fondateur, Président du conseil et Directeur Général
+### KR Sridhar — Fondateur, président et directeur général
 
-**Bilan réel** : ancien professeur d'ingénierie aérospatiale et mécanique à l'Université d'Arizona, directeur du Space Technologies Laboratory, ancien conseiller de la NASA, membre de la National Academy of Engineering. Il a fondé Bloom en 2001 et développé la plateforme à oxyde solide **et l'outillage nécessaire à sa fabrication**. Ce qu'il a accompli, chiffré :
+**Parcours** : ingénieur, ancien directeur d'un laboratoire de technologies spatiales à l'université de l'Arizona où il travaillait, pour la NASA, sur la production d'oxygène sur Mars — technologie inversée pour donner la pile SOFC. Fondateur de Bloom en 2001.
 
-- Passage de 4 fondateurs à plus de 2 000 salariés
-- Introduction en Bourse en 2018
-- CA porté de ~0 à **2,02 Mds$ en 2025**, puis à un rythme annualisé de ~4 Mds$ en 2026
-- **Premier bénéfice GAAP significatif au T2 2026** — après vingt-cinq ans de pertes
-- Capacité industrielle portée vers 2 GW/an, empreinte revendiquée à 5 GW
+**Bilan chiffré** :
+- **25 ans de persévérance** : l'entreprise a perdu de l'argent pendant plus de deux décennies avant un résultat opérationnel GAAP positif sur l'exercice 2025 (72,8 M$) et un bénéfice net GAAP de 196,3 M$ au seul T2 2026.
+- **Repositionnement réussi** : de l'énergie « propre » pour le commercial et industriel vers l'**infrastructure électrique de l'IA** — CA de 1,47 Md$ en 2024 à ~4 Md$ attendus en 2026.
+- **Épisodes difficiles** : introduction en bourse à 15 $ en 2018, rapport de vendeur à découvert en 2019 suivi d'un **retraitement comptable** des exercices antérieurs (contrats de services gérés), longue traversée du désert boursier jusqu'en 2024.
 
-**Ancienneté** : **25 ans** au poste. C'est une durée exceptionnelle, qui est à la fois l'atout et le risque du dossier.
-
-**Participation et alignement** : détient environ **1,4 % du capital**, soit ~2,7 millions d'actions détenues directement plus ~1,1 million via des trusts — une valeur de l'ordre de 700 M$ à 800 M$ aux cours actuels. Rémunération totale annuelle d'environ **3,5 M$** (≈27 % de fixe). Élément notable : une attribution de performance de **300 000 actions début 2026 dont il a volontairement différé la réception jusqu'en janvier 2030**.
-
-**Le contrepoint** : Sridhar a **vendu 200 000 actions le 24 février 2026 pour ~34 M$**, et affiche **21 transactions Form 4 sur cinq ans dont zéro achat**. Sur l'ensemble des dirigeants, les initiés ont été **vendeurs nets d'environ 68 M$ sur douze mois**, avec 32 ventes et 0 achat sur six mois selon les relevés de marché. Shawn Soderberg (directrice juridique) a notamment cédé ~398 000 actions sur un trimestre. À l'inverse, **Aman Joshi (directeur commercial) a acquis plus d'un million d'actions** sur la même période — le seul signal d'achat significatif.
+**Ancienneté et participation** : 25 ans à la tête du groupe. Les dirigeants et administrateurs détiennent quelques pourcents du capital ; **les ventes d'initiés ont été soutenues** tout au long de 2025-2026, à des cours très supérieurs aux niveaux historiques.
 
 ---
 
-### Équipe dirigeante
+### Simon Edwards — Directeur financier (depuis le 13 avril 2026)
 
-- **Simon Edwards, CFO (depuis avril 2026)** — ex-CEO puis CFO de **Groq**, où il a piloté la montée en charge et l'accord de licence avec Nvidia ; auparavant CFO de Conga, ServiceMax et **GE Digital**. Profil rare : discipline financière SaaS greffée sur une culture industrielle GE
-- **Ravi Prasher, CTO** ; **Satish Chitoori, COO** ; **Aman Joshi, CCO** ; **Shawn Soderberg, directrice juridique**
-- **Ancienneté moyenne de l'équipe : ~3 ans** ; du conseil : ~6,9 ans
+39 ans. Précédemment directeur général puis directeur financier de **Groq** (inférence IA), directeur financier de Conga et ServiceMax (logiciels), et **directeur financier de GE Digital**. Profil de croissance rapide et de culture « tech », moins d'expérience industrielle lourde. La fonction avait déjà changé de titulaire en 2025. Premier bilan : trois relèvements de prévision, mais retrait de la prévision de free cash-flow.
 
-**Le point de vigilance** : le prédécesseur d'Edwards, **Dan Berenbaum, a démissionné brutalement en mai 2025 après douze mois de fonction**. Deux CFO en dix-huit mois dans une entreprise en hypercroissance est un signal à surveiller, même si le profil du remplaçant est nettement supérieur.
+**Aman Joshi — Directeur commercial** : porte-parole de Bloom pour l'extension du partenariat Brookfield.
 
 ---
 
-### Allocation du capital
+### Allocation du capital — Historique
 
-| Décision | Nature | Lecture |
+| Décision | Montant | Lecture |
 |---|---|---|
-| Notes convertibles 0 % (2 500 M$, éch. 2030) | Financement | **Coût nominal nul**, mais dilution différée de ~19,55 M d'actions |
-| Green Notes 3 % (2028 / 2029) | Financement | Remboursement en cours |
-| Capacité 2 GW → empreinte 5 GW | Capex | Le pari central. Capex T2 2026 : 51,6 M$ seulement |
-| Warrant Oracle (3,53 M d'actions à 113,28 $) | Commercial | Aligne Oracle sur le cours, mais **324,4 M$ comptabilisés en réduction de CA futur** |
-| Dividende / rachats | **Aucun** | Réinvestissement intégral |
+| Obligations convertibles 0 % 2030 | 2,2 Md$ (oct. 2025) | Financement très bon marché, **dilution potentielle** ~11 M d'actions |
+| Échange des convertibles 2028/2029 | ~976 M$ de nominal | Payé ~988 M$ en cash + **~42 M d'actions** |
+| Bon de souscription Oracle | 3,53 M d'actions à 113,28 $ | Incitation commerciale ; ~2,15 M d'actions émises en mai 2026 |
+| Extension de capacité 2 GW | 100–150 M$ par GW | **Capex très efficace** |
+| Dividendes / rachats | Aucun | Réinvestissement total |
 
-**Verdict** : l'émission de convertibles à **0 % pendant que le cours flambait** est une opération de financement remarquable — capital quasi gratuit obtenu au sommet de la valorisation. C'est le meilleur acte d'allocation de capital du dossier. En revanche, avec **2,7 Mds$ de trésorerie et aucune guidance de FCF**, la question « qu'allez-vous faire de cet argent » reste sans réponse publique.
-
-**ROE** : négatif sur cinq ans (pertes structurelles), positif depuis 2026 (~22 % TTM). La série est trop courte pour conclure.
+**ROE / ROIC** : négatifs pendant la majeure partie de la décennie, le ROIC passe à **~20 % sur douze mois glissants** (estimation : résultat opérationnel GAAP TTM de ~350 M$ après impôt, rapporté à un capital investi d'environ 1,6 Md$). C'est l'amélioration la plus spectaculaire du dossier, mais elle n'a que quelques trimestres d'historique.
 
 ---
 
 ### Signaux d'alerte
 
-- **Restatement 2020** : Bloom a dû retraiter ses comptes 2016-2019 (reclassement de contrats de services managés d'opérations en location-financement), suivi d'un recours collectif au titre de la Section 11. L'action visant l'auditeur PwC a finalement été rejetée. **Un antécédent de retraitement comptable reste un antécédent.**
-- **Recours collectif en cours (juillet-août 2026)** : *Nevins v. Bloom Energy Corporation*, N.D. Cal., visant la société **et certains de ses dirigeants**, pour déclarations prétendument trompeuses sur l'exposition chinoise de la chaîne d'approvisionnement en scandium. Période de classe : 27 février 2025 – 8 juillet 2026
-- **Comportement promotionnel** : le vocabulaire des conférences est nettement au-dessus de la moyenne sectorielle
-- **Ventes d'initiés massives et unilatérales** sur douze mois
-- **Type de dirigeant** : **fondateur-technologue**, pas gestionnaire professionnel. À ce stade — passage de l'invention à l'industrialisation de masse — c'est précisément le moment où ce profil est historiquement le plus exposé, et où la qualité du CFO devient déterminante`,
+- **Ventes d'initiés** : régulières et significatives (plusieurs dizaines de millions de dollars par trimestre en 2026).
+- **Parties liées et incitations** : bon de souscription accordé au premier client ; relations historiques étroites avec SK ecoplant (partenaire et ancien actionnaire).
+- **Comportement promotionnel** : communication de carnets de commandes « totaux » (~20 Md$) difficilement réconciliables avec les obligations de prestation comptables ; accords-cadres « jusqu'à ».
+- **Litiges** : action collective en cours (période du 27 février 2025 au 8 juillet 2026) sur les déclarations relatives à la Chine.
+- **Rotation à la direction financière** : nouveau CFO en avril 2026, après un premier changement de titulaire en 2025.
+
+---
+
+### Fondateur ou gestionnaire professionnel ?
+
+**Fondateur-ingénieur**, détenteur de la vision technologique et de la mémoire de l'entreprise. À ce stade — hypercroissance, pari industriel sur plusieurs gigawatts — c'est un **atout** : conviction, relations clients au plus haut niveau, capacité à prendre des risques de capacité. Le complément indispensable est une équipe financière rigoureuse ; l'arrivée d'Edwards va dans ce sens, mais son profil de croissance plutôt que de contrôle et la controverse sur la communication financière justifient une vigilance particulière.`,
   },
   {
     id: 9,
     title: "Analyse du cours",
     category: "Marché",
     icon: "📉",
-    content: `## Facteurs ayant influencé le cours
+    content: `## Facteurs historiques du cours (2021-2026)
 
 ### Contexte
-Le titre a été multiplié par plus de **dix en dix-huit mois** : de ~15 $ mi-2025 à un plus haut de séance de **351,28 $ le 25 juin 2026** (plus haut de clôture 345,85 $ le 22 juin), avant de retomber vers **~201 $** le 21 août 2026. Le **bêta est de 3,82** — c'est l'un des profils les plus volatils du S&P 1500. Le cours ne réagit pas aux fondamentaux courants mais au **flux d'annonces de contrats et au sentiment sur l'investissement en IA**.
+Bloom est un titre à **très forte volatilité** (bêta ~3,8). Il est passé d'environ 87 $ fin 2025 à **351,28 $ le 25 juin 2026**, puis à ~164 $ fin juillet, avant de remonter à **291,25 $** le 29 septembre. Les mouvements de plus de 5 % en une séance sont fréquents : la liste ci-dessous retient ceux qui ont une cause identifiable.
 
-### Hausses significatives (> 5 %)
+### Hausses significatives
 
-**Octobre 2025 — Cadre Brookfield de 5 Mds$** : première validation par un investisseur en infrastructure de premier plan, dans le cadre de son fonds dédié à l'infrastructure IA. Le titre change de catégorie aux yeux du marché.
+**2021 — Bulle de l'hydrogène et des énergies propres** : le titre culmine au début de 2021 dans l'euphorie des valeurs de transition énergétique, avant une longue baisse avec la remontée des taux (2022-2023).
 
-**Février 2026 — Résultats 2025 et guidance** : BPA T4 à 0,45 $ contre 0,30 $ attendu, CA 2025 à 2,02 Mds$ (+37,3 %), carnet annoncé à ~20 Mds$ (+65 %) dont ~6 Mds$ de produit (+140 %). Le titre atteint 180,90 $ le 25 février.
+**Fin 2024 — Accord AEP** : l'accord avec AEP portant sur jusqu'à 1 GW de piles est la première validation de Bloom comme fournisseur d'électricité pour data centers à grande échelle ; le titre quitte la zone des 10–15 $ où il stagnait depuis 2023.
 
-**13 avril 2026 — Accord Oracle porté à 2,8 GW** : +14 % en séance, +15 % en pré-ouverture, franchissement des 50 Mds$ de capitalisation. Émission simultanée d'un warrant Oracle sur 3,53 M d'actions à 113,28 $.
+**Juillet-septembre 2025 — Oracle et RBC** : contrat de mise sous tension en 90 jours pour Oracle, puis doublement de l'objectif de cours de RBC (35 $ → 75 $) ; plus haut historique à 68,74 $ mi-septembre 2025.
 
-**28 avril 2026 — T1 2026** : CA 751,1 M$ (+130,4 %), **39 % au-dessus du consensus**, guidance relevée à 3,4-3,8 Mds$. **+27,2 % en une séance.**
+**Octobre 2025 — Brookfield 5 Md$** : partenariat de financement, puis annonce du bon de souscription Oracle et émission de 2,2 Md$ de convertibles à 0 %.
 
-**30 juin 2026 — Brookfield quintuplé à 25 Mds$** : combiné à la décision d'Oracle de faire de Project Jupiter (Nouveau-Mexique) un campus **100 % Bloom** — jusqu'à 2,45 GW — en remplacement des turbines à gaz et du secours diesel initialement prévus. RBC qualifie l'extension de supérieure aux attentes. Le titre inscrit son sommet historique fin juin.
+**13-14 avril 2026 — Oracle 2,8 GW** : +12,6 % après séance, jusqu'à +20 % en séance le lendemain.
 
-**30 juillet 2026 — T2 2026** : premier trimestre milliardaire, BPA doublé vs consensus, guidance relevée à 3,9-4,2 Mds$. **+26,5 %**, clôture à 207,21 $.
+**28 avril 2026 — T1 2026** : CA +130 %, prévision relevée de ~60 % à ~80 % de croissance.
+
+**30 juin 2026 — Brookfield 25 Md$** : +12 % après séance ; le premier semestre s'achève sur une hausse de **+248 %**.
+
+**30 juillet 2026 — T2 2026** : **+26,5 %** en une séance après le premier trimestre milliardaire.
+
+**Septembre 2026 — S&P 500** : annonce de l'inclusion (effective le 21 septembre, en remplacement de Molson Coors), relèvement de l'objectif de Mizuho de 242 $ à 351 $ ; **+8,3 % le 25 septembre** quand Oracle réaffirme son engagement de 2,4 GW ; **+10,8 % le 29 septembre**.
 
 ---
 
-### Baisses significatives (> 5 %)
+### Baisses significatives
 
-**8 juillet 2026 — Rapport Hunterbrook « Bloom's Big Lie »** : le vendeur à découvert affirme avoir tracé **quatre routes liées à la Chine** dans la chaîne d'approvisionnement en scandium (expéditions directes vers l'usine du Delaware, céramiques et poudres transitant par la Thaïlande, le Japon et la Corée du Sud), et cite un producteur chinois se présentant comme le premier fournisseur de Bloom. Le titre perd 15,28 $, soit **−5,7 %**, à 254,29 $, après avoir cédé jusqu'à 12 % en séance. Le rapport conteste également la qualité du carnet et évoque des retards sur les projets Oracle.
+**2022-2023 — Remontée des taux** : les valeurs de croissance non rentables de la transition énergétique sont délaissées ; Bloom perd l'essentiel de ses gains de 2021.
 
-**Juillet 2026 — Correction de −30 %** : combinaison du rapport, de l'implosion du fonds *Situational Awareness* (dont les principales positions étaient au cœur du décrochage IA de juillet) et de la volatilité générale des valeurs d'infrastructure IA. Le titre touche **~163 $ fin juillet**, soit une division par deux depuis le sommet de juin.
+**Novembre-décembre 2025 — Consolidation** : après le pic d'octobre, retour vers 75-90 $, dans un contexte de doutes sur la valorisation des valeurs « IA physique ».
 
-**Août 2026 — Vague de recours collectifs** : dépôts successifs (Robbins Geller, Rosen, Kirby McInerney, Levi & Korsinsky, Bernstein Liebhard, Kaplan Fox), date limite de désignation du demandeur principal au **28 septembre 2026**. Le 18 août, le titre perd **~10 %** en une séance sur fond de remontée des taux longs et d'inquiétudes juridiques.
+**Mars 2026 — Correction** : forte baisse après l'emballement post-résultats annuels, sur fond de valorisation jugée excessive.
+
+**8 juillet 2026 — Rapport Hunterbrook** : **−5,7 %** (clôture 254,29 $) sur les allégations d'approvisionnement chinois en scandium ; le mois de juillet se solde par **−32 %**, avec des séances à −15 % (24 juillet) et −11 % (28 juillet).
+
+**24 septembre 2026 — Force majeure d'Oracle** : **−6,1 %** (258,50 $) lorsqu'Oracle adresse un avis de force majeure au développeur du campus Jupiter (retard du gazoduc).
+
+**28 septembre 2026** : **−8,7 %**, dans un repli général des valeurs de piles à combustible, effacé dès le lendemain (+10,8 %).
 
 ---
 
 ### Facteurs structurels
 
-- **Corrélation au complexe IA** : le titre se comporte comme une option à fort levier sur l'investissement des hyperscalers, aux côtés de Nebius, CoreWeave et Vertiv
-- **Sensibilité aux taux longs** : valeur de croissance à duration très longue — toute tension obligataire comprime le multiple
-- **Événementiel contractuel** : chaque annonce de gigawatts déplace le titre de 10 à 25 %
-- **Positionnement des fonds** : Goldman Sachs a augmenté sa position de 350 % au T1 2026 ; Citadel a en revanche dénoué plus de 80 % du risque lié au portefeuille *Situational Awareness*, dont Bloom faisait partie
-- **Objectif de cours consensuel** : ~275 $ (fourchette 97 $ – 390 $). **L'amplitude de cette fourchette — un facteur 4 — est la mesure la plus honnête de l'incertitude du dossier**`,
+- **Levier sur le récit IA** : le titre réagit aux annonces des hyperscalers (Oracle, OpenAI) presque autant qu'à ses propres résultats.
+- **Flux indiciels** : l'inclusion dans le S&P 500 élargit la base d'actionnaires institutionnels et passifs.
+- **Vendeurs à découvert et avocats** : rapports d'investigation et actions collectives provoquent des chocs ponctuels violents.
+- **Momentum** : une partie de l'actionnariat est spéculative ; les retournements de tendance amplifient les mouvements dans les deux sens.`,
   },
   {
     id: 10,
     title: "Projections BPA",
     category: "Valorisation prospective",
     icon: "🔮",
-    content: `## Estimations BPA 2026-2028
+    content: `## Estimations du BPA 2026-2028
 
 ### Avertissement
-Bloom Energy vient de basculer en rentabilité. La base de comparaison est donc **très courte et très instable** : le BPA non-GAAP passe de 0,28 $ (2024) à 0,76 $ (2025) puis à une guidance de 2,55-2,85 $ (2026). Les projections ci-dessous sont des **scénarios**, pas des prévisions de précision. Un modèle plus serré exigerait la ventilation des livraisons en gigawatts par trimestre, non publiée.
+Le BPA de Bloom part d'une base très faible (0,76 $ non-GAAP en 2025) : les taux de croissance en pourcentage sont donc spectaculaires et peu informatifs. Les estimations ci-dessous portent sur le **BPA non-GAAP dilué** (référence de la direction et du consensus). Le BPA GAAP est inférieur d'environ 15 à 25 % du fait de la rémunération en actions.
 
 ### Hypothèses de modélisation
 
-**Croissance sectorielle** : Morgan Stanley chiffre à ~38 GW le déficit de puissance des centres de données américains d'ici 2028, dont seulement une trentaine couverts par les projets en construction et les capacités réseau contractées. Les turbines à gaz devraient en couvrir 15 à 20 GW, laissant un espace substantiel à la production sur site rapide.
+**Croissance du secteur** : la demande électrique des data centers américains devrait continuer de croître fortement jusqu'en 2030 ; la part servie par la production sur site progresse tant que les raccordements restent saturés.
 
-**Gains de parts de marché** : Bloom revendique la position de standard chez les hyperscalers. Morgan Stanley modélise **1,8 GW de déploiements en 2027 et 4,8 GW en 2028**. À ~700-800 M$ de CA par gigawatt, cela cadre une trajectoire de CA de ~6 Mds$ (2027) à ~9 Mds$ (2028).
+**Gains de parts de marché** : Bloom capte une part croissante de la production sur site face aux turbines (délais) et aux moteurs (émissions). Hypothèse : maintien de la position, sans conquête supplémentaire.
 
-**Hausses de prix** : levier réel et reconnu par la direction — les clients paient une prime pour l'antériorité de mise sous tension. Effet estimé : +2 à +5 %/an tant que la pénurie dure, nul ou négatif ensuite.
+**Hausses de prix** : prix plus fermes en 2026 ; hypothèse de stabilité en 2027-2028, puis pression à mesure que la concurrence rattrape les délais.
 
-**Pressions sur les coûts** : montée en cadence des fournisseurs (MTAR, filière scandium), coûts de qualification, éventuelle prime d'approvisionnement hors Chine. Marge brute supposée stabilisée entre 34 % et 37 %.
+**Pressions sur les coûts** : scandium et droits de douane (≈ 1 point de marge brute évoqué en 2025), main-d'œuvre, montée en cadence ; compensées par l'effet d'échelle.
 
-**Levier opérationnel** : c'est le moteur principal. Charges d'exploitation à +48 % pour un CA à +166 % au T2 2026. Hypothèse : marge opérationnelle non-GAAP de ~21 % (2026) → 24-26 % (2028).
+**Effet de levier opérationnel** : marge opérationnelle non-GAAP de ~21 % en 2026, ~24 % en 2027, ~26 % en 2028.
 
-**Coûts de financement** : faibles — les 2,5 Mds$ de convertibles portent un coupon de **0 %**. Produits financiers sur 2,7 Mds$ de trésorerie partiellement compensatoires.
+**Coûts de financement** : dette à 0 % ; produits financiers sur la trésorerie ; taux d'imposition effectif en hausse progressive à mesure que les reports déficitaires s'épuisent (~8 % → ~13 %).
 
-**Dilution** : facteur clé et systématiquement sous-estimé. Conversion potentielle des notes 2030 (**~19,55 M d'actions**), actions déjà émises sur le warrant Oracle (2,15 M), rémunération en actions élevée (**56,4 M$ au seul T2 2026**). Hypothèse : **~320 M d'actions diluées en 2026 → ~335 M en 2028**, soit ~2 %/an de dilution.
+**Dilution** : conversion probable des obligations 2030 (dans la monnaie), rémunération en actions — nombre d'actions dilué passant d'environ 325 M à 340 M.
+
+| Hypothèse | 2026E | 2027E | 2028E |
+|---|---|---|---|
+| Chiffre d'affaires | ~4,1 Md$ (+100 %) | ~6,6 Md$ (+60 %) | ~9,0 Md$ (+36 %) |
+| Marge opérationnelle non-GAAP | ~21 % | ~24 % | ~26 % |
+| Actions diluées | ~325 M | ~333 M | ~340 M |
 
 ---
 
-### Scénarios de BPA
+### Estimations du BPA
 
-| Exercice | BPA non-GAAP | Croissance | P/E au cours actuel (~201 $) |
+| Exercice | BPA estimé | Croissance | PER au cours actuel (291,25 $) |
 |---|---|---|---|
-| 2024 (réalisé) | **0,28 $** | — | — |
-| 2025 (réalisé) | **0,76 $** | +171 % | — |
-| **2026E** (guidance) | **2,55 – 2,85 $** | **×3,6** | **~71 – 79x** |
-| **2027E** (base) | **3,80 – 4,50 $** | +45 à +60 % | **~45 – 53x** |
-| **2028E** (base) | **5,00 – 6,50 $** | +30 à +45 % | **~31 – 40x** |
+| 2024 (réalisé) | 0,28 $ | — | — |
+| 2025 (réalisé) | 0,76 $ | ×2,7 | ~383× |
+| **2026E** | **2,60–2,90 $ (base 2,75 $)** | **×3,6** | **~106×** |
+| **2027E** | **4,10–5,20 $ (base 4,60 $)** | **+67 %** | **~63×** |
+| **2028E** | **5,40–7,40 $ (base 6,30 $)** | **+37 %** | **~46×** |
 
-*Rappel : sur les bénéfices GAAP des douze derniers mois (BPA ~0,74 $), le P/E ressort au-delà de 250x. L'écart GAAP / non-GAAP tient essentiellement à la rémunération en actions.*
+**Repères de consensus** : ~2,71 $ pour 2026 et ~4,9 $ pour 2027 (fourchette des analystes ≈ 3 à 7 $). Notre base 2027 est légèrement plus prudente, par prudence sur la conversion du carnet Oracle/Jupiter.
+
+---
 
 ### Sensibilité
 
-- **Scénario haussier** (4,8 GW livrés en 2028, marge opérationnelle 26 %, pas de rupture d'approvisionnement) : BPA 2028 vers **7,00 $** → P/E 2028 ~29x. Le titre est alors bon marché et l'objectif haut de 390 $ devient défendable
-- **Scénario de base** : BPA 2028 ~5,75 $ → P/E 2028 ~35x. Valorisation exigeante mais soutenable si la croissance reste à deux chiffres élevés au-delà de 2028
-- **Scénario baissier** (cycle IA qui décélère en 2027, retours des turbines à gaz, contentieux sur le scandium contraignant l'approvisionnement) : BPA 2028 ~3,00 $ → P/E 2028 ~67x, **avec compression simultanée du multiple**. C'est là que le risque est asymétrique : le titre ne baisserait pas de 30 %, il baisserait de 60 à 70 %
+- **Scénario haussier** (capacité portée à 4-5 GW, nouveaux hyperscalers, prix fermes) : BPA 2028 ~8,50 $ → PER 2028 ~34× — le cours actuel serait alors raisonnable.
+- **Scénario de base** : BPA 2028 ~6,30 $ → PER 2028 ~46× — le titre intègre déjà deux années d'exécution sans faute.
+- **Scénario baissier** (retards Jupiter, concurrence des turbines, baisse des prix) : BPA 2028 ~3,50 $ → PER 2028 ~83× — forte vulnérabilité.
 
-**Conclusion** : la valorisation actuelle n'exige pas seulement que Bloom exécute — elle exige que **le cycle d'investissement IA tienne au moins jusqu'en 2029**. Le BPA est le bon indicateur pour 2028 ; d'ici là, les juges de paix sont les **gigawatts livrés** et la **conversion du carnet revendiqué en obligations de prestation auditées**.`,
+**Conclusion** : la trajectoire bénéficiaire est réelle et parmi les plus fortes du marché américain. Mais à 291 $, le cours intègre déjà l'essentiel du scénario de base à horizon 2028. **Le potentiel dépend de la capacité à dépasser encore les attentes**, ce que Bloom a fait à chaque trimestre depuis un an.`,
   },
   {
     id: 11,
     title: "Bull & Bear",
     category: "Valorisation & thèses",
     icon: "⚖️",
-    content: `## 🐂 Scénario Optimiste (Bull Case)
+    content: `## 🐂 Scénario optimiste (bull case)
 
-### Leviers de création de valeur
+### Leviers de croissance structurels
 
-**1. Le seul acteur capable de livrer de la puissance à l'échelle du gigawatt en quelques mois** : les files de raccordement atteignent 5 à 7 ans, les créneaux de turbines à gaz sont vendus jusqu'en 2029-2030. Bloom a livré son premier système Oracle en **55 jours**. Ce n'est pas un avantage marketing : c'est une **rente d'arbitrage temporel**, et elle est aujourd'hui sans équivalent industriel.
+**1. La pénurie d'électricité est l'étranglement de l'IA** : les hyperscalers ont les puces, les capitaux et les terrains, pas les électrons. Tant que le réseau reste saturé, la production sur site rapide est la seule solution à l'échelle du besoin — et Bloom est le seul acteur SOFC industrialisé à plusieurs gigawatts.
 
-**2. Pérennité des barrières** : vingt-cinq ans de courbe d'apprentissage sur une chimie céramique difficile, homologation obtenue chez **tous les grands hyperscalers américains**, fabrication américaine dans un contexte de sécurisation des chaînes critiques. Un nouvel entrant capitalisé ne rattrape pas cela en trois ans.
+**2. Des barrières à l'entrée qui tiennent à moyen terme** : 20 ans de courbe d'apprentissage, une usine de 2 GW extensible à 5 GW pour quelques centaines de millions de dollars, un écosystème de financement de 25 Md$ et des références de premier rang (Oracle, AEP, Nebius). Un nouvel entrant mettrait des années à réunir ces éléments.
 
-**3. Levier opérationnel spectaculaire et déjà prouvé** : CA +166 % pour des charges d'exploitation à +48 % au T2 2026. Marge opérationnelle non-GAAP à **22,5 %**, contre ~7 % un an plus tôt. Chaque dollar de croissance supplémentaire tombe massivement au résultat — c'est la surprise de bénéfices structurelle du dossier, et elle a produit trois relèvements de guidance en trois trimestres.
+**3. Des surprises bénéficiaires répétées** : trois relèvements de prévision en 2026, un BPA du T2 deux fois supérieur au consensus, une marge opérationnelle passée de 7 % à 22,5 % en un an. Le consensus a constamment sous-estimé le levier opérationnel.
 
-**4. Le carnet et le capital de déploiement** : ~20 Mds$ de carnet revendiqué, cadre **Brookfield porté de 5 à 25 Mds$**, accord-cadre Oracle jusqu'à 2,8 GW, accord AEP jusqu'à 1 GW (~2,65 Mds$). Le capital tiers **supprime l'obstacle du bilan client**.
+**4. Des vents porteurs structurels** : standard 800 V DC dans les data centers (avantage natif de Bloom), exigences d'émissions locales qui défavorisent les moteurs, électrification de l'industrie, demande internationale (Corée, Inde, Japon, Europe).
 
-**5. Allocation du capital de premier ordre** : 2,5 Mds$ levés en convertibles à **0 % de coupon** au sommet de la valorisation — du capital gratuit. Trésorerie de 2,7 Mds$, position nette quasi neutre, cash-flow d'exploitation de +300 M$ au premier semestre 2026.
-
-**6. Facteur structurel sous-estimé** : la visibilité revendiquée sur **25 GW de déploiements** représente, à 700-800 M$ de CA par gigawatt, un potentiel cumulé de plusieurs dizaines de milliards de dollars — hors revenus de service et de remplacement de piles, qui constituent la rente de long terme.
+**5. Une allocation du capital devenue efficace** : 100 à 150 M$ par gigawatt de capacité, dette convertible à 0 %, trésorerie de 2,7 Md$, ROIC passé à ~20 %.
 
 ---
 
-## 🐻 Scénario Pessimiste (Bear Case)
+## 🐻 Scénario pessimiste (bear case)
 
-### Risques susceptibles de nuire durablement à l'activité
+### Risques susceptibles d'affecter durablement l'activité
 
-**1. La concentration client est un risque existentiel, pas un risque de marge** : **un seul client, non lié, a représenté ~73 % du chiffre d'affaires du deuxième trimestre 2026** — chiffre confirmé par le 10-Q/A du 29 juillet 2026. Sur le semestre, deux clients pèsent ~44 % et ~21 %.  Et les États-Unis concentrent 90 % du CA. Un décalage de calendrier chez Oracle — et *TheStreet* a déjà rapporté un problème de canalisation susceptible d'affecter le planning de Project Jupiter — ne réduit pas la croissance : il l'efface. Aucune diversification géographique ou sectorielle n'amortit ce choc.
+**1. La concentration** : un client a représenté 73 % du CA du T2 2026. Le projet Jupiter (jusqu'à 2,45 GW) fait déjà l'objet d'un avis de force majeure d'Oracle, faute de gazoduc avant février 2027. Un retard ou une renégociation d'un seul programme peut créer un trou de plusieurs trimestres.
 
-**2. La fenêtre temporelle se refermera** : GE Vernova affiche 116 GW de carnet et réservations de créneaux, avec une cible de 125 GW à fin 2026. Toute la valeur de Bloom vient de la saturation de ce carnet. Quand les turbines rattrapent — vers 2028-2029 — l'argument du délai s'érode, et Bloom redevient un équipementier comparé à CAT et CMI, qui se paient 22 à 30 fois les bénéfices.
+**2. La fenêtre de rareté se referme** : GE Vernova, Siemens Energy et Mitsubishi augmentent leurs capacités de turbines, les petites turbines aérodérivées et les moteurs se déploient vite, les raccordements finiront par se débloquer. La prime de vitesse — donc les prix et les marges de Bloom — se comprimerait.
 
-**3. Le risque juridique et d'approvisionnement sur le scandium** : le recours collectif *Nevins v. Bloom Energy* vise la société **et ses dirigeants**. Au-delà du coût financier, l'enjeu réel est **opérationnel** : si la dépendance chinoise est avérée, elle expose Bloom à un levier géopolitique direct sur son intrant le plus critique, précisément au moment de la montée en cadence.
-
-### Compression des marges ou ralentissement du CA
-
-Trois mécanismes cumulables : le *contra-revenue* du warrant Oracle (324,4 M$ comptabilisés en réduction de CA au fil des livraisons), une prime d'approvisionnement si la chaîne scandium doit être reconfigurée hors Chine, et une normalisation du *pricing* dès que la pénurie de puissance se détend.
-
-### Attentes trop élevées
-
-À ~75x le BPA 2026 attendu et ~14x le chiffre d'affaires, le titre intègre une exécution parfaite. **Les RPO auditées (~493 M$ au 31 mars 2026) représentent moins de 2,5 % du carnet revendiqué de 20 Mds$** — un écart d'un ordre de grandeur que même BMO, pourtant non hostile, a signalé.
+**3. Le scandium et la géopolitique** : si les allégations d'approvisionnement chinois se confirmaient, des droits de douane ou des restrictions pourraient toucher le coût ou la disponibilité de la matière clé de la pile.
 
 ### Analyse pré-mortem
-Nous sommes fin 2028, le titre vaut 70 $. Que s'est-il passé ? Le cycle d'investissement IA a décéléré courant 2027 ; deux hyperscalers ont reporté des campus ; les turbines à gaz sont redevenues disponibles à un coût du kWh inférieur ; Bloom a livré 2,5 GW au lieu des 4,8 GW modélisés ; le levier opérationnel a joué **en sens inverse** sur une base de coûts fixes désormais dimensionnée pour 5 GW ; la conversion des notes 2030 a dilué de 6 % ; et le multiple est passé de 75x à 20x sur un BPA de 3,50 $. Aucune de ces hypothèses n'est extravagante prise isolément.
+Que se serait-il passé si Bloom cotait 120 $ en septembre 2028 ? Scénario : Jupiter décalé de 12 à 18 mois, un deuxième hyperscaler choisit des turbines aérodérivées, les prix baissent de 15 %, la marge opérationnelle plafonne à 18 %, le BPA 2028 atteint 3,50 $ et le multiple se normalise à ~35×. Le cours reculerait de ~60 % — un scénario qui ne nécessite **aucune faillite du modèle**, seulement une normalisation.
+
+### Les multiples sont-ils trop élevés ?
+**Oui au regard des pairs** : ~106× le BPA 2026 attendu, ~63× celui de 2027, ~27× le CA — deux à trois fois les multiples de GE Vernova ou Caterpillar, qui profitent de la même demande. **Défendables seulement** si la croissance reste supérieure à 50 % par an jusqu'en 2028.
+
+---
 
 ### Point de vue à contre-courant
-**Ce que le marché refuse de voir** : les deux camps se trompent d'objet. Les haussiers valorisent Bloom comme une plateforme technologique alors que **c'est une usine** — avec des délais d'outillage, une qualification fournisseur et une physique céramique qui ne s'accélèrent pas par décret. Les baissiers, eux, traitent le titre comme la énième bulle de la pile à combustible, alors que **Bloom vient de faire ce que FuelCell et Plug n'ont jamais réussi en vingt ans : gagner de l'argent en GAAP et générer du cash**. La vérité inconfortable est que la thèse ne se joue ni sur la technologie ni sur la comptabilité, mais sur **une seule variable exogène que ni Bloom ni les analystes ne contrôlent — la durée du cycle d'investissement des hyperscalers.** Une position doit donc être dimensionnée comme une option sur ce cycle, jamais comme une conviction de qualité.`,
+
+**Ce que le marché refuse de voir** — dans les deux sens. Les baissiers voient Bloom comme une bulle du récit IA ; ils négligent que la société génère désormais du cash, que sa capacité coûte peu à étendre et que ses clients sont les acheteurs les plus solvables du monde. Les haussiers voient un monopole de la vitesse ; ils négligent que **la vitesse est un avantage temporaire par nature** et que le vrai test viendra en 2028-2029, quand l'offre de turbines et de raccordements aura rattrapé la demande. La question décisive n'est pas « Bloom croîtra-t-elle ? » mais **« quelle marge conservera-t-elle quand elle ne sera plus la seule option rapide ? »**.`,
   },
   {
     id: 12,
@@ -581,155 +600,141 @@ Nous sommes fin 2028, le titre vaut 70 $. Que s'est-il passé ? Le cycle d'inv
     icon: "🚩",
     content: `## Audit forensique — Signaux d'alerte comptables
 
-### Écart carnet / obligations de prestation restantes — RISQUE ÉLEVÉ
-C'est **le signal numéro un**. Bloom communique un *backlog* d'environ **20 Mds$** (~6 Mds$ produit, ~14 Mds$ service). Ses **RPO auditées au sens d'ASC 606** au 31 mars 2026 s'élevaient à **441,1 M$** (produit et installation) et **51,5 M$** (service). Le carnet communiqué représente donc **plus de 40 fois les obligations contractuelles fermes reconnues dans les états financiers**.
+### Comptabilisation des produits — RISQUE MODÉRÉ À ÉLEVÉ
+Le CA produit est reconnu à la livraison ou à l'acceptation, souvent vis-à-vis d'une **structure de financement** plutôt que de l'utilisateur final. Deux points d'attention :
+- **Accélération de fin de période** : des livraisons concentrées sur quelques gros projets rendent le CA trimestriel sensible au calendrier d'acceptation.
+- **Contrepartie versée au client** : le bon de souscription Oracle (juste valeur de 251,6 M$, plus 72,3 M$ d'actions d'incitation lors de l'exercice sans décaissement du 1ᵉʳ mai 2026) est imputé en **réduction du CA** au fil des livraisons. Traitement conforme (ASC 606 et 718), mais qui rend la marge sur ce client plus faible qu'en apparence.
 
-**À surveiller** : la progression trimestrielle des RPO. Si le carnet croît pendant que les RPO stagnent — ce que relevait déjà une analyse post-T2 — cela signifie que le carnet est composé d'accords-cadres non contraignants et non de commandes fermes.
+**Historique** : Bloom a **retraité ses comptes antérieurs en 2019-2020** au titre des contrats de services gérés, après un rapport de vendeur à découvert. Le précédent justifie une vigilance renforcée sur les montages de financement.
 
-### Reconnaissance du revenu et *contra-revenue* Oracle — RISQUE MODÉRÉ À ÉLEVÉ
-Le warrant émis à Oracle (3,53 M d'actions à 113,28 $), exercé sans décaissement le 9 avril 2026, a donné lieu à l'émission de **2 154 231 actions** pour une juste valeur agrégée de **324,4 M$**, comptabilisée **en réduction du chiffre d'affaires** au rythme des livraisons.
+### Information sectorielle et concentration — RISQUE ÉLEVÉ
+Un seul secteur publié, pas de résultat par type de client. La note de concentration du 10-Q du T2 2026 a dû être **corrigée par un 10-Q/A** le lendemain (inversion entre les périodes de trois et six mois). La bonne lecture : **73 % du CA du T2** avec un client, ~44 % et ~21 % pour deux clients sur le semestre. Le « client » peut être un véhicule de financement : la concentration économique réelle peut donc être encore plus forte, ou différente.
 
-**Ce que cela implique** : une part du CA futur publié sera **mécaniquement amputée**, et un observateur non averti attribuera cette baisse à une faiblesse commerciale. C'est comptablement correct et économiquement une remise commerciale payée en actions — mais cela **brouille durablement la lisibilité de la croissance publiée**.
+### Carnet de commandes — RISQUE MODÉRÉ
+La direction communique un carnet total d'environ 20 Md$ (dont ~6 Md$ de produits fin 2025), une notion **non normée** qui intègre des services et de l'électricité sur de longues durées et des accords-cadres « jusqu'à ». Les **obligations de prestation restantes** publiées au sens d'ASC 606 sont d'un tout autre ordre de grandeur. Méthode : ne retenir que les tranches contractées (1,2 GW Oracle) et les obligations comptables.
 
-### Antécédent de retraitement comptable — RISQUE MODÉRÉ (historique)
-Bloom a **retraité ses états financiers 2016-2019** en 2020, pour reclassement de contrats de services managés (*Managed Services Agreements*) de locations simples en locations-financement, entraînant une révision à la baisse du CA publié et un recours collectif au titre de la Section 11. L'action visant l'auditeur (PwC) a été rejetée.
+### Contrats de location et financements structurés — RISQUE MODÉRÉ
+Les anciens contrats de vente avec reprise de l'électricité (PPA) et les services gérés ont généré des passifs financiers et des engagements de performance. Surveiller les garanties de disponibilité et de rendement, susceptibles de créer des **provisions** si la fiabilité se dégrade.
 
-**Lecture** : ce n'est pas un signal actif, mais un antécédent qui abaisse le seuil de bénéfice du doute sur les jugements comptables complexes.
+### Parties liées — RISQUE FAIBLE À MODÉRÉ
+Pas de transaction significative avec des dirigeants identifiée. Relations historiques étroites avec SK ecoplant (client, distributeur et ancien actionnaire) ; bon de souscription au premier client.
 
-### Rémunération en actions — RISQUE ÉLEVÉ SUR LA QUALITÉ DU BÉNÉFICE
-**56,4 M$ de SBC au seul T2 2026**, soit ~5,3 % du chiffre d'affaires du trimestre. C'est le principal écart entre le BPA GAAP (0,62 $) et le BPA non-GAAP (0,78 $), soit **~20 % de l'écart de bénéfice**.
+### Engagements conditionnels et litiges — RISQUE MODÉRÉ
+Action collective en valeurs mobilières (période du 27 février 2025 au 8 juillet 2026) sur les déclarations relatives à l'approvisionnement en scandium ; issue et coût inconnus. Garanties produit et de performance.
 
-**À surveiller** : le ratio SBC / CA. S'il ne décroît pas à mesure que le CA double, la « rentabilité » non-GAAP restera partiellement financée par la dilution des actionnaires.
+### Rémunération en actions — RISQUE MODÉRÉ
+Écart d'environ 57 M$ entre résultat opérationnel GAAP et non-GAAP au T2 2026, principalement la rémunération en actions. À ~20 % de marge non-GAAP, cet écart pèse environ un quart du résultat : **le BPA non-GAAP flatte la rentabilité réelle**.
 
-### Dette convertible et dilution — RISQUE MODÉRÉ
-**2 500 M$ de notes à 0 % échéance 2030**, convertibles en **~19,55 M d'actions**, plus des *Green Notes* à 3 % (2028 / 2029). Le coupon nul flatte le résultat financier ; le prix se paiera en actions.
+### Goodwill et immobilisations incorporelles — RISQUE FAIBLE
+Croissance organique, pas d'acquisition significative : peu de goodwill. Point positif du dossier.
 
-**À surveiller** : le nombre d'actions dilué publié trimestre après trimestre, et l'évaluation trimestrielle de l'éligibilité à conversion mentionnée dans les filings.
+### Flux de trésorerie vs résultat — RISQUE MODÉRÉ
+Le flux d'exploitation (226 M$ au T2) dépasse le résultat net grâce aux **acomptes clients et au fonds de roulement** — favorable aujourd'hui, réversible si les commandes ralentissent. Le **retrait de la prévision de free cash-flow** en juillet est un signal à suivre.
 
-### Concentration client et créances — RISQUE ÉLEVÉ
-**~73 % du CA du T2 2026 issu d'un seul client**, explicitement **non lié** ; sur le premier semestre, deux clients pèsent **~44 % et ~21 %** (le second étant la partie liée). Au 30 juin 2026, trois clients concentrent **36 %, 34 % et 17 % des créances**. C'est une exposition de contrepartie et de calendrier, pas seulement de mix.
-
-**Point de méthode ajouté par la société** : le 10-Q précise désormais que « client » désigne **la contrepartie contractuelle, qui peut dans certaines transactions être un véhicule de financement de projet plutôt que l'utilisateur final** — et renvoie explicitement au cadre Brookfield. Autrement dit, **le client à 73 % n'est pas nécessairement l'exploitant du centre de données**, et son identité n'est pas communiquée.
-
-**Erratum de la société** : un **10-Q/A déposé le 29 juillet 2026** corrige une inversion des périodes « six mois » / « trois mois » dans cette note. Une note de concentration client publiée à l'envers puis rectifiée en vingt-quatre heures n'est pas anodine sur un dossier où la concentration est le premier risque.
-
-**À surveiller** : la rotation des créances clients et tout allongement des délais de paiement, qui précéderait mécaniquement une révision de guidance.
-
-### Revenus différés et acomptes clients — POINT DE VIGILANCE
-Le cash-flow d'exploitation du T2 (+226,4 M$) est **soutenu par une hausse de 211,7 M$ des revenus différés et acomptes clients**. C'est un signal de carnet positif, mais **il flatte la conversion en trésorerie du trimestre**. Un cash-flow porté par les acomptes n'est pas un cash-flow porté par le résultat.
-
-### Parties liées — RISQUE FAIBLE, EN AMÉLIORATION
-**SK ecoplant** détient plus de 10 % du capital et fut historiquement à la fois actionnaire et client. Le CA avec parties liées est tombé à **0,26 % du total** au T2 2026 — un assainissement notable, qui retire l'un des principaux griefs baissiers historiques.
-
-### Engagements conditionnels — RISQUE ÉLEVÉ ET ACTIF
-**Recours collectif fédéral en valeurs mobilières** : *Nevins v. Bloom Energy Corporation*, n° 26-cv-07944 (N.D. Cal.), déposé le 30 juillet 2026, visant la société et certains dirigeants pour violations du Securities Exchange Act de 1934. Période de classe : **27 février 2025 – 8 juillet 2026**. Date limite de désignation du demandeur principal : **28 septembre 2026**. Au moins sept cabinets ont annoncé des actions ou enquêtes parallèles.
-
-### Absence de guidance de free cash-flow — POINT DE VIGILANCE
-La direction refuse explicitement de guider le FCF, malgré des questions répétées d'analystes. Sur une société en hypercroissance capitalistique disposant de 2,7 Mds$ de trésorerie, **c'est une omission volontaire qui mérite d'être notée comme telle**.
+### Dilution — RISQUE MODÉRÉ
+Obligations 2030 convertibles à ~194,97 $ (dans la monnaie), échange de 2025 réglé en partie par ~42 M d'actions nouvelles, bon de souscription Oracle.
 
 ---
 
 ### Verdict global
-**Risque comptable : MODÉRÉ À ÉLEVÉ — par nature du modèle et du moment.** Il n'y a **aucune fraude identifiée** ni aucune anomalie caractérisée dans les états financiers, et la société a explicitement et catégoriquement rejeté les allégations comptables du rapport Hunterbrook dans un 8-K du 9 juillet 2026. Mais le dossier cumule structurellement : une métrique commerciale phare (le carnet) sans équivalent audité, un antécédent de retraitement, une SBC élevée, une dilution différée par convertibles, une concentration client extrême et un contentieux actif. **La comptabilité n'est pas le problème ; c'est la distance entre le récit et les chiffres audités qui l'est.**`,
+**Risque comptable : MODÉRÉ.** Aucune fraude identifiée, comptes audités, trésorerie réelle et croissante. Mais un **historique de retraitement**, une concentration extrême mal documentée, une communication centrée sur des indicateurs non normés (carnet, non-GAAP) et une controverse ouverte sur la chaîne d'approvisionnement imposent de **raisonner sur les chiffres GAAP et sur la trésorerie**, pas sur les agrégats de présentation.`,
   },
   {
     id: 13,
     title: "Questions au Management",
     category: "Préparation d'entretien",
     icon: "❓",
-    content: `## 15 questions prioritaires pour KR Sridhar et l'équipe Bloom Energy
+    content: `## 15 questions prioritaires pour KR Sridhar, classées par importance
 
 ### Stratégie et avantage concurrentiel
 
-**1.** Vous communiquez un carnet d'environ 20 Mds$ ; vos obligations de prestation restantes auditées s'élevaient à ~493 M$ au 31 mars 2026. **Donnez-nous la définition exacte du carnet, le pourcentage sous contrat ferme avec engagement de prise de livraison, et la trajectoire trimestrielle des RPO sur les huit derniers trimestres.**
+**1.** Votre avantage repose sur la rapidité d'accès à l'électricité. Quand les turbines aérodérivées et les raccordements réseau se seront débloqués, vers 2028-2029, **quel sera votre avantage de coût complet par MWh** face à une turbine à gaz, et quelle marge brute jugez-vous alors soutenable ?
 
-**2.** Votre avantage tient au délai de mise sous tension. GE Vernova vise 125 GW de carnet et réservations de créneaux à fin 2026. **À quelle année anticipez-vous que la disponibilité des turbines à gaz redevienne normale, et que devient votre pouvoir de prix à ce moment-là ?**
+**2.** Un client a représenté 73 % du CA du T2 2026. **Qui est l'utilisateur final derrière ce client**, et quel pourcentage du CA 2027 attendez-vous de vos trois premiers clients ?
 
-**3.** Vous affirmez être devenus « le standard » de l'alimentation sur site pour les usines d'IA. **Quelle part de marché mesurable cela représente-t-il en gigawatts commandés en 2026, et face à quelles technologies avez-vous perdu des appels d'offres cette année ?**
+**3.** L'avis de force majeure d'Oracle sur Jupiter : **que se passe-t-il pour votre CA 2027** si le gazoduc est encore retardé de six mois, et avez-vous des engagements fermes de réallocation de ces systèmes vers d'autres sites ?
 
-### Concentration et dépendance
+### Chaîne d'approvisionnement
 
-**4.** Un seul client a représenté ~73 % de votre chiffre d'affaires au deuxième trimestre 2026. **Qui est-il — utilisateur final ou véhicule de financement de projet ? Quel est votre plan chiffré de diversification, et à quel horizon aucun client ne pèsera-t-il plus de 25 % du CA ?**
+**4.** Vous affirmez disposer d'une visibilité sur du scandium pour 25 GW par an. **Quelle part de votre scandium est aujourd'hui d'origine chinoise, directement ou via des intermédiaires**, et quel serait l'impact sur la marge brute de droits de douane de 50 % sur cette matière ?
 
-**5.** Un retard sur Project Jupiter a été rapporté publiquement. **Quel pourcentage de votre guidance 2026 et de votre modèle 2027 dépend de ce seul campus, et quels équipements exactement sont redéployables sans coût de reconfiguration ?**
+**5.** Combien de temps et quel investissement faudrait-il pour **qualifier une chimie d'électrolyte réduisant la teneur en scandium** ?
 
-**6.** Vous dépendez d'un nombre restreint de fournisseurs, dont MTAR Technologies pour des composants critiques. **Quel est votre plan de double sourcing, et quel serait l'impact sur vos livraisons d'une défaillance de six mois de votre principal fournisseur ?**
+### Allocation du capital et trésorerie
 
-### Le scandium
+**6.** Pourquoi avoir **retiré la prévision de free cash-flow** en juillet ? Quelle part du flux d'exploitation 2026 provient des acomptes clients, et que devient-elle si les commandes se normalisent ?
 
-**7.** Vous affirmez avoir une visibilité sur 25 GW de production sans dépendance à la Chine. **Publiez le pourcentage d'oxyde de scandium provenant de fournisseurs dont vous avez audité l'origine de la matière première jusqu'à la mine**, et non seulement l'origine de l'expédition.
+**7.** Quelle est votre politique face à la **dilution** : conversion des obligations 2030, rémunération en actions, incitations aux clients sous forme de bons de souscription ? Envisagez-vous des rachats d'actions pour la neutraliser ?
 
-**8.** Hunterbrook allègue des flux transitant par la Thaïlande, le Japon, la Corée du Sud, l'Inde et Taïwan. **Auditez-vous l'origine amont de vos fournisseurs intermédiaires, et depuis quelle date ce processus est-il en place ?**
+**8.** Au-delà de 2 GW, **à quel niveau de commandes fermes déclenchez-vous chaque gigawatt supplémentaire**, et quel ROIC attendez-vous sur ces extensions ?
 
-**9.** Si la Chine imposait demain un contrôle à l'exportation sur l'oxyde de scandium et ses dérivés, **combien de mois de production sécurisée avez-vous, et quel serait le surcoût matière d'un approvisionnement intégralement hors Chine ?**
+### Visibilité commerciale
 
-### Allocation du capital et rentabilité
+**9.** Vous communiquez un carnet total d'environ 20 Md$. **Quelle part est ferme, sans condition suspensive, et livrable dans les 24 mois** ? Comment le réconciliez-vous avec les obligations de prestation publiées dans le 10-Q ?
 
-**10.** Vous disposez de 2,7 Mds$ de trésorerie et refusez de guider le free cash-flow. **Quelle est votre politique d'allocation du capital sur trois ans : capacité, intégration amont, acquisitions, ou retour aux actionnaires ?**
+**10.** Quel pourcentage de vos livraisons 2026-2027 passe par le **cadre Brookfield** ? Brookfield dispose-t-il de droits d'exclusivité ou de conditions de prix préférentielles ?
 
-**11.** Vos notes convertibles à 0 % représentent ~19,55 M d'actions potentielles. **Quelle dilution totale, warrant Oracle et SBC compris, un actionnaire d'aujourd'hui doit-il anticiper d'ici 2030 ?**
+### Risques
 
-**12.** La SBC atteint 56,4 M$ au seul T2 2026. **À quel horizon ce poste passe-t-il sous 3 % du chiffre d'affaires, et acceptez-vous d'être jugés sur le BPA GAAP plutôt que non-GAAP ?**
+**11.** Quels sont les principaux enseignements de l'**action collective** en cours, et quels contrôles avez-vous ajoutés pour éviter une nouvelle correction de 10-Q comme celle du 29 juillet ?
 
-### Risques et gouvernance
+**12.** Si les prix du gaz naturel américain doublaient, **combien de vos contrats répercutent automatiquement ce coût** au client final, et quel serait l'effet sur la demande nouvelle ?
 
-**13.** Vous et vos dirigeants avez vendu pour ~68 M$ nets d'actions sur douze mois, avec zéro achat sur cinq ans de votre part. **Quel message pensez-vous que cela envoie à un actionnaire qui achète le titre à 75 fois les bénéfices anticipés ?**
+**13.** Les **ventes d'initiés** ont été soutenues en 2025-2026. Comment les justifiez-vous auprès des actionnaires, et la direction s'engagerait-elle sur des plans de détention minimale ?
 
-**14.** Deux directeurs financiers en dix-huit mois, avec un départ abrupt en mai 2025. **Que s'est-il passé, et qu'avez-vous changé dans la gouvernance financière depuis ?**
+### Vision long terme
 
-**15.** Quel est le **risque que vous sous-estimez le plus** aujourd'hui, et que le marché ne voit pas encore ?`,
+**14.** Dans dix ans, **quelle part de votre CA viendra de l'hydrogène**, des électrolyseurs et de l'international, au-delà des data centers américains alimentés au gaz ?
+
+**15.** Quel est le risque que vous estimez **le plus sous-évalué par le marché aujourd'hui** — et celui que vous surveillez le plus en conseil d'administration ?`,
   },
   {
     id: 14,
     title: "Avocat du Diable",
     category: "Analyse critique / Short",
     icon: "😈",
-    content: `## Thèse short — Démontage de l'argumentaire haussier
+    content: `## Thèse vendeuse — Démontage de l'argumentaire haussier
 
-### 1. Le carnet de 20 milliards est une métrique marketing, pas une obligation contractuelle
+### 1. Ce qui peut compromettre structurellement le modèle
 
-C'est l'attaque centrale, et elle est arithmétique. Bloom communique ~20 Mds$ de carnet. Ses **obligations de prestation restantes auditées** — la seule mesure normée par ASC 606 des revenus issus de contrats qui **engagent** effectivement le client — s'élevaient à **441,1 M$ pour le produit et l'installation, et 51,5 M$ pour le service au 31 mars 2026**. Soit **moins de 2,5 % du chiffre annoncé**.
+Bloom vend de l'électricité **plus chère que le réseau**. Son modèle n'existe que parce que l'électricité réseau est indisponible à court terme. C'est un avantage de **pénurie**, pas de coût. Toute pénurie finit par se résorber : quand les grandes turbines, les turbines aérodérivées et les raccordements rattraperont la demande, les hyperscalers compareront des coûts par MWh, et la pile SOFC — combustible gazier, remplacement périodique des empilements — ne gagnera pas sur ce terrain.
 
-Un accord-cadre « jusqu'à 2,8 GW » n'est pas une commande de 2,8 GW. Un cadre de financement Brookfield « jusqu'à 25 Mds$ » n'est pas 25 Mds$ de revenus. **Les haussiers valorisent des intentions au multiple de contrats fermes.** BMO, sans être hostile au dossier, l'a signalé explicitement.
+### 2. Où se concentrent les revenus — et que se passe-t-il si cela change
 
-### 2. La concentration des revenus est le vrai risque, et il est extrême
+**73 % du CA du T2 2026 avec un seul client**, 90 % aux États-Unis, une exposition dominante au programme Oracle/OpenAI. Le projet Jupiter (jusqu'à 2,45 GW) dépend d'un gazoduc refusé deux fois, désormais attendu en février 2027, et fait l'objet d'un **avis de force majeure**. Si Oracle ralentit ses dépenses d'infrastructure — ou si OpenAI révise ses ambitions —, Bloom perd l'essentiel de sa croissance en un trimestre. La diversification annoncée (AEP, Nebius, Aligned) ne pèse pas encore assez pour amortir un tel choc.
 
-**~73 % du chiffre d'affaires du deuxième trimestre 2026 provient d'un seul client** — et la société ne le nomme pas. Au 30 juin 2026, trois clients concentrent 36 %, 34 % et 17 % des créances. Il n'existe aucun amortisseur : 90 % du CA aux États-Unis, pas de diversification sectorielle (le legacy hôpitaux/campus est devenu résiduel), pas de diversification technologique. Pire : le 10-Q précise que « client » peut désigner **un véhicule de financement de projet plutôt que l'utilisateur final** — l'investisseur ne sait donc même pas avec certitude à quel risque de contrepartie il est exposé.
+### 3. Pourquoi l'avantage concurrentiel est plus fragile qu'il n'y paraît
 
-Que se passe-t-il si Oracle — dont les engagements en centres de données font eux-mêmes l'objet d'un débat de financement — décale de deux trimestres ? La croissance ne ralentit pas : elle s'inverse. Et un retard sur Project Jupiter a **déjà** été rapporté publiquement.
+La vitesse de déploiement est **copiable** : Caterpillar livre des groupes électrogènes en mois, GE Vernova industrialise ses turbines aérodérivées, et la pile SOFC n'est pas un monopole technologique. La capacité industrielle, elle, coûte 100 à 150 M$ par gigawatt — **ce qui est bon marché pour Bloom l'est aussi pour un concurrent**.
 
-### 3. L'avantage concurrentiel est une fenêtre, pas un fossé
+### 4. Le concurrent le plus dangereux : GE Vernova
 
-Les haussiers parlent de moat. Il n'y en a pas au sens économique : pas d'effet de réseau, pas de coût de changement significatif d'un campus au suivant, pas de propriété intellectuelle bloquante. Il y a **une pénurie temporaire de puissance disponible** — et Bloom en est le principal bénéficiaire.
+Les haussiers le traitent comme saturé. C'est une erreur : GE Vernova dispose d'un bilan bien plus puissant, de relations avec toutes les utilities américaines, d'une offre allant de la turbine au réseau et au stockage, et d'une capacité à proposer une solution **« pont » sur site puis raccordée**. Quand ses carnets se détendront, il pourra casser les prix sur les projets de plusieurs centaines de MW.
 
-Or GE Vernova affiche 116 GW de carnet et réservations, cible 125 GW à fin 2026, et augmente ses capacités. Caterpillar réalise désormais presque autant de CA en production d'énergie qu'en construction. **Le jour où une turbine à gaz se livre en douze mois au lieu de quarante-huit, la prime de Bloom disparaît** — et le marché l'appliquera instantanément au multiple, sans attendre que la croissance décélère.
+### 5. Les pires décisions d'allocation du capital
 
-### 4. Le concurrent que les optimistes sous-estiment : ce n'est pas FuelCell, c'est le réseau lui-même
+- Un **bon de souscription accordé au premier client**, revendu par celui-ci, qui réduit le CA reconnu et signale un rapport de force défavorable.
+- L'échange des convertibles 2028/2029 réglé en partie par **~42 M d'actions nouvelles** ; des obligations 2030 déjà dans la monnaie.
+- Des **ventes d'initiés soutenues** à des cours historiquement élevés : les dirigeants encaissent la valorisation qu'ils demandent aux investisseurs de payer.
 
-L'obsession du marché porte sur les piles à combustible concurrentes — un faux débat, elles sont sans échelle. Le vrai concurrent est **l'électricité de réseau au prix de gros**. Bloom vend de l'électricité produite à partir de gaz naturel, au niveau du site, sans les économies d'échelle d'une centrale. Structurellement, **son kWh coûte plus cher**. Les clients paient cette prime pour le temps. Dès que les utilities, les turbines et les réservations de créneaux comblent le déficit — et 60 Mds$ de capitaux s'y emploient — la proposition de valeur redevient un arbitrage de coût que Bloom perd.
+### 6. Comptabilité et incitations
 
-### 5. La comptabilité n'est pas frauduleuse — elle est optiquement généreuse
+Historique de **retraitement** (2019-2020). Un 10-Q corrigé dès le lendemain de sa publication. Un « carnet de commandes » non normé de 20 Md$ très supérieur aux obligations comptables. Un BPA non-GAAP qui exclut ~57 M$ de charges par trimestre. Une controverse ouverte sur l'origine du scandium, avec action collective. Aucun de ces éléments n'est rédhibitoire seul ; **ensemble, ils dessinent une culture de présentation optimiste**.
 
-Aucune fraude identifiée. Mais : **56,4 M$ de SBC en un trimestre** (~5,3 % du CA) creusant l'écart entre 0,62 $ de BPA GAAP et 0,78 $ non-GAAP ; un cash-flow d'exploitation trimestriel **soutenu à hauteur de 211,7 M$ par la hausse des revenus différés et acomptes** ; un **antécédent de retraitement 2016-2019** ; et un *contra-revenue* Oracle de 324,4 M$ qui viendra amputer le CA publié des prochains trimestres. Ajoutez le refus explicite de guider le free cash-flow malgré 2,7 Mds$ de trésorerie.
+### 7. Les hypothèses nécessaires pour justifier le cours
 
-### 6. Le scandium : le risque que personne ne peut vérifier
+À 291 $ (~86 Md$), il faut : (a) une croissance du CA supérieure à 50 % par an jusqu'en 2028 ; (b) une marge opérationnelle non-GAAP qui continue de progresser vers 26 % ; (c) la conversion effective du programme Oracle, Jupiter compris ; (d) aucun choc sur le scandium ; (e) le maintien d'un multiple d'environ 45× les bénéfices de 2028.
 
-Bloom affirme ne pas dépendre de la Chine. Hunterbrook affirme avoir tracé quatre routes liées à la Chine, dont des expéditions directes vers l'usine du Delaware, et cite un producteur chinois se présentant comme le premier fournisseur de Bloom. La société a catégoriquement rejeté ces conclusions.
+### 8. Et si la croissance déçoit de 20 à 30 %
 
-**Le problème pour l'investisseur n'est pas de trancher — c'est que c'est invérifiable de l'extérieur**, tandis que le reste de la chaîne est déclaré « propriétaire ». Un recours collectif fédéral est en cours contre la société **et ses dirigeants**, avec une période de classe de dix-sept mois. Sur un titre valorisé pour la perfection, un risque binaire non vérifiable devrait se traduire par une décote, pas par une prime.
-
-### 7. Ce que le cours actuel exige
-
-À ~201 $, ~59 Mds$ de capitalisation, **~75x le BPA 2026 attendu et ~14x le chiffre d'affaires 2026**, les hypothèses implicites sont : croissance à plus de 40 % maintenue jusqu'en 2029, marge opérationnelle vers 26 %, 4 à 5 GW livrés en 2028, aucune rupture d'approvisionnement, aucune sanction juridique matérielle, et aucun retour à la normale des turbines à gaz avant 2030. **Six conditions cumulatives.**
-
-### Que se passe-t-il si la croissance déçoit de 20 à 30 % ?
-Un CA 2028 à 6,5 Mds$ au lieu de 9 Mds$, avec une base de coûts fixes calibrée pour 5 GW, fait chuter le BPA vers 3,00-3,50 $. Mais le vrai dommage est le multiple : un titre de croissance à 75x ne se réévalue pas à 60x lorsqu'il déçoit, il se réévalue à **20-25x**. Soit un cours de **70 à 90 $ — une baisse de 55 à 65 %**. Le bêta de 3,82 et l'historique récent (351 $ → 163 $ en cinq semaines) démontrent que ce mouvement est parfaitement réalisable.
+Avec un CA 2028 de 6,3 à 7,2 Md$ au lieu de 9 Md$ et une marge ramenée à 22 %, le BPA 2028 tombe entre **3,8 et 4,3 $**. À 35× — déjà une prime sur les industriels de l'électrification —, le titre vaudrait **~135 à 150 $**, soit **−48 % à −54 %**. La valorisation actuelle ne laisse aucune marge d'erreur d'exécution.
 
 ### Le scénario catastrophe unique
-**Contrôle chinois à l'exportation sur l'oxyde de scandium et ses dérivés céramiques, en pleine montée en cadence.** Bloom ne pourrait pas livrer son carnet, les clauses de pénalité et de résiliation se déclencheraient, le recours collectif deviendrait une bombe à retardement — et surtout, la démonstration serait faite que la souveraineté industrielle revendiquée était un argument commercial. Plausibilité : **15 à 25 %** compte tenu du contexte géopolitique et du précédent des terres rares.
 
-### Conclusion short
-Bloom Energy est une **vraie entreprise industrielle, avec un vrai produit, une vraie technologie et — pour la première fois en vingt-cinq ans — de vrais bénéfices**. Ce n'est ni FuelCell ni Plug Power, et le nier serait malhonnête. Mais le titre n'est pas valorisé comme un équipementier en forte croissance : il est valorisé comme une plateforme monopolistique adossée à un carnet contractuel qui **n'existe pas sous cette forme dans ses états financiers**. À 75x les bénéfices anticipés, avec 73 % du CA sur un client et une chaîne d'approvisionnement critique contestée en justice, ce n'est pas un investissement de qualité — c'est **un pari à levier sur la durée du cycle d'investissement en IA**, vendu au prix d'une certitude.`,
+**Un retournement du cycle d'investissement des hyperscalers en 2027**, combiné à la résorption des goulets d'étranglement du réseau. Bloom se retrouverait avec une usine dimensionnée pour 4-5 GW, des clients qui rationnent leurs dépenses et un produit plus cher que l'alternative. **Plausibilité : 20 à 30 %** sur trois ans — l'histoire des cycles d'infrastructure technologique (télécoms 2000, solaire 2011) montre que les pénuries se transforment souvent en surcapacités.
+
+### Conclusion vendeuse
+Bloom est devenue une **excellente entreprise industrielle** — trésorerie positive, levier opérationnel spectaculaire, technologie éprouvée. Mais le titre intègre une pénurie d'électricité **permanente** et une exécution sans faute sur un portefeuille de clients extrêmement concentré. **L'avantage le plus puissant de Bloom est aussi le plus périssable.**`,
   },
 ];
 
