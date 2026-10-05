@@ -333,15 +333,15 @@ export default function Dossier() {
             >
               <div
                 style={{
-                  minWidth: 80,
-                  height: 50,
+                  minWidth: 96,
+                  height: 60,
                   padding: "0 0.8rem",
                   borderRadius: "8px",
                   background: "linear-gradient(135deg,#016fd0,#38bdf8)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "1.1rem",
+                  fontSize: "1.35rem",
                   fontWeight: 900,
                   color: "#fff",
                   marginBottom: "1.25rem",
@@ -354,7 +354,7 @@ export default function Dossier() {
               <h1
                 style={{
                   color: "#f8fafc",
-                  fontSize: "1.6rem",
+                  fontSize: "2rem",
                   fontWeight: 800,
                   fontFamily: "Georgia, serif",
                   margin: "0 0 0.4rem",
@@ -366,8 +366,8 @@ export default function Dossier() {
               <p
                 style={{
                   color: "#475569",
-                  fontSize: "0.82rem",
-                  maxWidth: 440,
+                  fontSize: "1rem",
+                  maxWidth: 520,
                   lineHeight: 1.7,
                   marginBottom: "2rem",
                 }}
@@ -378,9 +378,9 @@ export default function Dossier() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(auto-fill,minmax(185px,1fr))",
+                  gridTemplateColumns: "repeat(auto-fill,minmax(210px,1fr))",
                   gap: "0.6rem",
-                  maxWidth: 680,
+                  maxWidth: 820,
                   width: "100%",
                 }}
               >
@@ -392,7 +392,7 @@ export default function Dossier() {
                       background: "linear-gradient(135deg,#0d1f3a,#0a1628)",
                       border: "1px solid #1e3a5f",
                       borderRadius: "8px",
-                      padding: "0.75rem 0.9rem",
+                      padding: "0.9rem 1rem",
                       cursor: "pointer",
                       textAlign: "left",
                       transition: "all 0.15s",
@@ -405,15 +405,15 @@ export default function Dossier() {
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.25rem" }}>
-                      <span style={{ fontSize: "0.85rem" }}>{a.icon}</span>
-                      <span style={{ color: "#64748b", fontSize: "0.62rem", fontWeight: 700 }}>
+                      <span style={{ fontSize: "1.05rem" }}>{a.icon}</span>
+                      <span style={{ color: "#64748b", fontSize: "0.75rem", fontWeight: 700 }}>
                         {String(a.id).padStart(2, "0")}
                       </span>
                     </div>
-                    <div style={{ color: "#e2e8f0", fontSize: "0.76rem", fontWeight: 600 }}>
+                    <div style={{ color: "#e2e8f0", fontSize: "0.95rem", fontWeight: 600 }}>
                       {a.title}
                     </div>
-                    <div style={{ color: "#475569", fontSize: "0.62rem", marginTop: "0.15rem" }}>
+                    <div style={{ color: "#475569", fontSize: "0.75rem", marginTop: "0.2rem" }}>
                       {a.category}
                     </div>
                   </button>
@@ -427,7 +427,7 @@ export default function Dossier() {
                       background: "rgba(255,210,63,0.05)",
                       border: "1px solid #ffd23f",
                       borderRadius: "8px",
-                      padding: "0.75rem 0.9rem",
+                      padding: "0.9rem 1rem",
                       cursor: "pointer",
                       textAlign: "left",
                       transition: "all 0.15s",
@@ -442,13 +442,13 @@ export default function Dossier() {
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.25rem" }}>
-                      <span style={{ fontSize: "0.85rem" }}>🎯</span>
-                      <span style={{ color: "#a8821f", fontSize: "0.62rem", fontWeight: 700 }}>15</span>
+                      <span style={{ fontSize: "1.05rem" }}>🎯</span>
+                      <span style={{ color: "#a8821f", fontSize: "0.75rem", fontWeight: 700 }}>15</span>
                     </div>
-                    <div style={{ color: "#ffd23f", fontSize: "0.76rem", fontWeight: 600 }}>
+                    <div style={{ color: "#ffd23f", fontSize: "0.95rem", fontWeight: 600 }}>
                       Rapport de risque ↗
                     </div>
-                    <div style={{ color: "#a8821f", fontSize: "0.62rem", marginTop: "0.15rem" }}>
+                    <div style={{ color: "#a8821f", fontSize: "0.75rem", marginTop: "0.2rem" }}>
                       Synthèse · score /100
                     </div>
                   </a>
