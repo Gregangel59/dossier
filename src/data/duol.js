@@ -19,6 +19,7 @@ const meta = {
   // Nom du fichier HTML déposé dans public/rapports/ :
   riskReport: "duol.html",
   updated: "2026-10",               // période des données
+  published: "2026-10-05",         // date exacte de publication (tri « À la une » du portail)
 };
 
 const modules = [
