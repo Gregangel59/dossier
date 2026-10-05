@@ -1,11 +1,12 @@
 // Palette « sombre chaleureux » (oct. 2026), commune à l'en-tête, au menu latéral,
 // aux pages de modules et à DossierAccueil.jsx : fond #120f0b, surfaces #17130e / #1f1912,
 // bordures #33291c, texte #f3e9d8 / #b9a98f, accent ambre #f2b450, or #ffd23f.
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { COMPANY_BY_SLUG } from "../data/index.js";
 import MarkdownRenderer, { CATEGORY_COLORS } from "../components/MarkdownRenderer.jsx";
-import DossierAccueil from "../components/DossierAccueil.jsx";
+import DossierAccueil, { groupByPhase } from "../components/DossierAccueil.jsx";
+import DossierMenu from "../components/DossierMenu.jsx";
 
 export default function Dossier() {
   const { slug } = useParams();
@@ -16,6 +17,13 @@ export default function Dossier() {
   const [sidebarOpen, setSidebarOpen] = useState(
     () => typeof window === "undefined" || window.innerWidth > 768
   );
+
+  // À chaque changement de module (ou retour à l'accueil), revenir en haut de la page
+  const mainRef = useRef(null);
+  useEffect(() => {
+    if (mainRef.current) mainRef.current.scrollTop = 0;
+    if (typeof window !== "undefined") window.scrollTo(0, 0);
+  }, [active]);
 
   if (!company) {
     return (
@@ -57,9 +65,16 @@ export default function Dossier() {
   }
 
   const modules = company.modules;
-  const categories = [...new Set(modules.map((a) => a.category))];
   const current = modules.find((a) => a.id === active);
-  const idx = current ? modules.findIndex((a) => a.id === current.id) : -1;
+  // Séquence de lecture = parcours en étapes (comme l'accueil du dossier)
+  const phases = groupByPhase(modules);
+  const sequence = phases.flatMap((p) => p.items.map((i) => i.module));
+  const pos = current ? sequence.findIndex((m) => m.id === current.id) : -1;
+  const phaseIdx = current ? phases.findIndex((p) => p.items.some((i) => i.module.id === current.id)) : -1;
+  const phaseOfId = (id) => phases.findIndex((p) => p.items.some((i) => i.module.id === id));
+  const prev = pos > 0 ? sequence[pos - 1] : null;
+  const next = pos >= 0 && pos < sequence.length - 1 ? sequence[pos + 1] : null;
+  const nextPhase = next && phaseOfId(next.id) !== phaseIdx ? phases[phaseOfId(next.id)] : null;
 
   // Ouvre un module ; sur téléphone, referme la barre latérale pour libérer l'écran
   const openModule = (id) => {
@@ -197,7 +212,7 @@ export default function Dossier() {
               whiteSpace: "nowrap",
             }}
           >
-            {active ? `Projet ${active}/${modules.length}` : `${modules.length} analyses`}
+            {pos >= 0 ? `Analyse ${pos + 1}/${sequence.length}` : `${modules.length} analyses`}
           </span>
         </div>
       </header>
@@ -206,14 +221,17 @@ export default function Dossier() {
         style={{
           display: "flex",
           flex: 1,
-          overflow: "hidden",
-          height: "calc(100vh - 52px)",
+          alignItems: "flex-start",
         }}
       >
         <aside
           style={{
             width: sidebarOpen ? 272 : 0,
             flexShrink: 0,
+            // Le menu reste visible pendant la lecture d'un long module
+            position: "sticky",
+            top: 52,
+            height: "calc(100vh - 52px)",
             background: "#17130e",
             borderRight: "1px solid #33291c",
             overflowY: "auto",
@@ -221,127 +239,18 @@ export default function Dossier() {
             transition: "width 0.2s ease",
           }}
         >
-          <div style={{ width: 272, paddingBottom: "1rem" }}>
-            {categories.map((cat) => (
-              <div key={cat}>
-                <div
-                  style={{
-                    padding: "0.6rem 1rem 0.2rem",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "#6f6250",
-                    fontWeight: 700,
-                    marginTop: "0.4rem",
-                  }}
-                >
-                  {cat}
-                </div>
-                {modules
-                  .filter((a) => a.category === cat)
-                  .map((a) => (
-                    <button
-                      key={a.id}
-                      onClick={() => openModule(a.id)}
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.55rem",
-                        padding: "0.45rem 1rem",
-                        background:
-                          active === a.id
-                            ? "linear-gradient(90deg,#2a2116,#33281a)"
-                            : "transparent",
-                        border: "none",
-                        borderLeft:
-                          active === a.id
-                            ? `2px solid ${CATEGORY_COLORS[a.category] || "#f2b450"}`
-                            : "2px solid transparent",
-                        cursor: "pointer",
-                        textAlign: "left",
-                      }}
-                    >
-                      <span style={{ fontSize: "0.9rem", flexShrink: 0 }}>{a.icon}</span>
-                      <span
-                        style={{
-                          color: active === a.id ? "#f3e9d8" : "#b9a98f",
-                          fontSize: "0.78rem",
-                          fontWeight: active === a.id ? 600 : 400,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        <span style={{ color: "#6f6250", fontSize: "0.65rem", marginRight: "0.3em" }}>
-                          {String(a.id).padStart(2, "0")}
-                        </span>
-                        {a.title}
-                      </span>
-                    </button>
-                  ))}
-              </div>
-            ))}
-
-            {/* 15e projet : Rapport de risque — ouvre le HTML, liseré or */}
-            {reportHref && (
-              <div>
-                <div
-                  style={{
-                    padding: "0.6rem 1rem 0.2rem",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "#6f6250",
-                    fontWeight: 700,
-                    marginTop: "0.4rem",
-                  }}
-                >
-                  Synthèse
-                </div>
-                <a
-                  href={reportHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.55rem",
-                    padding: "0.5rem 1rem",
-                    margin: "0.15rem 0.5rem",
-                    width: "calc(100% - 1rem)",
-                    boxSizing: "border-box",
-                    background: "rgba(255,210,63,0.05)",
-                    border: "1px solid #ffd23f",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    textDecoration: "none",
-                  }}
-                >
-                  <span style={{ fontSize: "0.9rem", flexShrink: 0 }}>🎯</span>
-                  <span
-                    style={{
-                      color: "#ffd23f",
-                      fontSize: "0.78rem",
-                      fontWeight: 600,
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    <span style={{ color: "#a8821f", fontSize: "0.65rem", marginRight: "0.3em" }}>
-                      15
-                    </span>
-                    Rapport de risque ↗
-                  </span>
-                </a>
-              </div>
-            )}
+          <div style={{ width: 272 }}>
+            <DossierMenu
+              phases={phases}
+              active={active}
+              onOpen={openModule}
+              onHome={() => openModule(null)}
+              reportHref={reportHref}
+            />
           </div>
         </aside>
 
-        <main style={{ flex: 1, overflowY: "auto", background: "#120f0b" }}>
+        <main ref={mainRef} style={{ flex: 1, minWidth: 0, minHeight: "calc(100vh - 52px)", background: "#120f0b" }}>
           {!current ? (
             <DossierAccueil
               company={company}
@@ -357,7 +266,8 @@ export default function Dossier() {
                   <div style={{ flex: 1 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.2rem" }}>
                       <span style={{ color: "#6f6250", fontSize: "0.7rem", fontWeight: 700 }}>
-                        Projet {String(current.id).padStart(2, "0")}
+                        {phaseIdx >= 0 ? `Étape ${phaseIdx + 1} · ${phases[phaseIdx].title}` : "Analyse"}
+                        {pos >= 0 && ` — ${pos + 1}/${sequence.length}`}
                       </span>
                       <span
                         style={{
@@ -392,42 +302,34 @@ export default function Dossier() {
                 <MarkdownRenderer text={current.content} />
               </div>
 
-              <div style={{ display: "flex", gap: "0.6rem", marginTop: "1.25rem", justifyContent: "space-between" }}>
-                {idx > 0 && (
-                  <button
-                    onClick={() => setActive(modules[idx - 1].id)}
-                    style={{
-                      background: "#1f1912",
-                      border: "1px solid #33291c",
-                      color: "#b9a98f",
-                      padding: "0.4rem 0.9rem",
-                      borderRadius: "6px",
-                      cursor: "pointer",
-                      fontSize: "0.75rem",
-                    }}
-                  >
-                    ← {modules[idx - 1].title}
+              <nav className="dn-nav" aria-label="Analyse précédente et suivante">
+                {prev ? (
+                  <button type="button" className="dn-btn dn-prev" onClick={() => openModule(prev.id)}>
+                    <span className="dn-label">Précédent</span>
+                    <span className="dn-title">← {prev.title}</span>
+                  </button>
+                ) : (
+                  <button type="button" className="dn-btn dn-prev" onClick={() => openModule(null)}>
+                    <span className="dn-label">Retour</span>
+                    <span className="dn-title">← Accueil du dossier</span>
                   </button>
                 )}
-                <div style={{ flex: 1 }} />
-                {idx < modules.length - 1 && (
-                  <button
-                    onClick={() => setActive(modules[idx + 1].id)}
-                    style={{
-                      background: "linear-gradient(90deg,#2a2116,#33281a)",
-                      border: "1px solid #4a3a24",
-                      color: "#f2b450",
-                      padding: "0.4rem 0.9rem",
-                      borderRadius: "6px",
-                      cursor: "pointer",
-                      fontSize: "0.75rem",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {modules[idx + 1].title} →
+                {next ? (
+                  <button type="button" className="dn-btn dn-next" onClick={() => openModule(next.id)}>
+                    <span className="dn-label">
+                      {nextPhase ? `Étape suivante · ${nextPhase.title}` : "Suivant"}
+                    </span>
+                    <span className="dn-title">{next.title} →</span>
                   </button>
+                ) : (
+                  reportHref && (
+                    <a className="dn-btn dn-next dn-final" href={reportHref} target="_blank" rel="noopener noreferrer">
+                      <span className="dn-label">Conclure · la synthèse</span>
+                      <span className="dn-title">Rapport de risque ↗</span>
+                    </a>
+                  )
                 )}
-              </div>
+              </nav>
             </div>
           )}
         </main>
@@ -440,6 +342,18 @@ export default function Dossier() {
 // En-tête : sur téléphone, le nom se tronque proprement, le sous-titre disparaît
 // et le lien du rapport se raccourcit.
 const HEADER_CSS = `
+.dn-nav{display:flex;gap:.8rem;margin-top:1.4rem;justify-content:space-between;flex-wrap:wrap}
+.dn-btn{display:flex;flex-direction:column;gap:.15rem;max-width:48%;min-width:0;padding:.65rem 1rem;border-radius:12px;
+  font:inherit;cursor:pointer;text-decoration:none;text-align:left;background:#1f1912;border:1px solid #33291c}
+.dn-btn:hover{border-color:#f2b45088}
+.dn-next{margin-left:auto;text-align:right;align-items:flex-end;background:linear-gradient(90deg,#2a2116,#33281a);border-color:#4a3a24}
+.dn-label{font-size:.72rem;color:#8c7c65}
+.dn-title{font-size:.9rem;font-weight:600;color:#d9ccb6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.dn-next .dn-title{color:#f2b450}
+.dn-final{border-color:#ffd23f88;background:rgba(255,210,63,.07)}
+.dn-final .dn-title{color:#ffd23f}
+.dn-btn:focus-visible{outline:2px solid #f2b450;outline-offset:2px}
+@media (max-width:560px){.dn-btn{max-width:100%;width:100%}.dn-next{align-items:flex-end}}
 .dh-title{min-width:0;flex:1}
 .dh-name,.dh-sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dh-short{display:none}
