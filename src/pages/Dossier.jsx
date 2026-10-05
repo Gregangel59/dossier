@@ -1,3 +1,6 @@
+// Palette « sombre chaleureux » (oct. 2026), commune à l'en-tête, au menu latéral,
+// aux pages de modules et à DossierAccueil.jsx : fond #120f0b, surfaces #17130e / #1f1912,
+// bordures #33291c, texte #f3e9d8 / #b9a98f, accent ambre #f2b450, or #ffd23f.
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { COMPANY_BY_SLUG } from "../data/index.js";
@@ -19,8 +22,8 @@ export default function Dossier() {
       <div
         style={{
           minHeight: "100vh",
-          background: "#060d1a",
-          color: "#cbd5e1",
+          background: "#120f0b",
+          color: "#d9ccb6",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -32,17 +35,17 @@ export default function Dossier() {
         }}
       >
         <div style={{ fontSize: "2rem" }}>🔍</div>
-        <h1 style={{ color: "#f8fafc", fontSize: "1.2rem" }}>Dossier introuvable</h1>
-        <p style={{ color: "#64748b", fontSize: "0.85rem" }}>
+        <h1 style={{ color: "#f8eedc", fontSize: "1.2rem" }}>Dossier introuvable</h1>
+        <p style={{ color: "#8c7c65", fontSize: "0.85rem" }}>
           Aucune société ne correspond à « {slug} ».
         </p>
         <Link
           to="/"
           style={{
-            color: "#38bdf8",
+            color: "#f2b450",
             textDecoration: "none",
             fontSize: "0.85rem",
-            border: "1px solid #1e4976",
+            border: "1px solid #4a3a24",
             borderRadius: "6px",
             padding: "0.5rem 1rem",
           }}
@@ -73,7 +76,7 @@ export default function Dossier() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#060d1a",
+        background: "#120f0b",
         fontFamily: "'IBM Plex Sans', system-ui, sans-serif",
         display: "flex",
         flexDirection: "column",
@@ -83,8 +86,8 @@ export default function Dossier() {
       <header
         className="dh-header"
         style={{
-          background: "linear-gradient(90deg,#0a1628,#0d1f3a)",
-          borderBottom: "1px solid #1e3a5f",
+          background: "linear-gradient(90deg,#17130e,#1f1912)",
+          borderBottom: "1px solid #33291c",
           padding: "0 1.25rem",
           height: "52px",
           display: "flex",
@@ -103,7 +106,7 @@ export default function Dossier() {
             flexShrink: 0,
             background: "none",
             border: "none",
-            color: "#64748b",
+            color: "#8c7c65",
             cursor: "pointer",
             fontSize: "1.1rem",
             padding: "4px",
@@ -115,7 +118,7 @@ export default function Dossier() {
           to="/"
           title="Retour au portail"
           style={{
-            color: "#64748b",
+            color: "#8c7c65",
             textDecoration: "none",
             fontSize: "0.95rem",
             padding: "0 0.2rem",
@@ -130,13 +133,13 @@ export default function Dossier() {
             height: 30,
             padding: "0 0.4rem",
             borderRadius: "6px",
-            background: "linear-gradient(135deg,#016fd0,#38bdf8)",
+            background: "linear-gradient(135deg,#d98c2b,#f2b450)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontSize: "0.7rem",
             fontWeight: 900,
-            color: "#fff",
+            color: "#1b1206",
             flexShrink: 0,
             letterSpacing: "0.5px",
           }}
@@ -144,13 +147,13 @@ export default function Dossier() {
           {company.initials}
         </div>
         <div className="dh-title">
-          <div className="dh-name" style={{ color: "#f1f5f9", fontWeight: 700, fontSize: "0.9rem" }}>
+          <div className="dh-name" style={{ color: "#f3e9d8", fontWeight: 700, fontSize: "0.9rem" }}>
             {company.name}
           </div>
           <div
             className="dh-sub"
             style={{
-              color: "#475569",
+              color: "#7a6b56",
               fontSize: "0.62rem",
               letterSpacing: "0.08em",
               textTransform: "uppercase",
@@ -184,12 +187,12 @@ export default function Dossier() {
           <span
             className="dh-count"
             style={{
-              background: "#0f2942",
-              color: "#38bdf8",
+              background: "#2a2116",
+              color: "#f2b450",
               fontSize: "0.65rem",
               padding: "2px 8px",
               borderRadius: "10px",
-              border: "1px solid #1e4976",
+              border: "1px solid #4a3a24",
               fontWeight: 600,
               whiteSpace: "nowrap",
             }}
@@ -211,8 +214,8 @@ export default function Dossier() {
           style={{
             width: sidebarOpen ? 272 : 0,
             flexShrink: 0,
-            background: "#0a1628",
-            borderRight: "1px solid #1e3a5f",
+            background: "#17130e",
+            borderRight: "1px solid #33291c",
             overflowY: "auto",
             overflowX: "hidden",
             transition: "width 0.2s ease",
@@ -227,7 +230,7 @@ export default function Dossier() {
                     fontSize: "0.6rem",
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
-                    color: "#334155",
+                    color: "#6f6250",
                     fontWeight: 700,
                     marginTop: "0.4rem",
                   }}
@@ -248,12 +251,12 @@ export default function Dossier() {
                         padding: "0.45rem 1rem",
                         background:
                           active === a.id
-                            ? "linear-gradient(90deg,#0c2340,#0f2d4a)"
+                            ? "linear-gradient(90deg,#2a2116,#33281a)"
                             : "transparent",
                         border: "none",
                         borderLeft:
                           active === a.id
-                            ? `2px solid ${CATEGORY_COLORS[a.category] || "#38bdf8"}`
+                            ? `2px solid ${CATEGORY_COLORS[a.category] || "#f2b450"}`
                             : "2px solid transparent",
                         cursor: "pointer",
                         textAlign: "left",
@@ -262,7 +265,7 @@ export default function Dossier() {
                       <span style={{ fontSize: "0.9rem", flexShrink: 0 }}>{a.icon}</span>
                       <span
                         style={{
-                          color: active === a.id ? "#f1f5f9" : "#94a3b8",
+                          color: active === a.id ? "#f3e9d8" : "#b9a98f",
                           fontSize: "0.78rem",
                           fontWeight: active === a.id ? 600 : 400,
                           whiteSpace: "nowrap",
@@ -270,7 +273,7 @@ export default function Dossier() {
                           textOverflow: "ellipsis",
                         }}
                       >
-                        <span style={{ color: "#334155", fontSize: "0.65rem", marginRight: "0.3em" }}>
+                        <span style={{ color: "#6f6250", fontSize: "0.65rem", marginRight: "0.3em" }}>
                           {String(a.id).padStart(2, "0")}
                         </span>
                         {a.title}
@@ -289,7 +292,7 @@ export default function Dossier() {
                     fontSize: "0.6rem",
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
-                    color: "#334155",
+                    color: "#6f6250",
                     fontWeight: 700,
                     marginTop: "0.4rem",
                   }}
@@ -338,7 +341,7 @@ export default function Dossier() {
           </div>
         </aside>
 
-        <main style={{ flex: 1, overflowY: "auto", background: "#060d1a" }}>
+        <main style={{ flex: 1, overflowY: "auto", background: "#120f0b" }}>
           {!current ? (
             <DossierAccueil
               company={company}
@@ -348,18 +351,18 @@ export default function Dossier() {
             />
           ) : (
             <div style={{ padding: "1.75rem", maxWidth: 840, margin: "0 auto" }}>
-              <div style={{ marginBottom: "1.25rem", borderBottom: "1px solid #1e3a5f", paddingBottom: "0.9rem" }}>
+              <div style={{ marginBottom: "1.25rem", borderBottom: "1px solid #33291c", paddingBottom: "0.9rem" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
                   <span style={{ fontSize: "1.3rem" }}>{current.icon}</span>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.2rem" }}>
-                      <span style={{ color: "#334155", fontSize: "0.7rem", fontWeight: 700 }}>
+                      <span style={{ color: "#6f6250", fontSize: "0.7rem", fontWeight: 700 }}>
                         Projet {String(current.id).padStart(2, "0")}
                       </span>
                       <span
                         style={{
                           background: `${CATEGORY_COLORS[current.category]}15`,
-                          color: CATEGORY_COLORS[current.category] || "#38bdf8",
+                          color: CATEGORY_COLORS[current.category] || "#f2b450",
                           fontSize: "0.62rem",
                           padding: "1px 7px",
                           borderRadius: "10px",
@@ -372,7 +375,7 @@ export default function Dossier() {
                     </div>
                     <h2
                       style={{
-                        color: "#f8fafc",
+                        color: "#f8eedc",
                         fontSize: "1.55rem",
                         fontWeight: 800,
                         margin: 0,
@@ -385,7 +388,7 @@ export default function Dossier() {
                 </div>
               </div>
 
-              <div style={{ background: "#0a1628", borderRadius: "10px", border: "1px solid #1e3a5f", padding: "1.5rem" }}>
+              <div style={{ background: "#17130e", borderRadius: "10px", border: "1px solid #33291c", padding: "1.5rem" }}>
                 <MarkdownRenderer text={current.content} />
               </div>
 
@@ -394,9 +397,9 @@ export default function Dossier() {
                   <button
                     onClick={() => setActive(modules[idx - 1].id)}
                     style={{
-                      background: "#0d1f3a",
-                      border: "1px solid #1e3a5f",
-                      color: "#94a3b8",
+                      background: "#1f1912",
+                      border: "1px solid #33291c",
+                      color: "#b9a98f",
                       padding: "0.4rem 0.9rem",
                       borderRadius: "6px",
                       cursor: "pointer",
@@ -411,9 +414,9 @@ export default function Dossier() {
                   <button
                     onClick={() => setActive(modules[idx + 1].id)}
                     style={{
-                      background: "linear-gradient(90deg,#0c2340,#0f2d4a)",
-                      border: "1px solid #1e4976",
-                      color: "#38bdf8",
+                      background: "linear-gradient(90deg,#2a2116,#33281a)",
+                      border: "1px solid #4a3a24",
+                      color: "#f2b450",
                       padding: "0.4rem 0.9rem",
                       borderRadius: "6px",
                       cursor: "pointer",
@@ -429,7 +432,7 @@ export default function Dossier() {
           )}
         </main>
       </div>
-      <style>{`* { box-sizing:border-box; } ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-thumb { background:#1e3a5f; border-radius:2px; }`}</style>
+      <style>{`* { box-sizing:border-box; } ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-thumb { background:#33291c; border-radius:2px; }`}</style>
     </div>
   );
 }
