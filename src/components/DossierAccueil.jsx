@@ -117,6 +117,13 @@ function formatUpdated(u) {
   return m ? `${MONTHS[Number(m[2]) - 1]} ${m[1]}` : null;
 }
 
+function formatPublished(p) {
+  const d = /^(\d{4})-(\d{2})-(\d{2})$/.exec(p || "");
+  if (!d) return null;
+  const day = Number(d[3]);
+  return `${day === 1 ? "1ᵉʳ" : day} ${MONTHS[Number(d[2]) - 1]} ${d[1]}`;
+}
+
 export default function DossierAccueil({ company, modules, reportHref, onOpen }) {
   // Répartition des modules dans les étapes
   const byKey = {};
@@ -144,6 +151,7 @@ export default function DossierAccueil({ company, modules, reportHref, onOpen })
   const hasScore = typeof company.riskScore === "number";
   const zone = hasScore ? zoneOf(company.riskScore) : null;
   const updated = formatUpdated(company.updated);
+  const published = formatPublished(company.published);
   const meta = [company.exchange && company.ticker ? `${company.exchange} : ${company.ticker}` : company.ticker, company.sector]
     .filter(Boolean)
     .join(" — ");
@@ -178,7 +186,11 @@ export default function DossierAccueil({ company, modules, reportHref, onOpen })
               </span>
             )}
             <span className="da-chip">{modules.length} analyses · {phases.length} étapes</span>
-            {updated && <span className="da-chip">Données de {updated}</span>}
+            {published ? (
+              <span className="da-chip">Publié le {published}</span>
+            ) : (
+              updated && <span className="da-chip">Données de {updated}</span>
+            )}
           </div>
 
           {first && (
