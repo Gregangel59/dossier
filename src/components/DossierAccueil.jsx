@@ -124,8 +124,9 @@ function formatPublished(p) {
   return `${day === 1 ? "1ᵉʳ" : day} ${MONTHS[Number(d[2]) - 1]} ${d[1]}`;
 }
 
-export default function DossierAccueil({ company, modules, reportHref, onOpen }) {
-  // Répartition des modules dans les étapes
+// Répartit les modules dans les 5 étapes du parcours (utilisé aussi par le menu latéral).
+// Renvoie [{ key, title, hint, intro, tip?, items: [{ module, desc }] }].
+export function groupByPhase(modules) {
   const byKey = {};
   const others = [];
   modules.forEach((m) => {
@@ -146,6 +147,11 @@ export default function DossierAccueil({ company, modules, reportHref, onOpen })
       items: others.map((m) => ({ module: m, desc: m.category })),
     });
   }
+  return phases;
+}
+
+export default function DossierAccueil({ company, modules, reportHref, onOpen }) {
+  const phases = groupByPhase(modules);
 
   const first = phases[0]?.items[0]?.module;
   const hasScore = typeof company.riskScore === "number";
