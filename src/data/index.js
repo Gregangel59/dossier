@@ -23,6 +23,7 @@ export const COMPANIES = [
  bros,
  be,
  figs,
+ googl,
 
  
  
