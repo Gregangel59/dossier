@@ -21,7 +21,7 @@ export const COMPANIES = [
  duol,
  bros,
  be,
- figs
+ figs,
  
  
 
