@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GOOGL — Rapport de score de risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#120f0b;
+  --panel:#1a1510;
+  --panel2:#221b14;
+  --line:#3a2e22;
+  --txt:#f3ebe0;
+  --mut:#a8998a;
+  --accent:#f2b450;
+  --red:#ff4d5e;
+  --amber:#ff9f43;
+  --gold:#ffd23f;
+  --green:#28d17c;
+  --id:#ffd23f;           /* couleur d'identité = zone du score global (recalculée en JS) */
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --body:'DM Sans',system-ui,sans-serif;
+  --head:'Playfair Display',Georgia,serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  background-image:radial-gradient(circle at 12% 0%,rgba(242,180,80,.08),transparent 42%),radial-gradient(circle at 90% 100%,rgba(255,210,63,.05),transparent 45%);background-attachment:fixed;}
+.page{max-width:860px;margin:0 auto;padding:22px 18px 64px}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* BANDEAU */
+.brand{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.brand .b1{font-family:var(--head);font-size:17px;font-weight:700;color:var(--accent)}
+.brand .b1 em{font-style:italic;font-weight:600;color:var(--mut);font-size:14px;margin-left:8px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#1d1610,#130f0b);border:1px solid var(--line);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 92% 8%,color-mix(in srgb,var(--id) 18%,transparent),transparent 52%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:6px}
+.pill{display:inline-flex;align-self:flex-start;font-family:var(--mono);font-size:34px;font-weight:800;letter-spacing:1px;color:#1a1206;background:linear-gradient(135deg,#ffd23f,#f2b450);padding:2px 18px;border-radius:999px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:16px;color:var(--txt);margin-top:2px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:76px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid var(--id);color:var(--id);background:color-mix(in srgb,var(--id) 11%,transparent)}
+.scale-note{font-size:14px;color:var(--mut);margin-top:18px;position:relative}
+/* BARRE DE ZONES */
+.cbar-wrap{margin-top:30px;position:relative;padding-bottom:4px}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.z.r{flex:30;background:var(--red)}.z.a{flex:20;background:var(--amber)}.z.g{flex:20;background:var(--gold)}.z.gr{flex:30;background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:translateX(0)}
+.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.marker{position:absolute;top:-24px;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;line-height:1.5;margin-bottom:3px}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff}
+.marker .dot{width:16px;height:16px;background:#fff;border-radius:50%;border:3px solid var(--id);margin:-3px auto 0}
+/* SECTIONS */
+.sec-title{font-family:var(--head);font-size:28px;font-weight:800;margin:38px 0 6px;letter-spacing:.2px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:16px}
+/* KPI */
+.kpi-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut)}
+.kpi .v{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px;color:var(--mut)}
+.up{color:var(--green)!important}.down{color:var(--red)!important}
+/* GRAPHIQUE */
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 12px;margin-top:12px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.chart-head .t{font-size:14px;color:var(--mut)}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart{position:relative}
+.chart svg{width:100%;height:auto;display:block}
+.ylab{position:absolute;left:4px;font-family:var(--mono);font-size:11px;color:var(--mut);transform:translateY(-120%)}
+.xlabs{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:6px}
+.chart-note{font-size:12px;color:var(--mut);margin-top:6px}
+/* CARTES */
+.grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.card .cl{font-size:13px;color:var(--mut)}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.4}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}
+.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}
+.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+/* MÉDIANE */
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:14px;color:var(--mut);margin-bottom:2px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:16px;margin-top:4px}
+.mcomp .mvals b{color:var(--txt)}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px}
+/* EXPLICATIONS */
+.explainer{background:rgba(242,180,80,.06);border:1px solid rgba(242,180,80,.28);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#1a1206;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.explainer .body{padding:0 16px 15px 16px;font-size:14.5px;color:#ddd1c1;line-height:1.6}
+/* DÉTAIL DU SCORE */
+.bd-row{margin-top:16px}
+.bd-head{display:flex;justify-content:space-between;font-size:15px;margin-bottom:6px;gap:10px}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:13px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:6px;line-height:1.5}
+.bd-score b{color:var(--txt)}
+/* TABLEAU TRIMESTRIEL */
+.tscroll{overflow-x:auto;margin-top:8px;border-radius:12px;border:1px solid var(--line)}
+.qtable{width:100%;min-width:640px;border-collapse:collapse;font-family:var(--mono);font-size:14px}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 12px;font-size:13px;font-weight:700}
+.qtable th:first-child{text-align:left}
+.qtable td{padding:11px 12px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{text-align:left;font-weight:700;font-family:var(--body)}
+.qtable tr.imp td{background:rgba(40,209,124,.07)}
+.qtable tr.dec td{background:rgba(255,77,94,.08)}
+.qtable .flag{font-size:12px;padding:2px 8px;border-radius:14px;white-space:nowrap}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}
+.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}
+/* RÉSULTATS */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:15px;color:var(--mut);margin-bottom:10px;font-weight:700}
+.eline{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:14.5px;padding:7px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}
+.eline span:first-child{font-family:var(--body);color:#ddd1c1}
+.eline .ev{font-weight:700;text-align:right}
+/* CATALYSEURS / RISQUES */
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:8px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:22px;font-weight:700;margin-bottom:10px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .it{font-size:15px;font-weight:700;margin-bottom:4px}
+.item .id{font-size:13.5px;color:var(--mut);line-height:1.45}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}
+.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}
+.sev.med-pos{color:var(--gold);background:rgba(255,210,63,.13)}
+/* SIGNAUX */
+.sig{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:13px;padding:18px 18px 14px;margin-top:14px}
+.sig.out{border-left-color:var(--red)}
+.sig h4{font-family:var(--head);font-size:22px;font-weight:700;margin-bottom:4px}
+.sig.in h4{color:var(--green)}.sig.out h4{color:var(--red)}
+.sig .lead{font-size:14px;color:var(--mut);margin-bottom:6px}
+.sline{padding:10px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start}
+.sline:last-of-type{border-bottom:none}
+.stag{font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;white-space:nowrap;letter-spacing:.3px}
+.stag.conf{color:var(--green);background:rgba(40,209,124,.14)}
+.stag.prix{color:var(--gold);background:rgba(255,210,63,.13)}
+.stag.rupt{color:var(--red);background:rgba(255,77,94,.14)}
+.stag.alleg{color:var(--amber);background:rgba(255,159,67,.14)}
+.stag.surv{color:var(--accent);background:rgba(242,180,80,.12)}
+.sline .stxt{font-size:14.5px;line-height:1.5;color:#e6dccd}
+.sig .snote{font-size:13.5px;color:var(--mut);margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);line-height:1.5}
+@media(max-width:520px){.sline{grid-template-columns:1fr}.stag{justify-self:start}}
+/* EN RÉSUMÉ */
+.bottom{background:linear-gradient(135deg,#1d1610,#130f0b);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-top:8px}
+.bottom .blh{font-family:var(--head);font-size:24px;font-weight:800;margin-bottom:14px}
+.rating-bar{height:15px;border-radius:9px;display:flex;overflow:hidden;position:relative;margin:34px 0 8px}
+.rating-wrap{position:relative}
+.rating-wrap .rm{position:absolute;top:-24px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
+.rating-wrap .rm .rmval{font-family:var(--mono);font-size:12px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px}
+.rating-wrap .rm .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff}
+.rating-labels{position:relative;height:18px;font-family:var(--mono);font-size:12.5px;color:var(--mut)}
+.rating-labels span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.verdict{font-size:15.5px;line-height:1.65;color:#e2d6c6;margin-top:18px}
+.verdict b{color:var(--txt)}
+/* EXPORT */
+.exportbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;justify-content:flex-end;padding:8px 0 4px;margin-bottom:6px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer}
+#copyBtn:hover,#copyBtn:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12.5px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:620px){.kpi-strip,.grid6{grid-template-columns:repeat(2,1fr)}.card .cv,.kpi .v{font-size:22px}}
+@media(max-width:520px){
+  .pill{font-size:28px}
+  .score-box .num{font-size:60px}
+  .hero{padding:22px 18px}
+  .rating-labels{font-size:11px}
+}
+@media print{.exportbar{display:none}}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn" type="button">Copier le rapport</button></div>
+
+<div class="brand"><div class="b1">221 Bourse<em>Le cabinet d'analyse fondamentale</em></div></div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="pill">GOOGL</div>
+      <div class="name">Alphabet Inc. (Google), Nasdaq — Internet, publicité numérique et cloud</div>
+      <div class="price">347,60 $ <span class="up">+0,3 % (6 oct. 2026)</span></div>
+    </div>
+    <div class="score-box">
+      <div class="num" id="heroScore">61</div>
+      <div class="of">/ 100</div>
+    </div>
+    <div class="badge" id="heroBadge">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 100 = très sûr, 0 = risque extrême. Zones : rouge 0-30, orange 30-50, jaune 50-70, vert 70-100.</div>
+  <div class="cbar-wrap">
+    <div class="cbar"><div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div></div>
+    <div class="marker" id="heroMarker" style="left:61%"><div class="mval">61</div><div class="tri"></div><div class="dot"></div></div>
+    <div class="cbar-ticks">
+      <span style="left:0%">0</span><span style="left:30%">30</span><span style="left:50%">50</span><span style="left:70%">70</span><span style="left:100%">100</span>
+    </div>
+    <div class="cbar-labels"><span>Risque très élevé</span><span>Sûr</span></div>
+  </div>
+</div>
+
+<!-- ===== KPI ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données de marché au 6 octobre 2026, comptes au 30 juin 2026 (T2 2026)</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Capitalisation</div><div class="v">4,2 T$</div><div class="d">3e mondiale</div></div>
+  <div class="kpi"><div class="l">PER publié (12 m)</div><div class="v">17,4x</div><div class="d down">gonflé par les plus-values</div></div>
+  <div class="kpi"><div class="l">PER normalisé (12 m)</div><div class="v">~30x</div><div class="d">~24x sur 2027e</div></div>
+  <div class="kpi"><div class="l">CA 12 mois</div><div class="v">445,8 Md$</div><div class="d up">+20 % sur un an</div></div>
+  <div class="kpi"><div class="l">Rendement dividende</div><div class="v">0,25 %</div><div class="d">0,22 $ par trimestre</div></div>
+  <div class="kpi"><div class="l">Plage 52 semaines</div><div class="v">236–409 $</div><div class="d">record clôture 402 $</div></div>
+</div>
+
+<!-- ===== GRAPHIQUE 12 MOIS ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (clôtures mensuelles arrondies)</div>
+    <div class="r">~250 $ <span style="color:var(--mut)">→</span> <span class="up">347,60 $ (+39 %)</span></div>
+  </div>
+  <div class="chart" role="img" aria-label="Évolution du cours de GOOGL d'octobre 2025 à octobre 2026, d'environ 250 dollars à 347,60 dollars, avec un pic à environ 400 dollars en mai 2026">
+    <svg viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f2b450" stop-opacity="0.32"/>
+          <stop offset="100%" stop-color="#f2b450" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g stroke="#3a2e22" stroke-width="1">
+        <line x1="0" y1="42" x2="800" y2="42"/>
+        <line x1="0" y1="97" x2="800" y2="97"/>
+        <line x1="0" y1="152" x2="800" y2="152"/>
+        <line x1="0" y1="207" x2="800" y2="207"/>
+      </g>
+      <path d="M0.0,207.0 L61.5,172.9 L123.1,130.0 L184.6,137.7 L246.2,110.2 L307.7,145.4 L369.2,174.0 L430.8,83.8 L492.3,58.5 L553.8,86.0 L615.4,112.4 L676.9,105.8 L738.5,103.6 L800.0,99.6 L800,260 L0,260 Z" fill="url(#fill)"/>
+      <path d="M0.0,207.0 L61.5,172.9 L123.1,130.0 L184.6,137.7 L246.2,110.2 L307.7,145.4 L369.2,174.0 L430.8,83.8 L492.3,58.5 L553.8,86.0 L615.4,112.4 L676.9,105.8 L738.5,103.6 L800.0,99.6" fill="none" stroke="#f2b450" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="492.3" cy="58.5" r="5" fill="#ffd23f"/>
+      <circle cx="797" cy="99.6" r="5" fill="#f2b450"/>
+    </svg>
+    <span class="ylab" style="top:16.2%">400 $</span>
+    <span class="ylab" style="top:37.3%">350 $</span>
+    <span class="ylab" style="top:58.5%">300 $</span>
+    <span class="ylab" style="top:79.6%">250 $</span>
+  </div>
+  <div class="xlabs"><span>oct. 25</span><span>janv. 26</span><span>avr. 26</span><span>juil. 26</span><span>oct. 26</span></div>
+  <div class="chart-note">Repères : creux de fin mars 2026 (~273 $, correction macroéconomique), record de mai (402 $ en clôture), chute de 7 % après les résultats du T2 (relèvement du capex).</div>
+</div>
+
+<!-- ===== VALORISATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Raisonnable sur les bénéfices normalisés, chère sur le flux de trésorerie.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER publié (12 m)</div><div class="cv">17,4x</div><div class="cd">Inclut ~136 Md$ de plus-values latentes au S1 2026.</div><span class="tag am">TROMPEUR</span></div>
+  <div class="card"><div class="cl">PER normalisé (12 m)</div><div class="cv">~30x</div><div class="cd">Sur ~11,4 $ de BPA hors plus-values.</div><span class="tag am">EXIGEANT</span></div>
+  <div class="card"><div class="cl">PER 2027e</div><div class="cv">~24x</div><div class="cd">BPA normalisé attendu 13,8 à 15,2 $.</div><span class="tag go">RAISONNABLE</span></div>
+  <div class="card"><div class="cl">VE / EBIT (12 m)</div><div class="cv">~27x</div><div class="cd">VE ~4 070 Md$ pour ~148 Md$ d'EBIT.</div><span class="tag am">TENDU</span></div>
+  <div class="card"><div class="cl">Rendement FCF</div><div class="cv">~1,3 %</div><div class="cd">53 Md$ sur 12 mois, proche de zéro attendu en 2026.</div><span class="tag rd">FAIBLE</span></div>
+  <div class="card"><div class="cl">Objectif analystes</div><div class="cv">~415 $</div><div class="cd">Consensus « Achat », soit ~+19 % de potentiel.</div><span class="tag gr">POTENTIEL</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison avec la médiane des grands pairs (Microsoft, Meta, Amazon, Apple)</div>
+  <div class="mcomp"><div class="mk">PER prospectif</div><div class="mvals"><b>~24x</b><span class="sep">vs</span>~27x</div></div>
+  <div class="mcomp"><div class="mk">VE / CA</div><div class="mvals"><b>~9,1x</b><span class="sep">vs</span>~8x</div></div>
+  <div class="mcomp"><div class="mk">Croissance du CA</div><div class="mvals"><b>+24 %</b><span class="sep">vs</span>~+13 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le PER de 17x affiché partout est-il trompeur ?</summary>
+  <div class="body">Le PER divise le cours par le bénéfice par action. En 2026, Alphabet a inscrit dans son bénéfice des gains « sur le papier » : la valeur de ses participations dans des sociétés non cotées (Anthropic surtout) a fortement augmenté, ce qui a ajouté ~136 Md$ au résultat du premier semestre sans qu'un seul dollar n'entre en caisse. Si l'on retire ces gains, le bénéfice par action des 12 derniers mois tombe vers 11,4 $, et le PER réel remonte autour de 30x. Le bon repère est donc le PER sur les bénéfices « normalisés » attendus en 2027 : environ 24x, un niveau comparable aux autres géants de la tech pour une croissance supérieure.</div>
+</details>
+
+<!-- ===== SANTÉ FINANCIÈRE ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Un bilan de forteresse, mais un flux de trésorerie aspiré par les investissements en IA.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Trésorerie</div><div class="cv">242,5 Md$</div><div class="cd">Gonflée par les levées de juin. Trésorerie nette ~+128 Md$.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Dette long terme</div><div class="cv">98,2 Md$</div><div class="cd">46,5 Md$ fin 2025, dont une obligation à 100 ans.</div><span class="tag go">EN HAUSSE</span></div>
+  <div class="card"><div class="cl">Marge opérationnelle</div><div class="cv">34,0 %</div><div class="cd">+1,6 point sur un an au T2 2026.</div><span class="tag gr">EXCELLENTE</span></div>
+  <div class="card"><div class="cl">FCF du T2 2026</div><div class="cv">−5,9 Md$</div><div class="cd">39,1 Md$ de flux opérationnel contre 44,9 Md$ de capex.</div><span class="tag rd">NÉGATIF</span></div>
+  <div class="card"><div class="cl">Capex 2026</div><div class="cv">~200 Md$</div><div class="cd">Fourchette 195–205 Md$, relevée deux fois cette année ; 2027 « nettement plus ».</div><span class="tag am">INTENSIF</span></div>
+  <div class="card"><div class="cl">Rachats d'actions</div><div class="cv">0 $</div><div class="cd">Au S1 2026, et ~49,6 Md$ d'actions émises en juin.</div><span class="tag rd">DILUTION</span></div>
+</div>
+<details class="explainer">
+  <summary>Un flux de trésorerie négatif, est-ce grave ?</summary>
+  <div class="body">Le flux de trésorerie libre, c'est l'argent qui reste une fois payés les investissements. Au T2 2026, Alphabet a dépensé plus en data centers et en puces (44,9 Md$) que ce que son activité a rapporté (39,1 Md$). Ce n'est pas un signe de difficulté : l'activité reste très rentable (34 % de marge) et le groupe dispose de 242,5 Md$ de trésorerie. C'est un choix d'investissement. Le vrai risque est ailleurs : que ces 200 Md$ par an ne rapportent pas assez. Pour financer cet effort, Alphabet s'est endetté et a émis des actions, ce qui dilue les actionnaires existants pour la première fois depuis plus de dix ans.</div>
+</details>
+
+<!-- ===== CROISSANCE ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">L'accélération la plus forte du groupe depuis 2021, tirée par le cloud.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA T2 2026</div><div class="cv">+24 %</div><div class="cd">119,8 Md$, 12e trimestre de croissance à deux chiffres.</div><span class="tag gr">FORTE</span></div>
+  <div class="card"><div class="cl">Google Cloud</div><div class="cv">+82 %</div><div class="cd">24,8 Md$, marge opérationnelle 35,6 %.</div><span class="tag gr">EXPLOSIVE</span></div>
+  <div class="card"><div class="cl">Carnet Cloud</div><div class="cv">514 Md$</div><div class="cd">Un peu plus de la moitié reconnue sous 24 mois.</div><span class="tag gr">VISIBILITÉ</span></div>
+  <div class="card"><div class="cl">Search</div><div class="cv">+17 %</div><div class="cd">63,3 Md$, requêtes au plus haut malgré les chatbots.</div><span class="tag gr">RÉSILIENT</span></div>
+  <div class="card"><div class="cl">YouTube publicité</div><div class="cv">+13 %</div><div class="cd">~11,0 Md$, en accélération sur 2025.</div><span class="tag go">SOLIDE</span></div>
+  <div class="card"><div class="cl">BPA normalisé T2</div><div class="cv">+23 %</div><div class="cd">~2,85 $ contre 2,31 $, mais IA de pointe en retard.</div><span class="tag go">À CONFIRMER</span></div>
+</div>
+<details class="explainer">
+  <summary>Qu'est-ce que le carnet de commandes du Cloud ?</summary>
+  <div class="body">Le carnet de commandes (en anglais « backlog ») regroupe les contrats déjà signés mais pas encore facturés. Quand une entreprise s'engage à dépenser une somme donnée sur plusieurs années chez Google Cloud, ce montant entre dans le carnet, puis devient du chiffre d'affaires au fil de la consommation. À 514 Md$, il représente plus de quatre fois le chiffre d'affaires trimestriel de tout le groupe. Nuance importante : une part significative provient de quelques laboratoires d'IA, dont Anthropic (dans lequel Alphabet investit lui-même), eux-mêmes déficitaires et dépendants de leurs levées de fonds.</div>
+</details>
+
+<!-- ===== DÉTAIL DU SCORE ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : valorisation 35 %, santé financière 35 %, croissance 30 %. Chaque pilier est la moyenne de 4 sous-critères notés sur 100.</div>
+<div class="bd">
+  <div class="bd-row" data-pillar="48">
+    <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:48%;background:var(--amber)"></div></div>
+    <div class="bd-score"><b>48 / 100</b> — PER normalisé 55, VE/EBIT 45, rendement FCF 25, potentiel vs consensus 65</div>
+  </div>
+  <div class="bd-row" data-pillar="61">
+    <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:61%;background:var(--gold)"></div></div>
+    <div class="bd-score"><b>61 / 100</b> — bilan 85, rentabilité 90, conversion en cash 35, dilution et allocation 35</div>
+  </div>
+  <div class="bd-row" data-pillar="76">
+    <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+    <div class="bd-track"><div class="bd-fill" style="width:76%;background:var(--green)"></div></div>
+    <div class="bd-score"><b>76 / 100</b> — croissance du CA 85, moteur Cloud 90, croissance du BPA 75, durabilité (IA, talents) 55</div>
+  </div>
+  <div class="bd-row" style="margin-top:22px;border-top:1px solid var(--line);padding-top:16px">
+    <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">0,35×48 + 0,35×61 + 0,30×76 = 60,95</span></div>
+    <div class="bd-track"><div class="bd-fill" id="globalFill" style="width:61%;background:var(--id)"></div></div>
+    <div class="bd-score" id="globalTxt" style="color:var(--id)">61 / 100 — Risque modéré</div>
+  </div>
+</div>
+
+<!-- ===== PAGE 2 ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<!-- ===== TENDANCE TRIMESTRIELLE ===== -->
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert : indicateur en amélioration. Rouge : indicateur en dégradation.</div>
+<div class="tscroll">
+<table class="qtable">
+  <thead>
+    <tr><th>Indicateur</th><th>T2 25</th><th>T3 25</th><th>T4 25</th><th>T1 26</th><th>T2 26</th><th>Tendance</th></tr>
+  </thead>
+  <tbody>
+    <tr class="imp"><td>Chiffre d'affaires</td><td>96,4</td><td>102,3</td><td>113,8</td><td>109,9</td><td>119,8</td><td><span class="flag gr">▲ Accélère</span></td></tr>
+    <tr class="imp"><td>Croissance du CA</td><td>+14 %</td><td>+16 %</td><td>+18 %</td><td>+22 %</td><td>+24 %</td><td><span class="flag gr">▲ Accélère</span></td></tr>
+    <tr class="imp"><td>Marge opérationnelle</td><td>32,4 %</td><td>30,5 %</td><td>31,6 %</td><td>36,1 %</td><td>34,0 %</td><td><span class="flag gr">▲ En hausse</span></td></tr>
+    <tr class="imp"><td>CA Google Cloud</td><td>13,6</td><td>15,2</td><td>17,7</td><td>20,0</td><td>24,8</td><td><span class="flag gr">▲ +82 %</span></td></tr>
+    <tr class="imp"><td>Marge Cloud</td><td>20,7 %</td><td>23,7 %</td><td>30,1 %</td><td>32,9 %</td><td>35,6 %</td><td><span class="flag gr">▲ En hausse</span></td></tr>
+    <tr class="dec"><td>Capex</td><td>22,4</td><td>24,0</td><td>27,9</td><td>35,7</td><td>44,9</td><td><span class="flag rd">▼ ×2 sur un an</span></td></tr>
+    <tr class="dec"><td>Flux de trésorerie libre</td><td>5,3</td><td>24,5</td><td>24,5</td><td>10,1</td><td>−5,9</td><td><span class="flag rd">▼ Négatif</span></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">En milliards de dollars sauf pourcentages. Marge du T3 2025 pénalisée par l'amende européenne (3,5 Md$). Rachats d'actions : 13,2 Md$ au T2 2025, zéro au S1 2026.</div>
+
+<!-- ===== RÉSULTATS ===== -->
+<div class="sec-title">Derniers résultats et prochaine échéance</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T2 2026, publié le 22 juillet</div>
+    <div class="eline"><span>CA vs consensus</span><span class="ev up">119,8 vs ~117,0 Md$</span></div>
+    <div class="eline"><span>Cloud vs consensus</span><span class="ev up">24,8 vs ~22,5 Md$</span></div>
+    <div class="eline"><span>BPA publié</span><span class="ev">9,11 $ (plus-values)</span></div>
+    <div class="eline"><span>BPA normalisé vs consensus</span><span class="ev">~2,85 vs ~2,87 $</span></div>
+    <div class="eline"><span>Capex 2026 (guidance)</span><span class="ev down">195–205 Md$</span></div>
+    <div class="eline"><span>Réaction du titre</span><span class="ev down">−7,1 % le 23 juillet</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">T3 2026, attendu le 28 octobre</div>
+    <div class="eline"><span>CA attendu</span><span class="ev">~126,7 Md$</span></div>
+    <div class="eline"><span>BPA attendu</span><span class="ev">~3,00 $</span></div>
+    <div class="eline"><span>Marge Cloud</span><span class="ev">pression annoncée</span></div>
+    <div class="eline"><span>Carnet Cloud</span><span class="ev">514 Md$ à dépasser</span></div>
+    <div class="eline"><span>Gemini 4</span><span class="ev">calendrier attendu</span></div>
+    <div class="eline"><span>Gemini (app)</span><span class="ev up">&gt; 1 Md d'utilisateurs</span></div>
+  </div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi l'émission d'actions de juin concerne-t-elle l'actionnaire ?</summary>
+  <div class="body">Début juin 2026, Alphabet a levé ~49,6 Md$ en une semaine : actions ordinaires vendues au public, placement privé de 10 Md$ auprès de Berkshire Hathaway (à 351,81 $ par action A) et actions de préférence qui se convertiront en actions ordinaires vers 2029, avec un dividende de 6,25 % prioritaire. Un programme de 40 Md$ supplémentaires peut être vendu progressivement en Bourse. Chaque nouvelle action réduit la part du bénéfice qui revient à un actionnaire existant : c'est la dilution. Elle reste modeste (environ 2 % au total) au regard de la taille du groupe, et l'entrée de Berkshire est un signal de confiance, mais elle met fin à dix ans de rachats qui faisaient l'inverse.</div>
+</details>
+
+<!-- ===== CATALYSEURS VS RISQUES ===== -->
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Conversion du carnet Cloud</div><div class="id">Plus de 260 Md$ à reconnaître sous 24 mois ; chaque trimestre de croissance Cloud au-delà de +60 % valide l'effort d'investissement.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Lancement de Gemini 4</div><div class="id">Visé avant fin 2026 ; un modèle au niveau des meilleurs effacerait le doute né du retard de Gemini 3.5 Pro.</div></div>
+    <div class="item"><span class="sev med-pos">IMPACT MOYEN</span><div class="it">Les TPU deviennent un produit</div><div class="id">Vente directe dans les data centers des clients, contrats multi-gigawatts (Anthropic, ~5 GW dès 2027).</div></div>
+    <div class="item"><span class="sev med-pos">IMPACT MOYEN</span><div class="it">Waymo et options cachées</div><div class="id">Valorisé 126 Md$, objectif d'un million de trajets payants par semaine ; une cotation séparée révélerait sa valeur.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Retour sur un capex de 200 Md$</div><div class="id">FCF négatif au T2, ~260 Md$ attendus en 2027, serveurs amortis sur 6 ans : toute surcapacité de l'industrie pèserait lourdement sur les marges.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Perte de la frontière de l'IA</div><div class="id">Gemini 3.5 Pro jamais sorti à la date promise, départ de Jeff Dean et des co-responsables de Gemini, retard admis en codage.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Érosion de Search</div><div class="id">ChatGPT au-delà d'1 Md d'utilisateurs, Meta Muse ; Search pèse ~53 % du CA et l'essentiel des profits.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Concentration et justice</div><div class="id">Carnet concentré sur des clients d'IA déficitaires (Anthropic) ; appel du ministère de la Justice pour interdire les paiements à Apple.</div></div>
+  </div>
+</div>
+
+<!-- ===== QUAND RENFORCER ===== -->
+<div class="sig in">
+  <h4>Quand renforcer ? Les signaux d'achat</h4>
+  <div class="lead">Des faits mesurables qui renforceraient la thèse ou offriraient un meilleur prix d'entrée.</div>
+  <div class="sline"><span class="stag conf">CONFIRMATION</span><span class="stxt">Gemini 4 disponible d'ici le T1 2027 et classé parmi les deux meilleurs modèles en codage sur les bancs d'essai publics.</span></div>
+  <div class="sline"><span class="stag conf">CONFIRMATION</span><span class="stxt">Marge du Cloud maintenue au-dessus de 30 % aux T3 et T4 2026 malgré la capacité louée, avec un carnet supérieur à 550 Md$.</span></div>
+  <div class="sline"><span class="stag conf">CONFIRMATION</span><span class="stxt">Croissance de Search d'au moins +12 % deux trimestres de suite, preuve que l'AI Mode monétise au moins aussi bien que la recherche classique.</span></div>
+  <div class="sline"><span class="stag prix">OPPORTUNITÉ DE PRIX</span><span class="stxt">Cours sous 300 $ (~20x le BPA normalisé 2027) sans dégradation des fondamentaux, par exemple lors d'une réaction excessive à un relèvement du capex.</span></div>
+  <div class="sline"><span class="stag prix">OPPORTUNITÉ DE PRIX</span><span class="stxt">Retour vers la zone de 275 $ (creux de mars 2026) lors d'une correction générale du marché.</span></div>
+  <div class="snote">Ne justifient pas à eux seuls un renforcement : un trimestre de chiffre d'affaires au-dessus des attentes, un nouveau record d'utilisateurs de Gemini, ou une hausse de l'objectif de cours d'un analyste.</div>
+</div>
+
+<!-- ===== QUAND VENDRE ===== -->
+<div class="sig out">
+  <h4>Quand vendre ? Les signaux de sortie</h4>
+  <div class="lead">Des faits mesurables qui invalideraient la thèse ou justifieraient d'alléger la position.</div>
+  <div class="sline"><span class="stag rupt">RUPTURE DE THÈSE</span><span class="stxt">Croissance de Search sous +5 % deux trimestres consécutifs, ou baisse publiée du nombre de requêtes.</span></div>
+  <div class="sline"><span class="stag rupt">RUPTURE DE THÈSE</span><span class="stxt">Recul du carnet Cloud d'un trimestre à l'autre, ou annulation ou renégociation d'un contrat majeur (Anthropic notamment).</span></div>
+  <div class="sline"><span class="stag alleg">ALLÈGEMENT</span><span class="stxt">Capex 2027 annoncé au-delà de 300 Md$ sans accélération correspondante du Cloud, ou flux de trésorerie libre négatif sur un exercice complet.</span></div>
+  <div class="sline"><span class="stag alleg">ALLÈGEMENT</span><span class="stxt">Nouvelle levée de fonds propres au-delà du programme de 40 Md$ déjà annoncé.</span></div>
+  <div class="sline"><span class="stag surv">À SURVEILLER</span><span class="stxt">Gemini 4 repoussé au-delà de mi-2027, ou nouveaux départs de dirigeants de Google DeepMind.</span></div>
+  <div class="sline"><span class="stag surv">À SURVEILLER</span><span class="stxt">Décision de la cour d'appel de Washington imposant l'interdiction des paiements de distribution à Apple et aux fabricants Android.</span></div>
+  <div class="snote">Ne justifient pas à eux seuls une vente : une baisse de 7 % le jour des résultats, un relèvement du capex accompagné d'une hausse du carnet, ou une amende européenne de quelques milliards.</div>
+</div>
+
+<!-- ===== EN RÉSUMÉ ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh" id="blh">Notation globale : risque modéré (61/100)</div>
+  <div class="rating-wrap">
+    <div class="rating-bar"><div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div></div>
+    <div class="rm" id="rateMarker" style="left:61%"><div class="rmval">61</div><div class="tri"></div></div>
+  </div>
+  <div class="rating-labels"><span style="left:15%">Extrême</span><span style="left:40%">Élevé</span><span style="left:60%">Modéré</span><span style="left:85%">Sûr</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> Alphabet traverse <b>la meilleure séquence opérationnelle de son histoire récente</b> : croissance accélérée à +24 %, Google Cloud transformé en moteur de profits (+82 %, 35,6 % de marge, 514 Md$ de carnet), une recherche qui résiste aux chatbots et une pile technologique complète, des puces TPU aux modèles Gemini, que les plus grands laboratoires d'IA viennent louer. À ~24x les bénéfices normalisés de 2027, le titre ne se paie pas plus cher que ses pairs pour une croissance supérieure, et l'entrée de Berkshire Hathaway valide la thèse.<br><br>
+    Le score reste dans la zone modérée pour trois raisons : un <b>flux de trésorerie aspiré par 200 Md$ d'investissements</b> (négatif au T2, rachats arrêtés, actions émises), <b>une course aux modèles où Google a perdu du terrain et des talents</b> en 2026, et une <b>concentration du carnet</b> sur quelques clients d'IA déficitaires.<br><br>
+    Profil adapté à un investisseur de long terme qui accepte une phase de cash faible en échange d'une position de premier plan dans l'infrastructure de l'IA. Les deux juges de paix : la conversion du carnet Cloud et le lancement de Gemini 4. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués et formulaires 10-Q d'Alphabet (T1 et T2 2026), communiqué annuel 2025, documents d'émission SEC (juin 2026), décisions de justice (affaires Search et ad tech), couverture financière (Reuters, Bloomberg, S&amp;P Global Market Intelligence, MarketBeat, Motley Fool), données de cotation au 6 octobre 2026. Le « score de risque » est un indicateur composite illustratif (valorisation 35 %, santé financière 35 %, croissance 30 %), ni une note d'agence ni un conseil financier. Le BPA normalisé exclut les gains et pertes latents sur participations ; les multiples des pairs et le graphique de cours sont des ordres de grandeur. Faites vos propres recherches.
+</div>
+
+</div>
+
+<script>
+// ---------- Zones de risque : source unique (30 / 50 / 70) ----------
+const RISK = { score: 61, pillars: [48, 61, 76] };
+function riskZone(s){
+  if (s < 30) return { color: "#ff4d5e", label: "Risque très élevé" };
+  if (s < 50) return { color: "#ff9f43", label: "Risque élevé" };
+  if (s < 70) return { color: "#ffd23f", label: "Risque mod\u00e9r\u00e9" };
+  return { color: "#28d17c", label: "Risque faible" };
+}
+(function applyZones(){
+  const z = riskZone(RISK.score);
+  document.documentElement.style.setProperty("--id", z.color);
+  document.getElementById("heroBadge").textContent = z.label.toUpperCase();
+  document.getElementById("globalTxt").textContent = RISK.score + " / 100 \u2014 " + z.label;
+  document.getElementById("blh").textContent = "Notation globale\u202f: " + z.label.toLowerCase() + " (" + RISK.score + "/100)";
+  document.querySelectorAll(".bd-row[data-pillar]").forEach(function(row){
+    const v = Number(row.dataset.pillar);
+    row.querySelector(".bd-fill").style.background = riskZone(v).color;
+  });
+})();
+
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const lines = [
+    "GOOGL \u2014 Alphabet Inc. | RAPPORT DE SCORE DE RISQUE (6 octobre 2026)",
+    "221 Bourse \u2014 Le cabinet d'analyse fondamentale",
+    "\u00c9chelle : plus le risque est \u00e9lev\u00e9, plus le score est bas (0 = extr\u00eame, 100 = s\u00fbr). Zones : 0-30 rouge, 30-50 orange, 50-70 jaune, 70-100 vert",
+    "",
+    "SCORE GLOBAL : 61/100 \u2014 RISQUE MOD\u00c9R\u00c9",
+    "Cours : 347,60 $ | Cap. : ~4,2 T$ | 52 semaines : 235,84\u2013408,61 $",
+    "",
+    "INDICATEURS CL\u00c9S",
+    "- CA 12 mois 445,8 Md$ (+20 %) | PER publi\u00e9 17,4x (gonfl\u00e9 par ~136 Md$ de plus-values latentes) | PER normalis\u00e9 ~30x, ~24x 2027e",
+    "- Dividende 0,25 % | Objectif analystes ~415 $ (consensus Achat)",
+    "",
+    "VALORISATION (48/100)",
+    "- PER normalis\u00e9 ~30x | VE/EBIT ~27x | Rendement FCF ~1,3 % | PER 2027e ~24x vs ~27x pour les pairs",
+    "",
+    "SANT\u00c9 FINANCI\u00c8RE (61/100)",
+    "- Tr\u00e9sorerie 242,5 Md$ | Dette LT 98,2 Md$ | Marge op\u00e9. 34,0 %",
+    "- FCF T2 2026 : -5,9 Md$ | Capex 2026 : 195-205 Md$ | Rachats : 0 au S1 2026, ~49,6 Md$ d'actions \u00e9mises en juin",
+    "",
+    "CROISSANCE (76/100)",
+    "- CA T2 +24 % | Google Cloud +82 % (24,8 Md$, marge 35,6 %) | Carnet Cloud 514 Md$",
+    "- Search +17 % | YouTube pub +13 % | BPA normalis\u00e9 T2 ~+23 %",
+    "",
+    "SCORE = 0,35\u00d748 + 0,35\u00d761 + 0,30\u00d776 = 60,95 \u2192 61",
+    "",
+    "TENDANCE (T2 25 \u2192 T2 26) : CA 96,4 \u2192 119,8 Md$ | Marge Cloud 20,7 % \u2192 35,6 % | Capex 22,4 \u2192 44,9 Md$ | FCF 5,3 \u2192 -5,9 Md$",
+    "PROCHAINE PUBLICATION : T3 2026 le 28 octobre (CA attendu ~126,7 Md$, BPA ~3,00 $)",
+    "",
+    "CATALYSEURS : Conversion du carnet Cloud (fort), Gemini 4 (fort), TPU vendus en direct (moyen), Waymo (moyen)",
+    "RISQUES : Retour sur 200 Md$ de capex (fort), Perte de la fronti\u00e8re IA et des talents (fort), \u00c9rosion de Search (fort), Concentration du carnet et justice (moyen)",
+    "",
+    "QUAND RENFORCER ? LES SIGNAUX D'ACHAT",
+    "- [CONFIRMATION] Gemini 4 disponible d'ici le T1 2027 et class\u00e9 parmi les deux meilleurs mod\u00e8les en codage",
+    "- [CONFIRMATION] Marge Cloud > 30 % aux T3 et T4 2026 malgr\u00e9 la capacit\u00e9 lou\u00e9e, carnet > 550 Md$",
+    "- [CONFIRMATION] Search \u2265 +12 % deux trimestres de suite",
+    "- [OPPORTUNIT\u00c9 DE PRIX] Cours < 300 $ (~20x BPA normalis\u00e9 2027) sans d\u00e9gradation des fondamentaux",
+    "- [OPPORTUNIT\u00c9 DE PRIX] Retour vers 275 $ (creux de mars 2026) lors d'une correction g\u00e9n\u00e9rale",
+    "Ne justifient pas seuls un renforcement : un trimestre de CA au-dessus des attentes, un record d'utilisateurs Gemini, une hausse d'objectif d'analyste.",
+    "",
+    "QUAND VENDRE ? LES SIGNAUX DE SORTIE",
+    "- [RUPTURE DE TH\u00c8SE] Search < +5 % deux trimestres cons\u00e9cutifs ou baisse publi\u00e9e des requ\u00eates",
+    "- [RUPTURE DE TH\u00c8SE] Recul du carnet Cloud, ou annulation/ren\u00e9gociation d'un contrat majeur (Anthropic)",
+    "- [ALL\u00c8GEMENT] Capex 2027 > 300 Md$ sans acc\u00e9l\u00e9ration du Cloud, ou FCF n\u00e9gatif sur un exercice complet",
+    "- [ALL\u00c8GEMENT] Nouvelle lev\u00e9e de fonds propres au-del\u00e0 du programme de 40 Md$",
+    "- [\u00c0 SURVEILLER] Gemini 4 repouss\u00e9 au-del\u00e0 de mi-2027 ou nouveaux d\u00e9parts \u00e0 Google DeepMind",
+    "- [\u00c0 SURVEILLER] Interdiction des paiements de distribution \u00e0 Apple impos\u00e9e en appel",
+    "Ne justifient pas seuls une vente : -7 % un jour de r\u00e9sultats, un capex relev\u00e9 avec un carnet en hausse, une amende europ\u00e9enne de quelques milliards.",
+    "",
+    "VERDICT : Meilleure s\u00e9quence op\u00e9rationnelle r\u00e9cente (Cloud +82 %, carnet 514 Md$, Search r\u00e9silient, pile IA compl\u00e8te), ~24x les b\u00e9n\u00e9fices normalis\u00e9s 2027. Zone mod\u00e9r\u00e9e \u00e0 cause du cash aspir\u00e9 par 200 Md$ de capex, du retard dans la course aux mod\u00e8les et de la concentration du carnet. Pas un conseil en investissement."
+  ].join("\n");
+  try{
+    await navigator.clipboard.writeText(lines);
+    btn.textContent = "Rapport copi\u00e9";
+    btn.classList.add('done');
+    setTimeout(function(){btn.textContent="Copier le rapport";btn.classList.remove('done');},2200);
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lines;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');btn.textContent="Rapport copi\u00e9";btn.classList.add('done');
+      setTimeout(function(){btn.textContent="Copier le rapport";btn.classList.remove('done');},2200);}
+    catch(_){btn.textContent="\u00c9chec : copiez manuellement";}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
