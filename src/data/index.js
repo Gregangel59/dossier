@@ -13,6 +13,7 @@ import duol from "./duol.js";
 import bros from "./bros.js";
 import be from "./be.js";
 import figs from "./figs.js";
+import googl from "./googl.js";
 
 
 
@@ -22,6 +23,7 @@ export const COMPANIES = [
  bros,
  be,
  figs,
+ googl,
  
  
 
