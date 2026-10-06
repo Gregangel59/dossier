@@ -11,8 +11,8 @@ import { COMPANIES } from "../data/index.js";
 //  sinon `updated` (AAAA-MM), sinon ordre de la liste COMPANIES.
 // ============================================================
 
-const FEATURED = 3;          // nombre de dossiers « À la une »
-const NEW_DAYS = 21;         // badge « Nouveau » pendant 3 semaines
+const FEATURED = 5;          // nombre de dossiers « À la une »
+const NEW_DAYS = 7;         // badge « Nouveau » pendant 1 semaine
 
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
   "septembre", "octobre", "novembre", "décembre"];
