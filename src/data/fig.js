@@ -21,7 +21,7 @@ const meta = {
   // Nom du fichier HTML déposé dans public/rapports/ (ou null si absent) :
   riskReport: "fig.html",
   updated: "2026-10",               // période des données
-  published: "2026-10-07",          // date de publication (tri « À la une »)
+  published: "2026-10-08",          // date de publication (tri « À la une »)
 };
 
 const modules = [
