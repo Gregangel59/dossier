@@ -14,6 +14,7 @@ import bros from "./bros.js";
 import be from "./be.js";
 import figs from "./figs.js";
 import googl from "./googl.js";
+import nbis from "./nbis.js";
 
 
 
@@ -24,6 +25,7 @@ export const COMPANIES = [
  be,
  figs,
  googl,
+ nbis,
  
 
  
