@@ -46,11 +46,11 @@ Nebius vend donc du **temps de calcul** facturé à l'heure-GPU ou par contrats 
 - **Tavily** (acquis) : recherche web en temps réel pour agents IA, plus de 2,5 millions de développeurs ; **Eigen AI** et **Clarifai** (acquis au T2 2026) renforcent l'optimisation de l'inférence
 - **Modèle « asset-light »** (lancé au T2 2026) : des partenaires financent et possèdent les centres de données, Nebius apporte son logiciel, son architecture et ses clients
 
-**Activités non cœur** : **Avride** (véhicules autonomes et robots de livraison — plus de 60 000 courses commerciales sur Uber à Dallas), **TripleTen** (formation tech). **Participations** : ClickHouse (base de données valorisée ≈ 15 G$ en janvier 2026) et Toloka (données pour l'IA, adossée à Bezos Expeditions).
+**Activités non cœur** : **Avride** (véhicules autonomes et robots de livraison — plus de 60 000 courses commerciales sur Uber à Dallas), **TripleTen** (formation tech). **Participations** : ClickHouse (base de données valorisée ≈ 15 Md$ en janvier 2026) et Toloka (données pour l'IA, adossée à Bezos Expeditions).
 
 ## Clients, fournisseurs, concurrents
 
-**Clients** : Microsoft (contrat pluriannuel jusqu'à 19,4 G$ signé en septembre 2025), Meta (3 G$ en novembre 2025 puis un accord jusqu'à 27 G$ sur cinq ans en mars 2026), et une clientèle de laboratoires d'IA : Reflection, Cohere, AMI (Yann LeCun), Black Forest Labs, Cognition, Higgsfield, Recraft, Cloudflare, Revolut, une grande société de trading quantitatif américaine.
+**Clients** : Microsoft (contrat pluriannuel jusqu'à 19,4 Md$ signé en septembre 2025), Meta (3 Md$ en novembre 2025 puis un accord jusqu'à 27 Md$ sur cinq ans en mars 2026), et une clientèle de laboratoires d'IA : Reflection, Cohere, AMI (Yann LeCun), Black Forest Labs, Cognition, Higgsfield, Recraft, Cloudflare, Revolut, une grande société de trading quantitatif américaine.
 
 **Fournisseurs** : NVIDIA (GPU, réseau — et actionnaire à ≈ 9 %), fabricants de serveurs et de composants, opérateurs de colocation (dont DataOne à Vineland, New Jersey), producteurs d'électricité, Bloom Energy (piles à combustible sur site).
 
@@ -63,7 +63,7 @@ Nebius combine trois familles de contrats :
 - **Moyen terme (1 à 3 ans)** : le cœur de l'activité avec les laboratoires d'IA
 - **Long terme (plusieurs années)** : clients « investment grade » (Microsoft, Meta), qui servent de garantie aux financements adossés
 
-Le point clé est le **prépaiement** : environ **70 % des contrats signés au T2 2026 incluent une avance client**, couvrant **50 à 60 % du capex associé**. Nebius attend **plus de 9 G$ de prépaiements en 2026** et revendique **plus de 40 G$ d'engagements clients**. Ces avances expliquent un flux de trésorerie opérationnel très positif (≈ 2,25 G$ au T2) malgré une perte comptable.
+Le point clé est le **prépaiement** : environ **70 % des contrats signés au T2 2026 incluent une avance client**, couvrant **50 à 60 % du capex associé**. Nebius attend **plus de 9 Md$ de prépaiements en 2026** et revendique **plus de 40 Md$ d'engagements clients**. Ces avances expliquent un flux de trésorerie opérationnel très positif (≈ 2,25 Md$ au T2) malgré une perte comptable.
 
 > **Note de prudence** : le chiffre d'affaires reconnu (582 M$ au T2 2026) reste très inférieur aux engagements signés ; tout le dossier repose sur la conversion de ces contrats en revenus au fil de la mise en service des capacités.`,
   },
@@ -79,7 +79,7 @@ Nebius occupe une position d'**assembleur-opérateur** : il transforme de l'é
 ### Amont — Les intrants critiques
 
 **Puces et réseau (le poste le plus lourd du capex)** :
-- **NVIDIA** — GPU Blackwell (GB200/GB300), premiers systèmes **Vera Rubin NVL72** reçus et en validation, CPU Vera, réseau InfiniBand/Ethernet. NVIDIA est aussi actionnaire (≈ 9 %, renforcé par un investissement stratégique de 2 G$ en 2026)
+- **NVIDIA** — GPU Blackwell (GB200/GB300), premiers systèmes **Vera Rubin NVL72** reçus et en validation, CPU Vera, réseau InfiniBand/Ethernet. NVIDIA est aussi actionnaire (≈ 9 %, renforcé par un investissement stratégique de 2 Md$ en 2026)
 - Mémoire HBM et stockage : chaîne SK Hynix / Samsung / Micron via les intégrateurs
 
 **Serveurs et matériel** : conception propriétaire des serveurs et racks, assemblés par des sous-traitants (ODM taïwanais) — avantage de coût et d'efficacité énergétique revendiqué
@@ -89,7 +89,7 @@ Nebius occupe une position d'**assembleur-opérateur** : il transforme de l'é
 - **Bloom Energy** — piles à combustible « derrière le compteur » (partenariat annoncé en mai 2026)
 - Opérateurs de colocation, dont **DataOne** (Vineland, New Jersey, 300 MW pour le contrat Microsoft)
 
-**Financement** (un intrant à part entière) : banques et investisseurs obligataires (≈ 10 G$ de convertibles levés sur T1 et T3 2026), facilité adossée de 775 M$ (SOFR + 2,50 %), programme ATM, prépaiements clients.
+**Financement** (un intrant à part entière) : banques et investisseurs obligataires (≈ 10 Md$ de convertibles levés sur T1 et T3 2026), facilité adossée de 775 M$ (SOFR + 2,50 %), programme ATM, prépaiements clients.
 
 ---
 
@@ -151,11 +151,11 @@ Le cloud IA porte tout : sa marge d'EBITDA ajusté est passée de **24 % au 
 
 | Trimestre | CA | Croissance a/a | EBITDA aj. | Marge | ARR fin de période |
 |---|---|---|---|---|---|
-| T2 2025 | 105,1 M$ | — | −21,0 M$ | −20 % | 0,43 G$ |
+| T2 2025 | 105,1 M$ | — | −21,0 M$ | −20 % | 0,43 Md$ |
 | T3 2025 | 146,1 M$ | ≈ +355 % | ≈ −5 M$ | ≈ −4 % | — |
-| T4 2025 | 227,7 M$ | +547 % | 15,0 M$ | 7 % | 1,2 G$ |
-| T1 2026 | 399,0 M$ | +684 % | 129,5 M$ | 32 % | 1,92 G$ |
-| T2 2026 | 582,3 M$ | +454 % | 236,2 M$ | 41 % | 3,0 G$ |
+| T4 2025 | 227,7 M$ | +547 % | 15,0 M$ | 7 % | 1,2 Md$ |
+| T1 2026 | 399,0 M$ | +684 % | 129,5 M$ | 32 % | 1,92 Md$ |
+| T2 2026 | 582,3 M$ | +454 % | 236,2 M$ | 41 % | 3,0 Md$ |
 
 ### Du CA au résultat net
 
@@ -190,7 +190,7 @@ NVIDIA est actionnaire (≈ 9 %) et partenaire de référence ; Nebius a é
 Avec **5 GW de puissance contractée visés fin 2026** (contre plus de 2 GW en février), Nebius détient une ressource devenue rare : des terrains raccordés au réseau. Ce stock d'énergie est une barrière à l'entrée pour les nouveaux venus — mais il doit encore être transformé en capacité connectée (800 MW à 1 GW visés fin 2026).
 
 ### 4. Un bilan et un modèle de financement différenciants
-Sans dette lourde à l'origine, avec des participations monétisables (ClickHouse, Toloka) et des **prépaiements clients couvrant 50 à 60 % du capex**, Nebius se finance à des coûts inférieurs à ceux de ses pairs : convertibles à 0,50 % (échéance 2030), facilité adossée à SOFR + 2,50 %. Face à un CoreWeave qui supporte plus de 35 G$ de dette, c'est un avantage structurel.
+Sans dette lourde à l'origine, avec des participations monétisables (ClickHouse, Toloka) et des **prépaiements clients couvrant 50 à 60 % du capex**, Nebius se finance à des coûts inférieurs à ceux de ses pairs : convertibles à 0,50 % (échéance 2030), facilité adossée à SOFR + 2,50 %. Face à un CoreWeave qui supporte plus de 35 Md$ de dette, c'est un avantage structurel.
 
 ### 5. La souveraineté européenne — avantage de niche
 Seul néocloud d'envergure né en Europe, siège à Amsterdam : un argument pour les clients soumis au RGPD et aux exigences de localisation des données.
@@ -202,9 +202,9 @@ Les contrats de capacité dédiée (Microsoft, Meta) sont fermes et longs ; ma
 
 | Critère | Nebius | CoreWeave | Hyperscalers (AWS, Azure, GCP) |
 |---|---|---|---|
-| Échelle (CA 2026e) | 3,0–3,4 G$ | 12–13 G$ | > 100 G$ chacun |
+| Échelle (CA 2026e) | 3,0–3,4 Md$ | 12–13 Md$ | > 100 Md$ chacun |
 | Logiciel propriétaire IA | Fort | Fort | Très fort mais généraliste |
-| Coût du financement | Bas (convertibles) | Élevé (dette ≈ 35 G$) | Très bas (bilans géants) |
+| Coût du financement | Bas (convertibles) | Élevé (dette ≈ 35 Md$) | Très bas (bilans géants) |
 | Marge EBITDA ajustée | ≈ 41 % (cloud 50 %) | Supérieure, à plus grande échelle | Élevée |
 | Dépendance clients | Microsoft, Meta | Microsoft, OpenAI, Meta | Diversifiés |
 | Agilité / spécialisation IA | Très élevée | Très élevée | Moyenne |
@@ -213,7 +213,7 @@ Les contrats de capacité dédiée (Microsoft, Meta) sont fermes et longs ; ma
 
 - **Vis-à-vis des clients** : **élevé en période de pénurie** — les contrats du T2 2026 se sont signés à plus de 20 M$ de revenu annuel par MW (contre une base de 12 M$), avec prépaiement, et Nebius affirme pouvoir vendre toute sa capacité 2027 à ces conditions. Ce pouvoir dépend toutefois d'un marché tendu : il s'éroderait vite en cas de surcapacité
 - **Vis-à-vis de NVIDIA** : **faible** — fournisseur quasi monopolistique ; Nebius est un client important, pas incontournable
-- **Vis-à-vis des financeurs** : **en nette amélioration** — premier financement adossé, convertibles sursouscrites et relevées (5,75 G$ en août 2026)`,
+- **Vis-à-vis des financeurs** : **en nette amélioration** — premier financement adossé, convertibles sursouscrites et relevées (5,75 Md$ en août 2026)`,
   },
   {
     id: 5,
@@ -222,7 +222,7 @@ Les contrats de capacité dédiée (Microsoft, Meta) sont fermes et longs ; ma
     icon: "🌍",
     content: `## Tableau comparatif — Infrastructure cloud IA (octobre 2026)
 
-| Société | Code Bloomberg | Cap. (G$) | EV/CA | EV/EBIT | P/E | Rdt div. | ROE moy. 5 ans |
+| Société | Code Bloomberg | Cap. (Md$) | EV/CA | EV/EBIT | P/E | Rdt div. | ROE moy. 5 ans |
 |---|---|---|---|---|---|---|---|
 | **Nebius** | **NBIS US** | **≈ 68** | **≈ 50x (TTM) · ≈ 21x (2026e)** | **n.s. (négatif)** | **n.s.** | **0 %** | **n.s.** |
 | CoreWeave | CRWV US | ≈ 50 | ≈ 10x (TTM, dette incluse) | n.s. | n.s. | 0 % | n.s. |
@@ -237,13 +237,13 @@ Les contrats de capacité dédiée (Microsoft, Meta) sont fermes et longs ; ma
 ### Analyse comparative
 
 **CoreWeave — Le leader en volume**
-CoreWeave est environ **quatre fois plus gros** en chiffre d'affaires (12 à 13 G$ attendus en 2026) avec un carnet de commandes supérieur à 100 G$, mais il porte une dette d'environ 35 G$ et des frais financiers de l'ordre de 640 M$ par trimestre. Sa capitalisation représente environ 6 fois son CA (≈ 10 fois en valeur d'entreprise, dette incluse), contre environ 50 fois pour Nebius. **L'écart reflète deux choses** : un bilan bien plus sain chez Nebius, et une croissance relative plus rapide (+454 % contre +112 % au T2).
+CoreWeave est environ **quatre fois plus gros** en chiffre d'affaires (12 à 13 Md$ attendus en 2026) avec un carnet de commandes supérieur à 100 Md$, mais il porte une dette d'environ 35 Md$ et des frais financiers de l'ordre de 640 M$ par trimestre. Sa capitalisation représente environ 6 fois son CA (≈ 10 fois en valeur d'entreprise, dette incluse), contre environ 50 fois pour Nebius. **L'écart reflète deux choses** : un bilan bien plus sain chez Nebius, et une croissance relative plus rapide (+454 % contre +112 % au T2).
 
 **Oracle — L'hyperscaler qui s'est fait néocloud**
 Oracle construit massivement pour OpenAI et d'autres, avec un capex qui a effrayé le marché. Profitable et versant un dividende, il se paie environ 26 fois ses bénéfices. C'est le repère de ce que vaudrait un acteur de l'infrastructure IA **une fois arrivé à maturité**.
 
 **IREN — L'ancien mineur de bitcoin**
-Converti au cloud IA (contrat Microsoft, cible ARR de 3,7 G$ fin 2026), IREN se paie environ 5 fois ses ventes mais tire encore une large part de ses revenus du minage. Il illustre la **banalisation possible** de la capacité GPU : quiconque dispose d'électricité peut entrer sur le marché.
+Converti au cloud IA (contrat Microsoft, cible ARR de 3,7 Md$ fin 2026), IREN se paie environ 5 fois ses ventes mais tire encore une large part de ses revenus du minage. Il illustre la **banalisation possible** de la capacité GPU : quiconque dispose d'électricité peut entrer sur le marché.
 
 **Les hyperscalers — à la fois clients, références et menaces**
 AWS, Azure et Google Cloud se paient 20 à 30 fois leurs bénéfices. Microsoft et Meta sont les plus gros clients de Nebius — mais Meta a annoncé en juillet 2026 vouloir revendre sa capacité excédentaire (« Meta Compute »), entrant directement sur le terrain des néoclouds.
@@ -251,7 +251,7 @@ AWS, Azure et Google Cloud se paient 20 à 30 fois leurs bénéfices. Microsoft
 ---
 
 ### Le ratio qui compte : valeur d'entreprise rapportée à l'ARR futur
-Sur le CA passé, Nebius paraît hors de prix. Sur l'**ARR visé fin 2026 (7 à 9 G$)**, la valeur d'entreprise (≈ 70 G$) ressort à **≈ 8 à 10 fois** ; sur le CA 2027 attendu par le consensus (≈ 11 G$), à **≈ 6 à 7 fois** — un niveau comparable aux pairs. **Toute la prime de valorisation est un pari sur l'exécution 2026-2027.**`,
+Sur le CA passé, Nebius paraît hors de prix. Sur l'**ARR visé fin 2026 (7 à 9 Md$)**, la valeur d'entreprise (≈ 70 Md$) ressort à **≈ 8 à 10 fois** ; sur le CA 2027 attendu par le consensus (≈ 11 Md$), à **≈ 6 à 7 fois** — un niveau comparable aux pairs. **Toute la prime de valorisation est un pari sur l'exécution 2026-2027.**`,
   },
   {
     id: 6,
@@ -269,7 +269,7 @@ Sur le CA passé, Nebius paraît hors de prix. Sur l'**ARR visé fin 2026 (7 à 
 | EBITDA ajusté | 236,2 M$ (41 %) | ≈ 173 M$ | **+37 % ✓** |
 | BPA ajusté | −0,12 $ | ≈ −0,67 $ | **Nettement meilleur ✓** |
 | BPA GAAP | −0,68 $ | ≈ −0,67 $ | En ligne |
-| ARR fin juin | 3,0 G$ (+598 %, +56 % t/t) | — | — |
+| ARR fin juin | 3,0 Md$ (+598 %, +56 % t/t) | — | — |
 
 **Battu sur toute la ligne**, surtout sur la rentabilité ajustée. La croissance séquentielle (+46 %) s'est faite **avant** l'arrivée de l'essentiel des capacités 2026, attendue au second semestre.
 
@@ -278,7 +278,7 @@ Sur le CA passé, Nebius paraît hors de prix. Sur l'**ARR visé fin 2026 (7 à 
 ### Facteurs clés
 
 - **Prix** : les contrats du trimestre se sont signés à **plus de 20 M$ de revenu annuel par MW** (base 2026 : ≈ 12 M$), avec des hausses de plus de 30 % sur les GPU d'ancienne génération par rapport au T1
-- **Commercial** : quatre contrats « phares » d'une valeur moyenne supérieure à 1 G$ chacun (Reflection, Cohere, un neolab américain, une société de trading quantitatif) ; valeur totale des contrats signés multipliée par près de 4 en un trimestre
+- **Commercial** : quatre contrats « phares » d'une valeur moyenne supérieure à 1 Md$ chacun (Reflection, Cohere, un neolab américain, une société de trading quantitatif) ; valeur totale des contrats signés multipliée par près de 4 en un trimestre
 - **Inférence** : volumes de Token Factory multipliés par plus de 3
 - **Livraisons** : toutes les tranches du contrat Microsoft livrées ; capacité du second contrat Meta attendue début 2027
 
@@ -295,10 +295,10 @@ Sur le CA passé, Nebius paraît hors de prix. Sur l'**ARR visé fin 2026 (7 à 
 
 ### Perspectives et guidance 2026 (toutes réaffirmées, une relevée)
 
-- CA : **3,0 à 3,4 G$**
-- ARR fin 2026 : **7 à 9 G$**
+- CA : **3,0 à 3,4 Md$**
+- ARR fin 2026 : **7 à 9 Md$**
 - Marge d'EBITDA ajusté : **≈ 40 %**
-- Capex : **20 à 25 G$**
+- Capex : **20 à 25 Md$**
 - Puissance connectée fin 2026 : **800 MW à 1 GW**
 - Puissance contractée fin 2026 : **relevée à 5 GW** (contre plus de 4 GW)
 
@@ -308,16 +308,16 @@ Le ton est confiant : « nous pourrions vendre toute notre capacité 2027 à 
 
 ### Signaux d'alerte bilan et flux
 
-- **Trésorerie** : 8,04 G$ fin juin (+1,1 G$ de trésorerie restreinte), renforcée en juillet-août par 775 M$ de dette adossée et **5,75 G$ de convertibles**
-- **Flux opérationnel** : ≈ 2,25 G$ au T2 — mais gonflé par les **prépaiements clients** (produits constatés d'avance ≈ 6 G$ contre 4,8 G$ fin mars). C'est de la trésorerie empruntée à l'avenir, pas du profit
-- **Capex** : ≈ 5,7 G$ au seul T2 ; le flux de trésorerie disponible reste lourdement négatif
-- **Dilution** : 12,7 millions d'actions vendues via le programme ATM au T2 (≈ 2,8 G$ à 223,6 $ en moyenne), puis échange de 800 M$ de convertibles contre ≈ 15,8 millions d'actions en août
+- **Trésorerie** : 8,04 Md$ fin juin (+1,1 Md$ de trésorerie restreinte), renforcée en juillet-août par 775 M$ de dette adossée et **5,75 Md$ de convertibles**
+- **Flux opérationnel** : ≈ 2,25 Md$ au T2 — mais gonflé par les **prépaiements clients** (produits constatés d'avance ≈ 6 Md$ contre 4,8 Md$ fin mars). C'est de la trésorerie empruntée à l'avenir, pas du profit
+- **Capex** : ≈ 5,7 Md$ au seul T2 ; le flux de trésorerie disponible reste lourdement négatif
+- **Dilution** : 12,7 millions d'actions vendues via le programme ATM au T2 (≈ 2,8 Md$ à 223,6 $ en moyenne), puis échange de 800 M$ de convertibles contre ≈ 15,8 millions d'actions en août
 
 ---
 
 ### Réaction du marché
 
-Le titre a gagné **≈ 39 % sur la semaine de publication** : la réaffirmation de la cible d'ARR de 7 à 9 G$ a dissipé les doutes nés de la chute de juillet. Mais une semaine plus tard, l'annonce de l'émission de convertibles a fait reculer l'action de 14 % en séance. **Leçon** : le marché croit à la demande ; ce qu'il tarife désormais, c'est le **coût en dilution** de la croissance.`,
+Le titre a gagné **≈ 39 % sur la semaine de publication** : la réaffirmation de la cible d'ARR de 7 à 9 Md$ a dissipé les doutes nés de la chute de juillet. Mais une semaine plus tard, l'annonce de l'émission de convertibles a fait reculer l'action de 14 % en séance. **Leçon** : le marché croit à la demande ; ce qu'il tarife désormais, c'est le **coût en dilution** de la croissance.`,
   },
   {
     id: 7,
@@ -344,7 +344,7 @@ Le titre a gagné **≈ 39 % sur la semaine de publication** : la réaffirm
 
 **2. Le prix et la durée des contrats** — Mise en avant systématique du revenu par MW (12 M$ en base, plus de 20 M$ au T2, plus de 40 M$ pour les contrats courts du T3) et du **délai de remboursement ramené à 1 an et 10 mois**.
 
-**3. Le financement « intelligent »** — Prépaiements (plus de 9 G$ attendus en 2026), dette adossée aux contrats des clients notés, modèle asset-light. Le message : « nous ne finançons pas notre croissance uniquement par l'émission d'actions ».
+**3. Le financement « intelligent »** — Prépaiements (plus de 9 Md$ attendus en 2026), dette adossée aux contrats des clients notés, modèle asset-light. Le message : « nous ne finançons pas notre croissance uniquement par l'émission d'actions ».
 
 **4. Le logiciel et l'inférence** — Token Factory, Tavily, l'agent Echo, les acquisitions d'Eigen AI et Clarifai : Nebius veut être perçu comme un **cloud complet**, pas comme un hébergeur de GPU.
 
@@ -357,8 +357,8 @@ Le titre a gagné **≈ 39 % sur la semaine de publication** : la réaffirm
 | Période | Sentiment | Thème dominant | Signal |
 |---|---|---|---|
 | T3 2025 | Prudent | Retards de mise en service | Guidance abaissée |
-| T4 2025 | Confiant | Inflexion de l'EBITDA, ARR 1,2 G$ | Objectifs 2026 ambitieux |
-| T1 2026 | Très confiant | Meta 27 G$, NVIDIA 2 G$ | Capex relevé à 20–25 G$ |
+| T4 2025 | Confiant | Inflexion de l'EBITDA, ARR 1,2 Md$ | Objectifs 2026 ambitieux |
+| T1 2026 | Très confiant | Meta 27 Md$, NVIDIA 2 Md$ | Capex relevé à 20–25 Md$ |
 | T2 2026 | Triomphal maîtrisé | Repricing, payback < 2 ans | Guidance réaffirmée, puissance relevée |
 
 - **Confiance** : très élevée, étayée par les chiffres du T2.
@@ -374,7 +374,7 @@ Le titre a gagné **≈ 39 % sur la semaine de publication** : la réaffirm
 
 ### Arkady Volozh — Fondateur et directeur général
 
-**Bilan** : cofondateur de **Yandex** en 1997, il en a fait le premier moteur de recherche de Russie, coté au Nasdaq en 2011 lors de l'une des plus grosses introductions technologiques de l'époque. Après la scission de 2024, il a repris les actifs internationaux et les a transformés en **un acteur de l'infrastructure IA valorisé environ 68 G$**, avec un CA multiplié par plus de cinq en un an.
+**Bilan** : cofondateur de **Yandex** en 1997, il en a fait le premier moteur de recherche de Russie, coté au Nasdaq en 2011 lors de l'une des plus grosses introductions technologiques de l'époque. Après la scission de 2024, il a repris les actifs internationaux et les a transformés en **un acteur de l'infrastructure IA valorisé environ 68 Md$**, avec un CA multiplié par plus de cinq en un an.
 
 **Ancienneté et alignement** : à la tête du projet depuis l'origine. Les actions de **classe B (10 voix chacune)**, détenues pour l'essentiel par Volozh et des fondateurs historiques, représentent environ **58 % des droits de vote pour environ 12 % du capital** (33,5 millions d'actions B contre 238,4 millions d'actions A lors de l'AG d'août 2026). Alignement économique fort, contrôle quasi total.
 
@@ -402,9 +402,9 @@ Une équipe **d'ingénieurs fondateurs** renforcée par des profils américains 
 
 | Décision | Montant | Lecture |
 |---|---|---|
-| Capex 2026 | 20–25 G$ (guidance) | Pari massif, adossé à plus de 40 G$ d'engagements clients |
-| Convertibles T1 et T3 2026 | 4,34 G$ + 5,75 G$ | Coupons bas (0,50 % à 4,50 %), conversion autour de 313–325 $ |
-| Programme ATM | ≈ 2,8 G$ (T2 2026) | Émission à ≈ 224 $, proche des plus hauts |
+| Capex 2026 | 20–25 Md$ (guidance) | Pari massif, adossé à plus de 40 Md$ d'engagements clients |
+| Convertibles T1 et T3 2026 | 4,34 Md$ + 5,75 Md$ | Coupons bas (0,50 % à 4,50 %), conversion autour de 313–325 $ |
+| Programme ATM | ≈ 2,8 Md$ (T2 2026) | Émission à ≈ 224 $, proche des plus hauts |
 | Acquisitions logicielles | Tavily, Eigen AI, Clarifai | Montée en gamme vers l'inférence |
 | Participations | ClickHouse, Toloka | Réserves de valeur, monétisables |
 
@@ -438,11 +438,11 @@ Nebius n'a que deux ans d'historique boursier sous sa forme actuelle : la cota
 
 **Décembre 2024 — Tour de table de 700 M$ avec NVIDIA et Accel** : validation du projet par le fournisseur clé.
 
-**8–9 septembre 2025 — Contrat Microsoft (jusqu'à 19,4 G$)** : **près de +50 % en une séance**. Le contrat transforme Nebius en fournisseur des hyperscalers.
+**8–9 septembre 2025 — Contrat Microsoft (jusqu'à 19,4 Md$)** : **près de +50 % en une séance**. Le contrat transforme Nebius en fournisseur des hyperscalers.
 
-**12 février 2026 — Résultats du T4 2025** : ARR de 1,2 G$ au-dessus de la guidance, EBITDA ajusté positif ; **+12 %** au-dessus de 100 $, une semaine après le plus bas annuel (73,52 $ le 5 février).
+**12 février 2026 — Résultats du T4 2025** : ARR de 1,2 Md$ au-dessus de la guidance, EBITDA ajusté positif ; **+12 %** au-dessus de 100 $, une semaine après le plus bas annuel (73,52 $ le 5 février).
 
-**Mars 2026 — Meta (jusqu'à 27 G$) et investissement de 2 G$ de NVIDIA** : le titre change de catégorie et devient une grande capitalisation de l'infrastructure IA.
+**Mars 2026 — Meta (jusqu'à 27 Md$) et investissement de 2 Md$ de NVIDIA** : le titre change de catégorie et devient une grande capitalisation de l'infrastructure IA.
 
 **13 mai 2026 — Résultats du T1** : CA +684 %, capex relevé, 1,2 GW sécurisé en Pennsylvanie ; **+15 à +20 %** en séance, nouveaux records.
 
@@ -466,7 +466,7 @@ Nebius n'a que deux ans d'historique boursier sous sa forme actuelle : la cota
 
 **Début août 2026 — Audience publique houleuse sur le site de Vineland** : **≈ −10 %**.
 
-**19 août 2026 — Convertibles de 4,5 G$ portées à 5,75 G$ et échange de dette contre actions** : jusqu'à **−14 %** en séance, **−21 % sur la semaine**.
+**19 août 2026 — Convertibles de 4,5 Md$ portées à 5,75 Md$ et échange de dette contre actions** : jusqu'à **−14 %** en séance, **−21 % sur la semaine**.
 
 ---
 
@@ -491,7 +491,7 @@ Nebius est **déficitaire au niveau opérationnel**, double sa capacité tous le
 
 **Croissance du secteur** : la demande de calcul IA reste supérieure à l'offre au moins jusqu'en 2027 ; les dépenses d'investissement des hyperscalers continuent de croître.
 
-**Parts de marché** : Nebius gagne des parts parmi les néoclouds grâce à son bilan (accès au financement) et à son logiciel. Consensus : CA ≈ 3,4 G$ en 2026, ≈ 11 G$ en 2027, ≈ 21 G$ en 2028. **Notre scénario central est plus prudent** : 3,2 G$, 9 à 10 G$, 15 à 18 G$.
+**Parts de marché** : Nebius gagne des parts parmi les néoclouds grâce à son bilan (accès au financement) et à son logiciel. Consensus : CA ≈ 3,4 Md$ en 2026, ≈ 11 Md$ en 2027, ≈ 21 Md$ en 2028. **Notre scénario central est plus prudent** : 3,2 Md$, 9 à 10 Md$, 15 à 18 Md$.
 
 **Prix** : revenu annuel par MW de ≈ 12 M$ (base 2026) à plus de 20 M$ pour les contrats signés au T2, en vigueur à partir de fin 2026. Hypothèse centrale : moyenne du parc ≈ 16 à 18 M$/MW en 2027-2028.
 
@@ -499,7 +499,7 @@ Nebius est **déficitaire au niveau opérationnel**, double sa capacité tous le
 
 **Levier opérationnel** : marge d'EBITDA ajusté ≈ 40 % en 2026, 45 à 50 % en 2027-2028. Mais les **amortissements** (parc GPU amorti sur 5 ans) absorbent l'essentiel : la marge opérationnelle GAAP ne devient positive qu'avec un revenu par MW supérieur à ≈ 15 M$.
 
-**Coûts de financement** : convertibles à coupon faible (0,50 % à 4,50 %), dette adossée à SOFR + 2,50 %. Charge financière nette estimée à 0,3 G$ en 2026, 0,5 à 0,7 G$ en 2027, 0,8 à 1,0 G$ en 2028.
+**Coûts de financement** : convertibles à coupon faible (0,50 % à 4,50 %), dette adossée à SOFR + 2,50 %. Charge financière nette estimée à 0,3 Md$ en 2026, 0,5 à 0,7 Md$ en 2027, 0,8 à 1,0 Md$ en 2028.
 
 **Dilution** : ≈ 272 millions d'actions aujourd'hui ; émissions ATM, échanges de convertibles et rémunération en actions → **≈ 300 millions fin 2027, ≈ 330 à 350 millions fin 2028** (dilution annuelle de 6 à 10 %).
 
@@ -509,16 +509,16 @@ Nebius est **déficitaire au niveau opérationnel**, double sa capacité tous le
 
 | Exercice | CA (scénario central) | BPA estimé | P/E au cours actuel (≈ 250 $) |
 |---|---|---|---|
-| 2025 (réalisé) | 0,53 G$ | ≈ 0 $ (gains de cession) | n.s. |
-| **2026E** | **≈ 3,2 G$** | **ajusté ≈ −1,30 à −1,80 $ · GAAP ≈ 0 $** | **n.s.** |
-| **2027E** | **≈ 9–10 G$** | **≈ −0,50 à +1,00 $ (central ≈ +0,30 $)** | **n.s. à > 250x** |
-| **2028E** | **≈ 15–18 G$** | **≈ +3,00 à +6,00 $ (central ≈ +4,00 $)** | **≈ 40–85x (central ≈ 62x)** |
+| 2025 (réalisé) | 0,53 Md$ | ≈ 0 $ (gains de cession) | n.s. |
+| **2026E** | **≈ 3,2 Md$** | **ajusté ≈ −1,30 à −1,80 $ · GAAP ≈ 0 $** | **n.s.** |
+| **2027E** | **≈ 9–10 Md$** | **≈ −0,50 à +1,00 $ (central ≈ +0,30 $)** | **n.s. à > 250x** |
+| **2028E** | **≈ 15–18 Md$** | **≈ +3,00 à +6,00 $ (central ≈ +4,00 $)** | **≈ 40–85x (central ≈ 62x)** |
 
 ---
 
 ### Sensibilité
 
-- **Scénario haussier** (ARR fin 2026 en haut de fourchette à 9 G$, prix > 20 M$/MW tenus, 1 GW déployé par an) : CA 2028 au niveau du consensus (≈ 21 G$), BPA 2028 ≈ 6 à 7 $ → P/E 2028 ≈ 35–40x, cohérent avec un objectif au-delà de 350 $
+- **Scénario haussier** (ARR fin 2026 en haut de fourchette à 9 Md$, prix > 20 M$/MW tenus, 1 GW déployé par an) : CA 2028 au niveau du consensus (≈ 21 Md$), BPA 2028 ≈ 6 à 7 $ → P/E 2028 ≈ 35–40x, cohérent avec un objectif au-delà de 350 $
 - **Scénario central** : BPA 2028 ≈ 4 $ → P/E 2028 ≈ 62x — la valorisation actuelle intègre déjà une bonne partie de la réussite
 - **Scénario baissier** (retards de capacité, fin de la pénurie de GPU, prix ramenés vers 12 M$/MW) : pertes prolongées jusqu'en 2028, dilution accrue, BPA 2028 proche de zéro
 
@@ -535,7 +535,7 @@ Nebius est **déficitaire au niveau opérationnel**, double sa capacité tous le
 
 **1. Une pénurie qui se transforme en pouvoir de prix** : le revenu annuel par MW des nouveaux contrats a bondi de ≈ 12 M$ à plus de 20 M$, et jusqu'à plus de 40 M$ pour les contrats courts. Avec un délai de remboursement ramené à **1 an et 10 mois**, chaque GW mis en service devient une machine à cash. Nebius affirme pouvoir vendre toute sa capacité 2027 à ces conditions.
 
-**2. Une visibilité rare pour une jeune entreprise** : plus de **40 G$ d'engagements clients**, dont des contrats pluriannuels avec Microsoft et Meta, plus de 9 G$ de prépaiements attendus en 2026. La croissance 2027 est en grande partie déjà signée.
+**2. Une visibilité rare pour une jeune entreprise** : plus de **40 Md$ d'engagements clients**, dont des contrats pluriannuels avec Microsoft et Meta, plus de 9 Md$ de prépaiements attendus en 2026. La croissance 2027 est en grande partie déjà signée.
 
 **3. Le meilleur bilan des néoclouds** : convertibles à 0,50 %, dette adossée à SOFR + 2,50 %, clients qui financent 50 à 60 % du capex, participations ClickHouse et Toloka comme réserves de valeur. Là où ses pairs s'endettent lourdement, Nebius se finance à bas coût.
 
@@ -558,7 +558,7 @@ Nebius est **déficitaire au niveau opérationnel**, double sa capacité tous le
 **3. Le risque d'exécution** : passer d'environ 170 MW connectés à 800 MW – 1 GW en six mois, puis à plus de 1 GW par an. Un retard de site (oppositions locales à Vineland, raccordement électrique, livraisons NVIDIA) décale tout — revenus, marges et confiance.
 
 ### Analyse pré-mortem
-Nous sommes en octobre 2028, l'action vaut 90 $. Que s'est-il passé ? Les capacités du second semestre 2026 sont arrivées avec un trimestre de retard ; l'ARR fin 2026 est sorti à 6 G$ au lieu de 7 à 9 G$. En 2027, la mise en service massive de Vera Rubin chez tous les acteurs a fait chuter les prix des générations précédentes. Pour financer 30 G$ de capex, Nebius a dû émettre des actions à des cours plus bas. Le marché, qui payait 9 fois l'ARR futur, n'en paie plus que 4 fois.
+Nous sommes en octobre 2028, l'action vaut 90 $. Que s'est-il passé ? Les capacités du second semestre 2026 sont arrivées avec un trimestre de retard ; l'ARR fin 2026 est sorti à 6 Md$ au lieu de 7 à 9 Md$. En 2027, la mise en service massive de Vera Rubin chez tous les acteurs a fait chuter les prix des générations précédentes. Pour financer 30 Md$ de capex, Nebius a dû émettre des actions à des cours plus bas. Le marché, qui payait 9 fois l'ARR futur, n'en paie plus que 4 fois.
 
 ### Les multiples sont-ils trop élevés ?
 Sur le passé, sans aucun doute (≈ 50 fois le CA des douze derniers mois). Sur l'ARR visé fin 2026 (≈ 9 fois) ou le CA 2027 du consensus (≈ 6 à 7 fois), **non — à condition que tout se passe comme prévu**. La valorisation n'est pas absurde ; elle est **conditionnelle**.
@@ -579,7 +579,7 @@ Début 2026, Nebius a **allongé de 4 à 5 ans** la durée d'amortissement de s
 **À surveiller** : toute dépréciation d'anciens GPU, la valeur de revente des générations Hopper, et l'alignement de la durée d'amortissement avec la durée réelle des contrats.
 
 ### Comptabilisation des revenus et prépaiements — RISQUE MODÉRÉ
-Les prépaiements clients (plus de 9 G$ attendus en 2026) sont comptabilisés en **produits constatés d'avance** (≈ 6 G$ fin juin) et reconnus au fil de la fourniture du service. Correct en principe ; mais le **flux de trésorerie opérationnel en est gonflé** (≈ 4,5 G$ au S1 2026) et ne reflète pas la rentabilité réelle.
+Les prépaiements clients (plus de 9 Md$ attendus en 2026) sont comptabilisés en **produits constatés d'avance** (≈ 6 Md$ fin juin) et reconnus au fil de la fourniture du service. Correct en principe ; mais le **flux de trésorerie opérationnel en est gonflé** (≈ 4,5 Md$ au S1 2026) et ne reflète pas la rentabilité réelle.
 
 **À surveiller** : les clauses de remboursement en cas de retard de livraison, et l'écart entre flux opérationnel et EBITDA ajusté.
 
@@ -601,7 +601,7 @@ Colocation (DataOne et autres), baux de terrains et d'électricité, commandes f
 **NVIDIA** est à la fois fournisseur quasi exclusif, actionnaire (≈ 9 %, avec bons de souscription) et partenaire commercial. Les conditions d'achat de GPU et d'éventuels accords de rachat de capacité doivent être documentés.
 
 ### Rémunération en actions et dilution — RISQUE ÉLEVÉ
-Rémunération en actions à 17,6 % du CA au S1 2026 ; ventes ATM (12,7 millions d'actions au T2) ; échange de convertibles contre ≈ 15,8 millions d'actions en août ; nouvelles convertibles de 5,75 G$ ; bons de souscription NVIDIA ; autorisation d'émettre jusqu'à 20 % du capital sans droit préférentiel.
+Rémunération en actions à 17,6 % du CA au S1 2026 ; ventes ATM (12,7 millions d'actions au T2) ; échange de convertibles contre ≈ 15,8 millions d'actions en août ; nouvelles convertibles de 5,75 Md$ ; bons de souscription NVIDIA ; autorisation d'émettre jusqu'à 20 % du capital sans droit préférentiel.
 
 ### Goodwill et incorporels — RISQUE FAIBLE À MODÉRÉ
 Les acquisitions (Tavily, Eigen AI, Clarifai) restent modestes à l'échelle du bilan, mais génèrent du goodwill et des charges post-acquisition récurrentes.
@@ -628,7 +628,7 @@ Les acquisitions (Tavily, Eigen AI, Clarifai) restent modestes à l'échelle du 
 
 ### Allocation du capital et bilan
 
-**4.** Avec un capex de 20 à 25 G$ en 2026 et plus de 1 GW par an à partir de 2027, **quel est le besoin de financement externe cumulé d'ici 2028**, hors prépaiements, et quelle part viendra encore des actions ou des convertibles ?
+**4.** Avec un capex de 20 à 25 Md$ en 2026 et plus de 1 GW par an à partir de 2027, **quel est le besoin de financement externe cumulé d'ici 2028**, hors prépaiements, et quelle part viendra encore des actions ou des convertibles ?
 
 **5.** **Quelle dilution totale** un actionnaire d'aujourd'hui doit-il anticiper d'ici fin 2028, en intégrant l'ATM, les conversions, les bons de souscription de NVIDIA et la rémunération en actions ?
 
@@ -640,7 +640,7 @@ Les acquisitions (Tavily, Eigen AI, Clarifai) restent modestes à l'échelle du 
 
 **8.** Les prépaiements clients atteignent plusieurs milliards. **Quelles pénalités ou obligations de remboursement** s'appliquent en cas de retard de livraison ?
 
-**9.** **Quelle est la part de vos trois premiers clients** dans l'ARR et dans les 40 G$ d'engagements ? Que se passe-t-il si l'un d'eux ne renouvelle pas ?
+**9.** **Quelle est la part de vos trois premiers clients** dans l'ARR et dans les 40 Md$ d'engagements ? Que se passe-t-il si l'un d'eux ne renouvelle pas ?
 
 **10.** Votre dépendance à NVIDIA est quasi totale. **Testez-vous des alternatives** (AMD, puces maison des clients), et que se passerait-il si NVIDIA privilégiait d'autres néoclouds ?
 
@@ -671,7 +671,7 @@ Nebius achète des GPU au prix fort à un fournisseur quasi monopolistique, les 
 
 ### 2. Où se concentrent les revenus — et que se passe-t-il si cela change ?
 
-Microsoft (jusqu'à 19,4 G$) et Meta (jusqu'à 27 G$ + 3 G$) pèsent l'essentiel des 40 G$ d'engagements. Or **ces deux clients construisent eux-mêmes leurs centres de données** et n'achètent chez Nebius que pour combler un manque temporaire. Meta a même annoncé vouloir revendre sa capacité excédentaire. Le jour où ces géants ont rattrapé leur retard, ils deviennent au mieux des clients moins généreux, au pire des concurrents.
+Microsoft (jusqu'à 19,4 Md$) et Meta (jusqu'à 27 Md$ + 3 Md$) pèsent l'essentiel des 40 Md$ d'engagements. Or **ces deux clients construisent eux-mêmes leurs centres de données** et n'achètent chez Nebius que pour combler un manque temporaire. Meta a même annoncé vouloir revendre sa capacité excédentaire. Le jour où ces géants ont rattrapé leur retard, ils deviennent au mieux des clients moins généreux, au pire des concurrents.
 
 ### 3. Pourquoi l'avantage concurrentiel est plus fragile qu'il n'y paraît
 
@@ -683,7 +683,7 @@ Les haussiers surveillent CoreWeave. Le vrai danger, c'est un **hyperscaler qui 
 
 ### 5. L'allocation du capital : une machine à diluer
 
-Trois levées en 2026 (convertibles de 4,34 G$ en mars, ATM de ≈ 2,8 G$ au T2, convertibles de 5,75 G$ en août), un échange de dette contre ≈ 15,8 millions d'actions, une autorisation d'émettre 20 % du capital sans droit préférentiel. **Le capex de 20 à 25 G$ en 2026, puis plus de 1 GW par an, ne sera pas financé uniquement par les clients.** Chaque nouvelle tranche réduit la part de l'actionnaire actuel.
+Trois levées en 2026 (convertibles de 4,34 Md$ en mars, ATM de ≈ 2,8 Md$ au T2, convertibles de 5,75 Md$ en août), un échange de dette contre ≈ 15,8 millions d'actions, une autorisation d'émettre 20 % du capital sans droit préférentiel. **Le capex de 20 à 25 Md$ en 2026, puis plus de 1 GW par an, ne sera pas financé uniquement par les clients.** Chaque nouvelle tranche réduit la part de l'actionnaire actuel.
 
 ### 6. Comptabilité flatteuse et incitations mal alignées
 
@@ -694,11 +694,11 @@ Trois levées en 2026 (convertibles de 4,34 G$ en mars, ATM de ≈ 2,8 G$ au 
 
 ### 7. Ce qui doit être vrai pour justifier ≈ 250 $
 
-À ≈ 68 G$ de capitalisation (≈ 70 G$ de valeur d'entreprise), il faut : un ARR fin 2026 d'au moins 8 G$, un CA 2027 proche de 10 à 11 G$, une marge d'EBITDA durable au-dessus de 45 %, des prix de location qui tiennent au-dessus de 15 M$ par MW, et une dilution contenue sous 8 % par an. **Cinq conditions simultanées.**
+À ≈ 68 Md$ de capitalisation (≈ 70 Md$ de valeur d'entreprise), il faut : un ARR fin 2026 d'au moins 8 Md$, un CA 2027 proche de 10 à 11 Md$, une marge d'EBITDA durable au-dessus de 45 %, des prix de location qui tiennent au-dessus de 15 M$ par MW, et une dilution contenue sous 8 % par an. **Cinq conditions simultanées.**
 
 ### 8. Si la croissance déçoit de 20 à 30 %
 
-Un ARR fin 2026 à 5,5–6,5 G$ au lieu de 8 G$ et un CA 2027 à 7–8 G$ : le marché ne paierait plus 9 fois l'ARR mais 5 à 6 fois → valeur d'entreprise ≈ 30 à 40 G$, **soit un cours de 100 à 140 $ (−45 % à −60 %)**, avant même de compter une dilution supplémentaire. Le précédent existe : −50 % entre le 22 juin et le 29 juillet 2026, sans dégradation des fondamentaux.
+Un ARR fin 2026 à 5,5–6,5 Md$ au lieu de 8 Md$ et un CA 2027 à 7–8 Md$ : le marché ne paierait plus 9 fois l'ARR mais 5 à 6 fois → valeur d'entreprise ≈ 30 à 40 Md$, **soit un cours de 100 à 140 $ (−45 % à −60 %)**, avant même de compter une dilution supplémentaire. Le précédent existe : −50 % entre le 22 juin et le 29 juillet 2026, sans dégradation des fondamentaux.
 
 ### Le scénario catastrophe unique
 **Un retournement brutal des dépenses IA** (correction des valorisations des laboratoires, échec de monétisation de l'IA générative) qui ferait annuler ou renégocier des contrats courts et moyens, alors que Nebius s'est engagé sur des dizaines de milliards de GPU, de baux et d'électricité. Les coûts fixes resteraient, les revenus non. **Probabilité : faible à modérée (15 à 25 % d'ici 2028)** — mais l'impact serait existentiel pour un acteur sans activité de repli.
