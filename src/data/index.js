@@ -24,7 +24,6 @@ export const COMPANIES = [
  bros,
  be,
  figs,
- nbis,
  googl,
  
  
