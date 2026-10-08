@@ -16,7 +16,7 @@ import figs from "./figs.js";
 import googl from "./googl.js";
 import nbis from "./nbis.js";
 import fig from "./fig.js";
-
+import hims from "./hims.js";
 
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
@@ -28,6 +28,7 @@ export const COMPANIES = [
  nbis,
  googl,
  fig,
+ hims,
  
  
 
