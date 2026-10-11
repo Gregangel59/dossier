@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { COMPANIES } from "../data/index.js";
+import { COURS } from "./Cours.jsx";
 
 // ============================================================
 //  PAGE D'ACCUEIL DU PORTAIL — palette « sombre chaleureux » (oct. 2026),
@@ -198,6 +199,29 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="hp-section" aria-labelledby="hp-cours">
+          <h2 id="hp-cours" className="hp-h2">Formation <span className="hp-h2-hint">gratuite, en PDF</span></h2>
+          <article className="hp-course">
+            <img className="hp-course-cover" src={COURS.cover} alt="" width="663" height="937" />
+            <div className="hp-course-main">
+              <h3 className="hp-name">
+                <Link to="/cours" className="hp-stretch">{COURS.title} : {COURS.subtitle.toLowerCase()}</Link>
+              </h3>
+              <p className="hp-tagline">
+                Les 6 habitudes de l'investisseur, les 6 traits des entreprises recherchées
+                et les 6 principes du portefeuille, expliqués leçon par leçon.
+              </p>
+              <div className="hp-chips">
+                {COURS.facts.map((f) => <span key={f} className="hp-chip">{f}</span>)}
+              </div>
+              <div className="hp-actions">
+                <span className="hp-cta" aria-hidden="true">Lire le cours</span>
+                <a className="hp-report" href={COURS.pdf} download={COURS.downloadName}>Télécharger le PDF ↓</a>
+              </div>
+            </div>
+          </article>
+        </section>
+
         {featured.length > 0 && (
           <section className="hp-section" aria-labelledby="hp-une">
             <h2 id="hp-une" className="hp-h2">À la une <span className="hp-h2-hint">les dernières publications</span></h2>
@@ -295,6 +319,15 @@ const CSS = `
   border:1px solid rgba(255,210,63,.35);background:rgba(255,210,63,.07);border-radius:999px;padding:.5rem 1rem}
 .hp-report:hover{background:rgba(255,210,63,.15)}
 
+/* Carte « Formation » */
+.hp-course{position:relative;display:flex;gap:1.6rem;align-items:center;
+  background:linear-gradient(150deg,#2a2015,#1b1610 60%);border:1px solid #33291c;border-radius:22px;padding:1.6rem 2rem;
+  transition:border-color .15s ease, transform .15s ease, box-shadow .15s ease}
+.hp-course:hover{border-color:#f2b45099;transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.hp-course:focus-within{outline:2px solid #f2b450;outline-offset:3px}
+.hp-course-cover{flex:none;width:120px;height:auto;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.hp-course-main{flex:1;min-width:0}
+
 /* Lien étiré : toute la carte est cliquable, le lien du rapport reste au-dessus */
 .hp-stretch::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1}
 .hp-stretch:focus-visible{outline:none}
@@ -357,6 +390,8 @@ const CSS = `
   .hp-gauge{width:100%;text-align:left}
   .hp-gauge-head{justify-content:flex-start}
   .hp-feature-lead .hp-gauge-num,.hp-gauge-num{font-size:2.4rem}
+  .hp-course{flex-direction:column;align-items:flex-start;padding:1.3rem;gap:1rem}
+  .hp-course-cover{width:96px}
   .hp-search{width:100%}
   .hp-tools{width:100%}
   .hp-row{flex-wrap:wrap;gap:.7rem .9rem}
@@ -364,5 +399,5 @@ const CSS = `
   .hp-row-side{flex-direction:row;flex-wrap:wrap;align-items:center;width:100%;justify-content:space-between;gap:.4rem .8rem;padding-left:calc(46px + .9rem)}
   .hp-chevron{display:none}
 }
-@media (prefers-reduced-motion:reduce){.hp-feature,.hp-row{transition:none}.hp-feature:hover{transform:none}}
+@media (prefers-reduced-motion:reduce){.hp-feature,.hp-row,.hp-course{transition:none}.hp-feature:hover,.hp-course:hover{transform:none}}
 `;
