@@ -19,7 +19,7 @@ const meta = {
   // Nom du fichier HTML déposé dans public/rapports/ (ou null si absent) :
   riskReport: "cava.html",
   updated: "2026-10",               // période des données
-  published: "2026-10-11",          // date exacte de publication (tri « À la une »)
+  published: "2026-10-12",          // date exacte de publication (tri « À la une »)
 };
 
 const modules = [
