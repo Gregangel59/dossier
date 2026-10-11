@@ -11,14 +11,15 @@ const meta = {
   ticker: "CAVA",
   name: "CAVA Group, Inc.",
   exchange: "NYSE",
-  sector: "Restauration rapide décontractée — méditerranéen",
+  sector: "Restauration rapide premium (fast casual méditerranéen)",
   initials: "CAVA",                 // affiché dans la pastille
-  tagline: "Le Chipotle du méditerranéen : 476 restaurants détenus en propre, un objectif de 1 000 unités en 2032, et une valorisation qui ne laisse aucune place à l'erreur.",
-  riskScore: 57,                    // score du rapport de risque (ou null)
+  tagline: "La chaîne qui veut faire de la cuisine méditerranéenne la prochaine grande catégorie de la restauration américaine — 476 restaurants, zéro franchise, zéro dette.",
+  riskScore: 55,                    // score du rapport de risque (ou null)
   riskLabel: "Risque modéré",
   // Nom du fichier HTML déposé dans public/rapports/ (ou null si absent) :
   riskReport: "cava.html",
-  updated: "2026-08",               // période des données
+  updated: "2026-10",               // période des données
+  published: "2026-10-11",          // date exacte de publication (tri « À la une »)
 };
 
 const modules = [
@@ -29,44 +30,42 @@ const modules = [
     icon: "🏢",
     content: `## Modèle économique
 
-CAVA Group est une chaîne américaine de **restauration rapide décontractée (fast-casual) d'inspiration méditerranéenne**, cotée au NYSE depuis juin 2023. Née à Washington D.C. en 2010 autour d'un restaurant familial fondé par **Ted Xenohristos, Ike Grigoropoulos et Dimitri Katsanis**, rejoints par **Brett Schulman**, l'enseigne compte **476 restaurants** dans **29 États et le District de Columbia** à la clôture du deuxième trimestre 2026.
+CAVA est une chaîne américaine de **restauration rapide premium (« fast casual ») à la méditerranéenne**, basée à Washington D.C. L'histoire commence en 2006 avec un restaurant de mezze à Rockville (Maryland), ouvert par trois amis d'enfance d'origine grecque — **Ted Xenohristos, Ike Grigoropoulos et Dimitri Moshovitis**. **Brett Schulman** les rejoint et prend la direction générale en 2010 ; le format de bols à composer est lancé en 2011. L'entreprise est cotée au NYSE depuis **juin 2023** (introduction à 22 $).
 
-Le modèle est d'une simplicité redoutable — et c'est précisément là sa force :
+Le principe est celui d'une **chaîne d'assemblage visible** : le client compose son bol, sa salade ou sa pita en choisissant une base, une protéine, des dips et des garnitures. Le modèle repose sur trois piliers :
 
-- **100 % de restaurants détenus et exploités en propre.** Aucune franchise. CAVA capte l'intégralité de l'économie de chaque unité, contrôle l'exécution et la donnée client, mais **finance chaque ouverture sur son propre bilan**.
-- **Format « walk the line »** : le client compose son bowl ou sa pita en avançant devant le comptoir (bases, protéines, garnitures, dips). Débit élevé, personnalisation totale, coût de main-d'œuvre maîtrisé.
-- **Intégration verticale amont** : le segment CAVA Foods produit en interne les dips, tartinades et bases de sauces (tzatziki, harissa, Crazy Feta) dans deux usines, à Laurel (Maryland) et Verona (Virginie).
-- **Économie unitaire** : chiffre d'affaires moyen par restaurant (AUV) de **3,1 M$**, marge au niveau restaurant de **25,7 %** au T2 2026, productivité des nouvelles unités **supérieure à 100 %** des attentes internes.
+- **100 % de restaurants exploités en propre** — aucune franchise : CAVA capte toute la marge restaurant, mais finance aussi toutes les ouvertures
+- **Une économie unitaire de premier plan** : chiffre d'affaires moyen par restaurant (AUV) de **3,09 M$**, marge au niveau du restaurant de **~25 %**, nouveaux restaurants à plus de 100 % de la productivité du parc
+- **Une croissance par ouvertures** : **476 restaurants** dans 29 États et D.C. à mi-juillet 2026 (+19,6 % sur un an), **75 à 77 ouvertures nettes** prévues en 2026 et l'ambition affichée de **dépasser 1 000 restaurants d'ici 2032**
 
-Chiffre d'affaires 2025 : **1,18 Md$** (+22,5 %). Sur les douze derniers mois, le groupe approche **1,3 Md$**. Objectif affiché par la direction : **au moins 1 000 restaurants d'ici 2032**.
+Chiffres clés : CA 2025 de **1,18 Md$** (+22 %), CA sur 12 mois glissants de **~1,37 Md$**, résultat net 2025 de **63,7 M$**, environ **15 000 collaborateurs**.
 
 ## Principaux produits et services
 
-**Segment CAVA (~99 % du chiffre d'affaires)** — restauration sur place, à emporter, livraison et traiteur :
-- **Bowls et pitas** personnalisables : bases (riz au safran, salade, lentilles), protéines (poulet grillé, chicken shawarma, agneau, falafel, steak, et depuis avril 2026 le **saumon glacé à la grenade**, première protéine marine de l'enseigne), garnitures fraîches, dips signature
-- **Canal digital** : application propriétaire, commande web, agrégateurs tiers — **39,0 % du chiffre d'affaires** au T2 2026
-- **Programme de fidélité** relancé en 2024, dont la croissance dépasse celle du parc
-
-**Segment CAVA Foods (~1 % du chiffre d'affaires externe)** — production centralisée des dips et tartinades pour les restaurants **et** commercialisation en grande distribution (Whole Foods Market, Giant). C'est à la fois un centre de coûts internalisé et une vitrine de marque.
+- **Bols et salades à composer** : céréales ou verdure, protéines (poulet grillé, steak lancé en 2024, falafels, boulettes épicées, **saumon glacé à la grenade** lancé en 2026), garnitures et vinaigrettes
+- **Pitas** garnies et accompagnements (chips de pita, boissons maison)
+- **Dips et spreads signature** (houmous, tzatziki, feta pimentée, harissa) fabriqués dans les ateliers du groupe
+- **Grande distribution (CPG)** : ces mêmes dips et vinaigrettes sont vendus en supermarché — activité marginale (moins de 1 % du CA) mais vitrine de la marque
+- **Canaux digitaux** : application, site, retrait en restaurant, voie de retrait au volant (~75 sites) et livraison — **39 % du CA** au T2 2026
+- **Programme de fidélité** à points relancé en 2024, enrichi de paliers en 2025 et d'un « Flavor Passport » en 2026 ; traiteur en test (Houston, puis un second marché à l'automne 2026)
 
 ## Clients, fournisseurs, concurrents
 
-**Clients** : consommateurs américains urbains et périurbains. Point notable et contre-intuitif du T2 2026 : ce sont les **restaurants situés sur les marchés à revenus les plus modestes qui affichent les meilleures ventes comparables**, signe que le positionnement prix reste accessible.
+**Clients** : grand public, avec un cœur de clientèle urbaine et périurbaine jeune (milléniaux, génération Z). La direction souligne que certains de ses meilleurs restaurants sont situés dans des **marchés à revenus modestes** — un argument clé dans une économie « en K ».
 
-**Fournisseurs** : une chaîne d'approvisionnement **directe avec plus de 50 producteurs, éleveurs et transformateurs**. Parmi les partenaires identifiés, **Taylor Farms** pour certains produits frais découpés — un nom qui a compté à l'été 2026 (voir Red Flags et Avocat du Diable). Distribution logistique confiée à des grossistes de gamme large.
+**Fournisseurs** : plus de 50 producteurs et éleveurs partenaires ; un nombre limité de **distributeurs nationaux** (non nommés dans le rapport annuel), certains intrants étant en **source unique** ; trois sites propres (production à **Laurel, Maryland** et **Verona, Virginie** ; distribution CPG à **Edison, New Jersey**).
 
-**Concurrents** : **Chipotle Mexican Grill** (référence absolue du format et de l'économie unitaire), **Sweetgreen**, **Panera**, **Just Salad**, **Chopt**, et une constellation d'enseignes méditerranéennes régionales (Naf Naf, Roti, The Hummus & Pita Co.). Plus largement, CAVA se bat pour la part de portefeuille du déjeuner contre l'ensemble de la restauration limitée.
+**Concurrents** : **Chipotle** (le modèle de référence du fast casual), **Sweetgreen** (salades premium), **Wingstop**, **Shake Shack**, **Panera** (non coté) et une myriade de concepts méditerranéens régionaux (Naf Naf Grill, Roti, Garbanzo…). Plus largement : toute la restauration rapide, les supermarchés et la livraison de repas.
 
-## Modalités contractuelles et paiement
+## Modalités contractuelles et de paiement
 
-Business **strictement transactionnel** : le client paie au moment de la commande, en caisse ou par voie digitale. Il n'existe ni contrat pluriannuel, ni carnet de commandes, ni take-or-pay.
+- **Côté clients** : paiement immédiat à la commande (carte, application) → **aucune créance client**, besoin en fonds de roulement structurellement favorable
+- **Côté fournisseurs** : achats payés à terme auprès des distributeurs ; pas de contrat de prix à très long terme connu, d'où une exposition directe aux coûts des protéines (poulet, bœuf, saumon) et des transports
+- **Côté bailleurs** : baux commerciaux de long terme, le plus souvent sans clause de sortie anticipée — la charge d'occupation représente **6 à 7 % du CA**
+- **Côté plateformes de livraison** : commission prélevée sur chaque commande livrée, qui pèse sur les « autres charges d'exploitation »
+- **Cartes cadeaux et points de fidélité** : encaissés d'avance et comptabilisés en revenus différés
 
-Trois conséquences majeures :
-1. **Besoin en fonds de roulement structurellement négatif** — les encaissements sont immédiats, les fournisseurs sont payés à 30 jours. Le parc s'autofinance partiellement en croissance.
-2. **Aucune créance client significative** — le risque de crédit est quasi nul.
-3. **L'engagement long terme du groupe est immobilier** : baux commerciaux de 10 à 15 ans, généralement avec options de renouvellement. C'est la principale obligation contractuelle du bilan, et l'essentiel du ratio dette/capitaux propres apparent.
-
-> **Note de lecture** : l'exercice fiscal de CAVA est découpé en trimestres de **longueurs inégales** — 16 semaines au T1, puis 12 semaines aux T2, T3 et T4. Toute comparaison séquentielle de chiffre d'affaires brut est trompeuse. Seules les ventes comparables (same restaurant sales) et les marges en pourcentage sont directement lisibles d'un trimestre à l'autre.`,
+**Note de prudence** : CAVA est une valeur de croissance en pleine expansion. La rentabilité nette reste mince (~5 % du CA), la valorisation repose sur la poursuite des ouvertures, et le titre a perdu près de la moitié de sa valeur depuis son plus haut d'avril 2026.`,
   },
   {
     id: 2,
@@ -75,61 +74,58 @@ Trois conséquences majeures :
     icon: "🔗",
     content: `## Position de CAVA dans la chaîne de valeur
 
-CAVA occupe une position **d'intégrateur partiel** : le groupe ne cultive rien, mais il **transforme lui-même sa signature produit** (dips et tartinades) et distribue en direct auprès du consommateur final. Entre les deux, il s'appuie sur des tiers pour l'agriculture, la transformation des protéines et la logistique.
+CAVA occupe une position **d'intégrateur aval** : elle ne cultive ni n'élève rien, mais elle **transforme elle-même une partie de ses intrants** (dips, sauces, vinaigrettes, marinades) avant de les assembler dans ses propres restaurants. Cette intégration partielle est rare à cette taille dans le fast casual.
 
-### Amont — Producteurs et transformateurs
+### Amont — Matières premières
 
-CAVA revendique une **chaîne d'approvisionnement directe auprès de plus de 50 producteurs, éleveurs et transformateurs**, sans passer systématiquement par des centrales d'achat.
+**Protéines** : poulet (protéine principale), bœuf (steak), agneau et bœuf (boulettes), saumon (nouveauté 2026, à l'origine d'une hausse du coût matière au T2), crevettes à l'ail en test
 
-- **Légumes et herbes fraîches** : producteurs nord-américains sous contrat direct. La direction a précisé publiquement en août 2026 ne **pas servir de laitue iceberg** et ne **pas s'approvisionner en feuilles vertes au Mexique**
-- **Produits frais découpés** : **Taylor Farms** pour certaines références — mais, selon la direction, **aucun approvisionnement depuis les sites Taylor Farms Mexico** ni depuis les fermes visées par les rappels de l'été 2026
-- **Protéines** : poulet, agneau, bœuf, falafel, et depuis 2026 le saumon — fournisseurs spécialisés multiples
-- **Céréales et légumineuses** : riz, lentilles, pois chiches
-- **Emballages** : bols, couvercles, contenants de livraison — poste exposé aux droits de douane
+**Végétaux** : pois chiches (houmous, falafels), légumes et salades fraîches, tomates, concombres, herbes, riz et céréales
 
----
+**Épicerie** : huile d'olive, feta, épices, pitas
 
-### CAVA Foods — La brique d'intégration verticale
-
-Deux usines produisent en central les dips, tartinades et bases de sauces :
-
-- **Laurel (Maryland)** — site historique, orienté grande distribution
-- **Verona (Virginie)** — 5 100 m² (55 000 sq ft), **35 M$ investis**, capacité de plus de **45 tonnes par jour** (100 000 livres), technologie de **haute pression à froid (HPP)** permettant une pasteurisation sans conservateur
-
-Ensemble, ces deux sites peuvent alimenter **au moins 750 restaurants** — c'est-à-dire l'horizon de croissance jusqu'à environ 2029. Au-delà, une troisième usine sera nécessaire : c'est un **jalon capex identifiable** que l'investisseur doit anticiper.
-
-L'intérêt du dispositif est triple : **réduire la complexité en cuisine** (les équipes n'ont plus à préparer les dips), **maîtriser le coût matière**, et **garantir la constance du goût** sur tout le parc.
+**Fournisseurs** : plus de **50 producteurs et éleveurs partenaires** ; le rapport annuel reconnaît une dépendance à un **nombre limité de fournisseurs**, parfois uniques, et à un **petit nombre de distributeurs** pour l'essentiel de la logistique nationale (aucun nom n'est publié)
 
 ---
 
-### Logistique et distribution
+### CAVA — Transformation centrale
 
-Les dips produits en usine sont acheminés vers des **centres de distribution régionaux** opérés par des grossistes de gamme large, qui livrent ensuite chaque restaurant avec l'ensemble des références fraîches et sèches. CAVA n'exploite pas sa propre flotte nationale.
+| Site | Surface | Rôle |
+|---|---|---|
+| Laurel (Maryland) | ~30 000 pieds² (+20 000 en extension) | Production de dips, spreads et sauces |
+| Verona (Virginie) | ~55 000 pieds² | Production, ouvert en 2024 |
+| Edison (New Jersey) | ~4 000 pieds² | Distribution des produits de grande distribution |
+
+**Chantier 2026-2027** : déploiement du **poulet pré-mariné** dans tout le parc, pour réduire la préparation en cuisine et uniformiser la qualité.
 
 ---
 
-### Aval — Canaux de vente
+### Distribution — Du centre de production au restaurant
 
-- **Restaurants** : 476 unités, format « Project Soul » pour toutes les nouvelles ouvertures, écrans de production en cuisine (KDS) déployés sur une large partie du parc
-- **Canal digital propriétaire** : application et site — marge supérieure, données clients captées
-- **Agrégateurs de livraison tiers** : contribution au chiffre d'affaires en hausse, mais **dilutifs en taux de marge** (la direction le reconnaît explicitement dans ses commentaires trimestriels)
-- **Grande distribution** : dips et tartinades CAVA en linéaire chez Whole Foods Market, Giant et d'autres enseignes
+Les distributeurs nationaux livrent les **476 restaurants** (matières premières + produits transformés par CAVA). Les **surcoûts de carburant** facturés par les distributeurs sont cités par la direction comme un facteur de hausse du coût matière au second semestre 2026.
+
+---
+
+### Aval — Canaux de vente et client final
+
+| Canal | Poids | Acteurs |
+|---|---|---|
+| Sur place et à emporter | ~61 % du CA | Restaurants CAVA (29 États + D.C.) |
+| Digital (app, site, retrait, livraison) | ~39 % du CA | Application CAVA ; plateformes tierces de livraison (type DoorDash, Uber Eats) |
+| Traiteur | En test | Houston, puis un second marché à l'automne 2026 |
+| Grande distribution | Moins de 1 % | Supermarchés (dont Whole Foods) |
+
+**Bailleurs** : foncières de centres commerciaux et propriétaires de pieds d'immeubles — CAVA est désormais un locataire recherché, ce qui améliore ses conditions de bail.
 
 ---
 
 ### Cartographie simplifiée du flux
 
-\`\`\`
-AMONT                    CAVA                        AVAL
-50+ producteurs      →   CAVA Foods              →   476 restaurants
-directs                  Laurel (MD)                 (100 % en propre)
-Taylor Farms             Verona (VA) 35 M$           Digital 39 % du CA
-(hors sites Mexico)      HPP, 45 t/jour              App + agrégateurs
-Protéines, céréales      capacité 750 restos         CPG : Whole Foods,
-Emballages           →   Grossistes / CDR        →   Giant
-\`\`\`
+| Amont | Transformation | Logistique | Restaurant | Client final |
+|---|---|---|---|---|
+| 50+ producteurs et éleveurs | Laurel, Verona (dips, sauces, marinades) | Distributeurs nationaux (peu nombreux) | 476 restaurants en propre | Sur place, app, livraison, traiteur |
 
-**Le point de fragilité** : CAVA contrôle ses dips mais **pas ses légumes**. L'épisode cyclospora de juillet 2026 l'a démontré cruellement — l'enseigne a subi un contrecoup commercial alors même qu'elle **n'était pas contaminée** et ne s'approvisionnait pas auprès des sources incriminées. Dans le frais, la réputation d'une catégorie entière peut être touchée sans qu'aucune faute ne soit imputable à l'entreprise.`,
+**Le point de fragilité** : la **sécurité alimentaire des produits frais**. En juillet 2026, une épidémie de cyclosporose liée à de la salade d'un fournisseur tiers du secteur — CAVA n'utilisait pas les produits incriminés — a pourtant fait chuter la fréquentation, preuve que la chaîne est exposée à la **perception** du risque, et pas seulement au risque réel.`,
   },
   {
     id: 3,
@@ -138,255 +134,218 @@ Emballages           →   Grossistes / CDR        →   Giant
     icon: "📊",
     content: `## Ventilation du chiffre d'affaires
 
-CAVA publie **deux segments opérationnels** :
+CAVA publie **deux segments** : **CAVA** (les restaurants, plus de 99 % du CA) et **Autres** (grande distribution des dips et spreads). La société ne publie **ni EBITDA ni résultat net par segment** : l'indicateur de rentabilité par segment est le **résultat au niveau du restaurant** (« restaurant-level profit », avant frais de siège, amortissements et frais d'ouverture).
 
-| Segment | Contenu | Poids du CA |
-|---|---|---|
-| **CAVA** | Exploitation de l'ensemble des restaurants détenus en propre | ~99 % |
-| **CAVA Foods** | Production des dips, tartinades et bases de sauces + ventes en grande distribution | ~1 % (externe) |
+### Par segment — Exercices annuels
 
-Cette granularité est **volontairement pauvre** : il n'existe aucune ventilation publique du résultat par région, par cohorte d'ouverture ou par canal. L'investisseur doit reconstruire l'analyse à partir des indicateurs opérationnels communiqués (ventes comparables, trafic, prix/mix, marge restaurant, mix digital).
+| Indicateur | 2023 | 2024 | 2025 |
+|---|---|---|---|
+| CA total | 728,7 M$ | 963,7 M$ | 1 179,7 M$ |
+| dont segment CAVA | — | 954,3 M$ | 1 169,3 M$ |
+| dont Autres (CPG) | — | ~9 M$ | ~10 M$ |
+| Résultat restaurant (CAVA) | — | 238,1 M$ | 285,0 M$ |
+| Marge restaurant | — | 25,0 % | 24,4 % |
+| EBITDA ajusté (groupe) | — | 126,2 M$ | 152,8 M$ |
+| Résultat net (groupe) | 13,3 M$ | 130,3 M$ | 63,7 M$ |
 
----
-
-### Décomposition de la croissance — T2 2026
-
-| Composante | Contribution |
-|---|---|
-| Ouvertures nettes sur 12 mois | **94 restaurants** (+19,6 % du parc) |
-| Ventes comparables | **+9,0 %** |
-| — dont trafic clients | **+5,3 %** |
-| — dont prix et mix produits | **+3,7 %** |
-| **Croissance totale du CA** | **+31,3 %** (365,4 M$) |
-
-**Lecture clé** : la croissance est **majoritairement volumique**. Le trafic contribue à hauteur de 5,3 points sur 9 points de ventes comparables — c'est la signature d'une marque qui gagne des clients, et non d'une enseigne qui masque une érosion de fréquentation par des hausses de prix. La direction souligne d'ailleurs avoir **contenu ses hausses tarifaires** pour préserver l'accessibilité.
+**Attention** : le résultat net 2024 est gonflé par un **produit fiscal non récurrent de 80,1 M$** (reprise de provision sur impôts différés). Hors cet effet, le résultat net ajusté passe de **50,2 M$ (2024) à 63,7 M$ (2025)**, soit **+27 %**.
 
 ---
 
-### Répartition par canal
+### Par trimestre — La dynamique récente
 
-| Canal | Poids | Dynamique |
-|---|---|---|
-| Restaurant physique | ~61 % | Cœur du modèle, meilleure marge |
-| Digital (app, web, agrégateurs) | **39,0 %** | Stable à un niveau élevé ; la part agrégateurs progresse et **dilue le taux de marge** |
+| Trimestre | CA | Ventes comparables | Marge restaurant | EBITDA ajusté |
+|---|---|---|---|---|
+| T2 2025 | 280,6 M$ | +2,1 % | 26,3 % | 42,1 M$ |
+| T3 2025 | 292,3 M$ | +1,9 % | 24,6 % | 40,1 M$ |
+| T4 2025 | 275,0 M$ | +0,5 % | 21,4 % | 25,8 M$ |
+| T1 2026 (16 sem.) | 438,3 M$ | +9,7 % | 25,1 % | 61,7 M$ |
+| T2 2026 | 368,4 M$ | +9,0 % | 25,7 % | 54,7 M$ |
 
-Le mix digital est un actif stratégique — il alimente le programme de fidélité et la donnée client — mais sa composition compte : une commande passée sur l'application CAVA est nettement plus rentable qu'une commande captée par un agrégateur tiers.
+**Lecture** : 2025 a été une année de **digestion** (comparables à peine positifs après les +14 à +21 % de 2024), puis 2026 marque une **réaccélération nette**, tirée par le trafic (+6,8 % au T1, +5,3 % au T2) plutôt que par les prix. Attention au calendrier : le T1 compte 16 semaines, les autres trimestres 12.
+
+---
+
+### Structure de coûts du segment CAVA (T2 2026 vs T2 2025)
+
+| Poste (% du CA restaurants) | T2 2025 | T2 2026 | Explication |
+|---|---|---|---|
+| Matières et emballages | 29,5 % | 30,0 % | Coût du saumon |
+| Personnel | 25,0 % | 25,3 % | Hausse salariale de 3 % |
+| Occupation | 6,8 % | 6,3 % | Effet de levier des ventes |
+| Autres charges | 12,4 % | 12,8 % | Plus de livraison tierce |
+| **Marge restaurant** | **26,3 %** | **25,7 %** | -60 pb |
 
 ---
 
 ### Répartition géographique
 
-Présence dans **29 États et Washington D.C.** Le socle historique est le Mid-Atlantic, avec des positions fortes au Texas, en Californie, en Floride et dans le Sud-Est.
+**100 % États-Unis.** Le berceau historique est la région de Washington (D.C., Maryland, Virginie). Le réseau s'étend aujourd'hui sur **29 États + D.C.**, avec l'entrée dans l'**Indiana et l'Ohio** au T2 2026, **Las Vegas** au second semestre 2026 et la **baie de San Francisco** prévue en 2027. Aucune ambition internationale n'a été annoncée.
 
-**Ouvertures de marchés récentes et annoncées** :
-- T2 2026 : **Indiana** et **Ohio**
-- Second semestre 2026 : **Las Vegas**
-- 2026 : poursuite du Midwest (Cincinnati, St. Louis)
-- **2027 : Bay Area** (San Francisco)
+### Répartition par canal
 
-La direction a insisté sur le fait que la performance des nouvelles unités est **homogène entre géographies et entre formats** — un point critique pour la thèse d'expansion nationale.
+Le **digital** pèse **39 % du CA** au T2 2026 (37,9 % sur 2025, 36,4 % en 2024). La hausse de la part de la **livraison tierce** coûte environ 40 pb de marge restaurant au T2 2026.
 
----
-
-### Profil de marge et rentabilité
-
-| Indicateur | T3 2025 | T4 2025 | T1 2026 | T2 2026 |
-|---|---|---|---|---|
-| Ventes comparables | +1,9 % | +0,5 % | **+9,7 %** | **+9,0 %** |
-| Marge au niveau restaurant | 24,6 % | 21,4 % | 25,1 % | **25,7 %** |
-| EBITDA ajusté | 40,0 M$ | — | 61,7 M$ | 54,7 M$ |
-| Résultat net | 14,7 M$ | 4,9 M$ | 23,6 M$ | 23,0 M$ |
-
-**L'inflexion est spectaculaire.** Le T4 2025 marquait le point bas du cycle (ventes comparables à +0,5 %, marge restaurant à 21,4 %). Deux trimestres plus tard, les comparables sont à +9 % et la marge restaurant à 25,7 %. L'effet de base joue, mais le trafic en hausse de 5,3 % est un signal réel.
-
-**Attention au piège de la « marge restaurant »** : ce taux de 25,7 % est une mesure **non-GAAP** qui exclut les frais généraux, les amortissements et les coûts de pré-ouverture. La marge opérationnelle consolidée réelle ressort autour de **5,5 %**. L'écart n'est pas une anomalie comptable — c'est la structure d'un modèle qui finance sa croissance — mais il doit être conscientisé (voir Red Flags).
-
-**Cohortes** : la direction a indiqué que la **cohorte d'ouvertures 2024 est le millésime le plus performant** de l'histoire de l'enseigne, avec des ventes comparables à deux chiffres. C'est l'argument le plus fort de la thèse haussière sur la durabilité de l'expansion.`,
+**Conclusion** : un modèle **mono-segment, mono-pays et mono-marque** — simple à lire, mais sans aucun amortisseur si le concept s'essouffle.`,
   },
   {
     id: 4,
     title: "Avantages compétitifs",
     category: "Compréhension du business",
     icon: "🏆",
-    content: `## Les fossés économiques (Moats)
+    content: `## Les fossés économiques (moats) — réels et en construction
 
-### 1. La catégorie elle-même — Moat de positionnement
-CAVA se définit comme **« category-defining »**, et ce n'est pas qu'un élément de langage. Il n'existe **aucune autre enseigne méditerranéenne fast-casual à échelle nationale** aux États-Unis. Là où le mexicain (Chipotle), l'italien, l'asiatique ou le burger comptent chacun plusieurs acteurs installés, CAVA occupe seul un espace culinaire tendance, aligné sur les préférences santé et sur le régime méditerranéen.
+### 1. Le leader d'une catégorie sans leader national — moat de marque
+CAVA est la **seule chaîne nationale de taille significative** dans la cuisine méditerranéenne en libre composition. Chipotle a fait du mexicain une catégorie de masse ; CAVA tente la même chose avec le méditerranéen, perçu comme **sain, savoureux et généreux**. La direction parle de « marque qui définit sa catégorie ». C'est le moat le plus précieux — mais il dure tant que personne d'autre n'atteint l'échelle nationale.
 
-C'est un fossé **réel mais temporel** : il protège tant que personne n'a la capacité ou l'envie de répliquer le format à l'échelle. Ce n'est pas un brevet.
+### 2. Une économie unitaire supérieure — moat d'exécution
+- **AUV de 3,09 M$** et en hausse (2,94 M$ un an plus tôt)
+- **Marge restaurant de ~25 %**, comparable aux meilleurs du secteur
+- **Nouveaux restaurants à plus de 100 % de la productivité moyenne** du parc, la cohorte 2024 étant la meilleure de l'histoire du groupe
+Une telle économie unitaire **autofinance** l'expansion sans dette : c'est l'argument central des investisseurs de long terme.
 
-### 2. L'économie unitaire — Le fossé le plus tangible
-- **AUV de 3,1 M$** par restaurant, un niveau comparable à celui de Chipotle
-- **Marge au niveau restaurant de 25,7 %** (T2 2026)
-- **Productivité des nouvelles unités supérieure à 100 %** des attentes — les restaurants ouverts atteignent immédiatement leur régime cible
-- **Cohorte 2024 en ventes comparables à deux chiffres**, meilleure de l'histoire du groupe
+### 3. L'intégration verticale des recettes signature
+Les dips, sauces et vinaigrettes sont **fabriqués dans les ateliers de CAVA** (Maryland, Virginie). Cela garantit un goût difficile à copier à l'identique, une qualité constante et un savoir-faire qui alimente aussi l'activité de grande distribution.
 
-Une économie unitaire de ce niveau permet de **s'autofinancer en croissance** et rend chaque ouverture créatrice de valeur. C'est ce qui distingue CAVA de Sweetgreen, dont le modèle n'a jamais atteint la rentabilité consolidée.
+### 4. La valeur perçue — le prix comme arme
+Pendant que le secteur augmentait ses prix, CAVA les a **contenus** (+1,4 % début 2026, bol de base inchangé). Résultat : **trafic +6,8 % au T1 2026** quand Chipotle affichait **+0,6 %** et Sweetgreen **-11 %**. Dans une économie où le consommateur arbitre, CAVA gagne des parts de marché par le volume.
 
-### 3. L'intégration verticale CAVA Foods — Moat de coût et de constance
-Produire en interne les dips signature dans deux usines (Laurel, Verona) permet de **retirer de la complexité des cuisines**, de **contrôler le coût matière** et de **garantir l'identité gustative**. Cela crée en outre une activité de grande distribution qui fait vivre la marque hors du restaurant. Peu d'enseignes de cette taille disposent d'un tel dispositif.
+### 5. Un bilan de forteresse
+**Zéro dette financière**, 436 M$ de trésorerie et placements, une ligne de crédit de 150 M$ non tirée. CAVA peut continuer d'ouvrir des restaurants même si les marchés financiers se ferment.
 
-### 4. La détention à 100 % — Un choix structurant
-CAVA n'a pas franchisé. Conséquences :
-- **Positif** : capture intégrale de l'économie unitaire, contrôle total de l'exécution et de l'expérience, donnée client propriétaire, cohérence de marque
-- **Négatif** : chaque ouverture consomme du capital ; le rythme de croissance est plafonné par la capacité de financement et par la capacité de recrutement de managers
-
-C'est le modèle Chipotle, pas le modèle Wingstop. Il produit de la qualité au prix d'une **intensité capitalistique élevée** — c'est pourquoi le ROIC ressort à ~6 % malgré une marge restaurant de 25 %.
-
-### 5. Le digital et la fidélité — Moat en construction
-**39 % du chiffre d'affaires** passe par les canaux digitaux, la base de fidélité croît plus vite que le parc, et le déploiement des écrans de cuisine (KDS) structure l'exécution. C'est un avantage de données et de fréquence — mais Chipotle en dispose aussi, à une échelle dix fois supérieure.
-
-### 6. L'espace de croissance (whitespace)
-476 restaurants aujourd'hui, **objectif d'au moins 1 000 en 2032**. C'est mathématiquement le levier de valeur dominant : à économie unitaire constante, doubler le parc double le résultat. Ce n'est pas un fossé au sens strict, mais c'est la raison d'être de la valorisation.
-
----
-
-## Ce que CAVA n'a pas
-
-Il faut le dire clairement : **les coûts de changement sont nuls**. Un client peut aller déjeuner ailleurs demain sans le moindre frottement. Le fossé de CAVA n'est ni contractuel, ni technologique, ni réglementaire — il est **de marque et d'exécution**, donc **à regagner tous les jours**.
+### 6. Les limites — ce qui n'est PAS un moat
+- **Aucun coût de changement** : un client peut aller manger ailleurs dès demain
+- **Recettes et format copiables** : la chaîne d'assemblage est un standard du secteur
+- **Pas d'effet de réseau** : le moat repose sur la marque et l'exécution, deux actifs qui s'entretiennent en continu
 
 ## Positionnement vs concurrence
 
 | Critère | CAVA | Chipotle | Sweetgreen |
 |---|---|---|---|
-| Parc (ordre de grandeur) | ~476 | ~3 800 | ~250 |
-| AUV | ~3,1 M$ | ~3,2 M$ | ~2,9 M$ |
-| Marge restaurant | ~25,7 % | ~25-27 % | ~18-20 % |
-| Rentabilité nette | Positive, faible | Élevée et stable | **Négative** |
-| Croissance du parc | **+19,6 %** | ~+8 % | ~+10 % |
-| Modèle | 100 % en propre | 100 % en propre | 100 % en propre |
-| Valorisation | Très élevée | Modérée | Décotée |
+| Restaurants | 476 | 3 900+ | ~250 |
+| Ventes comparables (T1 2026) | +9,7 % | +0,5 % | ~-13 % |
+| Trafic (T1 2026) | +6,8 % | +0,6 % | -11 % |
+| Modèle | 100 % en propre | 100 % en propre | 100 % en propre |
+| Dette financière | Aucune | Aucune | Faible |
+| Marge nette | ~5 % | ~11 % | Proche de zéro |
+| Potentiel d'ouvertures | Très élevé | Élevé | Ralenti |
 
 ## Pouvoir de négociation
 
-- **Vis-à-vis des fournisseurs** : **modéré et croissant** — l'approvisionnement direct auprès de 50+ producteurs donne du contrôle, mais avec 476 restaurants CAVA reste un acheteur de taille moyenne face à Chipotle ou aux géants du QSR
-- **Vis-à-vis des clients** : **limité** — aucun verrouillage, forte sensibilité au prix dans un contexte de pression sur le pouvoir d'achat ; la direction contient volontairement ses hausses tarifaires
-- **Vis-à-vis des bailleurs** : **bon et en amélioration** — une enseigne qui génère 3,1 M$ par site est un locomotive de trafic recherchée par les centres commerciaux, ce qui améliore les conditions locatives
-- **Vis-à-vis des agrégateurs de livraison** : **faible** — la commission est subie, et la montée du canal dilue mécaniquement la marge`,
+- **Vis-à-vis des clients** : **faible à modéré** — la marque permet de ne pas brader, mais la stratégie consiste justement à **ne pas** exploiter ce pouvoir de prix pour gagner du trafic
+- **Vis-à-vis des fournisseurs** : **croissant** — l'échelle augmente chaque année, mais la dépendance à quelques fournisseurs et distributeurs reste un point de vulnérabilité
+- **Vis-à-vis des bailleurs** : **en nette amélioration** — CAVA est devenue un locataire « vedette » qui attire du flux, ce qui ouvre de meilleurs emplacements et conditions
+- **Vis-à-vis des plateformes de livraison** : **faible** — leurs commissions grignotent la marge à mesure que la livraison progresse
+- **Vis-à-vis des salariés** : **sous tension** — hausse salariale de 3 % en 2026, déploiement des adjoints de direction sur 70 % du parc pour stabiliser les équipes`,
   },
   {
     id: 5,
     title: "Compétition",
     category: "Comparaison sectorielle",
     icon: "🌍",
-    content: `## Tableau comparatif — Restauration rapide décontractée américaine (août 2026)
+    content: `## Tableau comparatif — Restauration rapide premium cotée (octobre 2026)
 
-| Société | Code Bloomberg | Cap. boursière (Mds$) | EV/CA | EV/EBIT | P/E | Rdt div. | ROE 5 ans moy. |
+| Société | Code Bloomberg | Capitalisation (Md$) | EV/CA | EV/EBIT | P/E | Rendement div. | ROE 5 ans moy. |
 |---|---|---|---|---|---|---|---|
-| **CAVA Group** | **CAVA US** | **~7,9** | **~6,1x** | **~100x** | **~122x** | **0 %** | **~5 %** |
-| Chipotle | CMG US | ~44 | ~3,5x | ~21x | ~30x | 0 % | ~40 % |
-| Dutch Bros | BROS US | ~9 | ~4,0x | ~45x | ~75x | 0 % | ~12 % |
-| Wingstop | WING US | ~3,4 | ~6,5x | ~27x | ~40x | ~0,7 % | n.s. (capitaux propres négatifs) |
-| Shake Shack | SHAK US | ~2,6 | ~1,7x | ~45x | ~60x | 0 % | ~3 % |
-| Sweetgreen | SG US | ~1,0 | ~1,5x | n.s. | n.s. | 0 % | négatif |
+| **CAVA** | **CAVA US** | **~6,2** | **~4,2x** | **~74x** | **~96x** | **0 %** | **n.s. (pertes avant 2023 ; ~8 % sur 12 mois)** |
+| Chipotle | CMG US | ~40 | ~3,1x | ~20x | ~28x | 0 % | ~40 % |
+| Wingstop | WING US | ~3,3 | ~6x | ~25x | ~29x | ~1,1 % | n.s. (fonds propres négatifs) |
+| Shake Shack | SHAK US | ~2,9 | ~1,9x | ~50x | ~68x | 0 % | ~3 % |
+| Sweetgreen | SG US | ~0,7 | ~0,9x | n.s. | n.s. | 0 % | Négatif |
 
-*Données estimatives sur la base des cours et publications disponibles à fin août 2026. À affiner sur les filings SEC directs — plusieurs multiples sont des ordres de grandeur.*
+*Ordres de grandeur arrondis, établis à partir des cours du 9 octobre 2026 et des derniers comptes publiés. À affiner sur les dépôts SEC avant toute décision.*
 
 ---
 
 ### Analyse comparative
 
-**Chipotle (CMG) — Le miroir et le juge de paix**
-C'est la comparaison qui compte, parce que c'est **le même modèle** : fast-casual, 100 % en propre, format « walk the line », AUV supérieur à 3 M$, marge restaurant d'environ 25 %. Chipotle a fait le chemin que CAVA prétend faire, avec 3 800 restaurants.
+**Chipotle — Le modèle et la menace**
+Chipotle est ce que CAVA rêve de devenir : 3 900+ restaurants, ~12 Md$ de CA, une marge nette de ~11 % et un ROE parmi les plus élevés du secteur. Mais Chipotle traverse un trou d'air (comparables quasi nuls début 2026, titre en baisse de ~20 % sur un an) et se paie désormais **~28 fois ses bénéfices**. Pour CAVA, c'est à la fois une **référence de valorisation** qui tire les multiples vers le bas et un **concurrent direct** sur le même format.
 
-Mais 2025 et 2026 ont été rudes pour CMG : ventes comparables **négatives en 2025 (-1,7 %)**, retour timide à +0,5 % puis +2,2 % en 2026, cours divisé par deux depuis les sommets. Le titre se paie désormais autour de **30x les bénéfices** — soit **un quart du multiple de CAVA**.
+**Sweetgreen — Le contre-exemple**
+Concept premium « sain » coté en 2021 comme CAVA, Sweetgreen illustre le **scénario du pire** : comparables en recul (guidance 2026 de -4 % à -2 %), pertes, cession de sa filiale robotique, capitalisation tombée sous 1 Md$. Il rappelle que **marque tendance ≠ moat durable**.
 
-**C'est le fait le plus dérangeant du dossier** : le marché paie 122x les bénéfices pour la promesse de devenir Chipotle, alors qu'il paie 30x pour Chipotle lui-même. Toute la question est de savoir si la prime rémunère la croissance (+31 % de CA vs +7 %) ou si elle relève de l'excès.
-
-**Sweetgreen (SG) — Le contre-exemple sanglant**
-Sweetgreen est le rappel de ce qui arrive quand un concept santé premium ne parvient pas à convertir son récit en rentabilité : titre en chute de plus de 78 % en 2025, capitalisation ramenée autour de 1 Md$, résultat net négatif, EBITDA négatif. En août 2026, l'entreprise a **abaissé ses prévisions annuelles** sous l'effet de la crise du cyclospora, tandis que CAVA maintenait les siennes. La divergence des deux dossiers sur le même choc externe est le meilleur test grandeur nature de la solidité relative de CAVA.
-
-**Dutch Bros (BROS) — Le comparateur de croissance**
-Même profil de compounder à forte croissance de parc (+32,5 % de CA au T2 2026, ventes comparables à +8,3 % en propre), mais sur la boisson et avec une composante franchisée. C'est le pair le plus pertinent pour juger le multiple accordé à une histoire d'ouvertures — et il se paie nettement moins cher que CAVA.
-
-**Wingstop (WING) — Le modèle inverse**
-Franchisé à 98 %, donc peu capitalistique, à ROIC très élevé et à capitaux propres négatifs (rachats d'actions financés par dette). Wingstop montre ce qu'un modèle asset-light permet en termes de multiple soutenable. CAVA a délibérément choisi la voie opposée : plus de contrôle, plus de capital immobilisé, moins de levier.
+**Wingstop et Shake Shack — Les autres croissances du secteur**
+Wingstop (modèle franchisé, très rentable mais très endetté) se paie ~29 fois ses bénéfices après une forte baisse ; Shake Shack ~68 fois, avec une rentabilité qui reste modeste.
 
 ---
 
-### Le ratio qui compte : EV/EBITDA rapporté à la croissance du parc
-
-CAVA se paie environ **53x l'EBITDA** contre une médiane fast-casual autour de **20x**. Pour justifier cet écart, il faut croire simultanément à trois choses : le parc double d'ici 2032, l'économie unitaire ne se dégrade pas en s'éloignant des marchés cœur, et aucun accident de marque ne survient. La comparaison sectorielle ne tranche pas ce débat — elle en fixe le prix.`,
+### Le ratio qui compte
+CAVA cote **~96 fois ses bénéfices des 12 derniers mois** et ~74 fois ceux attendus en 2027, contre ~28 fois pour Chipotle. Cette prime ne se justifie que par l'écart de croissance : **CA +31 % au T2 2026 et ~20 % d'ouvertures par an**, contre une croissance à un chiffre pour les pairs matures. Le bon indicateur de suivi est l'**EV/EBITDA ajusté (~32x sur 12 mois)**, qui baisse vite si l'EBITDA continue de croître de 25 à 30 % par an. À noter : sur ce critère, CAVA n'a **jamais été aussi bon marché depuis son introduction** (EV/CA ~4x contre ~18x au pic de fin 2024).`,
   },
   {
     id: 6,
     title: "Résultats financiers",
     category: "Analyse financière",
     icon: "📈",
-    content: `## Résultats du T2 2026 (exercice clos le 12 juillet 2026) — publiés le 11 août 2026
+    content: `## Résultats du T2 2026 (publiés le 11 août 2026)
+
+Trimestre de 12 semaines clos le 12 juillet 2026.
 
 ### Chiffre d'affaires et bénéfices vs consensus
 
-| Indicateur | T2 2026 | T2 2025 | Consensus | Écart |
+| Indicateur | T2 2026 | T2 2025 | Variation | Vs consensus |
 |---|---|---|---|---|
-| Chiffre d'affaires CAVA | **365,4 M$** | 278,2 M$ | 360,1 M$ | **Dépassé (+1,5 %)** |
-| Croissance publiée | **+31,3 %** | +20,3 % | — | — |
-| Ventes comparables | **+9,0 %** | +2,1 % | ~+7 % | **Dépassé** |
-| Résultat net | **23,0 M$** | 18,4 M$ | — | +25,3 % |
-| BPA dilué | **0,19 $** | 0,16 $ | 0,18 $ | **Dépassé (+3 %)** |
-| EBITDA ajusté | **54,7 M$** | 42,1 M$ | — | +30,0 % |
-| Marge au niveau restaurant | **25,7 %** | 26,3 % | — | **-60 bps** |
+| Chiffre d'affaires | 368,4 M$ | 280,6 M$ | +31,3 % | **Battu** (~360 M$ attendus, +1 à +2 %) |
+| Ventes comparables | +9,0 % | +2,1 % | — | Supérieur |
+| dont trafic | +5,3 % | — | — | — |
+| dont prix et mix | +3,7 % | — | — | — |
+| BPA dilué | 0,19 $ | 0,16 $ | +18,8 % | **Légèrement battu** (0,18 $ attendu) |
+| Résultat net | 23,0 M$ | 18,4 M$ | +25,3 % | — |
+| EBITDA ajusté | 54,7 M$ | 42,1 M$ | +30,0 % | — |
+| Marge restaurant | 25,7 % | 26,3 % | -60 pb | — |
 
-**CAVA a dépassé le consensus sur les trois lignes qui comptent** : chiffre d'affaires, ventes comparables et bénéfice par action. Ce n'est pas un dépassement spectaculaire en pourcentage, mais il intervient dans un trimestre marqué par un choc sanitaire sectoriel — ce qui en accroît la valeur informative.
+**Verdict** : un trimestre **solide en volume**, **un peu décevant en marge**.
 
 ---
 
 ### Facteurs clés
 
-**Ce qui a tiré les résultats** :
-- **94 ouvertures nettes sur douze mois** (+19,6 % du parc), portant le total à **476 restaurants** dans 29 États et D.C.
-- **Trafic clients en hausse de 5,3 %** — la composante la plus qualitative de la croissance
-- **Productivité des nouvelles unités supérieure à 100 %**, homogène entre géographies et formats
-- **Cohorte 2024** identifiée comme le meilleur millésime historique, en ventes comparables à deux chiffres
-
-**Ce qui a freiné** :
-- L'épidémie de **cyclospora** liée à de la laitue iceberg importée du Mexique (FDA, 17 juillet 2026) a fait chuter les ventes comparables **à un niveau plat à légèrement positif** en fin de trimestre — alors même que CAVA **ne sert pas de laitue iceberg** et **ne s'approvisionne pas au Mexique**
-- La direction a indiqué un redressement **hebdomadaire séquentiel**, avec un retour à une croissance de l'ordre de +5 % fin juillet
-- Aucun impact constaté de l'épidémie de salmonelle liée aux jalapeños
+- **Croissance par le trafic** : +5,3 % de fréquentation, alors que la plupart des pairs perdent des clients
+- **Saumon** : lancement national réussi, il attire de nouveaux clients et accroît la fréquence des membres fidèles, mais coûte ~50 pb de marge matière
+- **Ouvertures** : 17 restaurants nets, 476 au total (+19,6 % sur un an), entrée dans l'Indiana et l'Ohio
+- **Productivité des nouveaux restaurants** : supérieure à 100 % de la moyenne du parc ; AUV porté à 3,09 M$
+- **Digital** : 39 % du CA
 
 ---
 
 ### Évolution des marges
 
-- **Marge au niveau restaurant : 25,7 %**, en recul de 60 points de base sur un an. Trois causes citées : le **coût matière du saumon glacé à la grenade** lancé le 20 avril 2026, la **montée du mix livraison tiers** (dilutif en taux mais relutif en euros de marge), et des **investissements salariaux**. Effet compensateur : le levier opérationnel du chiffre d'affaires
-- **Marge d'EBITDA ajusté : 14,9 %**, en progression — le levier sur les frais généraux fonctionne (G&A à 11,8 % du CA au T1 2026 contre 12,5 % un an plus tôt)
-- **Marge opérationnelle consolidée : ~5,5 %** — l'écart avec la marge restaurant mesure le coût de la structure et de la croissance
+- **Marge restaurant** : 25,7 % (-60 pb) sous l'effet du saumon (matières +50 pb), de la hausse salariale (+30 pb) et de la livraison tierce (+40 pb), partiellement compensés par l'occupation (-50 pb)
+- **Frais de siège hors rémunérations en actions** : 9,3 % du CA contre 9,8 % — **levier opérationnel visible**
+- **Résultat d'exploitation** : 26,8 M$ (+36,6 %), marge de 7,3 %
+- **Résultat net** : progression limitée à +25 % par la **normalisation du taux d'impôt** (voir Red Flags)
 
 ---
 
-### Prévisions et perspectives
+### Perspectives et guidance 2026 (réaffirmée, non relevée)
 
-La direction a **confirmé sans modification** ses prévisions 2026 :
+| Indicateur | Février 2026 | Mai 2026 | Août 2026 |
+|---|---|---|---|
+| Ouvertures nettes | 74–76 | 75–77 | 75–77 |
+| Ventes comparables | 3,0–5,0 % | 4,5–6,5 % | 4,5–6,5 % |
+| Marge restaurant | 23,7–24,2 % | — | 23,7–24,3 % |
+| EBITDA ajusté | 176–184 M$ | 181–191 M$ | 181–191 M$ |
 
-| Indicateur | Objectif 2026 |
-|---|---|
-| Ouvertures nettes | **75 à 77** |
-| Ventes comparables | **+4,5 % à +6,5 %** |
-| Marge au niveau restaurant | ~23,7 % à 24,3 % |
-| EBITDA ajusté | **181 à 191 M$** |
-
-**Le changement de ton est le vrai sujet.** La directrice financière a reconnu que **le bas de la fourchette impliquerait des ventes comparables légèrement négatives au second semestre**, tout en précisant qu'aucune tendance actuelle ne pointe vers ce scénario. Le mot **« prudent » a été employé six fois** pendant la conférence. Le maintien inchangé d'un objectif après un trimestre à +9 % est, arithmétiquement, une **révision implicite à la baisse du second semestre**.
+**Changement de ton** : après le relèvement de mai, la direction a **maintenu** sa guidance en évoquant l'épidémie de cyclosporose de juillet (ventes comparables tombées près de zéro début juillet, revenues à un rythme de milieu de fourchette à un chiffre ensuite) et l'incertitude macroéconomique et géopolitique. Avec +9,4 % de comparables au premier semestre, la fourchette annuelle implique un **second semestre entre légèrement négatif et ~+3 à +5 %** selon la pondération retenue.
 
 ---
 
-### Bilan — points de vigilance et points forts
+### Signaux du bilan et des flux
 
-- **Aucune dette financière** — seules des obligations locatives figurent au passif long terme
-- **393 M$ de trésorerie et placements** à la clôture de l'exercice 2025
-- **Ratio courant de 2,65** — liquidité confortable
-- **Trésorerie d'exploitation de 134,5 M$** sur le premier semestre 2026, pour un **free cash-flow de 44,8 M$** : l'écart est absorbé par le capex d'ouverture
-- **Free cash-flow sur douze mois glissants : ~39 M$** seulement, pour une capitalisation de ~7,9 Mds$ — c'est le chiffre le plus inconfortable du dossier
-- **Aucune créance client, aucun stock significatif** — la mécanique du bilan est saine par nature
+- **Trésorerie et placements** : 435,6 M$, **aucune dette**, ligne de crédit de 150 M$ non utilisée
+- **Flux d'exploitation** (28 semaines) : 134,5 M$ (+36 %)
+- **Investissements** : 89,7 M$ → **free cash-flow de 44,8 M$** (+104 %), qui sera moins favorable au second semestre avec l'accélération des chantiers
+- **Pas de stocks ni de créances significatifs** : modèle encaissé comptant
+- **Dépréciations d'actifs et cessions** : 3,9 M$ sur 28 semaines contre 2,7 M$ — à surveiller
 
 ---
 
 ### Réaction du marché
 
-Le titre avait déjà perdu **16 % au cours du mois précédant la publication**, sous l'effet des craintes sanitaires. Après des résultats meilleurs qu'attendu, la réaction a été **partagée** : les objectifs de cours ont divergé fortement — RBC de 90 à 95 $, Wolfe de 79 à 82 $, mais TD Cowen de 100 à 85 $, KeyBanc de 110 à 95 $, Mizuho de 85 à 70 $, BofA de 110 à 107 $, Guggenheim de 100 à 95 $. Northcoast a relevé sa recommandation de Vendre à Neutre.
+Le titre a bondi de **10 à 12 %** dans les échanges hors séance, avant que le gain **ne s'efface** dans les semaines suivantes : de ~66 $ fin août à **~53 $ début octobre**. Le marché a acheté le trafic mais a ensuite sanctionné l'absence de relèvement de guidance, la marge en léger recul et le ralentissement attendu au second semestre. Le consensus reste haussier (objectif moyen ~84 $), signe d'un écart inhabituel entre le **cours** et les **fondamentaux publiés**.
 
-Le titre cotait **67,59 $ le 25 août 2026**, soit environ **23 % sous l'objectif moyen des analystes (~88 $)** et **61 % sous son plus haut historique** de 172,43 $ (novembre 2024).
-
-**Ce que cela indique** : le marché ne conteste plus l'exécution opérationnelle. Il conteste le prix. Un trimestre à +31 % de croissance et +9 % de comparables qui ne fait pas remonter durablement le titre est le signe que **la valorisation, et non la performance, est devenue le facteur limitant**.`,
+**Élément inhabituel** : CAVA a publié le **meilleur trafic du secteur** et a pourtant vu son cours baisser de ~20 % dans les deux mois suivants — un décalage qui traduit davantage une **compression de multiple** qu'une dégradation opérationnelle.`,
   },
   {
     id: 7,
@@ -397,38 +356,40 @@ Le titre cotait **67,59 $ le 25 août 2026**, soit environ **23 % sous l'objec
 
 ### Évolution du ton — 2024 à 2026
 
-**2024 — Euphorie assumée.** Croissance du chiffre d'affaires de 33 %, ventes comparables de +13 % sur l'année et +21 % au T4. Le discours est celui d'une marque qui découvre son propre potentiel : « category-defining », objectif de 1 000 restaurants martelé, relèvement de prévisions à chaque trimestre. Le titre atteint 172,43 $ en novembre 2024.
+**2024 — L'euphorie** : ventes comparables de +14 % au T2 puis +18 % au T3 et +21 % au T4, portées par le lancement du steak. Discours conquérant : « la catégorie méditerranéenne est en train de naître ».
 
-**2025 — Le brouillard.** Le retournement est brutal. Au T2 2025, les ventes comparables tombent à **+2,1 %** contre un consensus de 6,2 %, et Brett Schulman emploie l'expression restée célèbre de **« consumer fog »** pour décrire l'incertitude des dépenses discrétionnaires. Le titre perd 15 à 20 % en séance. En novembre 2025, la direction **abaisse ses prévisions** de ventes comparables de 4,0-6,0 % à **3,0-4,0 %** et sa marge restaurant de 24,8-25,2 % à 24,4-24,8 %. Le T4 2025 clôt l'année à **+0,5 %** de comparables et 21,4 % de marge restaurant.
+**2025 — La gueule de bois** : comparables retombés à +2 % au T2, +1,9 % au T3 et +0,5 % au T4. La direction explique le ralentissement par des **bases de comparaison très élevées**, un **« effet lune de miel »** des ouvertures 2024 et la **prudence des jeunes consommateurs**. La guidance de comparables est abaissée deux fois. Le ton devient défensif mais reste ferme sur le plan d'ouvertures.
 
-Le mérite du management, sur cette séquence, est de **ne pas avoir nié la difficulté** ni changé de stratégie : le rythme d'ouvertures a été maintenu, l'objectif 2032 réaffirmé.
+**Février 2026 — La reconquête** : la directrice financière Tricia Tolivar décrit CAVA comme un pont entre les deux branches d'une **économie « en K »**, rappelle le gel du prix du bol de base et annonce le saumon. Objectif réaffirmé : **1 000 restaurants d'ici 2032**.
 
-**2026 — Le redressement, sur un ton volontairement bridé.** T1 à +9,7 % de comparables, T2 à +9,0 % avec un trafic à +5,3 %. Le discours pourrait être triomphal. Il ne l'est pas. Le mot **« prudent » revient six fois** pendant la conférence du 11 août 2026, et les prévisions annuelles sont maintenues telles quelles malgré deux trimestres largement au-dessus.
+**Mai 2026 — La confiance retrouvée** : comparables +9,7 %, trafic +6,8 %. Brett Schulman revendique une position de **« leader clair du secteur »** et relève la guidance.
+
+**Août 2026 — Confiance prudente** : ton toujours assuré sur la marque et l'économie unitaire, mais guidance maintenue et vocabulaire plus mesuré (perturbations sanitaires, incertitudes macroéconomiques et géopolitiques).
 
 ---
 
 ### Priorités répétées du management
 
-**1. L'objectif de 1 000 restaurants en 2032** — invariant depuis l'introduction en bourse. C'est l'ancre de toute la communication et le socle implicite de la valorisation.
+**1. Le trafic avant le prix** — Le message le plus constant : hausses de prix minimales pour **gagner des clients**, la marge suivant par le volume. Aucun changement de prix envisagé à court terme.
 
-**2. La qualité des ouvertures avant le nombre** — la direction communique systématiquement sur la **productivité des nouvelles unités (supérieure à 100 %)** et sur la performance des cohortes, plutôt que sur le seul décompte d'ouvertures. La mise en avant de la **cohorte 2024 comme meilleur millésime** est un choix argumentatif habile et vérifiable.
+**2. L'innovation menu** — Steak (2024), saumon (2026), crevettes à l'ail en test, nouvelles vinaigrettes et chips de pita saisonnières : CAVA veut créer des **raisons de revenir** sans brader.
 
-**3. L'accessibilité prix** — thème montant en 2026. La direction insiste sur des **hausses tarifaires contenues** et met en avant le fait que **les marchés à revenus modestes affichent les meilleures ventes comparables**. C'est une réponse directe aux critiques sur le prix moyen du fast-casual.
+**3. La fidélité et le digital** — Le nombre de membres du programme progresse plus vite que le parc ; lancement du « Flavor Passport ».
 
-**4. La sécurité alimentaire** — devenue centrale à l'été 2026. Le discours est factuel et vérifiable : pas de laitue iceberg, pas de feuilles vertes mexicaines, pas d'approvisionnement auprès des sites Taylor Farms incriminés, audits fournisseurs « constants ». Schulman a explicitement laissé ouverte la question de la poursuite de la relation avec Taylor Farms.
+**4. L'excellence opérationnelle** — Arrivée d'un nouveau directeur des opérations (ex-Texas Roadhouse) en mars 2026, adjoints de direction dans 70 % des restaurants, poulet pré-mariné, rénovations « Project Soul ».
 
-**5. Le digital et la fidélité** — mix digital à 39 %, croissance de la base de fidélité supérieure à celle du parc, déploiement des écrans de cuisine.
+**5. Les ouvertures** — 75 à 77 en 2026, nouveaux marchés (Ohio, Indiana, Las Vegas, baie de San Francisco), productivité supérieure à 100 %.
 
 ---
 
 ### Analyse du sentiment
 
-- **Confiance opérationnelle : élevée.** Le management parle de son parc et de ses cohortes avec des chiffres précis et vérifiables. Il ne fuit pas les questions difficiles.
-- **Prudence prévisionnelle : très marquée, et probablement délibérée.** Maintenir une fourchette de +4,5 à +6,5 % après deux trimestres à +9 % construit mécaniquement une marge de sécurité. C'est de la bonne gestion des attentes — mais cela **prive aussi le titre d'un catalyseur de révision à la hausse**.
-- **Transparence : bonne.** L'admission explicite que le bas de fourchette implique des comparables négatifs au second semestre est un exercice de franchise rare.
-- **Absence de comportement promotionnel excessif** — contrairement à d'autres dossiers de forte croissance, la direction ne survend pas. Le contraste avec l'euphorie de 2024 est net et plutôt rassurant.
+- **Confiance** : élevée et constante sur la marque et l'économie unitaire — le management n'a jamais remis en cause le plan d'ouvertures, même au creux de 2025
+- **Prudence** : nette sur les comparables du second semestre 2026 ; la direction préfère **sous-promettre** après les déceptions de 2025
+- **Transparence** : bonne — les causes de l'érosion de marge (saumon, salaires, livraison) sont chiffrées poste par poste
+- **Signal à surveiller** : aucune mention de rachat d'actions ni de dividende — tout le cash est réinvesti, ce qui est cohérent avec la phase de croissance
 
-> **À lire entre les lignes** : le management a appris de 2025. Il a cessé de vendre du rêve trimestriel et vend désormais un plan décennal. C'est plus sain — mais cela signifie aussi que **le titre ne remontera pas sur le discours ; il remontera sur les chiffres, ou pas du tout**.`,
+**À lire entre les lignes** : en ne relevant pas sa guidance malgré un T2 à +9 %, le management a **acheté de la marge de sécurité** pour le second semestre. Un T3 meilleur qu'attendu (publication le 2 novembre 2026) remettrait le discours en mode offensif.`,
   },
   {
     id: 8,
@@ -437,215 +398,221 @@ Le mérite du management, sur cette séquence, est de **ne pas avoir nié la dif
     icon: "👔",
     content: `## Évaluation du management
 
-### Brett Schulman — Cofondateur, Président-Directeur Général
+### Brett Schulman — Cofondateur, président et directeur général (depuis 2010)
 
-**Bilan chiffrable** :
-- Dirige CAVA depuis **2010**, soit seize ans — une longévité rare dans la restauration cotée
-- A conduit l'enseigne d'un restaurant unique à **476 unités** et à **plus de 1,18 Md$ de chiffre d'affaires** (2025), avec un franchissement du milliard atteint pour la première fois cet exercice
-- A piloté l'acquisition et la **conversion de Zoe's Kitchen (2018, ~300 M$)** — opération qui a fourni à CAVA son socle immobilier national et son accélérateur de croissance. C'est l'unique acquisition majeure du groupe, et elle a été **digérée sans dérailler le modèle**
-- A mené l'**introduction en bourse de juin 2023** à 22 $, valorisation qui a doublé dès le premier jour
-- A traversé le trou d'air de 2025 sans modifier la stratégie ni ralentir le rythme d'ouvertures — décision aujourd'hui validée par le rebond de 2026
+**Bilan** : il a transformé un restaurant familial de mezze en **chaîne nationale de 476 restaurants**, avec à son actif :
+- Le lancement du format de bols à composer (2011) et sa montée en puissance jusqu'à **1,18 Md$ de CA en 2025**
+- L'**acquisition de Zoës Kitchen** (2018, ~300 M$), dont les restaurants ont été convertis en CAVA (conversion achevée en 2023) — un raccourci d'expansion qui a **accéléré de plusieurs années** la couverture du Sud-Est et du Texas
+- L'**introduction en Bourse** de juin 2023 et le passage à la **rentabilité nette** dès 2023
+- Une économie unitaire en amélioration constante (AUV de 2,9 M$ à 3,1 M$ en un an)
 
-**Parcours** : finance avant la restauration — postes de direction chez **Deutsche Bank Alex. Brown**, puis directeur des opérations de Snikiddy Snacks. Profil d'opérateur-financier plutôt que de restaurateur de métier.
+**Participation** : ~2,1 millions d'actions (1,8 % du capital, options comprises) — alignement **réel mais modeste** pour un cofondateur.
 
-**Participation financière** : détenteur direct de plusieurs centaines de milliers d'actions, pour une valeur de l'ordre de plusieurs dizaines de millions de dollars. L'alignement est réel mais **il s'érode** (voir signaux d'alerte).
-
----
-
-### Tricia Tolivar — Directrice Financière (depuis novembre 2020)
-
-**Bilan** : a structuré la fonction finance pour l'introduction en bourse, professionnalisé la communication financière et instauré une discipline de prévisions qui, après l'accident de 2025, s'est traduite par une **prudence assumée** en 2026.
-
-**Point à connaître, et à ne pas dissimuler** : Tricia Tolivar était **directrice financière de GNC Holdings de mars 2015 à novembre 2020**, période au cours de laquelle **GNC a déposé son bilan (Chapter 11) en juin 2020**. Ce n'est pas une disqualification — GNC était un dossier de distribution physique structurellement condamné, et elle a rejoint CAVA quelques mois plus tard — mais c'est un élément factuel qui figure dans les documents d'introduction en bourse et qu'un analyste rigoureux ne peut ignorer. Auparavant : postes de direction chez **Ernst & Young** et **AutoZone**.
+**Rémunération 2025** : salaire de 900 000 $, bonus de ~982 000 $ (pour une cible de 1,08 M$), plus des attributions en actions et options — dans la norme des sociétés de croissance de cette taille.
 
 ---
 
-### Le reste de l'équipe
+### Équipe dirigeante
 
-- **Ted Xenohristos**, cofondateur, reste garant du concept et de l'identité culinaire
-- **Jennifer Somers**, directrice des opérations
-- **Doug Thompson**, directeur du développement (nommé en 2026) — poste stratégique compte tenu du rythme d'ouvertures
-- **Chris Penny**, directeur industriel, pilote CAVA Foods
+| Dirigeant | Fonction | Depuis | Profil |
+|---|---|---|---|
+| Tricia Tolivar | Directrice financière | Nov. 2020 | A piloté l'introduction en Bourse |
+| Ted Xenohristos | Directeur du concept (cofondateur) | Nov. 2020 | Chef, gardien de l'ADN culinaire |
+| Doug Thompson | Directeur des opérations | Mars 2026 | Ex-directeur des opérations de Texas Roadhouse (2018-2021) |
+| Kelly Costanza | Directrice des ressources humaines | Mai 2020 | — |
 
-L'équipe est **construite pour l'exécution et l'expansion**, avec une continuité fondateur au sommet.
+**Conseil d'administration** : présidé depuis 2018 par **Ronald Shaich**, fondateur de Panera Bread — une caution rare de savoir-faire dans la restauration de chaîne.
 
 ---
 
-### Allocation du capital — l'enjeu central
+### Allocation du capital — Historique
 
-| Décision | Nature | Lecture |
-|---|---|---|
-| Aucun dividende | Depuis l'origine | Cohérent avec la phase de croissance |
-| Aucun rachat d'actions | Depuis l'introduction | Cohérent : le capital va aux ouvertures |
-| Aucune dette financière | Structurel | **Discipline remarquable** pour une croissance de ce rythme |
-| Zoe's Kitchen (2018, ~300 M$) | Unique acquisition majeure | Intégrée et convertie avec succès |
-| ~171 M$ de capex sur 12 mois | Ouvertures + usines | Absorbe l'essentiel de la trésorerie d'exploitation |
+| Indicateur | 2023 | 2024 | 2025 | 12 mois (juil. 2026) |
+|---|---|---|---|---|
+| Restaurants (fin de période) | ~309 | 367 | 439 | 476 |
+| Résultat net ajusté | ~13 M$ | 50,2 M$ | 63,7 M$ | ~66 M$ |
+| ROE (approx.) | ~2 % | ~7 % (ajusté) | ~8 % | ~8 % |
+| Investissements | — | 108 M$ | 159 M$ | ~172 M$ |
+| Free cash-flow | — | 52,9 M$ | 26,1 M$ | ~49 M$ |
 
-**Évolution de la rentabilité** : **ROE à ~8,0 %**, **ROIC à ~6,2 %**. Ce sont des niveaux **modestes**, très inférieurs à ceux de Chipotle. Deux explications s'additionnent : le modèle 100 % en propre immobilise beaucoup de capital, et une part croissante de ce capital est investie dans des restaurants qui ne sont pas encore à maturité. Le ROIC est donc **structurellement pénalisé par la croissance elle-même** — mais il devra remonter à mesure que le parc mûrit, faute de quoi la thèse s'effondre.
-
-**Point fort majeur** : financer une croissance de parc de près de 20 % par an **sans dette** et en restant bénéficiaire est un exploit d'allocation. Peu d'entreprises de croissance y parviennent.
+**Lecture** : le capital est réinvesti **à 100 % dans les ouvertures**, sans dette, sans rachat d'actions ni dividende. Le ROE reste faible (~8 %) car la base de fonds propres est gonflée par l'introduction en Bourse et les restaurants récents n'ont pas atteint leur maturité. Le vrai juge de paix sera le **rendement par restaurant** (marge restaurant ~25 % sur un investissement initial élevé).
 
 ---
 
 ### Signaux d'alerte
 
-- **Ventes d'initiés massives** : environ **17,3 millions d'actions cédées par les initiés sur dix-huit mois**, dont environ 598 000 par Brett Schulman et des cessions régulières de Ted Xenohristos, Tricia Tolivar et Adam Phillips. Une partie relève de couvertures fiscales sur acquisition de droits et de sorties de porteurs pré-introduction, mais l'ampleur cumulée est un fait objectif. **Achats d'initiés sur la période : 150 actions.** L'asymétrie est totale
-- **Rentabilité du capital faible** (ROIC ~6,2 %) — l'allocation ne sera jugée qu'a posteriori, à la maturité du parc
-- **Aucun retour aux actionnaires** — défendable aujourd'hui, à réévaluer si la croissance ralentit
-- **Concentration sur un seul concept** — pas de portefeuille de marques, pas de diversification géographique internationale
-- **Type de dirigeant** : **cofondateur-opérateur de long terme**. À ce stade (expansion nationale d'un concept unique), c'est l'archétype recherché. Le risque symétrique est l'attachement au modèle existant et la difficulté à reconnaître un plafond de croissance s'il apparaissait`,
+- **Rotation à la direction** : départ de la directrice des opérations (septembre 2025) et du directeur juridique (avril 2026) — deux postes clés renouvelés en sept mois
+- **Ventes d'initiés et de l'actionnaire historique** : Artal a cédé 3 millions d'actions à 90,30 $ en juin 2026 (participation ramenée à ~6,5 millions) ; une administratrice a vendu à 90 $. En sens inverse, le nouveau directeur des opérations a **acheté** 6 500 actions à 66,52 $ en septembre 2026
+- **Conseil à renouvellement échelonné** (trois classes d'administrateurs) : protège la direction mais réduit le pouvoir des actionnaires
+- **Parties liées** : aucune transaction significative identifiée dans la documentation consultée
+- **Comportement promotionnel** : modéré — l'objectif de 1 000 restaurants est ambitieux, mais la guidance de court terme est désormais **prudente**
+
+---
+
+### Fondateur ou gestionnaire professionnel ?
+
+**Profil fondateur.** Schulman et Xenohristos sont cofondateurs, et le conseil est présidé par un fondateur emblématique du secteur. À ce stade d'expansion, c'est un **atout** : vision de long terme, culture produit forte, refus de sacrifier la marque au trimestre. Le défi sera de **professionnaliser l'exploitation** d'un réseau qui double tous les trois à quatre ans — d'où l'importance de l'arrivée de Doug Thompson.`,
   },
   {
     id: 9,
     title: "Analyse du cours",
     category: "Marché",
     icon: "📉",
-    content: `## Facteurs historiques ayant influencé le cours
+    content: `## Facteurs ayant influencé le cours depuis l'introduction en Bourse
 
 ### Contexte
-CAVA est cotée depuis **juin 2023** — l'historique est donc court mais extraordinairement volatil. Le titre a été introduit à **22 $**, a atteint **172,43 $ le 13 novembre 2024**, est retombé à **43,41 $** dans les douze derniers mois, et cotait **67,59 $ le 25 août 2026**. Un investisseur entré à l'introduction reste largement gagnant ; un investisseur entré au sommet a perdu plus de 60 %.
+Cotée depuis **juin 2023** seulement, l'action CAVA est **extrêmement volatile** : elle a été multipliée par près de huit entre son introduction et son plus haut de fin 2024 (~173 $), puis a perdu plus de 70 % en un an. Les mouvements sont dictés par les **ventes comparables trimestrielles** et par l'appétit du marché pour les valeurs de croissance.
+
+### Hausses significatives (plus de 5 %)
+
+**15 juin 2023 — Introduction en Bourse** : prix fixé à 22 $, le titre **double** dès la première séance (~44 $ en clôture), l'une des introductions les plus réussies de l'année.
+
+**Août et novembre 2024 — L'effet steak** : ventes comparables de +14 % puis +18 %, trafic en forte hausse et relèvements successifs de guidance ; le titre atteint **~173 $** fin 2024, pour une valorisation proche de **18 fois le CA**.
+
+**25 février 2026 — Le grand rebond (+24 %)** : comparables du T4 2025 positifs (+0,5 % contre un recul attendu), guidance 2026 rassurante, annonce du saumon et objectif de 1 000 restaurants.
+
+**Avril 2026 — Plus haut annuel** : ~95 $ en clôture le 19 avril (98,79 $ en séance), dans l'anticipation d'un T1 très fort.
+
+**20 mai 2026 — Relèvement de guidance (+6 à +7 %)** : comparables +9,7 %, trafic +6,8 %.
+
+**12 août 2026 — Publication du T2 (+10 à +12 % hors séance)** : trafic +5,3 %, CA meilleur que prévu — un gain toutefois effacé en quelques jours.
+
+**8 octobre 2026 — Relèvement de recommandation (+4,3 %)** : un bureau d'études passe à l'achat avec un objectif de 95 $, jugeant excessive la réaction du marché aux craintes sanitaires.
 
 ---
 
-### Hausses significatives
+### Baisses significatives (plus de 5 %)
 
-**Juin 2023 — Introduction en bourse.** Prix d'introduction à 22 $, **cours doublé dès la première séance**. L'appétit du marché pour un concept de croissance dans la restauration était intact.
+**Début 2025 — Dégonflement de la bulle** : malgré des comparables de +21 % au T4 2024, une guidance 2025 jugée prudente (+6 à +8 %) et la rotation hors des valeurs de croissance chères font chuter le titre sous les 100 $.
 
-**2023-2024 — La phase d'accélération.** Croissance du chiffre d'affaires de +33 % en 2024, ventes comparables de +13 % sur l'année et **+21 % au T4 2024**, passage à la rentabilité dès le premier trimestre public. Le titre est passé d'environ 30 $ (plus bas d'octobre 2023) à **172,43 $ en novembre 2024** — une multiplication par près de six en treize mois. À ce sommet, le titre se payait environ **320x les bénéfices et 19x le chiffre d'affaires**.
+**13 août 2025 — Le choc (-22 %)** : comparables du T2 2025 à +2,1 % contre +6,1 % attendus et guidance annuelle abaissée de 6–8 % à 4–6 %.
 
-**Février-avril 2026 — Le rebond du redressement.** Publication d'un T4 2025 faible mais accompagné d'objectifs 2026 crédibles, puis d'un **T1 2026 spectaculaire (+32,2 % de CA, +9,7 % de comparables)** avec relèvement des prévisions. Le titre est remonté jusqu'à **98,79 $** en avril-mai 2026.
+**Novembre 2025 — Le point bas** : comparables du T3 à +1,9 %, nouvelle révision de guidance et vague de baisses d'objectifs des analystes ; plus bas sur 52 semaines à **~43 $**.
 
----
+**Juin 2026 — Sorties d'actionnaires** : cession d'un bloc de 3 millions d'actions par Artal à 90,30 $ et vente d'une administratrice ; le titre décroche de ses sommets.
 
-### Baisses significatives
+**Juillet 2026 — Le choc sanitaire** : une épidémie de cyclosporose liée à de la salade dans la chaîne d'approvisionnement d'**un autre restaurateur** effraie les consommateurs de produits frais ; CAVA n'est pas concernée mais son trafic recule. Le titre perd ~17 % sur le mois.
 
-**Fin 2024 — Le dégonflement du multiple.** Après le sommet de novembre, correction de près de 40 % en quelques mois, sans mauvaise nouvelle opérationnelle. Motif unique : **la valorisation**. Des ventes d'initiés et de porteurs pré-introduction ont amplifié le mouvement.
-
-**7 août 2025 — Le choc du « consumer fog ».** Ventes comparables du T2 2025 à **+2,1 %** contre un consensus de 6,2 %, prévisions abaissées, expression de « brouillard consommateur » employée par le PDG. **Chute de 15 à 20 % en séance**, vague de révisions à la baisse d'objectifs (BofA, Piper Sandler, Bernstein, CFRA, TD Cowen). C'est la fin de la lune de miel post-introduction.
-
-**Fin 2025 — Le point bas.** Nouvel abaissement de prévisions en novembre 2025 (comparables ramenées à 3-4 %), T4 à **+0,5 %** de comparables et marge restaurant à 21,4 %. Le titre a touché **43,41 $**.
-
-**Juillet-août 2026 — La crise sanitaire sectorielle.** L'épidémie de **cyclospora** liée à de la laitue iceberg Taylor Farms Mexico (FDA, 17 juillet 2026), qui a touché plusieurs milliers de personnes, a frappé l'ensemble des enseignes à forte composante végétale. Les données de fréquentation ont montré un **recul de 4,2 % des visites** chez CAVA, un effondrement de 24 % chez Chopt, plus de 30 % chez Taco Bell, un impact de 6 points de ventes comparables chez Sweetgreen — et une mise en faillite pour Salad and Go. **Le titre CAVA a perdu 16 % en un mois**, clôturant à 62 $ le 7 août, avant de se redresser partiellement après une publication rassurante.
+**Septembre 2026 — Le creux** : repli maximal de près de **49 %** depuis le plus haut (16 septembre), dans le sillage d'une guidance non relevée et de la baisse des valeurs de restauration (Chipotle, Wingstop).
 
 ---
 
 ### Facteurs structurels
 
-- **Compression et expansion du multiple** : c'est le moteur dominant. Le titre est passé de 320x à ~122x les bénéfices sans que la trajectoire opérationnelle change fondamentalement. **La valorisation, pas les résultats, explique l'essentiel de la volatilité**
-- **Bêta élevé (~1,7)** et **11,5 % du flottant vendu à découvert** — le titre amplifie les mouvements de marché et réagit violemment aux nouvelles
-- **Sensibilité au récit sectoriel** : CAVA est corrélée au sentiment sur le fast-casual dans son ensemble ; la crise cyclospora l'a démontré, l'enseigne ayant subi la baisse alors qu'elle n'était pas impliquée
-- **Écart persistant avec les objectifs d'analystes** : cours à 67,59 $ contre un objectif moyen d'environ **88 $** (fourchette 70-107 $) sur 27 analystes. Cet écart de 30 % mesure moins un potentiel qu'un **désaccord non résolu sur le multiple soutenable**`,
+- **Les ventes comparables comme seul juge** : chaque publication peut faire varier le titre de 10 à 25 %
+- **Une valorisation élastique** : de 18 fois le CA (fin 2024) à ~4 fois (octobre 2026) — le multiple bouge bien plus que les fondamentaux
+- **La contagion sectorielle** : le titre réagit aux difficultés de Chipotle, Sweetgreen et aux crises sanitaires de l'ensemble du secteur
+- **L'actionnariat** : un flottant dominé par les institutionnels (Vanguard, BlackRock, Capital Research, AllianceBernstein, Artal ~8 % chacun avant la cession de juin) qui amplifie les mouvements de rotation`,
   },
   {
     id: 10,
     title: "Projections BPA",
     category: "Valorisation prospective",
     icon: "🔮",
-    content: `## Estimations du bénéfice par action 2026-2028
-
-### Avertissement méthodologique
-CAVA est une entreprise de croissance dont le résultat net est **structurellement écrasé par le rythme d'ouvertures** : coûts de pré-ouverture, amortissements de restaurants jeunes, frais généraux dimensionnés pour un parc futur. Le bénéfice par action est donc un **indicateur retardé** de la valeur créée. Les fourchettes ci-dessous sont des scénarios de modélisation, pas des prévisions de précision.
+    content: `## Estimations BPA 2026-2028
 
 ### Hypothèses de modélisation
 
-**Croissance du chiffre d'affaires** :
-- **Croissance du parc** : 75-77 ouvertures nettes en 2026 (base 439 fin 2025), puis un rythme de 80 à 95 par an pour tenir la trajectoire de 1 000 unités en 2032 — soit **+15 à +18 % de parc par an**
-- **Ventes comparables** : +4,5 à +6,5 % en 2026 (objectif confirmé), normalisation vers **+3 à +5 %** en 2027-2028 à mesure que la base de comparaison durcit
-- **Effet prix** : contenu volontairement (+2 à +3 %), l'accessibilité étant devenue un axe de communication
-- **Croissance publiée estimée : +25 à +28 % en 2026, puis +17 à +20 % par an**
+**Croissance du secteur** :
+- Restauration rapide premium américaine : croissance faible à un chiffre en 2026, avec un trafic en recul chez la plupart des acteurs
+- CAVA surperforme nettement : trafic +5 à +7 % en 2026
 
-**Levier opérationnel** :
-- **Marge au niveau restaurant** : 23,7-24,3 % attendus en 2026 (le saumon pèse ~100 bps), avec une stabilisation autour de 24-25 % ensuite
-- **Frais généraux** : c'est le vrai gisement. G&A passés de 12,5 % à 11,8 % du chiffre d'affaires en un an. Chaque point gagné vaut ~15 M$ de résultat opérationnel à l'horizon 2028
-- **Coûts de pré-ouverture** : ~19,5-20 M$ en 2026, croissants avec le rythme d'ouvertures
+**Gains de parts de marché (ouvertures)** :
+- ~76 ouvertures nettes en 2026 (parc ~515 fin 2026), puis ~85 en 2027 et ~95 en 2028
+- Croissance du parc de **~17 à 18 % par an**, nouveaux restaurants à ~100 % de productivité
 
-**Coûts de financement** : **négligeables** — pas de dette financière. Les produits financiers sur la trésorerie compensent partiellement les charges d'intérêts locatifs.
+**Hausses de prix** :
+- Politique de prix volontairement limitée : **+1 à +2 % par an**, l'essentiel de la croissance comparable venant du trafic et du mix
+- Ventes comparables retenues : **+5,5 % en 2026, +3 à +4 % en 2027 et 2028**
 
-**Dilution** : rémunération en actions d'environ **+1 à +1,5 % du nombre d'actions par an**. Aucune émission de capital anticipée : la croissance est autofinancée.
+**Pressions sur les coûts** :
+- Protéines (saumon, bœuf), salaires (+3 %), surcoûts carburant, livraison tierce
+- Marge restaurant maintenue **autour de 24 %** (guidance 2026 : 23,7–24,3 %)
+
+**Levier opérationnel** :
+- Frais de siège en baisse relative (9,3 % du CA au T2 2026 contre 9,8 %)
+- Marge d'EBITDA ajusté : ~12,7 % en 2026, ~13,8 % en 2027, ~14,5 % en 2028
+
+**Coûts de financement** :
+- Aucune dette : **produits financiers** de 10 à 15 M$ par an sur la trésorerie, en légère baisse si les taux reculent
+
+**Fiscalité** :
+- Taux d'impôt normalisé de **~24 à 26 %** (contre un taux quasi nul en 2025) — un frein mécanique au BPA 2026
+
+**Dilution** :
+- Rémunérations en actions et options : **~1 % par an** de dilution (118,4 millions d'actions diluées au T2 2026)
 
 ---
 
-### Estimations de BPA
+### Estimations BPA
 
-| Exercice | BPA estimé | Croissance | P/E au cours de 67,59 $ |
-|---|---|---|---|
-| 2025 (réalisé) | **0,54 $** | -51 % (base 2024 gonflée par un produit d'impôt) | — |
-| S1 2026 (réalisé) | **0,39 $** | — | — |
-| **2026E** | **0,66 à 0,72 $** | **+22 à +33 %** | **~94x à 102x** |
-| **2027E** | **0,88 à 1,00 $** | **+30 à +38 %** | **~68x à 77x** |
-| **2028E** | **1,10 à 1,28 $** | **+25 à +28 %** | **~53x à 61x** |
+| Exercice | CA estimé | BPA estimé | Croissance | P/E au cours actuel (~53,5 $) |
+|---|---|---|---|---|
+| 2024 (réalisé, ajusté) | 963,7 M$ | **0,42 $** | — | — |
+| 2025 (réalisé) | 1 179,7 M$ | **0,54 $** | **+29 %** | — |
+| **2026E** | ~1,46 Md$ | **0,53-0,56 $** | **~0 à +4 %** | **~96-100x** |
+| **2027E** | ~1,75 Md$ | **0,70-0,78 $** | **+33-40 %** | **~69-76x** |
+| **2028E** | ~2,10 Md$ | **0,95-1,10 $** | **+36-41 %** | **~49-56x** |
 
-*Point d'ancrage externe : les modèles de place convergent vers un chiffre d'affaires d'environ 2,4 Mds$ et un résultat net d'environ 145 M$ à l'horizon 2029, soit une croissance annuelle de revenus d'environ 20 %. Nos estimations 2028 sont cohérentes avec cette trajectoire.*
+**Consensus de marché** (octobre 2026) : 0,52 $ (2026), 0,72 $ (2027), 1,05 $ (2028). Nos estimations sont en ligne, légèrement au-dessus pour 2026.
+
+**Pourquoi 2026 stagne** : la croissance du résultat avant impôt reste forte (+37 % au premier semestre), mais le passage d'un taux d'impôt quasi nul à ~23 % absorbe presque tout le gain. C'est un **effet comptable**, pas une dégradation opérationnelle.
 
 ---
 
 ### Sensibilité
 
-- **Scénario haussier** (comparables à +6 %, marge restaurant à 25 %, levier G&A soutenu) : BPA 2028 vers **1,35 $** → P/E 2028 de ~50x. Le multiple reste élevé, mais devient discutable plutôt qu'indéfendable
-- **Scénario de base** : BPA 2028 autour de **1,20 $** → P/E 2028 de ~56x. Le titre a besoin d'une croissance de 20 % au-delà de 2028 pour justifier ce niveau
-- **Scénario baissier** (comparables à +2 %, marge restaurant à 23 %, ralentissement des ouvertures) : BPA 2028 vers **0,85 $** → P/E 2028 de ~80x, avec un multiple qui se comprimerait mécaniquement. **Le risque n'est pas le bénéfice, c'est le double effet ciseau bénéfice-multiple**
+- **Scénario optimiste** (comparables +6 %, marge restaurant 25 %, ouvertures accélérées) : BPA 2028 ~1,25 $ → P/E 2028 ~43x — la valorisation devient défendable pour une croissance de 25 % par an
+- **Scénario de base** : BPA 2028 ~1,02 $ → P/E 2028 ~52x — prime élevée mais cohérente avec la trajectoire
+- **Scénario pessimiste** (comparables nuls, marge restaurant 22 %, ouvertures ralenties) : BPA 2028 ~0,70 $ → P/E 2028 ~76x — aucune marge de sécurité
 
----
-
-### Le calcul qui met la valorisation en perspective
-
-À l'horizon 2032, avec **1 000 restaurants**, un AUV de 3,3 M$ et une marge nette de 8 %, CAVA générerait environ **3,3 Mds$ de chiffre d'affaires et 264 M$ de résultat net**, soit un BPA d'environ **2,10 $**. Au cours actuel, cela représente **32x les bénéfices de 2032** — six ans à l'avance, en supposant une exécution sans faute.
-
-**Conclusion** : la thèse n'est pas absurde, mais elle exige de payer aujourd'hui un multiple normal pour des résultats situés à six ans, sans marge de sécurité pour les accidents de parcours. C'est la définition même d'une valorisation de croissance tendue.`,
+**Conclusion** : le BPA de CAVA devrait **doubler entre 2026 et 2028** si le plan d'ouvertures est tenu. Au cours actuel, l'investisseur paie ~50 fois les bénéfices 2028 : la thèse repose entièrement sur la **durée** de la croissance (1 000 restaurants et au-delà), pas sur les bénéfices des deux prochaines années.`,
   },
   {
     id: 11,
     title: "Bull & Bear",
     category: "Valorisation & thèses",
     icon: "⚖️",
-    content: `## 🐂 Scénario Optimiste (Bull Case)
+    content: `## 🐂 Scénario optimiste (Bull Case)
 
-### Avantages concurrentiels et pérennité des barrières
+### Avantages concurrentiels et barrières à l'entrée
+**1. Le « Chipotle du méditerranéen »** : CAVA est la seule marque nationale d'une catégorie en plein essor, perçue comme saine et généreuse. Atteindre 500 restaurants, des sauces fabriquées en propre et une marque reconnue demande **une décennie et des centaines de millions de dollars** : la barrière, c'est le temps.
 
-**1. Une catégorie sans concurrent d'échelle.** CAVA est la seule enseigne méditerranéenne fast-casual d'envergure nationale aux États-Unis. Le régime méditerranéen bénéficie d'un alignement culturel durable avec les préférences santé. Tant que personne n'a répliqué le format à l'échelle, CAVA capte seule la croissance de la catégorie.
-
-**2. Une économie unitaire qui ne se dégrade pas en s'étendant.** C'est le point le plus fort du dossier et le plus vérifiable : **AUV de 3,1 M$**, **marge restaurant de 25,7 %**, **productivité des nouvelles unités supérieure à 100 %**, performance **homogène entre géographies et formats**, et une **cohorte 2024 en ventes comparables à deux chiffres** identifiée comme le meilleur millésime historique. L'expansion ne se paie pas par une dilution de la qualité.
+**2. Une économie unitaire qui finance la croissance** : AUV de 3,1 M$, marge restaurant de ~25 %, nouveaux restaurants à plus de 100 % de productivité. Chaque ouverture crée de la valeur — et **aucune dette** n'est nécessaire.
 
 ### Leviers de croissance
+**3. Une piste d'ouvertures immense** : de 476 restaurants à **1 000+ d'ici 2032**, soit plus qu'un doublement, avec des marchés entiers encore vierges (Midwest, Nevada, Californie du Nord). Chipotle compte ~3 900 restaurants : la catégorie méditerranéenne peut viser bien plus que 1 000.
 
-**3. L'espace de croissance est arithmétique.** 476 restaurants aujourd'hui, **au moins 1 000 visés en 2032**. À économie unitaire constante, doubler le parc double le résultat opérationnel. C'est un moteur mécanique, visible, et déjà en cours d'exécution à un rythme de +19,6 % par an.
+**4. Un trafic qui défie le secteur** : +5,3 % au T2 2026 quand les concurrents perdent des clients. La stratégie « valeur » (prix contenus) gagne des parts de marché durables dans une économie en K.
 
-**4. Le trafic, pas le prix.** Les +9 % de ventes comparables du T2 2026 sont portés à **5,3 points par le trafic clients**. Dans un secteur où la quasi-totalité des acteurs compense une érosion de fréquentation par des hausses tarifaires, CAVA gagne des clients tout en **contenant volontairement ses prix**. Les marchés à revenus modestes affichent d'ailleurs les meilleures comparables — le concept n'est pas un luxe urbain.
+**5. Des surprises possibles sur les bénéfices** : levier sur les frais de siège, poulet pré-mariné (productivité en cuisine), saturation progressive du coût du saumon, normalisation de la livraison. Chaque point de marge restaurant ajoute ~17 M$ d'EBITDA en 2027.
 
-**5. Le levier sur les frais généraux.** G&A ramenés de 12,5 % à 11,8 % du chiffre d'affaires en un an. À mesure que le parc grossit, ce poste se dilue mécaniquement — c'est le principal gisement de marge des trois prochaines années.
-
-**6. Un bilan de forteresse.** **Aucune dette financière**, 393 M$ de trésorerie et placements, ratio courant de 2,65, besoin en fonds de roulement négatif. CAVA finance une croissance de parc de 20 % par an **sans emprunter et sans diluer**. Dans un secteur qui traverse une phase de faillites (Salad and Go), c'est une différence de nature, pas de degré.
-
-**7. Une décote face aux analystes.** Cours à 67,59 $ contre un objectif moyen d'environ 88 $ sur 27 analystes, soit un potentiel théorique de ~30 %. Le titre a perdu 61 % depuis son sommet alors que le chiffre d'affaires a plus que doublé sur la même période.
-
-### Surprise potentielle sur les bénéfices
-Les prévisions 2026 ont été **maintenues inchangées après deux trimestres à +9 %** de comparables. Si le second semestre se tient simplement au-dessus du milieu de fourchette, un dépassement est arithmétiquement probable — et la direction a elle-même indiqué qu'aucune tendance ne pointait vers le bas de la fourchette.
+### Allocation du capital
+**6. Discipline** : 100 % du cash réinvesti dans des restaurants à forte rentabilité, zéro dette, 436 M$ de trésorerie. Un fondateur aux commandes et un président de conseil bâtisseur de Panera.
 
 ---
 
-## 🐻 Scénario Pessimiste (Bear Case)
+## 🐻 Scénario pessimiste (Bear Case)
 
-### Trois risques susceptibles de nuire durablement
+### Risques susceptibles de nuire durablement à l'activité
 
-**1. Le risque sanitaire est structurel, pas accidentel.** L'été 2026 a livré la démonstration la plus coûteuse possible : CAVA a perdu 16 % de sa valeur et vu ses ventes comparables tomber à zéro **alors qu'elle n'était pas contaminée**, ne servait pas de laitue iceberg et ne s'approvisionnait pas auprès des sources incriminées. Un concept construit sur le frais et le végétal **hérite du risque réputationnel de toute sa catégorie**. Et le jour où l'incident sera imputable à CAVA elle-même, le précédent Chipotle (2015-2018) montre que la reconstruction prend des années.
+**1. Une crise sanitaire propre à CAVA** : le modèle repose sur des **produits frais** préparés en restaurant. L'exemple de Chipotle en 2015-2016 (comparables à -20 % et plus pendant des trimestres, des années pour reconquérir la confiance) montre qu'une seule crise peut **casser une marque de croissance**. L'épisode de juillet 2026 — sans même que CAVA soit en cause — a prouvé la sensibilité de son trafic.
 
-**2. La fragilité démontrée des ventes comparables.** Le rebond de 2026 est réel, mais il repose sur une base 2025 effondrée (+2,1 % au T2, +1,9 % au T3, **+0,5 % au T4**). Ces chiffres ne sont pas anciens — ils datent d'il y a douze mois. Ils prouvent que le concept **peut caler**, et vite, dès que le consommateur se rétracte. Les prévisions 2026 elles-mêmes admettent qu'un second semestre à comparables légèrement négatives est dans la fourchette.
+**2. Le plafond du concept** : le méditerranéen pourrait rester une **niche urbaine** plutôt qu'une catégorie de masse. Les nouveaux marchés (Ohio, Indiana, Las Vegas) pourraient décevoir, et l'« effet lune de miel » observé sur les ouvertures 2024 pourrait se répéter, faisant baisser l'AUV.
 
-**3. Le modèle 100 % en propre plafonne le rendement du capital.** ROE à 8 %, **ROIC à 6,2 %** — soit un niveau à peine supérieur au coût du capital. Chaque ouverture consomme de la trésorerie : le free cash-flow sur douze mois ressort à **~39 M$** pour 210 M$ de trésorerie d'exploitation et 171 M$ de capex. Une entreprise valorisée 7,9 Mds$ qui génère 39 M$ de liquidités libres se paie **~197x son free cash-flow**. Le modèle est vertueux à terme, mais il **n'engendre pas de cash aujourd'hui**.
+**3. La compression des marges** : saumon, salaires, carburant et livraison tierce ont déjà coûté 60 pb de marge restaurant au T2. Si CAVA refuse d'augmenter ses prix pour défendre son trafic, la marge pourrait glisser durablement sous 23 %.
 
-### Compression de marge et ralentissement
-La marge restaurant est **guidée en baisse** pour 2026 (23,7-24,3 % contre 25,7 % au T2), sous l'effet du saumon, de la montée des agrégateurs de livraison et des investissements salariaux. Les droits de douane ont déjà pesé sur les coûts d'emballage et de matière en 2025. À l'inverse du levier G&A, ces vents contraires sont récurrents.
+### Des attentes trop élevées ?
+La guidance implique un second semestre 2026 entre légèrement négatif et ~+3 à +5 % de comparables. Le consensus attend un BPA en hausse de ~40 % en 2027 : toute rechute des comparables à 0-2 %, comme en 2025, invaliderait ce scénario.
 
 ### Analyse pré-mortem
-**Que se passe-t-il si CAVA cote 35 $ dans deux ans ?** Enchaînement plausible : le second semestre 2026 déçoit, les comparables retombent vers 2 % en 2027 sous l'effet d'une base durcie et d'un consommateur fatigué, la marge restaurant s'installe à 23 %, le BPA 2028 plafonne à 0,85 $ — et surtout le marché cesse d'accorder 100x les bénéfices à une chaîne de restaurants dont la croissance ralentit, appliquant le multiple de Chipotle (30-40x). Résultat : **0,85 $ × 40 = 34 $**. Aucun de ces éléments n'exige une catastrophe : il suffit d'une normalisation.
+Que s'est-il passé si CAVA cote **25 $ en 2029** ? Scénario : comparables négatifs deux années de suite, AUV en recul à 2,7 M$ dans les nouveaux marchés, marge restaurant à 21-22 %, ouvertures ramenées à 50 par an pour préserver le cash. Le BPA 2028 plafonne à ~0,60 $ et le marché, qui ne voit plus une valeur de croissance, applique un multiple de 40x.
 
-### Les multiples actuels sont-ils trop élevés ?
-**Oui, sans ambiguïté, sur toutes les mesures** : ~122x les bénéfices, ~53x l'EBITDA, ~6,1x le chiffre d'affaires, ~197x le free cash-flow, PEG de 4,0. Et pour Chipotle — même modèle, même format, économie unitaire équivalente, exécution prouvée sur 3 800 restaurants — le marché paie **30x**. Payer quatre fois le multiple de son propre modèle de référence exige que CAVA fasse le chemin de Chipotle **sans jamais trébucher**.
+### Les multiples sont-ils trop élevés ?
+**Oui sur les bénéfices, non sur la trajectoire.** ~96x les bénéfices des 12 derniers mois et ~74x ceux de 2027 laissent peu de place à l'erreur, quand Chipotle cote ~28x. Mais en EV/CA (~4x contre ~18x fin 2024) et en EV/EBITDA (~32x sur 12 mois, ~19x 2028 en scénario de base), CAVA n'a jamais été aussi bon marché depuis son introduction.
 
 ### Point de vue à contre-courant
-**Ce que le marché refuse de voir, dans les deux camps.** Les haussiers refusent de voir qu'un excellent business et une excellente action sont deux choses différentes : à 122x les bénéfices, l'exécution parfaite est déjà payée. Les baissiers refusent de voir qu'un bilan sans dette, un besoin en fonds de roulement négatif et une économie unitaire qui tient à l'expansion rendent le **risque de destruction permanente de valeur très faible** — CAVA ne peut pas faire faillite, elle peut seulement être trop chère.
-
-La position juste n'est donc pas « acheter » ou « vendre » mais **« excellente entreprise, prix qui n'offre aucune marge de sécurité »**. C'est un dossier où le point d'entrée fait la totalité du rendement.`,
+**Ce que le marché refuse de voir** : le titre a perdu ~45 % depuis avril alors que CAVA publiait **le meilleur trafic du secteur** et que son EBITDA progressait de 30 %. Le marché traite CAVA comme une valeur « momentum » fragile, à la merci de la prochaine alerte sanitaire. Or l'épisode de juillet a surtout montré que CAVA **récupère en quelques semaines** (comparables revenus à un rythme de milieu de fourchette à un chiffre). Le vrai risque aujourd'hui n'est plus la valorisation — fortement dégonflée — mais l'exécution du plan d'ouvertures. Pour un investisseur de long terme, **la décote crée une fenêtre** que la publication du T3 (2 novembre 2026) pourrait refermer.`,
   },
   {
     id: 12,
@@ -655,104 +622,92 @@ La position juste n'est donc pas « acheter » ou « vendre » mais **« ex
     content: `## Audit forensique — Signaux d'alerte comptables
 
 ### Comptabilisation des produits — RISQUE FAIBLE
-Le chiffre d'affaires est **encaissé au point de vente**, simultanément à la livraison du service. Il n'y a ni contrat pluriannuel, ni obligation de performance étalée, ni créance client significative. C'est l'un des modèles de reconnaissance de revenus les plus simples qui soient.
+Ventes de restaurant encaissées au comptant et reconnues à la remise du repas. Seules zones de jugement : les **cartes cadeaux** (taux de non-utilisation) et les **points de fidélité** (valeur différée). Montants modestes au regard du CA.
 
-**Seul point de vigilance** : les **produits différés liés au programme de fidélité** et aux cartes cadeaux, dont l'évaluation repose sur des hypothèses de taux d'utilisation (breakage). Poste peu matériel aujourd'hui, à surveiller à mesure que la base de fidélité croît.
+**À surveiller** : la définition des **ventes comparables** (restaurants ouverts depuis une durée minimale) et le **calendrier inhabituel** (T1 de 16 semaines, puis trois trimestres de 12 semaines) qui complique les comparaisons d'un trimestre à l'autre.
 
-### L'information sectorielle — RISQUE MODÉRÉ
-CAVA ne publie que **deux segments** : CAVA et CAVA Foods, ce dernier pesant environ 1 % du chiffre d'affaires externe. Il n'existe **aucune ventilation publique par région, par cohorte d'ouverture ou par canal de distribution**.
+### Information sectorielle — RISQUE MODÉRÉ
+Un seul segment réellement significatif. L'indicateur phare, la **marge au niveau du restaurant** (~25 %), est un indicateur **non normé** qui exclut frais de siège, amortissements, frais d'ouverture et dépréciations. Le résultat d'exploitation réel n'est que de **~7 % du CA** au T2 2026. L'écart entre les deux est normal dans le secteur mais doit être gardé en tête.
 
-**Conséquence concrète** : il est impossible pour un investisseur externe de vérifier si les nouveaux marchés (Midwest, Las Vegas, Bay Area) performent aussi bien que le socle Mid-Atlantic. On dispose uniquement de l'**affirmation de la direction** selon laquelle la performance est « homogène entre géographies et formats ». Cette affirmation est plausible et cohérente avec les chiffres agrégés — mais elle n'est pas auditable de l'extérieur.
+### Contrats de location — RISQUE MODÉRÉ
+Tous les restaurants sont **loués**, sur des baux longs généralement sans clause de sortie anticipée. Les passifs locatifs constituent **l'essentiel des 658 M$ de passif total** : CAVA est sans dette financière, mais **pas sans engagements**. Une fermeture de restaurant non rentable laisse un loyer à payer jusqu'au terme du bail.
 
-### Les mesures non-GAAP — RISQUE MODÉRÉ À ÉLEVÉ (le point central)
-C'est **le signal le plus important du dossier**, et il n'est pas frauduleux : il est structurel et parfaitement divulgué. Mais il est massivement mal lu.
-
-| Mesure | Niveau T2 2026 | Ce qu'elle exclut |
-|---|---|---|
-| **Marge au niveau restaurant** (non-GAAP) | **25,7 %** | Frais généraux, amortissements, coûts de pré-ouverture, rémunération en actions |
-| **Marge d'EBITDA ajusté** (non-GAAP) | **14,9 %** | Amortissements, impôts, intérêts, éléments non récurrents |
-| **Marge opérationnelle** (GAAP) | **~5,5 %** | Rien |
-
-L'écart entre 25,7 % et 5,5 % **n'est pas un artifice** : c'est le coût réel de la structure et de la croissance. Mais un investisseur qui retient « CAVA fait 25 % de marge » se trompe d'un facteur cinq sur la rentabilité économique de l'entreprise. **Toute valorisation doit se construire sur la marge GAAP.**
-
-### Contrats de location (ASC 842) — RISQUE MODÉRÉ
-CAVA n'a **aucune dette financière**, mais le ratio dette/capitaux propres apparent (~0,62) est presque entièrement constitué d'**obligations locatives**. Chaque restaurant est un bail de 10 à 15 ans.
-
-**Ce que cela signifie** : les 476 baux constituent un engagement fixe de plusieurs centaines de millions de dollars, **non résiliable en cas de retournement**. En croissance, c'est invisible. En récession, c'est le poste qui transforme un levier opérationnel positif en levier négatif. À surveiller : la durée résiduelle moyenne, le taux d'actualisation retenu, et la charge locative rapportée au chiffre d'affaires.
-
-### Goodwill et immobilisations incorporelles — RISQUE FAIBLE À MODÉRÉ
-Le goodwill provient essentiellement de l'**acquisition de Zoe's Kitchen (2018)**. Il n'a pas fait l'objet de dépréciation, ce qui est cohérent avec la performance des sites convertis. **À surveiller** : la sensibilité du test de dépréciation aux hypothèses de croissance long terme — dans un scénario de ralentissement durable des comparables, ce poste redeviendrait un sujet.
-
-### Rémunération en actions — RISQUE MODÉRÉ
-La rémunération en actions est **significative rapportée au résultat net** (23 M$ au T2 2026), et elle est exclue de l'EBITDA ajusté. Elle génère une dilution d'environ **1 à 1,5 % par an**. Ce n'est pas hors norme pour une entreprise de croissance récemment introduite, mais l'effet est réel sur le BPA.
+**À surveiller** : la progression des **dépréciations d'actifs et cessions** (4,9 M$ en 2025 ; 3,9 M$ sur 28 semaines en 2026 contre 2,7 M$), premier signe de restaurants sous-performants.
 
 ### Parties liées — RISQUE FAIBLE
-Aucune transaction avec parties liées significative identifiée. Structure actionnariale dispersée, **73 % du capital détenu par des institutionnels**. Pas d'actions à droit de vote double, pas de société contrôlée.
+Aucune transaction significative avec des parties liées n'est ressortie de la documentation consultée. Le président du conseil (fondateur de Panera) et l'actionnaire historique Artal ne font pas l'objet de flux d'affaires notables identifiés. À vérifier chaque année dans le document de procuration.
 
-### Ventes d'initiés — RISQUE MODÉRÉ (signal de gouvernance, pas comptable)
-**~17,3 millions d'actions cédées par les initiés sur dix-huit mois, contre 150 actions achetées.** Une part importante relève de couvertures fiscales automatiques et de sorties de porteurs pré-introduction, mais **l'asymétrie totale entre ventes et achats est un fait**. À suivre trimestre après trimestre via les formulaires 4.
+### Engagements conditionnels — RISQUE MODÉRÉ
+- **Litiges sociaux** : le rapport annuel mentionne des procédures passées en droit du travail — un risque classique de la restauration
+- **Sécurité alimentaire** : risque de responsabilité et de réputation non provisionné par nature
+- **Dépendance fournisseurs** : sources uniques sur certains intrants
 
-### Engagements conditionnels — RISQUE MODÉRÉ, EN HAUSSE
-Le risque de litige lié à la **sécurité alimentaire** est le principal engagement conditionnel d'une chaîne de restauration. L'épisode cyclospora de 2026 n'a pas visé CAVA directement, mais la judiciarisation du secteur est croissante. À examiner à chaque publication : les provisions pour litiges et la couverture d'assurance.
+### Rémunération en actions — RISQUE MODÉRÉ
+Environ **23 M$ sur 12 mois** (~1,7 % du CA), soit **plus d'un tiers du résultat net**. L'EBITDA ajusté la réintègre : c'est pourquoi l'écart entre EBITDA ajusté (~182 M$) et résultat net (~66 M$) est si large. Dilution limitée (~1 % par an), mais à suivre.
 
-### Flux de trésorerie vs résultat — RISQUE MODÉRÉ
-Trésorerie d'exploitation de **210 M$** sur douze mois, capex de **171 M$**, free cash-flow de **~39 M$**. La conversion est faible **par construction** (chaque ouverture consomme du capital), et non par manipulation. Mais elle signifie que **le résultat net comptable ne se transforme pas en liquidités disponibles** tant que la croissance dure.
+### Goodwill et immobilisations incorporelles — RISQUE FAIBLE
+L'acquisition de Zoës Kitchen (2018) est ancienne et les restaurants ont été convertis. Le goodwill résiduel est **modeste** au regard du bilan ; pas de risque de dépréciation massive comparable à celui d'un groupe consolidateur.
 
-**Le calendrier fiscal est un piège de lecture** : les trimestres font 16, 12, 12 et 12 semaines. Toute comparaison séquentielle de chiffre d'affaires brut est mécaniquement fausse.
+### Fiscalité — POINT D'ATTENTION
+- **2024** : résultat net gonflé par une **reprise de provision fiscale de 80,1 M$** (non récurrente)
+- **2025** : taux d'impôt **quasi nul**, grâce notamment aux déductions liées aux levées d'options
+- **2026** : retour à un taux normal (~23 % au premier semestre) → le résultat avant impôt progresse de **~37 %** quand le résultat net ne progresse que de **~6 %**
+Les comparaisons de BPA d'une année sur l'autre sont donc **trompeuses** sans retraitement.
+
+### Flux de trésorerie vs résultat — RISQUE FAIBLE À MODÉRÉ
+Le flux d'exploitation (~220 M$ sur 12 mois) dépasse largement le résultat net grâce aux amortissements et au modèle encaissé comptant — c'est sain. Mais le **free cash-flow reste mince** (~49 M$ sur 12 mois, ~3,6 % du CA) car presque tout est réinvesti dans les ouvertures. Les **placements à la juste valeur** (112,8 M$) sont à suivre dans leur composition.
 
 ---
 
 ### Verdict global
-**Risque comptable : FAIBLE.** CAVA présente l'un des profils comptables les plus propres qu'un analyste puisse rencontrer dans une entreprise de forte croissance : revenus encaissés au comptant, pas de créances, pas de stocks matériels, pas de dette, pas de parties liées, pas d'acquisitions récentes à intégrer.
-
-**Le vrai risque n'est pas comptable, il est interprétatif** : l'omniprésence de la « marge au niveau restaurant » à 25,7 % dans la communication, alors que la marge opérationnelle réelle est de 5,5 %, conduit une large partie du marché à surestimer la rentabilité économique du modèle. Ce n'est pas un mensonge — c'est un cadrage. Et c'est en partie ce cadrage qui soutient un multiple de 122x les bénéfices.`,
+**Risque comptable : FAIBLE À MODÉRÉ.** CAVA est auditée par **Deloitte**, sans dette ni goodwill problématique, avec un modèle encaissé comptant. Les vigilances portent sur **la lecture** des chiffres plutôt que sur leur sincérité : indicateurs ajustés (marge restaurant, EBITDA ajusté hors rémunérations en actions), **distorsions fiscales** d'une année sur l'autre, **engagements locatifs** hors dette financière et progression des **dépréciations de restaurants**.`,
   },
   {
     id: 13,
     title: "Questions au Management",
     category: "Préparation d'entretien",
     icon: "❓",
-    content: `## 15 questions prioritaires pour Brett Schulman et l'équipe CAVA
+    content: `## 15 questions prioritaires pour Brett Schulman, classées par ordre d'importance
 
-### Stratégie long terme et avantage concurrentiel
+### Les questions qui conditionnent la thèse
 
-**1.** Vous visez au moins 1 000 restaurants en 2032, soit un doublement du parc actuel. **Quelle proportion de ces 524 ouvertures restantes se situera dans des marchés où vous n'avez aujourd'hui aucune présence ?** Et quel écart d'AUV et de marge acceptez-vous entre un restaurant de nouveau marché et votre socle Mid-Atlantic avant de ralentir ?
+**1.** Votre objectif de 1 000 restaurants d'ici 2032 suppose de presque doubler le parc en six ans. **Quelle est la performance des restaurants ouverts hors de vos marchés historiques** (Midwest, Ohio, Indiana) par rapport à la moyenne du parc, et à partir de quel niveau d'AUV ralentiriez-vous les ouvertures ?
 
-**2.** Vous affirmez que la productivité des nouvelles unités dépasse 100 % et que la performance est homogène entre géographies. **Pouvez-vous publier une courbe de maturation par cohorte** — AUV à 12, 24 et 36 mois pour les millésimes 2022 à 2025 ? Sans cette donnée, l'investisseur externe ne peut pas vérifier votre affirmation centrale.
+**2.** La cohorte 2024 a connu un « effet lune de miel » suivi d'un tassement en 2025. **Comment vous assurez-vous que la productivité supérieure à 100 % des ouvertures 2025-2026 est durable**, et non un pic d'ouverture qui s'érode en deuxième année ?
 
-**3.** Vous êtes seul à l'échelle nationale sur le méditerranéen. **Qu'est-ce qui empêche concrètement Chipotle, Panera ou un acteur du capital-investissement de lancer un concept équivalent en trois ans ?** Quelle est la véritable barrière : le sourcing, la recette, l'immobilier, ou simplement le fait que personne ne s'y est encore attelé ?
+**3.** Votre guidance implique des ventes comparables entre légèrement négatives et ~+3 à +5 % au second semestre 2026. **Quelle part de ce ralentissement vient des bases de comparaison, et quelle part d'un vrai ralentissement de la demande ?**
 
-### Économie unitaire et rentabilité du capital
+### Avantage concurrentiel
 
-**4.** Votre ROIC ressort à environ 6,2 %, votre ROE à 8 %. **À quel niveau de parc et à quelle échéance estimez-vous franchir durablement votre coût du capital ?** Quel est votre coût du capital de référence en interne ?
+**4.** Vous refusez d'augmenter vos prix pour gagner du trafic. **Jusqu'à quel niveau de marge restaurant êtes-vous prêt à descendre** pour défendre cette stratégie, et à quel moment la répercussion des coûts deviendrait-elle inévitable ?
 
-**5.** La marge au niveau restaurant est de 25,7 % ; la marge opérationnelle consolidée est d'environ 5,5 %. **Quel est votre objectif de marge opérationnelle GAAP à parc mature**, et quelle part de l'écart actuel considérez-vous comme structurelle plutôt que liée à la croissance ?
+**5.** Qu'est-ce qui empêche Chipotle, ou un concurrent financé par le capital-investissement, de **lancer une offre méditerranéenne** à grande échelle ? Quel est, selon vous, le délai d'avance de CAVA ?
 
-**6.** Votre free cash-flow sur douze mois est d'environ 39 M$ pour 210 M$ de trésorerie d'exploitation. **À partir de quel rythme d'ouvertures le free cash-flow devient-il significativement positif** — et est-ce un objectif, ou une conséquence non recherchée d'un ralentissement futur ?
-
-### Allocation du capital
-
-**7.** Vous n'avez ni dette, ni dividende, ni rachat d'actions. **À quelles conditions envisageriez-vous de recourir à l'endettement pour accélérer les ouvertures ?** Et à l'inverse, à quel moment un retour aux actionnaires deviendrait-il le meilleur usage du capital ?
-
-**8.** Vos deux usines peuvent servir environ 750 restaurants. **Quand engagerez-vous la troisième**, pour quel montant, et cette décision est-elle conditionnée à un seuil de parc ou à un calendrier ?
-
-**9.** Zoe's Kitchen reste votre unique acquisition majeure. **Referiez-vous une opération de ce type ?** Existe-t-il aujourd'hui des actifs de restauration dont la conversion créerait plus de valeur qu'une ouverture ex nihilo ?
+**6.** Le saumon a coûté ~50 pb de marge matière. **Quels sont les résultats chiffrés** des nouveautés (fréquence, panier, nouveaux clients) qui justifient ce coût, et le saumon restera-t-il au menu après 2026 ?
 
 ### Risques
 
-**10.** L'épisode cyclospora vous a coûté environ 4 % de fréquentation et 16 % de capitalisation **sans que vous soyez impliqués**. **Qu'avez-vous changé depuis** dans votre sourcing, votre traçabilité et votre communication de crise — et quel budget y consacrez-vous désormais ?
+**7.** L'épisode de cyclosporose de juillet a fait plonger le trafic sans que CAVA soit en cause. **Quels investissements concrets en sécurité alimentaire** (traçabilité, tests, plan de crise) avez-vous engagés, et quel serait l'impact d'une crise touchant directement vos restaurants ?
 
-**11.** Vous vous fournissez chez Taylor Farms pour certaines références, hors sites incriminés. **Maintenez-vous cette relation, et si oui, sur quels critères objectifs ?** Quel pourcentage de vos volumes de frais dépend de vos trois premiers fournisseurs ?
+**8.** La part de la livraison tierce augmente et coûte déjà ~40 pb de marge. **Comment comptez-vous ramener ces commandes vers votre propre application** et votre programme de fidélité ?
 
-**12.** Vos ventes comparables sont passées de +21 % au T4 2024 à +0,5 % au T4 2025, puis à +9 % au T2 2026. **Quelle part de cette volatilité attribuez-vous au consommateur, quelle part à vos propres décisions** (menu, prix, marketing) ? Autrement dit : que contrôlez-vous réellement ?
+**9.** Certains intrants proviennent de fournisseurs uniques et votre logistique repose sur peu de distributeurs. **Quel est votre plan de continuité** en cas de défaillance de l'un d'eux ?
 
-**13.** Vos prévisions 2026 impliquent, au bas de la fourchette, des comparables légèrement négatives au second semestre. **Quel scénario précis produirait ce résultat**, et quel serait alors l'impact sur votre rythme d'ouvertures 2027 ?
+### Allocation du capital
 
-### Gouvernance et vision
+**10.** Avec 436 M$ de trésorerie, zéro dette et un titre en baisse de près de 45 % depuis avril, **avez-vous envisagé un programme de rachat d'actions**, ou chaque dollar restera-t-il affecté aux ouvertures ?
 
-**14.** Les initiés ont cédé environ 17,3 millions d'actions en dix-huit mois et en ont acheté 150. **Comment expliquez-vous cette asymétrie**, et que répondez-vous à un actionnaire qui y voit un signal ?
+**11.** Quel est aujourd'hui le **coût d'investissement moyen d'un nouveau restaurant** et le délai de retour sur investissement que vous visez ? Comment ces chiffres évoluent-ils dans les nouveaux marchés plus chers comme la baie de San Francisco ?
 
-**15.** **Quel est le risque que vous sous-estimez le plus aujourd'hui, et que le marché ne voit pas encore ?**`,
+**12.** Les dépréciations d'actifs augmentent (3,9 M$ sur 28 semaines). **Combien de restaurants sont aujourd'hui sous le seuil de rentabilité** et quelle est votre politique de fermeture ?
+
+### Vision long terme et gouvernance
+
+**13.** Deux postes clés (opérations, juridique) ont changé de titulaire en sept mois. **Qu'est-ce qui a motivé ces départs** et comment l'arrivée de Doug Thompson modifie-t-elle l'exploitation ?
+
+**14.** Le traiteur, la grande distribution et l'international sont-ils des **relais de croissance réels** à l'horizon 2030, ou restent-ils des options marginales ?
+
+**15.** Quel est le **risque que vous sous-estimez le plus** aujourd'hui, et que le marché ne voit pas encore ?`,
   },
   {
     id: 14,
@@ -761,77 +716,48 @@ Trésorerie d'exploitation de **210 M$** sur douze mois, capex de **171 M$**, 
     icon: "😈",
     content: `## Thèse short — Démontage de l'argumentaire haussier
 
-### 1. Vous ne payez pas une entreprise, vous payez une extrapolation
+### 1. Ce qui peut casser le modèle : une marque de produits frais à la merci d'une crise
+Tout le modèle repose sur la **confiance** : légumes frais, viandes marinées, sauces préparées. Chipotle a mis des années à se remettre des crises de 2015-2016. En juillet 2026, une épidémie **chez un concurrent** a suffi à faire tomber les comparables de CAVA près de zéro. Imaginez une crise **chez CAVA**. Les haussiers présentent la sécurité alimentaire comme un risque de queue ; c'est en réalité le **risque central** d'un concept de produits frais en croissance rapide, où chaque nouvelle équipe est une nouvelle source d'erreur.
 
-Le fait central du dossier tient en une ligne : **CAVA se paie ~122x les bénéfices ; Chipotle, qui est exactement le même modèle en dix fois plus grand et prouvé, se paie ~30x.**
+### 2. La concentration totale des revenus
+**Un seul pays, une seule marque, une seule cuisine, un seul format.** Aucun segment amortisseur, aucune franchise, aucune activité internationale. Le cœur du chiffre d'affaires reste concentré dans les marchés historiques (région de Washington, Sud-Est, Texas). Si la mode méditerranéenne passe — comme les salades premium chez Sweetgreen — il n'y a **rien d'autre**.
 
-Les haussiers répondent : « CAVA croît de 31 %, Chipotle de 7 % ». C'est vrai. Mais Chipotle croissait aussi de 30 % il y a quinze ans, et le marché ne lui a jamais accordé 122x durablement. Ce que vous achetez à ce prix, ce n'est pas la croissance actuelle — c'est **l'hypothèse que CAVA parcourra les vingt prochaines années sans le moindre faux pas**, dans un secteur où le taux d'échec des concepts à l'échelle nationale est historiquement écrasant.
+### 3. Un avantage concurrentiel plus fragile qu'il n'y paraît
+- **Aucun coût de changement** : le client paie à chaque repas et peut partir le lendemain
+- **Format copiable** : la chaîne d'assemblage est le standard du secteur
+- **Une stratégie de prix qui sacrifie la marge** : CAVA achète son trafic en refusant d'augmenter ses prix ; dès qu'elle devra répercuter ses coûts, l'écart de trafic avec les pairs pourrait se refermer
+- **Le précédent Sweetgreen** : même profil (marque « saine », introduction en Bourse euphorique), et un effondrement des comparables en 2026
 
-Et il y a plus gênant : **CAVA a déjà trébuché**. Au T4 2025, il y a douze mois, les ventes comparables étaient à **+0,5 %** et la marge restaurant à 21,4 %. Ce n'est pas de l'histoire ancienne. C'est la preuve que le concept peut caler, dans un cycle qui n'était même pas une récession.
+### 4. Le concurrent le plus dangereux : Chipotle
+Les haussiers voient Chipotle comme un modèle ; c'est surtout une **menace**. Même format, même clientèle, 3 900 restaurants, un budget marketing sans commune mesure et un bilan sans dette. Chipotle cherche désespérément à relancer son trafic : une offensive promotionnelle, un menu méditerranéen ou une baisse de prix ciblée sur les marchés de CAVA suffirait à **comprimer sa croissance**.
 
-### 2. Le fossé est en papier
+### 5. L'allocation du capital — les angles morts
+- **100 % du cash dans les ouvertures** : la stratégie est cohérente, mais elle rend CAVA **dépendante de la réussite de chaque nouveau marché**. Des ouvertures dans des zones à coût élevé (baie de San Francisco) pourraient détruire du rendement
+- **Pas de rachat** malgré 436 M$ de trésorerie et un titre divisé par trois depuis 2024
+- **Dépréciations en hausse** : les premiers restaurants sous-performants apparaissent dans les comptes
 
-Les haussiers parlent de « catégorie définie ». Traduisons : **CAVA vend des bowls avec des légumes et des dips**. Il n'y a ni brevet, ni contrat, ni coût de changement, ni effet de réseau, ni barrière réglementaire. Un client peut aller déjeuner ailleurs demain sans le moindre frottement.
+### 6. Gouvernance et incitations
+- **Conseil échelonné** qui protège la direction
+- **Départs de dirigeants clés** (opérations en 2025, juridique en 2026)
+- **L'actionnaire historique vend** : Artal a cédé 3 millions d'actions à 90 $ en juin 2026
+- **Rémunérations en actions** équivalentes à plus d'un tiers du résultat net, réintégrées dans l'EBITDA ajusté mis en avant
+Aucune transaction avec parties liées ni comptabilité agressive identifiées — le risque est d'**incitation** (croissance des ouvertures plutôt que rendement), pas de fraude.
 
-La seule barrière réelle est que **personne n'a encore décidé de le copier à l'échelle**. Ce n'est pas un fossé, c'est un délai. Le jour où Chipotle décide de lancer un format méditerranéen — il a la logistique, l'immobilier, la trésorerie et le savoir-faire du format « walk the line » — la « catégorie définie » devient un segment disputé.
+### 7. Ce qu'il faut croire pour justifier 53 $
+- **1 000 restaurants en 2032** avec un AUV maintenu à 3 M$ ou plus
+- **Marge restaurant ≥ 24 %** malgré les hausses de coûts
+- **Marge d'EBITDA ajusté vers 17-18 %** à maturité
+- **BPA 2030 de ~1,8 à 2 $** et un multiple de 35 à 40x à cet horizon
+Chacune de ces hypothèses est plausible ; leur **conjonction** l'est beaucoup moins.
 
-### 3. Le risque est concentré là où vous ne pouvez pas le contrôler
+### 8. Si la croissance déçoit de 20 à 30 %
+Avec des ouvertures et des comparables inférieurs de 20 à 30 % aux attentes, le BPA 2028 tombe à **~0,75-0,80 $** au lieu de ~1,05 $. Un marché qui ne voit plus une histoire de croissance appliquerait **~40x**, soit un cours de **~30-32 $** : **-40 % environ** par rapport au cours actuel.
 
-**L'été 2026 est la démonstration la plus coûteuse et la plus instructive du dossier.** CAVA n'a rien fait de mal. Elle ne sert pas de laitue iceberg. Elle ne s'approvisionne pas au Mexique. Elle n'était liée à aucun des rappels. Résultat : **-4,2 % de fréquentation, ventes comparables ramenées à zéro, -16 % de capitalisation en un mois.**
-
-Autrement dit : un concept construit sur le frais et le végétal **hérite mécaniquement du risque réputationnel de toute sa catégorie**, sans avoir aucun moyen de s'en protéger. Et ce n'était que le scénario favorable — celui où CAVA est innocente.
-
-Le scénario défavorable a un précédent documenté : **Chipotle en 2015**. Une contamination imputable à l'enseigne, et le titre a mis **trois ans** à retrouver son niveau, avec des ventes comparables négatives pendant huit trimestres. Appliquez ce scénario à un titre valorisé 122x les bénéfices : la baisse ne serait pas de 30 %, elle serait de 70 %.
-
-### 4. Le modèle ne produit pas de liquidités
-
-Chiffres bruts sur douze mois : **210 M$ de trésorerie d'exploitation, 171 M$ de capex, 39 M$ de free cash-flow.** Capitalisation : **7,9 Mds$**. Vous payez **~197x le free cash-flow**.
-
-Les haussiers répliquent que le capex est de croissance et non de maintenance. C'est exact — et c'est précisément le piège. **Le free cash-flow ne devient significatif que lorsque la croissance s'arrête.** Or le jour où la croissance s'arrête, le multiple de 122x s'effondre. **Vous ne pouvez pas encaisser le free cash-flow et conserver le multiple.** Les deux s'excluent.
-
-Ajoutez le ROIC : **6,2 %**. Pour une entreprise censée être un composeur de valeur exceptionnel, c'est un rendement du capital à peine supérieur à son coût.
-
-### 5. Le concurrent que les haussiers sous-estiment : Chipotle, mais pas pour la raison qu'ils croient
-
-Les haussiers regardent Chipotle comme le modèle à imiter. Le vrai danger, c'est **Chipotle comme comparable de valorisation**.
-
-Chipotle affiche des ventes comparables **négatives en 2025 (-1,7 %)**, un titre divisé par deux, et se paie 30x. C'est le fast-casual haut de gamme dans sa version mature. Tôt ou tard, le marché appliquera à CAVA la grille de lecture qu'il applique à Chipotle. Il n'a pas besoin d'attendre 2032 : il lui suffit d'un trimestre décevant pour commencer.
-
-Et le cimetière du secteur s'est rempli en 2025-2026 : **Sweetgreen -78,5 % et prévisions abaissées**, **Salad and Go en faillite (Chapter 11)**, **Shake Shack en net recul**. Le fast-casual premium n'est pas une catégorie protégée. C'est une catégorie cyclique déguisée en catégorie de croissance.
-
-### 6. Les signaux de gouvernance
-
-**17,3 millions d'actions vendues par les initiés en dix-huit mois. 150 actions achetées.** Le PDG a cédé environ 598 000 actions. La directrice financière, le directeur comptable et un cofondateur vendent régulièrement.
-
-On répondra — à juste titre en partie — qu'il s'agit de couvertures fiscales et de sorties post-introduction. Mais l'asymétrie est totale : **aucune conviction acheteuse ne s'exprime en interne à ces niveaux de cours**, même après une chute de 61 % depuis les sommets.
-
-Second point : la **directrice financière était en poste chez GNC lorsque l'entreprise a déposé son bilan en 2020**. Ce n'est pas disqualifiant, mais c'est un élément que la communication du dossier n'évoque jamais.
-
-### 7. Quelles hypothèses doivent se vérifier pour justifier le cours actuel ?
-
-Toutes celles-ci, **simultanément** :
-- Le parc double d'ici 2032 sans dégradation de l'AUV ni de la marge unitaire
-- Les ventes comparables tiennent +4 à +6 % par an pendant six ans, alors qu'elles étaient à +0,5 % il y a douze mois
-- La marge opérationnelle GAAP passe de 5,5 % à 10-12 %
-- Aucun incident sanitaire imputable à CAVA
-- Aucun concurrent d'échelle n'entre dans la catégorie
-- Et le marché continue d'accorder plus de 40x les bénéfices en 2032
-
-**Que se passe-t-il si la croissance déçoit de 20 à 30 % ?** Ventes comparables à +2 % au lieu de +5 %, ouvertures ramenées à 60 par an, BPA 2028 à 0,85 $ au lieu de 1,20 $. Et surtout : le multiple ne reste pas à 100x pour une croissance de 12 %. Appliquez 40x — le multiple de Chipotle en meilleure forme — et vous obtenez **34 $**, soit **-50 % depuis le cours actuel**. Il n'a fallu supposer ni fraude, ni crise, ni faillite. Seulement une normalisation.
-
-### Le scénario unique qui nuirait durablement
-
-**Une contamination alimentaire majeure imputable à CAVA elle-même.** C'est le seul événement capable de détruire simultanément la marque, le trafic, la marge et le multiple — et il frapperait une entreprise dont l'avantage concurrentiel est **exclusivement réputationnel**. Le précédent Chipotle 2015-2018 chiffre l'ampleur : huit trimestres de comparables négatives, trois ans de reconstruction.
-
-Probabilité sur cinq ans pour une chaîne de 500 à 800 restaurants servant du frais non cuit ? **Non négligeable — de l'ordre de 15 à 25 %.** Le secteur en a produit trois épisodes majeurs sur la seule année 2026.
+### 9. Le scénario catastrophe unique
+**Une crise sanitaire grave et médiatisée dans des restaurants CAVA**, au moment où le réseau s'étend dans des marchés où la marque est encore inconnue. Conséquences : comparables à -15 % ou pire pendant plusieurs trimestres, gel des ouvertures, marge restaurant sous 20 %, perte du statut de valeur de croissance. **Probabilité** : faible mais non négligeable (~10 % à cinq ans) pour un réseau de produits frais qui ouvre ~80 restaurants par an.
 
 ### Conclusion short
-
-CAVA est une **excellente entreprise** : bilan sans dette, économie unitaire solide, croissance authentiquement volumique, management honnête. Rien de tout cela n'est contesté ici.
-
-Mais **une excellente entreprise à 122x les bénéfices, 53x l'EBITDA et 197x le free cash-flow n'est pas un investissement — c'est un pari sur la permanence d'un multiple**. Le cours a déjà chuté de 61 % depuis novembre 2024 **sans qu'aucune mauvaise nouvelle fondamentale ne survienne** : c'est le multiple, seul, qui s'est dégonflé. Rien n'indique que ce processus soit terminé, car il reste 122x à comprimer vers 30x.
-
-**La thèse short n'est pas « CAVA va échouer ». Elle est : « CAVA va réussir, et l'action va quand même baisser. »**`,
+CAVA est un **excellent concept** et une entreprise saine — sans dette, rentable, en croissance de 30 %. Mais l'action se paie encore **~96 fois les bénéfices** pour un modèle mono-marque, mono-pays, vulnérable à une crise sanitaire et confronté à un géant qui cherche à relancer son trafic. La baisse de 45 % depuis avril n'a pas supprimé le risque : elle a seulement **réduit la prime d'optimisme**.`,
   },
 ];
 
