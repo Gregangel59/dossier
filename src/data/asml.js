@@ -1,8 +1,8 @@
 // ============================================================
 //  DOSSIER : ASML Holding N.V. (ASML)
 //  Fichier de DONNÉES uniquement — aucun rendu ici.
-//  Données arrêtées au 17 août 2026 (résultats T2 2026 publiés
-//  le 15 juillet 2026, cours de clôture du 14 août 2026).
+//  Pour créer un nouveau dossier, copie ce fichier, change le
+//  bloc "meta" et remplace les "modules".
 // ============================================================
 
 // --- Métadonnées de l'entreprise (carte d'accueil + en-tête) ---
@@ -13,12 +13,13 @@ const meta = {
   exchange: "Euronext Amsterdam / Nasdaq",
   sector: "Équipements de lithographie pour semi-conducteurs",
   initials: "ASML",                 // affiché dans la pastille
-  tagline: "Monopole mondial de la lithographie EUV — le goulot d'étranglement de toute la chaîne de valeur des semi-conducteurs.",
-  riskScore: 67,                   // score du rapport de risque (ou null)
+  tagline: "Monopole mondial de la lithographie EUV : la machine sans laquelle aucune puce d'IA de pointe ne peut être gravée.",
+  riskScore: 67,                    // score du rapport de risque (ou null)
   riskLabel: "Risque modéré",
   // Nom du fichier HTML déposé dans public/rapports/ (ou null si absent) :
   riskReport: "asml.html",
-  updated: "2026-08",              // période des données
+  updated: "2026-10",               // période des données
+  published: "2026-10-15",          // date exacte de publication
 };
 
 const modules = [
@@ -29,36 +30,34 @@ const modules = [
     icon: "🏢",
     content: `## Modèle économique
 
-ASML Holding N.V. est le **fournisseur exclusif au monde de machines de lithographie EUV** (ultraviolet extrême), les équipements qui impriment les motifs des circuits sur les plaquettes de silicium. Fondée en 1984 à Veldhoven (Pays-Bas) comme coentreprise entre Philips et ASM International, la société emploie aujourd'hui plus de **44 500 collaborateurs** et cote simultanément sur Euronext Amsterdam et le Nasdaq.
+ASML est le **fournisseur quasi unique des machines de lithographie** qui « impriment » les motifs des circuits sur les plaquettes de silicium. Fondée en 1984 (coentreprise Philips / ASM International) et basée à Veldhoven aux Pays-Bas, l'entreprise emploie ~45 500 personnes et a réalisé **32,7 Md€ de chiffre d'affaires en 2025** pour **9,6 Md€ de bénéfice net**. En 2026, la direction vise **44 à 45 Md€** de ventes (+36 %).
 
-Le modèle est d'une simplicité redoutable : **aucune puce avancée au monde ne peut être fabriquée sans une machine ASML**. Il n'existe pas de deuxième fournisseur d'EUV. Cette position de goulot d'étranglement unique explique un chiffre d'affaires 2025 de **32,7 milliards €** pour un bénéfice net de **9,6 milliards €** — soit une marge nette de 29 %.
+Le principe est simple à énoncer, extraordinairement difficile à reproduire : plus la lumière utilisée est courte, plus les transistors gravés peuvent être petits. ASML est **la seule entreprise au monde** à maîtriser la lithographie **EUV** (ultraviolet extrême, longueur d'onde de 13,5 nm), indispensable à toutes les puces avancées : GPU pour l'IA, processeurs de smartphones, mémoire DRAM et HBM de dernière génération.
 
-L'activité repose sur deux jambes économiquement distinctes :
-
-- **Vente de systèmes (~72 % du CA)** : machines vendues 60 à 250 millions € l'unité pour la gamme EUV Low NA (NXE:3800E), et **environ 380 millions $ pour les systèmes High NA (EXE:5200)**. Cycle long, revenus lumpy, exposés au calendrier d'investissement des fondeurs.
-- **Installed Base Management (~28 % du CA)** : services, maintenance, pièces et surtout **upgrades de performance** sur un parc installé de plus de 5 000 machines. Revenu récurrent, à marge élevée, croissant mécaniquement avec la base — **2,76 milliards € au seul T2 2026, en hausse de 32 % sur un an**.
+Le modèle repose sur **deux moteurs complémentaires** :
+- **Vente de systèmes (~72 % du CA 2026E)** : machines vendues à l'unité, de ~70 M€ (DUV immersion) à ~200 M€ (EUV « Low-NA ») et ~350-400 M€ (EUV « High-NA »)
+- **Installed Base Management (~28 %)** : maintenance, pièces détachées, mises à niveau de productivité et logiciels sur un parc de plusieurs milliers de machines installées. Revenus récurrents et très margés, en hausse d'~50 % en 2026
 
 ## Principaux produits et services
 
-- **EUV Low NA** (NXE:3600D, NXE:3800E) : le cheval de bataille de la production actuelle, des nœuds 7 nm aux nœuds 2 nm. Capacité de production d'environ **65 unités en 2026**.
-- **EUV High NA** (EXE:5000, EXE:5200B) : ouverture numérique 0,55, motifs jusqu'à 66 % plus fins. Destiné aux nœuds sub-2 nm à partir de 2027-2028. Moins d'une douzaine d'unités livrées dans le monde.
-- **DUV** (immersion NXT, sec) : le socle volumique, environ **130 systèmes d'immersion en 2026**. C'est la gamme exposée aux restrictions à l'export vers la Chine.
-- **Métrologie et inspection** (YieldStar, HMI e-beam) et **lithographie computationnelle** — logiciels d'optimisation de rendement.
-- **Advanced packaging** : premier système TWINSCAN XT:260 expédié en 2025, nouvelle jambe de croissance liée au HBM et au chiplet.
+- **EUV Low-NA (NXE:3800E, puis NXE:3800F en 2027)** : le cheval de bataille de la logique avancée et de la DRAM, ~220 à 260 plaquettes/heure. Environ **65 systèmes EUV** livrés en 2026 (+50 %)
+- **EUV High-NA (EXE:5000 / EXE:5200)** : la génération suivante (ouverture numérique de 0,55), pour les nœuds de 2 nm et en dessous. En production de volume chez Intel (18A), adoption prévue vers 2028 chez Samsung et vers 2030 chez TSMC
+- **DUV (ArF immersion, ArF sec, KrF, i-line)** : machines « classiques » qui restent majoritaires en nombre d'unités, notamment pour les couches les moins critiques et pour la Chine
+- **Métrologie et inspection** (YieldStar, HMI e-beam) et **logiciels de lithographie computationnelle** (Brion)
 
 ## Clients, fournisseurs, concurrents
 
-**Clients** : une poignée d'acteurs. **TSMC**, **Samsung Electronics**, **Intel**, **SK Hynix**, **Micron**, auxquels s'ajoutent Rapidus, GlobalFoundries, UMC, SMIC et Hua Hong sur les nœuds matures. La concentration est extrême : trois clients logiques représentent probablement plus de la moitié des ventes de systèmes avancés.
+**Clients** : un club très fermé de fabricants de puces. **TSMC**, **Samsung**, **SK Hynix**, **Intel** et **Micron** pour l'EUV ; **SMIC**, **Hua Hong** et **CXMT** en Chine pour le DUV ; Rapidus au Japon. Au T3 2026, les ventes de systèmes se répartissaient entre Taïwan (32 %), la Corée du Sud (31 %), la Chine (23 %) et les États-Unis (13 %), et entre logique (54 %) et mémoire (46 %).
 
-**Fournisseurs critiques** : **Carl Zeiss SMT** (optiques EUV, partenariat exclusif et capitalistique), **TRUMPF** (lasers CO₂ de haute puissance), **Cymer** (sources lumineuses, filiale ASML depuis 2013), **VDL Groep**, **Neways**, **Prodrive**, **Settels Savenije**.
+**Fournisseurs** : ASML est avant tout un **intégrateur**. Plus de 5 000 fournisseurs, dont des partenaires critiques et souvent exclusifs : **Carl Zeiss SMT** pour les optiques (ASML en détient 24,9 %), **Trumpf** pour le laser CO₂ de la source EUV, **VDL ETG** et **Prodrive** pour les sous-ensembles mécatroniques et électroniques.
 
-**Concurrents** : sur l'EUV, **aucun**. Sur le DUV, **Nikon** et **Canon** subsistent avec des parts marginales ; Canon pousse l'alternative **nanoimprint (NIL)**. En Chine, **SMEE** et de nouveaux entrants comme Shanghai Yuliangsheng tentent de reproduire l'immersion DUV — avec un retard technologique estimé à une décennie, mais un soutien étatique massif.
+**Concurrents** : en EUV, **aucun**. En DUV, **Nikon** et **Canon**, très loin derrière (moins de 10 % du marché immersion pour Nikon). La menace émergente vient de **Chine** (groupe public Shanghai Aishengna, issu notamment de SMEE), qui commence à produire ses propres machines DUV immersion en petites quantités.
 
 ## Modalités contractuelles
 
-Les commandes sont enregistrées avec **autorisation écrite du client** et alimentent un carnet (backlog) qui atteignait **38,8 milliards € fin 2025**. Les acomptes clients (customer down payments) sont significatifs et financent partiellement le cycle de production, très long (12 à 18 mois pour un EUV). La reconnaissance du revenu intervient à l'expédition ou à l'acceptation selon le type de système.
+Les ventes de systèmes reposent sur des **contrats-cadres pluriannuels** avec les grands clients, assortis de **réservations de capacité** et d'**acomptes importants** versés bien avant la livraison : c'est ce qui explique l'énorme flux de trésorerie du T3 2026 (11,4 Md€). Le chiffre d'affaires est reconnu à l'**installation** et à l'**acceptation** chez le client, pas à la commande. Les clients réservent désormais des machines pour **2028**, et certains souhaitent commander pour **2029 voire 2030**. ASML vient aussi de conclure avec ses grands clients une **hausse de prix fondée sur la valeur** apportée, dont l'effet apparaîtra à partir de 2027.
 
-> **Point d'attention structurel** : le backlog n'est **pas un contrat ferme irrévocable**. Les clients peuvent décaler ou annuler des livraisons — ASML l'a douloureusement démontré en octobre 2024, lorsqu'un effondrement des prises de commandes avait fait chuter le titre de 16 % en une séance.`,
+> **À retenir** : ASML vend un **goulot d'étranglement**. Tant que l'industrie a besoin de graver plus fin et plus vite (IA, mémoire HBM), elle doit passer par Veldhoven, et la demande dépasse aujourd'hui l'offre au moins jusqu'en 2028.`,
   },
   {
     id: 2,
@@ -67,56 +66,64 @@ Les commandes sont enregistrées avec **autorisation écrite du client** et alim
     icon: "🔗",
     content: `## Position d'ASML dans la chaîne de valeur
 
-ASML n'est pas un fabricant de puces : c'est **l'intégrateur système situé au sommet de la chaîne**. La société conçoit, assemble et met au point les machines, mais externalise environ **85 % de la valeur des composants** à un réseau de fournisseurs spécialisés dont plusieurs sont, eux aussi, en situation de monopole de fait.
+ASML se situe **tout en amont** de l'industrie des semi-conducteurs : elle fabrique l'outil qui fabrique les puces. Elle est elle-même au bout d'une chaîne de fournisseurs ultra-spécialisés, pour la plupart européens, qu'elle a contribué à faire naître et qu'elle co-finance.
 
-### Amont — Les fournisseurs irremplaçables
+### Amont — les fournisseurs d'ASML
 
-**Optiques et miroirs** :
-- **Carl Zeiss SMT** (Allemagne) — miroirs EUV polis à la précision atomique. ASML détient une participation minoritaire et cofinance la R&D. **Il n'existe aucune alternative au monde.** C'est le vrai goulot d'étranglement derrière le goulot d'étranglement.
+**Optique (le cœur de la machine)**
+- **Carl Zeiss SMT** (Oberkochen, Allemagne) : miroirs EUV d'une planéité atomique, fournisseur exclusif. ASML détient 24,9 % de Carl Zeiss SMT depuis 2016
+- **Berliner Glas** (devenu ASML Berlin) : composants optiques et mandrins, racheté en 2020
 
-**Sources lumineuses et lasers** :
-- **Cymer** (San Diego, filiale ASML depuis 2013, 2,5 Mds$) — source EUV par plasma d'étain
-- **TRUMPF** (Allemagne) — laser CO₂ de plusieurs dizaines de kilowatts qui vaporise les gouttelettes d'étain
+**Source de lumière EUV**
+- **Cymer** (San Diego, filiale d'ASML depuis 2013) : source plasma qui vaporise 50 000 gouttelettes d'étain par seconde
+- **Trumpf** (Ditzingen, Allemagne) : laser CO₂ de forte puissance qui frappe les gouttelettes
+- **Gigaphoton** (Japon) : sources laser excimères pour une partie du parc DUV
 
-**Mécatronique, modules et sous-ensembles** :
-- **VDL Groep**, **Neways Electronics**, **Prodrive Technologies**, **Settels Savenije**, **KMWE** — le cluster industriel du Brabant néerlandais
-- **Berliner Glas** (acquis en 2020) — porte-plaquettes en céramique
-
-**Autres intrants** : étain de haute pureté, tungstène, terres rares, composants électroniques, et une main-d'œuvre d'ingénieurs hautement qualifiés dont la rareté est un facteur limitant reconnu par la direction.
-
----
-
-### ASML — Assemblage, installation, service
-
-**Production** : Veldhoven (siège et assemblage EUV), Wilton (Connecticut), San Diego (Cymer), Linkou (Taïwan), Corée du Sud.
-
-**Logistique** : une machine EUV pèse environ 180 tonnes et nécessite plusieurs avions cargo Boeing 747 pour être livrée. L'installation sur site du client prend plusieurs mois.
-
-**Service** : équipes permanentes intégrées dans les fabs clientes — c'est le socle du revenu récurrent Installed Base Management.
+**Mécatronique, électronique, sous-ensembles**
+- **VDL ETG**, **Prodrive Technologies**, **NTS-Group**, **KMWE** (écosystème de Brainport Eindhoven)
+- **Edwards** (vide), **Mitsubishi Electric**, **Siemens** (composants industriels), nombreux fournisseurs américains de sous-systèmes, d'où la sensibilité aux règles d'exportation américaines
 
 ---
 
-### Aval — Les clients et l'utilisateur final
+### ASML — conception, intégration et service
 
-**Fondeurs et fabricants de mémoire** :
-- **TSMC** (capex 2026 annoncé de 52 à 56 milliards $, en hausse d'environ 30 %)
-- **Samsung Electronics**, **Intel**, **SK Hynix**, **Micron**, **Rapidus**, **GlobalFoundries**, **UMC**, **SMIC**
-
-**Concepteurs de puces (clients de nos clients)** : **NVIDIA**, **Apple**, **AMD**, **Qualcomm**, **Broadcom**, **MediaTek** — leurs feuilles de route en 2 nm et 1,4 nm déterminent mécaniquement la demande d'EUV.
-
-**Utilisateurs finaux** : hyperscalers (Microsoft, Google, Amazon, Meta), constructeurs automobiles, industriels. Le projet **Terafab** d'Elon Musk — des fabs capables de traiter des millions de plaquettes par mois pour alimenter les data centers d'IA — a été explicitement cité par le PDG comme illustration du changement d'échelle de la demande.
+- **Conception et R&D** : ~4,8 Md€ de R&D attendus en 2026 (Veldhoven, Wilton, San Diego, Berlin)
+- **Intégration** : une machine EUV compte ~100 000 pièces, voyage dans ~40 conteneurs et 3 avions cargo, et s'assemble chez le client en plusieurs mois
+- **Service** : des milliers d'ingénieurs résidents chez les clients, mises à niveau de productivité, pièces détachées (Installed Base Management)
+- **Partenaires de recherche** : **imec** (Louvain), laboratoire commun High-NA avec imec à Veldhoven
 
 ---
 
-### Cartographie simplifiée du flux
+### Écosystème « lithographie » autour de la machine
 
-- **Étage 1 — Composants critiques** : Zeiss SMT (optiques) · TRUMPF (lasers) · Cymer (source EUV) · VDL, Neways, Prodrive (mécatronique)
-- **Étage 2 — Intégration** : **ASML** — assemblage, calibration, installation, service permanent en fab
-- **Étage 3 — Fabrication** : TSMC · Samsung · Intel · SK Hynix · Micron
-- **Étage 4 — Conception** : NVIDIA · Apple · AMD · Qualcomm · Broadcom
-- **Étage 5 — Usage final** : hyperscalers, data centers d'IA, automobile, industrie
+- **Résines photosensibles** : JSR, Tokyo Ohka Kogyo (TOK), Shin-Etsu Chemical, Sumitomo Chemical
+- **Masques et ébauches** : Hoya, AGC (ébauches EUV), Toppan, Dai Nippon Printing, Photronics
+- **Pellicules EUV** : Mitsui Chemicals (sous licence ASML)
+- **Inspection des masques** : Lasertec, KLA
+- **Équipements complémentaires du « cluster »** : Tokyo Electron (dépôt et développement des résines, couplé à chaque scanner), Applied Materials, Lam Research (gravure, dépôt)
 
-**La lecture qui compte** : ASML est un monopole *encadré par des monopoles*. Sa capacité de production n'est pas limitée par la demande — elle l'est par Zeiss, par TRUMPF et par la disponibilité d'ingénieurs. L'annonce d'une hausse de **30 % de la capacité EUV Low NA pour 2027** est donc autant une décision d'ASML qu'un engagement de toute sa chaîne amont.`,
+---
+
+### Aval — les clients d'ASML
+
+- **Fondeurs** : TSMC, Samsung Foundry, Intel Foundry, GlobalFoundries, UMC, Rapidus, SMIC, Hua Hong
+- **Mémoire** : SK Hynix, Samsung Memory, Micron, CXMT, Kioxia
+- **Clients finaux de ces puces** : Nvidia, Broadcom, Apple, Qualcomm, puis les hyperscalers (Microsoft, Alphabet, Amazon, Meta) et les laboratoires d'IA qui financent la demande de calcul
+
+---
+
+### Schéma simplifié du parcours
+
+\`\`\`
+OPTIQUE & SOURCES         ASML                      FABRICANTS DE PUCES      CONCEPTEURS          UTILISATEURS
+Carl Zeiss SMT  ──┐                                 TSMC, Samsung,           Nvidia, Apple,       Hyperscalers
+Trumpf, Cymer   ──┼──►  Conception, intégration ──► SK Hynix, Intel,  ──►    Broadcom,        ──►  (Microsoft, Alphabet,
+VDL, Prodrive   ──┘     et service (Veldhoven)      Micron, SMIC, CXMT       Qualcomm             Amazon, Meta),
+                              ▲                            ▲                                       labos d'IA, grand public
+Résines (JSR, TOK) ───────────┴── masques (Hoya, AGC, Toppan, DNP) ── cluster Tokyo Electron ──┘
+\`\`\`
+
+**Lecture** : ASML est le **point de passage obligé** de la chaîne de valeur de l'IA. Sa dépendance réciproque avec Zeiss (fournisseur exclusif, participation de 24,9 %) est à la fois son meilleur rempart, car aucun concurrent ne peut accéder à ces optiques, et son principal risque opérationnel : un incident chez Zeiss bloquerait toute la production EUV mondiale.`,
   },
   {
     id: 3,
@@ -125,57 +132,54 @@ ASML n'est pas un fabricant de puces : c'est **l'intégrateur système situé a
     icon: "📊",
     content: `## Ventilation du chiffre d'affaires
 
-ASML publie en US GAAP et ventile essentiellement entre **ventes de systèmes** et **Installed Base Management** (services et field options), avec des découpages complémentaires par technologie, par usage final et par géographie.
+**Avertissement méthodologique** : ASML ne publie qu'**un seul segment opérationnel** (« conception, fabrication et vente de systèmes de lithographie et services associés »). Il n'existe donc **ni EBITDA ni résultat net par segment** publiés. La société détaille en revanche ses ventes par **technologie**, par **marché final** et par **région**, ce qui permet d'identifier les moteurs. Les ventilations 2025 par technologie ci-dessous sont des **estimations** reconstituées à partir des taux de croissance communiqués.
 
-### Structure T2 2026
+### Par activité
 
-| Poste | T1 2026 | T2 2026 | Lecture |
+| Activité | 2024 | 2025 | 2026E (guidance) | Dynamique |
+|---|---|---|---|---|
+| Ventes de systèmes | 21,8 Md€ | 24,5 Md€ | ~32 Md€ | EUV +45 %, non-EUV +20 % |
+| dont EUV (estim.) | ~8,3 Md€ | ~11,4 Md€ | ~16,5 Md€ | ~65 machines livrées en 2026 |
+| dont non-EUV, DUV + métrologie (estim.) | ~13,5 Md€ | ~13,1 Md€ | ~15,7 Md€ | ArFi tiré par la Chine et l'IA |
+| Installed Base Management | 6,5 Md€ | 8,2 Md€ | ~12,3 Md€ | +50 %, mises à niveau de productivité |
+| **Total** | **28,3 Md€** | **32,7 Md€** | **44-45 Md€** | **+36 %** |
+
+**Le fait marquant de 2026** est l'explosion de l'**Installed Base Management** : les clients, qui manquent de machines, font **mettre à niveau leurs scanners existants** pour gagner des plaquettes/heure. Ces mises à niveau sont très margées, d'où la marge brute record de 57,5 % au T3.
+
+### Par marché final (ventes de systèmes)
+
+| Marché | 2025 | T2 2026 | T3 2026 |
 |---|---|---|---|
-| CA total | 8 767 M€ | **9 326 M€** | +6,4 % séquentiel |
-| dont ventes de systèmes | 6 279 M€ | **6 564 M€** | Le moteur volumique |
-| dont Installed Base Mgmt | 2 488 M€ | **2 762 M€** | +32 % sur un an — la pépite |
-| Systèmes neufs vendus | 67 | **86** | Accélération nette |
-| Systèmes d'occasion | 12 | **5** | Mix qualitatif favorable |
-| Marge brute | 53,0 % | **54,0 %** | Au-dessus de la guidance |
+| Logique (fondeurs, Intel) | ~65 % | 51 % | 54 % |
+| Mémoire (DRAM, HBM, NAND) | ~35 % | 49 % | 46 % |
+
+La **mémoire a presque rejoint la logique** : la HBM qui équipe les accélérateurs d'IA exige de plus en plus de couches EUV, et SK Hynix, Samsung et Micron accélèrent leurs investissements.
+
+### Par région (ventes de systèmes)
+
+| Région | 2024 | 2025 | T3 2026 | 2026E |
+|---|---|---|---|---|
+| Chine | 41 % | 33 % | 23 % | ~20 % |
+| Taïwan | ~16 % | ~24 % | 32 % | — |
+| Corée du Sud | ~22 % | ~21 % | 31 % | — |
+| États-Unis | ~11 % | ~13 % | 13 % | — |
+
+*Chine : chiffres publiés par ASML. Taïwan, Corée et États-Unis pour 2024-2025 : ordres de grandeur estimés.*
+
+La **normalisation chinoise** est la grande histoire géographique : après une frénésie d'achats de stocks de précaution en 2023-2024 (jusqu'à 49 % des ventes certains trimestres), la Chine revient vers 20 %, remplacée par Taïwan et la Corée, portés par l'IA.
 
 ---
 
-### Par technologie
+### Évolution de la rentabilité (groupe)
 
-- **EUV Low NA** : cœur de la valeur ajoutée. Capacité d'environ 65 systèmes en 2026, portée à environ 85 en 2027 (+30 %), avec une étude d'un nouveau bond de 30 % en 2028.
-- **EUV High NA** : volumes encore anecdotiques mais chaque EXE:5200 livré représente environ 380 millions $ de CA. Intel vise la production en volume de son nœud 14A à partir de 2028 ; TSMC et Samsung restent plus prudents sur le calendrier.
-- **DUV immersion** : environ 130 unités en 2026, également en hausse de 30 % prévue pour 2027. C'est le segment le plus exposé à la Chine et aux contrôles à l'export.
-- **Métrologie, inspection, computational** : petit en valeur, structurant en attachement client.
-- **Advanced packaging** : jambe naissante (XT:260), portée par le HBM4 et l'empilement 3D.
+| Indicateur | 2023 | 2024 | 2025 | 9 mois 2026 |
+|---|---|---|---|---|
+| Marge brute | 51,3 % | 51,3 % | 52,8 % | 55,0 % |
+| Marge d'exploitation | ~32 % | ~32 % | ~34 % | ~39 % |
+| Résultat net | 7,8 Md€ | 7,6 Md€ | 9,6 Md€ | 10,6 Md€ |
+| BPA | 19,91 € | 19,25 € | 24,73 € | 27,69 € |
 
----
-
-### Par usage final
-
-Le mix bascule structurellement vers la **mémoire**. Historiquement, la logique représentait environ deux tiers des ventes de systèmes ; l'explosion du **HBM4**, qui consomme un nombre inédit de couches EUV par plaquette, rééquilibre le mix vers la mémoire (DRAM). C'est un changement de régime important : la mémoire est historiquement le segment le plus cyclique et le plus volatil du secteur.
-
----
-
-### Répartition géographique
-
-| Zone | Poids 2025 | Tendance 2026 |
-|---|---|---|
-| Chine | ~33 % du CA | **→ ~20 %** — chute dirigée par les contrôles à l'export |
-| Taïwan | En forte hausse | Capex TSMC record |
-| Corée du Sud | En hausse | Cycle mémoire / HBM |
-| États-Unis | En hausse | Intel, TSMC Arizona, Micron |
-| Reste EMEA / Japon | Stable | Rapidus, Infineon, STMicro |
-
-**Le fait marquant de 2026** : la part de la Chine dans les ventes de systèmes est passée de **36 % au T4 2025 à 19 % au T1 2026**. Cette contraction brutale — subie, non choisie — a été plus qu'absorbée par la demande liée à l'IA en Asie du Nord-Est et aux États-Unis. C'est précisément ce qui permet à ASML de relever sa guidance annuelle de 36-40 Mds€ à **43-45 Mds€** tout en perdant un tiers de son marché chinois.
-
----
-
-### Profil de marge
-
-- **Marge brute** : 52,8 % en 2025 → **54,0 % au T2 2026**, guidée à **55-57 % au T3** et 54-56 % sur l'année. Le levier vient du mix EUV, des upgrades et de l'absorption des coûts fixes.
-- **Marge opérationnelle** : **37,1 % au T2 2026** contre 34,6 % un an plus tôt.
-- **Marge nette** : **31,3 %** au T2 2026.
-- **R&D** : environ 1,2 milliard € par trimestre — soit près de 5 milliards € par an, un niveau que personne dans la lithographie ne peut égaler.`,
+**Explications** : la marge progresse grâce au **volume** (meilleure absorption des coûts fixes), au **mix** (plus d'EUV et de mises à niveau), et bientôt aux **hausses de prix** négociées. L'EBITDA, non publié, peut être estimé à ~16 Md€ sur 12 mois glissants (résultat d'exploitation de ~15,2 Md€ + ~1 Md€ d'amortissements). Le résultat net du T3 2026 inclut un **gain non récurrent de ~0,5 Md€** lié à la réévaluation de la participation dans Mistral AI.`,
   },
   {
     id: 4,
@@ -184,182 +188,214 @@ Le mix bascule structurellement vers la **mémoire**. Historiquement, la logique
     icon: "🏆",
     content: `## Les fossés économiques (Moats)
 
-ASML détient probablement **le moat le plus large et le plus vérifiable de toute la cote mondiale**. Ce n'est pas une opinion d'analyste : c'est une constatation d'ingénierie.
+### 1. Le monopole technologique EUV — moat quasi absolu
+ASML est **le seul fabricant au monde** de machines EUV. Il a fallu **près de 30 ans**, des dizaines de milliards d'euros de R&D et le soutien financier de ses propres clients (Intel, TSMC et Samsung ont investi ~5,3 Md€ dans le programme en 2012) pour rendre la technologie industrielle. Nikon et Canon ont abandonné la course à l'EUV. Aucun concurrent occidental ou japonais n'a de programme crédible ; les efforts chinois sont jugés à plus d'une décennie de distance.
 
-### 1. Monopole technologique absolu sur l'EUV — 100 % de part de marché
-Aucun concurrent, nulle part, ne dispose d'une machine EUV commercialisable. Il a fallu **plus de 30 ans, plus de 10 milliards $ de R&D cumulée** et un consortium industriel international (Zeiss, TRUMPF, imec, financement Intel-Samsung-TSMC) pour y parvenir. Reproduire ce résultat supposerait de reconstituer simultanément l'ensemble de l'écosystème. Sur la lithographie totale (EUV + DUV), la part de marché d'ASML dépasse **90 %**.
+### 2. L'écosystème de fournisseurs exclusifs
+Le moat n'est pas seulement chez ASML : il est dans sa **chaîne d'approvisionnement**. Les miroirs de Carl Zeiss SMT (exclusifs, ASML actionnaire à 24,9 %), le laser de Trumpf et la source Cymer (filiale) forment un **verrou collectif**. Un concurrent devrait recréer non pas une entreprise, mais un écosystème entier.
 
-### 2. Verrouillage amont — le monopole protégé par d'autres monopoles
-**Carl Zeiss SMT** est le seul fabricant au monde de miroirs EUV, et il travaille de facto en exclusivité avec ASML. Un entrant hypothétique devrait donc non seulement rattraper 30 ans de retard mais aussi **créer son propre Zeiss**. Cette structure verticale est le fossé le plus sous-estimé.
+### 3. Coûts de changement très élevés et base installée
+Une usine de puces est conçue **autour** des scanners ASML : procédés, recettes, logiciels de lithographie computationnelle, ingénieurs résidents. Changer de fournisseur reviendrait à requalifier toute la ligne. La **base installée** de plusieurs milliers de machines génère des revenus récurrents (12 Md€ attendus en 2026) et une connaissance intime des procédés de chaque client.
 
-### 3. Base installée et coûts de changement prohibitifs
-Plus de **5 000 systèmes** installés dans les fabs mondiales. Chaque machine est intégrée à un processus de fabrication qualifié pendant des années, avec des équipes ASML en poste permanent dans les fabs. Changer de fournisseur de lithographie signifie **requalifier un nœud entier** — un coût opérationnel et un risque de rendement qu'aucun fondeur n'accepte.
+### 4. La feuille de route : le moat se renouvelle
+Le moat se prolonge par l'innovation : **High-NA** (en production chez Intel, adoption chez Samsung vers 2028 et chez TSMC vers 2030), puis **Hyper-NA** à l'étude pour la décennie suivante. TSMC vient même de demander à ASML de piloter un consortium industriel sur les **réticules de 12 pouces**. ASML écrit la feuille de route de l'industrie.
 
-### 4. Le revenu de service : la rente cachée
-L'Installed Base Management représente environ **28 % du CA à marge élevée** et croît de plus de 30 % par an. Les **upgrades de performance** — vendre plus de productivité sur une machine déjà installée — sont l'activité la plus rentable du groupe et la moins visible pour l'investisseur non spécialiste. Cette rente amortit fortement la cyclicité du segment systèmes.
-
-### 5. Pouvoir de fixation des prix
-Une NXE:3800E se vend environ 250 millions €, une EXE:5200 environ 380 millions $. Ces prix ne sont pas contestés : les clients se disputent des créneaux de livraison. Quand **trois clients** (TSMC, Samsung, Intel) se battent pour chaque slot, la tension tarifaire est structurellement favorable au vendeur — y compris en cas de ralentissement macroéconomique.
-
-### 6. Propriété intellectuelle et souveraineté
-Des dizaines de milliers de brevets, mais surtout un **savoir-faire tacite** non brevetable. À cela s'ajoute une protection réglementaire involontaire : les gouvernements néerlandais et américain contrôlent les exportations d'ASML, ce qui **interdit de facto** à la Chine d'accéder à la technologie de pointe.
+### 5. Pouvoir de prix démontré
+En 2026, ASML a négocié avec ses clients clés une **hausse de prix fondée sur la valeur** de ses machines les plus critiques. Peu d'entreprises industrielles peuvent imposer une hausse à TSMC ou Samsung : c'est la signature d'un monopole.
 
 ## Positionnement vs concurrence
 
-| Critère | ASML | Nikon | Canon | SMEE (Chine) |
+| Critère | ASML | Nikon | Canon | Concurrence chinoise |
 |---|---|---|---|---|
-| EUV | **100 %** | Aucun | Aucun (pari NIL) | Aucun |
-| DUV immersion | Dominant | Marginal | Marginal | Prototypes |
-| R&D annuelle | ~5 Mds€ | Très inférieure | Très inférieure | Subventionnée |
-| Base installée | >5 000 systèmes | En déclin | En déclin | Naissante |
-| Écosystème fournisseurs | Exclusif (Zeiss) | Optiques internes | Optiques internes | En construction |
+| EUV (Low-NA et High-NA) | **Monopole** | Aucun | Aucun | Prototypes, 10 ans de retard estimés |
+| DUV immersion (ArFi) | **~90 %** | <10 % | Absent | Premières machines (5 prévues en 2026) |
+| DUV sec / KrF / i-line | Leader | Présent | Fort sur l'i-line | SMEE (nœuds anciens) |
+| Lithographie alternative | — | — | Nano-impression | — |
+| Service / base installée | Massive | Faible | Moyenne | Inexistante |
+
+## Image de marque et valeur perçue
+
+ASML n'a pas de « marque » au sens grand public, mais son **image auprès des clients** est celle d'un partenaire stratégique indispensable : TSMC, Samsung ou Intel bâtissent leurs feuilles de route technologiques sur celle d'ASML. Côté recrutement, ASML est l'employeur technologique le plus attractif des Pays-Bas.
 
 ## Pouvoir de négociation
 
-- **Vis-à-vis des clients** : **Très élevé** — situation de rationnement, pas de solution de repli. Les clients cofinancent parfois la R&D et versent des acomptes.
-- **Vis-à-vis des fournisseurs** : **Modéré, voire faible** — c'est l'angle mort. ASML ne peut pas remplacer Zeiss ou TRUMPF. Sa capacité de production est *subordonnée* à celle de ses fournisseurs, ce qui limite sa liberté stratégique et son pouvoir de négociation amont.
-- **Vis-à-vis des États** : **Faible** — ASML est un actif géopolitique. La Haye et Washington décident de ce qu'elle peut vendre et à qui. C'est la seule contrepartie sérieuse au monopole.`,
+- **Vis-à-vis des clients** : **Très élevé**. La demande dépasse l'offre au moins jusqu'en 2028 ; les clients réservent des machines 2 à 4 ans à l'avance, versent des acomptes et acceptent les hausses de prix. Limite : une poignée de clients concentre la majorité des ventes EUV
+- **Vis-à-vis des fournisseurs** : **Élevé mais réciproque**. ASML est le client quasi unique de Zeiss SMT ou de certains sous-traitants de Brainport, mais elle dépend aussi totalement d'eux : relation de **co-dépendance** plus que de domination
+- **Vis-à-vis des États** : **Faible**. C'est la vraie limite du moat : les gouvernements américain et néerlandais décident à qui ASML a le droit de vendre (Chine), et le projet de loi américain MATCH Act pourrait encore restreindre le DUV et le service en Chine`,
   },
   {
     id: 5,
     title: "Compétition",
     category: "Comparaison sectorielle",
     icon: "🌍",
-    content: `## Tableau comparatif — Équipements pour semi-conducteurs (août 2026)
+    content: `## Tableau comparatif — Équipements de fabrication de semi-conducteurs (15 octobre 2026)
 
-| Société | Code Bloomberg | Cap. boursière | EV/CA | EV/EBIT | P/E (fwd) | Rdt div. | ROE 5 ans moy. |
-|---|---|---|---|---|---|---|---|
-| **ASML** | **ASML NA** | **~710 Mds$** | **~14x** | **~36x** | **~41x** | **~0,5 %** | **~45 %** |
-| Applied Materials | AMAT US | ~400 Mds$ | ~13x | ~34x | ~34x | ~0,4 % | ~40 % |
-| Lam Research | LRCX US | ~250 Mds$ | ~10x | ~30x | ~34x | ~0,5 % | ~45 % |
-| KLA Corporation | KLAC US | ~200 Mds$ | ~14x | ~33x | ~37x | ~0,6 % | ~70 % |
-| Tokyo Electron | 8035 JP | ~110 Mds$ | ~5x | ~19x | ~22x | ~1,8 % | ~25 % |
-| Nikon | 7731 JP | ~5 Mds$ | ~0,4x | ~15x | ~18x | ~2,5 % | ~4 % |
+| Société | Code Bloomberg | Cap. (Md$) | VE / CA | VE / EBIT | P/E (12 m.) | P/E futur | Rdt div. | ROE moyen 5 ans |
+|---|---|---|---|---|---|---|---|---|
+| **ASML** | **ASML NA** | **~670** | **~14,6x** | **~38x** | **~44x** | **~29x (2027E)** | **~0,5 %** | **~55 %** |
+| Applied Materials | AMAT US | ~355 | ~11,5x | ~40x | ~40x | ~26x | ~0,5 % | ~45 % |
+| Lam Research | LRCX US | ~359 | ~15,5x | ~47x | ~52x | ~32x | ~0,5 % | ~60 % |
+| KLA | KLAC US | ~233 | ~17,4x | ~41x | ~50x | ~34x | ~0,5 % | ~90 % |
+| Tokyo Electron | 8035 JT | ~175 | ~9,8x | ~36x | ~43x | ~31x | ~1,3 % | ~25 % |
+| ASM International | ASM NA | ~49 | ~12,5x | ~42x | ~40x | ~32x | ~0,4 % | ~20 % |
 
-*Ordres de grandeur estimés à partir des cours et publications disponibles à mi-août 2026 ; à recalculer sur filings directs (20-F, 10-K, Tanshin) avant toute décision.*
+*Cours de clôture du 13-14 octobre 2026 (StockAnalysis, MarketScreener). Capitalisation d'ASML convertie au change euro/dollar d'environ 1,14 ; celle de Tokyo Electron à ~150 ¥/$. VE/EBIT et ROE moyens sur 5 ans : estimations 221 Bourse à partir des marges et capitaux propres publiés, à affiner sur données Bloomberg. Le ROE de KLA est gonflé par des capitaux propres réduits par les rachats d'actions.*
 
 ---
 
 ### Analyse comparative
 
-**ASML — hors catégorie sur le moat, dans la catégorie sur le multiple**
-Le point le plus contre-intuitif de ce tableau : ASML, seul monopole absolu du groupe, ne se paie « que » 15 à 20 % de prime sur ses pairs américains en P/E prospectif. Applied Materials et Lam Research affichent environ 34x, KLA environ 37x, ASML environ 41x. Le marché ne rémunère donc pas la rareté du monopole autant qu'on pourrait le croire — **il rémunère surtout la croissance à court terme**, actuellement spectaculaire chez tous les acteurs WFE.
+**ASML — la prime de monopole s'est résorbée**
+Fait remarquable : ASML ne se paie **plus de prime** sur ses pairs. Son P/E sur les bénéfices attendus en 2027 (~29x) est même **légèrement inférieur à la médiane du secteur (~32x)**, alors que sa croissance 2026 (+36 %) est la plus forte du groupe et que sa position concurrentielle est la plus protégée. Le marché paie Lam Research et KLA plus cher qu'ASML sur les bénéfices futurs.
 
-**Le vrai comparable n'est pas Nikon, c'est le cycle WFE**
-Les dépenses mondiales en équipements de fabrication (WFE) sont attendues **autour de 150 milliards $ en 2026**, un niveau relevé en cours d'année (de 140 à 150 Mds$ selon Lam Research). ASML capte environ un quart de ce marché, mais sur le segment qui croît le plus vite et où elle n'a aucun concurrent. La question de valorisation n'est donc pas « ASML vs AMAT » mais « à quel multiple payer un pic de cycle WFE ».
+**Applied Materials et Lam Research — les gagnants de la complexité 3D**
+Les deux américains profitent de la multiplication des étapes de **dépôt et de gravure** (transistors GAA, mémoire HBM empilée, NAND 3D). Ils sont en concurrence entre eux, alors qu'ASML est seule dans sa catégorie. En contrepartie, ils sont plus exposés à la Chine (souvent 30-40 % des ventes) et sans protection comparable à l'EUV.
 
-**Tokyo Electron — le rappel à l'ordre du multiple japonais**
-TEL, quatrième acteur mondial du WFE avec environ 10 % de part de marché, se paie environ 22x les bénéfices prospectifs. Elle est structurellement moins rentable et plus concurrencée (ASM International, Lam), mais l'écart de multiple illustre qu'un actif d'équipement de qualité peut se traiter à la moitié du multiple d'ASML en régime normal.
+**KLA — le meilleur élève de la rentabilité**
+Leader du contrôle de procédés (inspection, métrologie) avec ~60 % de part de marché, marge d'exploitation supérieure à 40 % : c'est le seul pair dont le profil de rentabilité rivalise avec ASML. Il est aussi un concurrent direct d'ASML dans la métrologie (YieldStar, HMI).
 
-**Nikon et Canon — les fantômes de la lithographie**
-Nikon et Canon ont perdu la bataille de l'immersion puis abandonné l'EUV. Canon pousse la **nanoimprint (NIL)**, technologie potentiellement beaucoup moins coûteuse mais handicapée par les défauts de gabarit et l'absence de qualification en production de masse chez un grand fondeur. Ce n'est pas une menace à horizon 5 ans ; c'est une option longue à surveiller.
+**Tokyo Electron — le partenaire obligé**
+Chaque scanner ASML est couplé à une piste de couchage-développement Tokyo Electron : son sort est lié à celui d'ASML. Il se paie moins cher, avec un ROE plus faible.
 
-**La Chine — le concurrent qui n'existe pas encore mais qui est financé**
-SMEE et de nouveaux entrants (notamment autour de Shanghai) annoncent la production de DUV d'immersion domestiques. Les experts occidentaux jugent le niveau de performance très en retrait, mais **la trajectoire compte plus que le niveau** : chaque euro de restriction à l'export accélère mécaniquement l'effort d'indigénisation chinois. C'est le risque de long terme le plus mal évalué du dossier.
+**ASM International — le petit cousin**
+Issu de la même histoire (coentreprise fondatrice d'ASML en 1984), leader du dépôt de couches atomiques (ALD), indispensable aux transistors GAA. Valorisation comparable, taille 13 fois plus petite.
 
 ---
 
-### Le ratio qui compte : marge brute et intensité lithographique
-ASML se juge sur deux chiffres : **la marge brute** (52,8 % en 2025, 54 % au T2 2026, guidée 55-57 % au T3) et **l'intensité lithographique** — la part du budget d'un fondeur consacrée à la litho. Tant que la miniaturisation exige plus de couches EUV par plaquette (nœuds 2 nm, HBM4), cette intensité monte et ASML capte une part croissante du capex sectoriel. Le jour où elle plafonne, tout le modèle de croissance se renormalise.`,
+### Le ratio qui compte : rentabilité des capitaux
+Avec un **ROE supérieur à 50 %** depuis cinq ans et un **ROIC de ~66 %**, ASML est l'une des entreprises industrielles les plus rentables au monde. Le fait qu'elle ne se paie pas plus cher que ses pairs sur les bénéfices 2027 est **le principal argument de valorisation** de la thèse haussière, à condition que ces bénéfices 2027 se matérialisent.`,
   },
   {
     id: 6,
     title: "Résultats financiers",
     category: "Analyse financière",
     icon: "📈",
-    content: `## Résultats T2 2026 — Analyse complète
+    content: `## Résultats T3 2026 — publiés le 14 octobre 2026
 
-Publiés le **15 juillet 2026**, les résultats du deuxième trimestre marquent un point d'inflexion : ASML a dépassé sa propre guidance sur les deux lignes et **relevé massivement ses perspectives annuelles**.
+### Chiffre d'affaires et bénéfices vs consensus
 
-### Chiffres clés vs guidance
+| Indicateur | T3 2026 | T3 2025 | Consensus | Écart |
+|---|---|---|---|---|
+| Chiffre d'affaires | **11,66 Md€** | 7,52 Md€ | ~11,7-11,85 Md€ | **En ligne / léger manque** (haut de la fourchette 11-12 Md€) |
+| dont systèmes | 8,37 Md€ | 5,55 Md€ | — | +51 % |
+| dont Installed Base | 3,29 Md€ | 1,96 Md€ | ~2,9 Md€ | **+0,4 Md€ au-dessus du guidage** |
+| Marge brute | **57,5 %** | 51,6 % | 55,9 % | **+1,6 pt** (guidage 55-57 %) |
+| Marge d'exploitation | 44,4 % | 32,8 % | — | +11,6 pts |
+| Résultat net | **4,96 Md€** | 2,13 Md€ | ~4,13 Md€ | **+20 %** (+8 % hors Mistral) |
+| BPA | **12,95 €** | 5,49 € | — | +136 % |
 
-| Indicateur | T2 2026 | Guidance | Écart |
-|---|---|---|---|
-| CA total | **9 326 M€** | 8 400-9 000 M€ | **Au-dessus du haut de fourchette** |
-| Marge brute | **54,0 %** | 51-52 % | **+200 à 300 bps** |
-| Résultat net | **2 918 M€** | — | 31,3 % du CA |
-| BPA (de base) | **7,59 €** | — | +28,6 % sur un an |
-| Marge opérationnelle | **37,1 %** | — | vs 34,6 % un an plus tôt |
-| Installed Base Mgmt | **2 762 M€** | ~2 400 M€ | **Le vrai moteur de la surprise** |
-
-**Quatrième trimestre consécutif de dépassement du consensus de BPA.** L'origine de la surprise n'est pas les machines mais les **services et upgrades** : les clients dépensent pour extraire davantage de productivité de leur parc existant, une dépense moins visible et beaucoup plus rentable.
+**Lecture** : un trimestre **record sur tous les plans**. Le chiffre d'affaires est au rendez-vous, et la vraie surprise vient de la **marge brute** (57,5 %, record historique) portée par les mises à niveau de la base installée. Le résultat net inclut ~0,5 Md€ de **gain non récurrent** sur la participation dans Mistral AI ; hors cet élément, le bénéfice dépasse quand même le consensus d'environ 8 %.
 
 ---
 
-### Facteurs clés par segment
+### Facteurs clés par activité
 
-- **Systèmes** : 6 564 M€, avec **86 systèmes neufs vendus** contre 67 au T1 — accélération franche du rythme d'expédition.
-- **Installed Base Management** : 2 762 M€, **+32 % sur un an**. Le poste devient le stabilisateur structurel du compte de résultat.
-- **Mix géographique** : la Chine, tombée à environ 19 % des ventes de systèmes au T1, ne pèse plus que ~20 % attendu sur l'année contre 33 % en 2025 — et pourtant la croissance accélère. C'est le fait saillant du trimestre.
+- **EUV** : 49 % des ventes de systèmes, croissance attendue de plus de 45 % sur 2026, ~65 machines livrées sur l'année
+- **DUV immersion (ArFi)** : 39 % des ventes de systèmes, livraisons stables par rapport à 2025 alors qu'une baisse était initialement prévue
+- **Installed Base Management** : 3,3 Md€ (+68 % sur un an), tiré par les **mises à niveau de productivité** (YieldStar 550 : +60 % de productivité)
+- **Systèmes vendus** : 113 machines neuves et 8 d'occasion (vs 86 et 5 au T2)
+- **Mémoire** : 46 % des ventes de systèmes, contre ~35 % en 2025, soit une **accélération nette** liée à la HBM
 
 ---
 
 ### Évolution des marges
 
-La marge brute progresse trimestre après trimestre : **51,6 % (T3 2025) → 52,2 % (T4 2025) → 53,0 % (T1 2026) → 54,0 % (T2 2026)**, avec une guidance de **55-57 % au T3**. Trois moteurs : mix EUV plus riche, poids croissant des upgrades à très forte marge, et absorption des coûts fixes sur des volumes en hausse. La marge opérationnelle gagne 250 bps sur un an à 37,1 % — **levier opérationnel manifeste**.
+- **Marge brute** : 51,6 % (T3 2025) → 53,0 % (T1 2026) → 54,0 % (T2) → **57,5 %** (T3). Facteurs : volume, mix EUV et immersion favorable, poids des mises à niveau
+- **R&D** : ~1,2 Md€ par trimestre, ~4,8 Md€ sur l'année ; **frais commerciaux et administratifs** : ~0,4 Md€
+- **Guidage annuel de marge brute** relevé à **~56 %**, contre 51-53 % en janvier : +4 points en neuf mois
 
 ---
 
-### Perspectives et guidance — le vrai événement
+### Perspectives
 
-- **T3 2026** : CA de **11,0 à 12,0 Mds€**, marge brute **55-57 %**, R&D ~1,2 Md€, SG&A ~0,4 Md€, taux d'impôt annualisé ~17 %.
-- **Exercice 2026** : relevé de **36-40 Mds€ à 43-45 Mds€**, marge brute de 51-53 % à **54-56 %**.
-- **Capacité** : **+30 % de capacité EUV Low NA pour 2027** (base ~65 unités en 2026), avec étude d'un nouveau +30 % en 2028. Même schéma pour le DUV immersion (~130 unités en 2026).
-- **Capital Markets Day** fixé au **10 juin 2027** pour actualiser le modèle long terme.
+| Guidage | T4 2026 | Exercice 2026 |
+|---|---|---|
+| Chiffre d'affaires | 14,2 à 15,2 Md€ | 44 à 45 Md€ (+36 %) |
+| dont Installed Base | ~3,7 Md€ | ~12,3 Md€ (+50 %) |
+| Marge brute | ~57 % | ~56 % |
 
-Le changement de ton est net : de « nous ne prévoyons pas que 2026 soit inférieur à 2025 » (octobre 2025) à un plan d'expansion de capacité sur deux ans. La direction ne gère plus une reprise, elle gère un **rationnement**.
+**Changement de ton** : nettement plus offensif. Pour la première fois, la direction affirme que ses **capacités prévues pour 2027 et 2028 ne suffiront pas** à satisfaire la demande, et étudie une hausse au-delà des +30 % déjà planifiés pour 2028. Des clients veulent commander pour **2029 et 2030**.
+
+**Historique du guidage 2026** : 34-39 Md€ (janvier) → 36-40 Md€ (avril) → 43-45 Md€ (juillet) → **44-45 Md€** (octobre). Trois relèvements en neuf mois.
 
 ---
 
-### Signaux d'alerte bilan
+### Bilan et flux de trésorerie — points notables
 
-- **Trésorerie** : 7 582 M€ de disponibilités et placements court terme à fin T2, contre 8 376 M€ à fin T1 et 12 741 M€ fin 2024. La baisse est **volontaire** (rachats d'actions, dividendes, capex de capacité), mais mérite un suivi si le rythme d'investissement s'accélère.
-- **Stocks et acomptes clients** : postes structurellement volumineux compte tenu de cycles de production de 12 à 18 mois. À surveiller en cas de décalage de livraisons.
-- **Backlog** : 38,8 Mds€ fin 2025 ; la presse évoque un niveau record autour de 45 Mds€ mi-2026. Ce chiffre n'étant pas un engagement ferme irrévocable, il doit être lu comme un indicateur de visibilité, pas comme un revenu acquis.
+- **Trésorerie** : 12,7 Md€ (contre 7,6 Md€ fin juin), pour ~2 Md€ de dette obligataire : **trésorerie nette ~10,7 Md€**
+- **Flux de trésorerie disponible du T3** : **11,4 Md€**, exceptionnel, gonflé par les **acomptes clients** pour les livraisons 2027-2028. À ne pas extrapoler : le flux était négatif de 2,6 Md€ au T1
+- **Stocks** : ~11,7 Md€, stables à un niveau élevé (près de 4 mois de ventes), cohérents avec la montée en cadence
+- **Créances clients** : 8,7 Md€ fin juin, en hausse avec les volumes
+- **Rachats d'actions** : **4,1 Md€ au seul T3**, soit ~6,2 Md€ depuis janvier sur le programme de 12 Md€ 2026-2028 : plus de la moitié exécutée en neuf mois
+- **Dividende** : acompte de 1,88 € payable le 4 novembre 2026
 
 ---
 
 ### Réaction du marché
 
-Le titre a progressé d'environ **2 à 5 % en séance** le 15 juillet, puis a poursuivi son ascension jusqu'à un plus haut à **1 999,96 $** sur l'ADR avant de refluer vers **1 844 $** mi-août (**1 554 €** à Amsterdam). Sur douze mois, l'action affiche environ **+148 %**, et **+72 % depuis le 1er janvier**. Le message du marché est clair : le relèvement de guidance était attendu, son **ampleur** ne l'était pas — mais un titre qui a doublé en un an ne réagit plus proportionnellement aux bonnes nouvelles. La barre est désormais très haute.`,
+Le titre avait chuté de **4,2 % la veille** (à 1 509,60 €), emporté par une vente généralisée des valeurs de semi-conducteurs (inquiétudes sur le financement de l'IA et sur le chinois CXMT). Le jour des résultats, l'action a rebondi de **+1,2 % à Amsterdam** (~1 528 €) et aidé l'AEX à battre un record en séance, avant que le certificat américain ne recule dans le sillage du secteur à Wall Street. Bank of America a relevé ses estimations de bénéfices mais **abaissé son objectif de cours**, jugeant un multiple un peu plus faible raisonnable.
+
+**Ce que cela indique** : un trimestre exceptionnel était **déjà dans les cours**. Le titre reste ~12 % sous son record de juin (1 741 €) : le marché ne doute pas de 2026, il se demande **combien de temps durera le cycle** et à quel multiple payer des bénéfices au sommet.
+
+### Éléments inhabituels
+- Gain Mistral de ~0,5 Md€ dans le résultat net (non opérationnel)
+- Flux de trésorerie trimestriel supérieur au chiffre d'affaires d'un trimestre de 2025
+- Rythme de rachats d'actions multiplié par 4 d'un trimestre à l'autre
+- ASML ne publie plus ses prises de commandes trimestrielles depuis 2026 (décision annoncée en janvier 2025 ; seul le carnet de commandes reste publié, une fois par an) : la visibilité passe désormais par les commentaires qualitatifs de la direction`,
   },
   {
     id: 7,
     title: "Earnings Calls",
     category: "Analyse financière",
     icon: "📞",
-    content: `## Analyse des conférences téléphoniques — Ton et priorités
+    content: `## Analyse des conférences téléphoniques — priorités et sentiment
 
-### Évolution du ton, 2024-2026
+### Évolution du ton sur six trimestres
 
-**2024 — Prudence sous tension.** L'année est marquée par le trimestre le plus douloureux de la décennie : le **15 octobre 2024**, une publication anticipée par erreur révèle un effondrement des prises de commandes ; le titre perd plus de 16 % en séance. Christophe Fouquet, PDG depuis avril 2024, adopte une communication défensive : reprise décalée à 2026, prudence sur la mémoire, transparence sur la Chine.
+**Juillet 2025 (T2 2025) — Prudence et brouillard** : Christophe Fouquet refuse de confirmer une croissance en 2026, citant la géopolitique et les droits de douane américains. Le titre perd ~8 %. Le ton est défensif : « nous nous préparons à la croissance, mais ne pouvons pas la confirmer ».
 
-**2025 — Reconstruction méthodique.** Le discours se stabilise autour de trois axes : l'IA comme moteur durable, la baisse programmée de la Chine (« nos ventes en Chine reviendront autour de 20 % du total, conformément à leur part dans le carnet »), et la montée en puissance de l'EUV. Fin 2025, le ton bascule : la direction évoque des clients qui expriment une **vision nettement plus positive** du marché à moyen terme. Le T4 délivre **13,2 Mds€ de prises de commandes**, près du double du consensus.
+**Octobre 2025 (T3 2025) — Le doute se lève** : la direction écarte le scénario d'une baisse des ventes en 2026, malgré une Chine attendue en net recul. Ton plus serein, mais encore mesuré.
 
-**2026 — Confiance assumée, mais encadrée.** Le langage devient celui d'un fournisseur en situation de rationnement : « notre prise de commandes est restée extrêmement forte au premier semestre », « nos clients accélèrent leurs plans d'expansion de capacité », « visibilité accrue sur la demande à plus long terme ». Fouquet annonce l'expansion de capacité de 30 % pour 2027 et **étudie** un nouveau bond de 30 % en 2028. Le verbe « étudier » est important : il préserve une porte de sortie.
+**Janvier 2026 (T4 2025) — « Going out with a bang »** : prises de commandes record de **13,2 Md€** (deux fois le consensus), dont 7,4 Md€ en EUV. C'est la **dernière publication trimestrielle des commandes** (leur arrêt à partir de 2026 avait été annoncé dès janvier 2025, au motif qu'elles rendaient le titre trop volatil), et ASML annonce **1 700 suppressions de postes** (3,8 % des effectifs, encadrement de la R&D). Ton confiant sur l'IA, mais message mêlé.
+
+**Avril 2026 (T1 2026) — Montée en puissance** : guidage annuel relevé à 36-40 Md€, prises de commandes qualifiées de « très fortes ». Réaction boursière pourtant modeste.
+
+**Juillet 2026 (T2 2026) — Accélération** : guidage porté à **43-45 Md€**, mise en production de volume du High-NA chez Intel, annonce de **+30 % de capacités EUV et DUV immersion en 2027**. Fouquet parle d'investissements clients « en accélération ».
+
+**Octobre 2026 (T3 2026) — Pénurie assumée** : trimestre record, marge record, et un message nouveau : **même +30 % en 2027 et +30 % en 2028 ne suffiront pas**. « Nous devons faire plus », résume le PDG. Le directeur financier Roger Dassen confirme que les discussions de prix sont closes et ont abouti à des **hausses**, tout en précisant qu'il ne s'agit pas d'un exercice annuel.
 
 ---
 
-### Priorités répétées du management
+### Priorités répétées de la direction
 
-**1. L'IA comme changement de régime, pas comme cycle.** Le management insiste sur le fait que la demande vient d'une intensification structurelle (plus de couches EUV par plaquette, HBM4, nœuds sub-2 nm), non d'un simple restockage.
+**1. Capacité, capacité, capacité** — Le thème dominant de 2026. Livrer ~65 EUV en 2026, +30 % en 2027, plus encore en 2028. Leviers : nouvelles lignes, productivité des fournisseurs (Zeiss), machines plus rapides (NXE:3800F à 260 plaquettes/heure, immersion à 330), mises à niveau de la base installée.
 
-**2. La capacité industrielle plutôt que la demande.** Le sujet n'est plus de vendre mais de **produire**. Toute la communication porte sur les slots, les délais et l'écosystème fournisseurs.
+**2. La marge brute vers le haut de la fourchette 2030 (56-60 %)** — Déjà atteinte en 2026 (~56 %), deux ans en avance sur la trajectoire. Les mises à niveau, le mix EUV et les hausses de prix sont les leviers cités.
 
-**3. La normalisation chinoise, assumée et anticipée.** Roger Dassen (directeur financier) a guidé la baisse à ~20 % dès 2025 et l'a tenue. C'est un point de crédibilité réel : ASML n'a pas subi la nouvelle sans l'avoir annoncée.
+**3. Le High-NA comme prochaine vague** — Intel en production de volume, Samsung vers 2028, TSMC vers 2030. Le discours est patient : la direction sait que l'adoption du High-NA dépend du coût par couche pour le client.
 
-**4. Le High NA, présenté avec prudence.** Fouquet cible une production en volume en **2027-2028**, et passe 2026 à fiabiliser les machines chez les clients. Aucune promesse chiffrée agressive — ton délibérément conservateur.
+**4. La Chine, normalisée** — Discours constant depuis janvier : la Chine revient vers ~20 % des ventes. Le PDG juge « encore assez faible » la probabilité d'une concurrence chinoise majeure.
 
-**5. Le retour au capital comme signal.** Programme de rachat de **12 milliards €** sur 2026-2028, dividende intérimaire porté à **1,88 €** (+17 %). Message implicite : la génération de trésorerie est telle qu'elle finance l'expansion *et* la distribution.
+**5. Le retour aux actionnaires** — Programme de rachat de 12 Md€ (2026-2028) exécuté à un rythme accéléré, dividende en hausse de 17 % au titre de 2025.
 
 ---
 
 ### Analyse du sentiment
 
-- **Confiance** : en hausse continue depuis le T4 2025, sans dérive promotionnelle. Le vocabulaire reste technique et quantifié.
-- **Crédibilité** : élevée. Quatre trimestres consécutifs de dépassement du consensus de BPA, deux relèvements de guidance annuelle en six mois.
-- **Zone d'ombre** : le management commente très peu la **soutenabilité du capex client au-delà de 2027**. Interroger un dirigeant d'ASML sur ce qui se passe si les hyperscalers ralentissent leurs commandes de puces d'IA reste l'exercice le moins bien couvert des conférences.
-- **Signal faible à retenir** : Fouquet a publiquement déclaré que l'Europe était « nettement en retard » dans la course à l'IA, les États-Unis absorbant environ 80 % des puces avancées. C'est une prise de parole géopolitique inhabituelle pour un dirigeant néerlandais — et un indice de la concentration croissante de sa clientèle.`,
+| Trimestre | Sentiment | Mot-clé | Guidage annuel |
+|---|---|---|---|
+| T2 2025 | Prudent | « Incertitude » | Croissance 2026 non confirmée |
+| T3 2025 | Neutre + | « Pas de baisse » | 2026 au moins stable |
+| T4 2025 | Positif | « Record » | 34-39 Md€ |
+| T1 2026 | Positif + | « Très fort » | 36-40 Md€ |
+| T2 2026 | Très positif | « Accélération » | 43-45 Md€ |
+| T3 2026 | **Euphorique maîtrisé** | **« Pas assez de capacité »** | **44-45 Md€** |
+
+- **Confiance** : au plus haut historique. La direction parle de visibilité jusqu'en 2028 et d'intérêt pour 2029-2030
+- **Transparence** : en **recul**. Depuis 2026, la fin de la publication trimestrielle des commandes (seul le carnet de commandes reste publié, une fois par an) prive les investisseurs de leur principal indicateur avancé ; le marché dépend désormais du discours qualitatif de la direction
+- **Cohérence** : bonne. Les objectifs 2030 (44-60 Md€ de CA, marge brute de 56-60 %) fixés en novembre 2024 seront probablement relevés lors du Capital Markets Day du **10 juin 2027**
+
+> **À lire entre les lignes** : le passage en dix-huit mois d'un discours de prudence à un discours de pénurie est typique d'un **haut de cycle** dans les équipements de semi-conducteurs. Ce n'est pas une raison de vendre, mais c'est la raison pour laquelle le marché refuse de payer plus cher des bénéfices records.`,
   },
   {
     id: 8,
@@ -368,98 +404,130 @@ Le titre a progressé d'environ **2 à 5 % en séance** le 15 juillet, puis a p
     icon: "👔",
     content: `## Évaluation du management
 
-### Christophe Fouquet — Président du Directoire et Directeur Général (depuis avril 2024)
+### Christophe Fouquet — Président du directoire (PDG) depuis avril 2024
 
-**Parcours** : ingénieur français formé à Grenoble, entré chez ASML en 2008 après un début de carrière chez Applied Materials et KLA. Il gravit l'échelle technique — responsable Applications, puis **directeur de l'activité EUV** à partir de 2018, puis directeur des opérations commerciales — avant d'être nommé Chief Business Officer en 2022 puis directeur général en avril 2024, succédant à Peter Wennink.
+**Profil** : Français, diplômé en physique de Grenoble INP. Passé par **KLA-Tencor** et **Applied Materials** avant de rejoindre ASML en **2008**. Il a dirigé le marketing, la gestion produit puis l'activité **EUV**, avant de devenir directeur commercial (2022-2024). Membre du directoire depuis 2018, mandat jusqu'en 2028.
 
-**Bilan chiffré depuis sa nomination** :
-- Chiffre d'affaires porté de 27,6 Mds€ (2024) à **32,7 Mds€ (2025)** puis une guidance de **43-45 Mds€ pour 2026**
-- Résultat net 2025 record à **9,6 Mds€**, marge brute portée de 51,3 % à 52,8 % puis 54 % au T2 2026
-- Carnet de commandes record (38,8 Mds€ fin 2025) après le creux de fin 2024
-- Décision d'augmenter la capacité EUV de 30 % pour 2027 — le pari industriel le plus lourd de sa mandature
-- Plan de **réduction de 1 700 postes (~4 % des effectifs)** annoncé début 2026, ciblé sur les fonctions management et IT, en pleine croissance du chiffre d'affaires : signal de discipline de coûts assez rare dans un secteur en boom
+**Bilan chiffré** :
+- Il a piloté l'**industrialisation de l'EUV** dans les années 2010, quand la technologie passait de prototype à machine de production : les ventes EUV sont passées de quasi zéro à plus de 11 Md€ par an
+- Depuis sa prise de fonctions (avril 2024) : CA de 27,6 Md€ (2023) à **44-45 Md€ attendus en 2026** (+~60 %), marge brute de 51 % à **~56 %**, résultat net de 7,8 à plus de 16 Md€
+- Il a traversé l'**épisode d'octobre 2024** (publication accidentelle et anticipée des résultats, titre en chute de 16 %) et l'incertitude de 2025 sans renier ses objectifs 2030
+- Il a mené une **restructuration de 1 700 postes** (janvier 2026) en pleine croissance, signe d'une gestion de coûts ferme
+- **Point d'attention** : nommé **administrateur non exécutif d'Airbus** à compter du 1er octobre 2026. Un mandat extérieur prestigieux, mais qui consomme du temps en pleine montée en cadence
 
-**Point notable** : Fouquet est **l'homme de l'EUV**. Il a dirigé le programme qui constitue aujourd'hui l'intégralité du moat. C'est un avantage de légitimité technique considérable — et un biais potentiel, analysé plus bas.
+### Roger Dassen — Directeur financier depuis 2018
+
+Ancien vice-président mondial et PDG de **Deloitte** aux Pays-Bas, docteur en audit (Maastricht). Reconduit pour quatre ans en avril 2026 (mandat jusqu'en 2030). Réputé pour sa prudence et sa crédibilité auprès des investisseurs : c'est lui qui porte la discipline du guidage et le programme de retour aux actionnaires.
+
+### Le reste du directoire (6 membres)
+
+| Membre | Fonction | Chez ASML depuis | Profil |
+|---|---|---|---|
+| Frédéric Schneider-Maunoury | Directeur des opérations | 2009 | Ex-Alstom, ministère de l'Industrie. Pilote la montée en capacité |
+| Wayne Allan | Achats stratégiques | 2018 | 30 ans chez Micron, de l'opérateur de production au vice-président |
+| Jim Koonmen | Directeur clients | 2007 (Brion) | Ex-Cymer, MIT. Relation avec TSMC, Samsung, Intel |
+| Marco Pieters | Directeur technique | 1999 | Ingénieur maison, ex-patron de l'EUV, au directoire depuis 2026 |
+
+**Lecture** : une équipe **très majoritairement issue du sérail**, avec en moyenne plus de 15 ans d'ancienneté. Continuité et maîtrise technique, mais peu de regards extérieurs.
 
 ---
 
-### Roger Dassen — Directeur Financier (depuis 2018)
+### Participation des dirigeants
 
-Ancien associé global de Deloitte, en charge de l'audit et du risque. Sa communication financière est réputée pour sa **précision et son absence de complaisance** : c'est lui qui a guidé la baisse chinoise à 20 % un an avant qu'elle ne se matérialise, et qui a maintenu ce chiffre malgré les tentations d'optimisme. Sa crédibilité est un actif immatériel réel du dossier.
-
----
-
-### Rémunération et alignement
-
-La rémunération totale du directeur général s'est établie autour de **7 M€ en 2025** (contre ~5 M€ en 2024), pour un résultat net de 9,6 Mds€ — soit environ 0,07 % du bénéfice, un ratio modeste au regard des standards américains du secteur. La structure comprend une part significative d'actions de performance. En revanche, **aucun dirigeant ne détient une participation matérielle au capital** : ASML est une société à actionnariat totalement dispersé, sans actionnaire de référence. L'alignement passe par les plans d'actions, pas par la propriété.
+La rémunération repose sur un mix de fixe, de variable court terme et d'**actions de performance** sur trois ans (critères : CA, ROAIC, rendement pour l'actionnaire, technologie et ESG). La participation directe des dirigeants est **significative à titre personnel** (plusieurs millions d'euros d'actions pour le PDG) mais **marginale rapportée à la capitalisation** (~590 Md€). L'actionnariat est dispersé et institutionnel (Capital Group, BlackRock, Baillie Gifford, Vanguard), sans actionnaire de référence.
 
 ---
 
-### Allocation du capital — historique
+### Allocation du capital
 
-| Décision | Montant | Lecture |
-|---|---|---|
-| Acquisition Cymer (2013) | ~2,5 Mds$ | **Excellente** — internalisation de la source EUV, décisive pour le programme |
-| Acquisition HMI (2016) | ~2,7 Mds€ | Bonne — métrologie e-beam, complémentaire |
-| Acquisition Berliner Glas (2020) | Non divulgué | Bonne — sécurisation d'un composant critique |
-| Participation dans Carl Zeiss SMT | Minoritaire | Stratégique — verrouille l'amont |
-| Investissement dans Mistral AI (2025) | ~1,3 Md€ | **À surveiller** — diversification hors cœur de métier, logique industrielle défendable mais exécution incertaine |
-| Rachats d'actions 2026-2028 | **12 Mds€** | Discipliné, mais exécuté à des multiples historiquement élevés |
-| Dividende | 7,50 € au titre de 2025 ; intérimaire 1,88 € en 2026 | Croissant, prudent (rendement ~0,5 %) |
+| Indicateur | 2021 | 2022 | 2023 | 2024 | 2025 | 2026E |
+|---|---|---|---|---|---|---|
+| ROE (estim.) | ~55 % | ~65 % | ~60 % | ~42 % | ~50 % | ~65 % |
+| Rachats d'actions | 8,6 Md€ | 4,6 Md€ | 1,0 Md€ | 0,5 Md€ | ~3,5 Md€ (estim.) | 6,2 Md€ (9 mois) |
+| Dividende par action | 5,50 € | 5,80 € | 6,10 € | 6,40 € | 7,50 € | — |
 
-**Rentabilité du capital** : le ROE d'ASML s'établit durablement au-dessus de **40 %**, le ROIC largement au-dessus du coût du capital. La question n'est pas la qualité de l'allocation mais son **arbitrage** : racheter des actions à environ 41x les bénéfices prospectifs, dans un secteur cyclique près d'un pic de cycle, est une décision qui devra être jugée a posteriori.
+*ROE estimés par 221 Bourse à partir des résultats nets et capitaux propres publiés.*
+
+**Discipline remarquable** :
+- **Réinvestissement** : R&D de ~4,8 Md€ par an, priorité absolue, jamais sacrifiée même en 2023-2024
+- **Acquisitions** : rares, petites et stratégiques (Cymer 2013, HMI 2016, participation Zeiss SMT 2016, Berliner Glas 2020). Aucune destruction de valeur identifiée ; goodwill stable à 4,6 Md€
+- **Retour aux actionnaires** : rachats **contracycliques** (8,6 Md€ en 2021, très peu en 2023-2024 quand la trésorerie était sollicitée), dividende en hausse régulière
+- **Le pari Mistral AI** (1,3 Md€ en septembre 2025, ~11 % du capital, premier actionnaire) : hors du cœur de métier, critiqué à l'époque. Il est aujourd'hui **en plus-value** (gain de réévaluation de ~0,5 Md€ au T3 2026) et justifié par l'usage de l'IA dans la conception des machines
 
 ---
 
 ### Signaux d'alerte
 
-- **Pas d'actionnaire de référence** : gouvernance dispersée, direction structurellement autonome. Contrepouvoir principalement réglementaire (État néerlandais) plutôt qu'actionnarial.
-- **Biais de l'ingénieur** : une direction issue de la technique peut sous-estimer le risque de **surcapacité**. Ajouter 30 % de capacité EUV pour 2027 sur la foi d'un carnet non irrévocable est le pari le plus lourd du dossier.
-- **Diversification Mistral AI** : 1,3 Md€ dans une société d'IA générative est un écart notable au principe de concentration sur le métier. À documenter et à suivre.
-- **Rémunération** : en forte hausse (+40 % en un an) mais partant d'un niveau bas ; pas de dérive caractérisée à ce stade.
-- **Type de dirigeants** : **gestionnaires professionnels issus du rang**, pas fondateurs. À ce stade de maturité de l'entreprise, c'est l'archétype adapté — l'enjeu est l'exécution industrielle, pas la vision entrepreneuriale.`,
+- **Parties liées** : participation de 24,9 % dans Carl Zeiss SMT, fournisseur exclusif ; relations documentées et transparentes, pas d'anomalie identifiée
+- **Rémunération** : niveau élevé pour les standards néerlandais mais **modeste** vs les pairs américains (le PDG d'Applied Materials gagne plusieurs fois plus) ; votes de l'assemblée générale favorables
+- **Changements de stratégie** : aucun. La feuille de route EUV → High-NA est constante depuis 15 ans
+- **Comportement promotionnel** : **faible**. ASML est historiquement prudente dans son guidage ; l'abandon de la publication des commandes est en revanche un **recul de transparence**
+
+### Fondateur ou gestionnaire ?
+
+**Gestionnaires professionnels issus du rang.** Il n'y a plus de fondateur depuis longtemps ; la culture d'ingénieur et la continuité (quatre PDG en 27 ans : Doug Dunn, Eric Meurice, Peter Wennink, puis Christophe Fouquet) remplacent l'esprit fondateur. À ce stade de maturité (entreprise de 590 Md€, monopole établi), c'est le **profil adapté** : l'enjeu n'est plus d'inventer un marché mais d'exécuter une montée en cadence sans faute et de préserver l'avance technologique.`,
   },
   {
     id: 9,
     title: "Analyse du cours",
     category: "Marché",
     icon: "📉",
-    content: `## Facteurs historiques ayant influencé le cours (2021-2026)
+    content: `## Facteurs ayant influencé le cours (2021-2026)
 
-Le titre ASML est **structurellement volatil malgré la qualité de l'actif**. La raison est simple : les revenus sont lumpy, la visibilité passe par des prises de commandes trimestrielles erratiques, et le dossier est devenu un **proxy géopolitique**.
-
-### Hausses significatives (+5 % et plus)
-
-**2021 — Le sacre de l'EUV.** L'année du basculement : pénurie mondiale de puces, plans CHIPS Act et EU Chips Act, reconnaissance du caractère indispensable de l'EUV. Le titre triple en valeur sur deux ans et ASML devient la première capitalisation européenne.
-
-**Janvier 2026 — Prises de commandes record.** Le 28 janvier, ASML publie **13,2 Mds€ de prises de commandes au T4 2025**, presque le double du consensus Bloomberg (6,85 Mds$), portant le carnet à **38,8 Mds€**. L'ADR bondit de 7 % à l'ouverture… avant de clôturer en baisse de 2,2 % après la conférence, la direction ayant tempéré le calendrier de conversion en chiffre d'affaires. Illustration parfaite du régime dans lequel évolue le titre : **les bonnes nouvelles sont attendues, les nuances sont sanctionnées**.
-
-**Mars-juin 2026 — Reprise en V.** Le marché intègre le passage du High NA de la R&D à la production de masse et l'accélération du capex TSMC (52-56 Mds$ annoncés pour 2026). Le titre passe d'environ 1 186 € (mi-mars) à plus de 1 400 € en juin.
-
-**15 juillet 2026 — Le relèvement de guidance.** Le passage de 36-40 Mds€ à **43-45 Mds€** de CA 2026 et de 51-53 % à **54-56 %** de marge brute provoque un mouvement de l'ordre de +2 à +5 % en séance, prolongé jusqu'à un plus haut de **1 999,96 $** sur l'ADR.
+### Contexte
+ASML est passée d'environ **400 € fin 2020** à **~1 528 €** aujourd'hui (clôture du 14 octobre 2026), soit un quasi-quadruplement, avec un **creux à ~390 € en octobre 2022** et un **record à 1 741 € en juin 2026**. Le titre est un baromètre du cycle mondial des semi-conducteurs et, depuis 2023, de l'investissement dans l'IA. Bêta d'environ 1,3.
 
 ---
 
-### Baisses significatives (-5 % et plus)
+### Hausses significatives (plus de 5 %)
 
-**15 octobre 2024 — Le trimestre noir.** Publication accidentelle avec un jour d'avance de prises de commandes très inférieures aux attentes et d'une guidance 2025 abaissée. **Le titre chute de plus de 16 % en une séance**, la plus forte baisse journalière depuis 1998. Leçon durable : c'est le carnet de commandes, pas le chiffre d'affaires, qui fixe le cours.
+**2021 — Le super-cycle des puces** : pénurie mondiale de semi-conducteurs, plans d'investissement record de TSMC, Samsung et Intel. Le titre gagne ~80 % sur l'année et dépasse 770 € en novembre.
 
-**Janvier 2025 — Choc DeepSeek.** L'annonce d'un modèle d'IA chinois entraîné à moindre coût fait craindre une baisse structurelle de la demande de calcul. Toutes les valeurs de la chaîne semi-conducteurs corrigent violemment. Le contrecoup s'avérera erroné, mais l'épisode montre la sensibilité du titre au **récit de l'IA**, pas seulement à ses fondamentaux.
+**Janvier 2024 — Commandes record (9,2 Md€) au T4 2023** : forte hausse le lendemain des résultats, premier signe que l'IA prend le relais de la Chine.
 
-**Septembre 2024 et 2025 — Vagues de contrôles à l'export.** Chaque annonce néerlandaise ou américaine de restriction sur la Chine se traduit par une baisse immédiate de 3 à 8 %.
+**Juillet 2024 — Premier record au-dessus de 1 000 €** : euphorie autour de l'IA et de Nvidia.
 
-**7 avril 2026 — Le MATCH Act.** Des parlementaires américains proposent le *Multilateral Alignment of Technology Controls on Hardware Act*, visant à bloquer la vente **et le service** des DUV d'immersion en Chine. Le titre recule d'environ 4 % ; JPMorgan chiffre l'impact potentiel jusqu'à **10 % du BPA**.
+**Janvier 2026 — Commandes record de 13,2 Md€** (28 janvier) : hausse jusqu'à +7,5 % en séance, record historique ; le titre gagne ~33 % sur le seul mois de janvier, porté aussi par des relèvements de recommandations en début d'année. ASML franchit les 500 Md$ de capitalisation et devient la première capitalisation européenne.
 
-**Mi-juillet à mi-août 2026 — Consolidation.** Après le plus haut à 1 999,96 $, la capitalisation recule d'environ **11 % en trente jours** pour revenir à ~1 844 $ (1 554 € à Amsterdam). Pas de nouvelle négative identifiée : simple prise de bénéfices sur un titre en hausse de 148 % sur un an.
+**Mai-juin 2026 — L'envolée de l'IA et de la mémoire** : hausse de ~40 % en deux mois, record à 1 741 € en juin. Le titre gagne ~87 % sur le premier semestre.
+
+**15 juillet 2026 — Résultats du T2 et guidage relevé à 43-45 Md€** : +2,7 %, dans un mois par ailleurs très négatif.
+
+---
+
+### Baisses significatives (plus de 5 %)
+
+**2022 — Krach des valeurs de croissance et premières restrictions** : hausse des taux, fin du cycle des PC et smartphones, règles américaines d'octobre 2022 sur la Chine. Le titre perd jusqu'à ~50 % depuis son sommet.
+
+**17 juillet 2024 — Menace de restrictions américaines renforcées** : environ -13 % en une séance, sur fond d'informations de presse sur un durcissement des règles d'exportation vers la Chine.
+
+**15 octobre 2024 — La publication accidentelle** : ASML publie par erreur ses résultats un jour plus tôt. Commandes de 2,6 Md€ (moitié du consensus) et guidage 2025 abaissé : **-16 %**, la pire séance depuis 1998.
+
+**27 janvier 2025 — Choc DeepSeek** : environ -7 % ; le marché craint qu'une IA plus économe en calcul réduise les besoins en puces.
+
+**Avril 2025 — Droits de douane américains** : forte baisse dans le sillage du « Liberation Day ».
+
+**16 juillet 2025 — Croissance 2026 non confirmée** : environ -8 %.
+
+**Mars 2026 — Guerre avec l'Iran** : pause du marché, le titre recule d'~9 % sur le mois.
+
+**1er juillet 2026 — Anthropic et les puces sur mesure** : -7,4 % sur des informations selon lesquelles Anthropic travaillerait à sa propre puce d'IA avec Samsung.
+
+**27 juillet 2026 — Le DUV chinois** : -6 à -7 % après l'annonce du démarrage de la production de machines DUV immersion par un groupe public chinois (Shanghai Aishengna). Le titre perd **18 % sur le mois de juillet**.
+
+**14 septembre 2026 — Appel à ralentir l'IA** : -6,2 % après un essai du PDG d'Anthropic appelant à limiter le rythme de développement de l'IA.
+
+**13 octobre 2026 — Vente généralisée des semi-conducteurs** : -4,2 % la veille des résultats (financement de l'IA, montée de CXMT).
 
 ---
 
 ### Facteurs structurels
 
-- **Proxy du capex des fondeurs** : le cours réagit davantage aux annonces de TSMC, Samsung et Intel qu'à ses propres résultats.
-- **Proxy géopolitique** : chaque tension Washington-La Haye-Pékin se transmet immédiatement au cours.
-- **Statut de première capitalisation européenne** : flux passifs importants (indices STOXX, MSCI, ETF), qui amplifient les mouvements dans les deux sens.
-- **Double cotation** : Amsterdam (**1 554 €**) et Nasdaq via ADR (**1 844 $**) — l'écart de performance intègre l'évolution du taux de change EUR/USD, un facteur souvent oublié par l'investisseur français.`,
+- **Le cycle des investissements des fabricants de puces** : premier déterminant. ASML monte quand TSMC, Samsung et SK Hynix relèvent leurs budgets, et baisse dès que le marché anticipe un pic
+- **Les prises de commandes** : principal catalyseur historique ; leur disparition en 2026 rend le titre plus sensible aux commentaires qualitatifs et aux rumeurs
+- **La géopolitique sino-américaine** : chaque projet de restriction (2022, 2023, juillet 2024, MATCH Act en 2026) provoque une baisse
+- **Le récit de l'IA** : depuis 2023, ASML réagit aux nouvelles de Nvidia, des hyperscalers et des laboratoires d'IA, y compris celles sans lien direct avec la lithographie (puces sur mesure, appels à ralentir l'IA)
+- **Asymétrie récente** : sur les 18 derniers mois, le titre a souvent **baissé sur de bonnes nouvelles** (résultats d'avril 2026) et **beaucoup baissé sur des menaces hypothétiques** : signe d'un positionnement déjà très chargé`,
   },
   {
     id: 10,
@@ -468,100 +536,115 @@ Le titre ASML est **structurellement volatil malgré la qualité de l'actif**. L
     icon: "🔮",
     content: `## Estimations BPA 2026-2028
 
-### Point de départ
-
-| Exercice | BPA réalisé | Croissance |
-|---|---|---|
-| 2024 | ~19,90 € | — |
-| 2025 | **24,73 €** | +24 % |
-| S1 2026 (T1+T2) | **14,74 €** | +23 % sur un an |
-
----
-
 ### Hypothèses de modélisation
 
-**Chiffre d'affaires** :
-- 2026 : guidance de **43 à 45 Mds€**, soit une croissance de **+32 à +38 %**. Retenons le point médian de **44 Mds€**.
-- 2027 : capacité EUV Low NA en hausse de 30 % (de ~65 à ~85 unités), DUV immersion de ~130 à ~170 unités. En supposant une conversion partielle et un mix stable, **52 à 56 Mds€** paraît raisonnable, soit +20 à +27 %.
-- 2028 : nouvelle hausse de capacité de 30 % **à l'étude**, non confirmée. Fourchette large de **58 à 66 Mds€**.
+**Croissance du secteur** :
+- Marché des équipements de fabrication de semi-conducteurs (WFE) : ~+15 % en 2026, croissance attendue à deux chiffres en 2027, portée par l'IA, la mémoire HBM et les nœuds de 2 nm
+- **Intensité lithographique en hausse** : chaque nouveau nœud et chaque génération de DRAM ajoute des couches EUV, ce qui fait croître ASML plus vite que le marché
 
-**Marges** :
-- Marge brute 2026 : **54-56 %** (guidance) ; effet de mix EUV et upgrades.
-- 2027-2028 : poursuite de l'amélioration vers **56-58 %**, avec un plafond structurel lié au coût du High NA en phase de montée en cadence.
-- Marge opérationnelle : 37 % au T2 2026, potentiel de **40-42 %** en 2027-2028 par levier opérationnel (R&D et SG&A croissant moins vite que le CA).
+**Gains de parts de marché** :
+- Limités en EUV (déjà 100 %) ; gains possibles en métrologie (YieldStar, HMI)
+- Légère érosion possible en DUV en Chine à partir de 2027 (machines chinoises : ~5 en 2026, ~20 en 2027)
 
-**Coûts de financement** : marginaux. ASML est en position de trésorerie nette, avec une dette obligataire longue à coupons faibles. Non déterminant pour le BPA.
+**Hausses de prix** :
+- Hausse de prix fondée sur la valeur négociée en 2026, effet **partiel en 2027** et **plein en 2028** ; selon BofA, +5 % de prix moyen sans hausse de coûts représenterait ~+10 % de BPA
 
-**Dilution / relution** : le programme de rachat de **12 Mds€ sur 2026-2028** représente environ 2 % du capital par an aux cours actuels — soit une **relution de l'ordre de +1,5 à +2 % par an** sur le BPA. Effet réel mais modeste à ces multiples.
+**Volumes** :
+- Capacités EUV Low-NA et DUV immersion : **+30 % en 2027**, +30 % envisagés en 2028 (et davantage à l'étude)
+- Installed Base Management : croissance de 15 à 20 % par an après le bond de 2026
 
-**Fiscalité** : taux effectif annualisé guidé à **~17 %**.
+**Pressions sur les coûts** :
+- R&D en hausse de ~8 % par an (High-NA, Hyper-NA), coûts de montée en cadence, inflation salariale aux Pays-Bas
+- Les premiers systèmes High-NA sont **dilutifs** pour la marge brute
+
+**Effet de levier opérationnel** :
+- Charges fixes (R&D + frais généraux) d'environ 6,4 Md€ en 2026 : chaque milliard de CA supplémentaire à 58 % de marge brute ajoute ~0,58 Md€ de résultat d'exploitation
+
+**Coûts de financement** : nuls en net. Trésorerie nette de ~10,7 Md€, produits financiers légèrement positifs.
+
+**Dilution / relution** : rachats de 12 Md€ sur 2026-2028 (dont ~6,2 Md€ déjà exécutés) → **réduction du nombre d'actions de ~1,5 à 2 % par an** ; dilution des plans d'actions négligeable (moins de 0,5 %).
+
+**Fiscalité** : taux effectif de ~17 % (régime néerlandais de l'innovation).
 
 ---
 
 ### Estimations BPA
 
-| Exercice | BPA estimé | Croissance | P/E au cours de 1 554 € |
-|---|---|---|---|
-| 2025 (réalisé) | **24,73 €** | +24 % | 63x |
-| **2026E** | **36,00-38,00 €** | **+46 à +54 %** | **~42x** |
-| **2027E** | **43,00-48,00 €** | **+18 à +28 %** | **~34x** |
-| **2028E** | **48,00-56,00 €** | **+10 à +18 %** | **~30x** |
+| Exercice | CA (Md€) | Marge brute | Marge d'exploit. | Actions (M) | BPA estimé | Croissance | P/E au cours actuel (~1 528 €) |
+|---|---|---|---|---|---|---|---|
+| 2024 (réalisé) | 28,3 | 51,3 % | 32 % | 393 | **19,25 €** | — | — |
+| 2025 (réalisé) | 32,7 | 52,8 % | 34 % | 389 | **24,73 €** | +28 % | — |
+| **2026E** | **44,5** | **~56 %** | **~41 %** | **~383** | **~42,5 €** (~41,2 € hors Mistral) | **+72 %** | **~36x** |
+| **2027E** | **~54,5** | **~58 %** | **~45 %** | **~377** | **~54-55 €** | **+30 %** | **~28x** |
+| **2028E** | **~63** | **~59 %** | **~47 %** | **~371** | **~66-67 €** | **+22 %** | **~23x** |
 
-*Le consensus de place se situe autour de 35,7 € pour 2026 et 42-43 € pour 2027 — nos fourchettes sont légèrement au-dessus sur 2026, la guidance relevée n'étant pas encore pleinement intégrée dans toutes les estimations.*
+*Estimations 221 Bourse. Consensus de marché avant publication du T3 : ~38,8 € (2026) et ~53 € (2027), appelé à être relevé après le T3.*
 
 ---
 
 ### Sensibilité
 
-- **Scénario optimiste** (conversion intégrale de la capacité 2027, marge brute 58 %, HBM4 soutenu) : BPA 2028 vers **58-60 €**, soit un P/E 2028 de ~26x — le titre resterait défendable.
-- **Scénario de base** : BPA 2028 autour de **52 €**, P/E 2028 de ~30x pour une croissance retombée à 10-15 %. Valorisation tendue mais pas absurde.
-- **Scénario pessimiste** (digestion du cycle IA en 2028, décalage des livraisons, durcissement chinois) : CA 2028 stagnant autour de 50 Mds€, BPA **~42 €**. À un multiple normalisé de 25x, le cours reviendrait vers **1 050 €**, soit **-32 %** par rapport au niveau actuel.
+- **Scénario haussier** (capacités +35 % par an, plein effet prix, mises à niveau soutenues) : CA 2028 de ~70 Md€, marge brute de 60 %, **BPA 2028 ~78 €** → P/E 2028 de ~20x. Le titre aurait un potentiel de 50 % ou plus s'il conserve un multiple de 30x
+- **Scénario de base** : BPA 2028 de ~66 € → P/E 2028 de ~23x, cohérent avec l'objectif moyen des analystes (~2 075 €, soit ~31x le BPA 2028)
+- **Scénario baissier** (pic des investissements en 2027, retournement mémoire, MATCH Act appliqué) : CA 2028 ramené à ~50 Md€, marge brute de 54 %, **BPA 2028 ~45 €** → P/E 2028 de ~34x au cours actuel ; avec un multiple de cycle bas (25x), le titre retomberait vers ~1 100 € (-28 %)
 
-**Conclusion** : le BPA d'ASML va, selon toute vraisemblance, **doubler entre 2025 et 2028**. Le débat n'est pas là. Il porte sur le multiple que le marché acceptera de payer une fois que cette croissance sera derrière lui — car le pic de croissance en pourcentage se situe très probablement **en 2026**.`,
+**Conclusion** : la croissance du BPA d'ASML est **mécaniquement adossée à des capacités déjà réservées** par les clients jusqu'en 2028. Le risque n'est pas tant la trajectoire 2026-2027, très visible, que **la durée du cycle au-delà de 2028**. À 28x les bénéfices 2027, le titre ne paie pas de prime excessive pour un monopole en croissance de 30 % : la valorisation devient tendue seulement si le cycle se retourne.`,
   },
   {
     id: 11,
     title: "Bull & Bear",
     category: "Valorisation & thèses",
     icon: "⚖️",
-    content: `## 🐂 Scénario Optimiste (Bull Case)
+    content: `## 🐂 Scénario optimiste (Bull Case)
 
-### Avantages concurrentiels et pérennité des barrières
-Le moat d'ASML n'est pas une opinion : **100 % de part de marché sur l'EUV, plus de 90 % sur la lithographie totale**, un partenaire optique exclusif (Zeiss SMT) que personne ne peut dupliquer, et 30 ans de savoir-faire accumulé. Aucune barrière à l'entrée de la cote mondiale n'est aussi vérifiable. Elle n'est pas menacée à horizon 5-7 ans.
+### Avantages concurrentiels et barrières à l'entrée
+**Un monopole qui se renouvelle** : 100 % de l'EUV aujourd'hui, 100 % du High-NA demain, et la direction de la feuille de route de l'industrie (consortium des réticules de 12 pouces demandé par TSMC). Les barrières à l'entrée ne sont pas seulement technologiques mais **écosystémiques** (Zeiss, Trumpf, Cymer). Aucun concurrent crédible avant la fin de la décennie.
 
 ### Leviers de croissance
-**1. Intensité lithographique croissante.** Chaque nœud (2 nm, 1,4 nm) exige davantage de couches EUV par plaquette. ASML capte une part *croissante* d'un capex sectoriel lui-même en croissance — double effet multiplicatif.
+**1. L'IA est un multiplicateur d'intensité lithographique** : les accélérateurs d'IA exigent les nœuds les plus fins (3 nm, 2 nm, puis A16 et A14) et la mémoire HBM, toutes deux gourmandes en couches EUV. La mémoire est passée de ~35 % à ~46 % des ventes de systèmes en un an.
 
-**2. Le HBM4 change la nature de la demande mémoire.** L'empilement de mémoire haute bande passante consomme un nombre de couches EUV sans précédent. La mémoire, historiquement le parent pauvre de la demande EUV, devient un second moteur.
+**2. La pénurie donne du pouvoir de prix** : la demande dépasse l'offre au moins jusqu'en 2028. ASML vient de passer une hausse de prix fondée sur la valeur, dont l'effet plein n'arrivera qu'en 2028. Selon BofA, +5 % de prix moyen représentent ~+10 % de BPA : c'est une **surprise bénéficiaire potentielle** que le consensus n'intègre qu'en partie.
 
-**3. Rationnement structurel.** ASML augmente sa capacité EUV Low NA de **30 % pour 2027** et étudie **+30 % pour 2028**. Une entreprise n'engage pas un tel investissement industriel sans engagements clients solides. Le pouvoir de prix reste intact tant que la demande excède l'offre.
+**3. La base installée, un moteur récurrent sous-estimé** : ~12 Md€ en 2026 (+50 %), marges supérieures à la moyenne, et un parc qui grossit de 65 EUV par an. À terme, le service et les mises à niveau peuvent représenter un tiers des ventes.
 
-**4. Le service comme rente cachée.** L'Installed Base Management (2,76 Mds€ au T2 2026, **+32 % sur un an**) croît mécaniquement avec le parc installé, à marge supérieure et sans cyclicité. Plus de 5 000 machines installées : c'est un actif d'annuité rarement valorisé correctement.
+**4. Le relais High-NA (2028-2030)** : machines à ~350-400 M€ l'unité, adoption par Samsung (2028) et TSMC (2030). Un second cycle de remplacement s'ouvre au moment où le premier pourrait ralentir.
 
-**5. Surprises de bénéfices répétées.** Quatre trimestres consécutifs de dépassement du consensus ; deux relèvements de guidance annuelle en six mois (34-39 → 36-40 → **43-45 Mds€**). Le levier opérationnel dépasse systématiquement les modèles des analystes.
+**5. Les objectifs 2030 seront relevés** : le Capital Markets Day du 10 juin 2027 devrait rehausser la fourchette de 44-60 Md€ de CA, atteinte dès 2026 sur son bas, et la marge brute de 56-60 %, déjà atteinte.
 
-**6. Allocation du capital lisible.** 12 Mds€ de rachats sur 2026-2028, dividende croissant, aucune acquisition transformante risquée. ROE durablement supérieur à 40 %.
+### Allocation du capital
+Rachats de 12 Md€ sur 2026-2028 (plus de la moitié déjà exécutée), dividende en hausse, trésorerie nette de ~10,7 Md€, ROIC de ~66 %. L'investissement dans Mistral AI est en plus-value.
 
 ---
 
-## 🐻 Scénario Pessimiste (Bear Case)
+## 🐻 Scénario pessimiste (Bear Case)
 
-### Trois risques susceptibles de nuire durablement
+### Risques susceptibles de nuire durablement à l'activité
 
-**1. La cyclicité n'a pas été abolie, elle a été décalée.** L'équipement de semi-conducteurs est **le secteur le plus cyclique de la tech**. Le capex WFE attendu à ~150 Mds$ en 2026 constitue un sommet historique. Si les hyperscalers ralentissent leurs commandes de puces d'IA en 2027-2028, les fondeurs décaleront leurs commandes — et ASML découvrira que son carnet de 45 Mds€ n'est **pas un contrat ferme**. C'est exactement ce qui s'est produit en octobre 2024.
+**1. Le pic du cycle (risque principal)** : l'histoire des équipements de semi-conducteurs est une succession de pénuries suivies de surcapacités. Les clients qui réservent pour 2029-2030 sont exactement ceux qui annuleront en cas de retournement. Si les investissements dans l'IA (financés en partie par la dette des hyperscalers et des laboratoires) marquent le pas en 2028, ASML aura **augmenté ses capacités de 60 % au pire moment**.
 
-**2. Le risque géopolitique est asymétrique et croissant.** La Chine est passée de 33 % du CA (2025) à ~20 % (2026), après un pic à 47 % au T3 2024. Le **MATCH Act** américain vise désormais le DUV d'immersion et son service. La direction de la trajectoire est claire : **vers zéro**. Chaque restriction accélère simultanément l'effort d'indigénisation chinois — ASML perd un marché aujourd'hui et finance involontairement un concurrent pour demain.
+**2. La géopolitique chinoise** : le MATCH Act, soutenu par les deux partis américains et en voie d'intégration au budget de la défense, pourrait interdire le DUV immersion **et le service** de la base installée en Chine (~20 % des ventes). Parallèlement, la Chine produit ses premières machines DUV : 5 en 2026, 20 en 2027.
 
-**3. La surcapacité auto-infligée.** Décider +30 % de capacité EUV pour 2027 et étudier +30 % de plus pour 2028 est un pari industriel énorme, engageant aussi Zeiss et TRUMPF. Si la demande fléchit, ASML se retrouve avec une base de coûts fixes gonflée au pire moment. L'histoire du secteur est jonchée d'expansions de capacité décidées au sommet du cycle.
+**3. La concentration des clients et le risque Intel/Samsung** : TSMC, Samsung et SK Hynix concentrent la majorité des ventes EUV. Si Samsung et Intel échouent à rattraper TSMC dans la fonderie, la demande se concentre sur un seul client au pouvoir de négociation croissant.
+
+### Compression des marges ou ralentissement
+- Le High-NA est dilutif pour la marge brute dans ses premières années
+- Les mises à niveau (qui ont porté la marge du T3) sont par nature **cycliques** : elles s'arrêtent quand les clients ont à nouveau assez de machines neuves
+- Le directeur financier lui-même a prévenu que les hausses de prix ne seraient pas annuelles
+
+### Attentes trop élevées ?
+Le consensus attend +30 % de BPA en 2027. La barre est haute, et ASML ne publie plus ses commandes : le marché ne verra un ralentissement qu'**avec retard**, dans les chiffres de ventes.
 
 ### Analyse pré-mortem
-**Que s'est-il passé si le titre vaut 1 000 € en 2029 ?** Scénario : l'investissement mondial en IA se normalise en 2028 après une phase de suraccumulation de capacité de calcul ; TSMC et Samsung décalent de six à douze mois leurs commandes ; la Chine est totalement fermée par un MATCH Act adopté ; le High NA reste cantonné à quelques dizaines d'unités faute de retour sur investissement clair pour les fondeurs. Le CA plafonne vers 50 Mds€, le BPA vers 42 €, et le multiple se comprime de 42x à 24x — **soit une baisse de 35 %** malgré une entreprise toujours excellente.
+*Nous sommes en octobre 2028 et l'action vaut 900 €. Que s'est-il passé ?* Courant 2027, deux hyperscalers réduisent leurs budgets d'IA, faute de retour sur investissement et sous la pression de leurs créanciers. La mémoire bascule en surcapacité, SK Hynix et Samsung reportent leurs machines EUV. Le MATCH Act est voté et coupe les ventes DUV et le service en Chine. ASML, qui a porté ses capacités à +60 %, voit son guidage 2028 baisser de 15 %, sa marge brute reculer à 53 %. Le multiple se contracte de 36x à 22x des bénéfices en baisse.
 
-### Les multiples actuels sont-ils trop élevés ?
-Le titre se paie **~56x les bénéfices des douze derniers mois** et **~42x les bénéfices 2026 estimés**, après une hausse de **148 % sur un an**. C'est le haut de la fourchette historique. Le potentiel implicite par rapport à l'objectif de cours consensuel (~2 117 $ contre ~1 844 $) n'est plus que d'environ **15 %** — pour un actif dont le pic de croissance en pourcentage est probablement en 2026.
+### Les multiples actuels sont-ils trop élevés ?
+**Pas au regard de la croissance, mais oui au regard du cycle.** À ~36x les bénéfices 2026 et ~28x 2027, ASML se paie dans la moyenne de ses pairs, avec une croissance et une rentabilité supérieures. Mais ces bénéfices sont des **bénéfices de haut de cycle** : sur un BPA « normalisé » (moyenne de cycle ~40 €), le P/E serait de ~38x. La valorisation n'intègre pas de retournement.
 
-### Point de vue à contre-courant
-**Ce que le marché refuse de voir** : le marché valorise ASML comme un actif d'infrastructure quasi obligataire, avec la certitude que le monopole garantit le résultat. Or le monopole garantit le **prix**, pas le **volume**. ASML contrôle la marge par machine ; elle ne contrôle ni le nombre de fabs construites dans le monde, ni les décisions de capex de trois clients, ni les décisions de Washington. À 42x les bénéfices prospectifs, l'investisseur ne paie pas le monopole — **il paie l'hypothèse que le capex d'IA ne connaîtra pas de trou d'air**. Ce sont deux paris très différents, et seul le second est réellement incertain.`,
+---
+
+## Le point de vue à contre-courant
+
+**Ce que le marché refuse de voir** : le marché traite ASML comme une valeur cyclique au sommet de son cycle, et refuse de payer plus que ses pairs. Or **le cycle d'ASML est différent de celui de ses pairs** : ses machines sont le goulot d'étranglement, réservées 2 à 4 ans à l'avance, avec des acomptes ; sa base installée croît mécaniquement chaque année ; et le relais High-NA décale le prochain creux. Le marché sous-estime **la durée** du cycle plus que son amplitude. Le vrai risque n'est pas l'IA, c'est **Washington** : la seule variable qu'ASML ne contrôle pas, et que le cours n'intègre qu'à moitié.`,
   },
   {
     id: 12,
@@ -570,93 +653,96 @@ Le titre se paie **~56x les bénéfices des douze derniers mois** et **~42x les 
     icon: "🚩",
     content: `## Audit forensique — Signaux d'alerte comptables
 
-ASML publie en **US GAAP** (référentiel principal des publications trimestrielles et du 20-F) et en IFRS pour ses comptes statutaires néerlandais. Cette dualité est une première source de complexité de lecture.
+### Comptabilisation des produits — RISQUE MODÉRÉ
+Le chiffre d'affaires des systèmes est reconnu à l'**acceptation chez le client** (ou à la livraison pour les modèles éprouvés), selon la norme IFRS 15 / US GAAP ASC 606. Trois points d'attention :
+- **Timing des acceptations** : quelques machines EUV (200-400 M€ l'unité) qui glissent d'un trimestre peuvent faire varier le CA de plusieurs centaines de millions ; ASML a déjà géré ses trimestres par le calendrier des livraisons rapides (« fast shipments », CA reporté à l'acceptation)
+- **Les nouveaux produits (High-NA)** : le CA n'est reconnu qu'après acceptation complète, ce qui crée des effets de rattrapage
+- **Contrats à éléments multiples** : la répartition du prix entre machine, installation, garantie et services est un jugement de la direction
 
-### Comptabilisation des revenus — RISQUE MODÉRÉ
-C'est le poste le plus sensible. Une machine EUV vaut jusqu'à 250 M€ et un système High NA environ 380 M$ : **la date de reconnaissance d'un seul système peut déplacer un trimestre entier**. Les règles diffèrent selon le type de système (reconnaissance à l'expédition pour les modèles matures et qualifiés, à l'acceptation client pour les nouvelles configurations).
+**À surveiller** : l'écart entre machines livrées et machines reconnues en CA, et les mentions de « fast shipments » dans les communiqués.
 
-**À surveiller** : la ligne *deferred revenue*, la politique de reconnaissance des **premiers exemplaires High NA**, et l'écart entre systèmes expédiés et systèmes reconnus en chiffre d'affaires sur un trimestre donné.
-
-### Le backlog — RISQUE ÉLEVÉ (de communication, pas de fraude)
-Le carnet de commandes (38,8 Mds€ fin 2025) est présenté comme un indicateur de visibilité. Mais ASML précise elle-même dans ses facteurs de risque que le carnet est exposé aux **annulations, décalages et restrictions à l'export**. Ce n'est pas une créance ; c'est une intention documentée.
-
-**À surveiller** : la volatilité trimestrielle des prises de commandes, et tout changement de définition ou de granularité de publication de cet indicateur — un fournisseur qui cesse de publier une métrique qui l'a desservie mérite toujours une question.
-
-### Goodwill et immobilisations incorporelles — RISQUE FAIBLE À MODÉRÉ
-Le goodwill provient principalement de **Cymer (2013)**, **HMI (2016)** et **Berliner Glas (2020)**. Aucune dépréciation significative n'a été constatée depuis, ce qui est cohérent avec la performance opérationnelle de ces actifs (la source EUV de Cymer est un composant central du produit phare).
-
-**À surveiller** : l'évaluation de la participation de **1,3 Md€ dans Mistral AI**. Un investissement minoritaire dans une société non cotée du secteur de l'IA générative pose une question classique d'évaluation à la juste valeur — les niveaux de valorisation de ce segment sont extrêmement mobiles.
+### Les acomptes clients et le flux de trésorerie — RISQUE MODÉRÉ
+Le flux de trésorerie du T3 2026 (11,4 Md€) et celui du T4 2025 (11,0 Md€) sont dopés par les **acomptes** sur des machines livrables en 2027-2028. Les passifs sur contrats (produits constatés d'avance) atteignaient ~19 Md€ fin 2025. Cela ne constitue pas une manipulation, mais :
+- le flux de trésorerie disponible n'est **pas représentatif** de la génération de trésorerie normative (il était négatif de 2,6 Md€ au T1 2026)
+- en cas de retournement, la **non-reconstitution des acomptes** ferait plonger le flux de trésorerie bien avant le résultat
 
 ### Information sectorielle — RISQUE MODÉRÉ
-ASML publie **un seul segment opérationnel**. La ventilation entre EUV, DUV, métrologie et Installed Base Management est fournie à titre indicatif, sans compte de résultat par segment. **On ne connaît donc pas la marge réelle de l'EUV, ni celle du service.** C'est le point d'opacité le plus significatif du dossier : l'investisseur doit prendre la rentabilité par activité sur la parole du management.
+ASML ne publie qu'**un seul segment**. Pas de marge par technologie, pas de rentabilité séparée de la base installée (très margée) et des systèmes neufs. L'investisseur ne peut pas vérifier si la marge record du T3 repose sur les mises à niveau (cycliques) ou sur l'EUV. **La fin de la publication trimestrielle des prises de commandes** (depuis 2026, le carnet n'étant plus publié qu'une fois par an) réduit encore la visibilité.
 
-### Contrats de location (IFRS 16 / ASC 842) — RISQUE FAIBLE
-Immobilier industriel et bureaux principalement. Montants non structurants au regard du bilan. Pas d'anomalie identifiée.
+### Stocks — RISQUE MODÉRÉ
+~11,7 Md€ de stocks, soit **près de 4 mois de ventes** et un quart du total de l'actif. Normal pour un fabricant de machines au cycle de production de 12 à 18 mois, mais exposé à des **dépréciations** en cas d'obsolescence (passage du NXE:3800E au 3800F) ou d'interdiction d'exportation (machines destinées à la Chine).
 
 ### Parties liées — RISQUE FAIBLE
-Actionnariat totalement dispersé, absence d'actionnaire de contrôle. La relation avec **Carl Zeiss SMT** (participation minoritaire d'ASML + cofinancement de R&D + fournisseur exclusif) constitue toutefois une relation économique profonde qui mérite une lecture attentive des annexes : flux financiers croisés, engagements d'achat, financement de capacité.
+- **Carl Zeiss SMT** : ASML en détient 24,9 % (mise en équivalence) et finance une partie de sa R&D. Transactions importantes avec un fournisseur exclusif, mais documentées dans les annexes
+- **Mistral AI** : ~11 % du capital, investissement de 1,3 Md€ ; ASML siège au comité stratégique. La **réévaluation de ~0,5 Md€** au T3 2026 passe par le compte de résultat : un gain comptable non opérationnel, fondé sur la valorisation d'une société non cotée
 
 ### Engagements conditionnels — RISQUE MODÉRÉ
-Deux familles : les **engagements d'achat auprès des fournisseurs critiques** liés à l'expansion de capacité de 30 % pour 2027 (obligations fermes prises sur la foi d'un carnet révocable — c'est le décalage à surveiller), et les **risques réglementaires liés aux contrôles à l'export**, dont l'impact chiffré n'est jamais quantifié en amont.
+- **Engagements d'achat** auprès des fournisseurs (plusieurs milliards d'euros) pour sécuriser la montée en capacité : rigides en cas de retournement
+- **Litiges de propriété intellectuelle** (historiquement avec Nikon, réglés en 2019) : pas de litige majeur en cours identifié
+- **Risque réglementaire** : une interdiction de servir la base installée en Chine (MATCH Act) pourrait entraîner des pénalités contractuelles ou des dépréciations de stocks de pièces
+
+### Contrats de location (IFRS 16) — RISQUE FAIBLE
+Droits d'utilisation limités (bureaux, entrepôts, véhicules), sans engagement significatif hors bilan.
 
 ### Rémunération en actions — RISQUE FAIBLE
-Niveau modéré au regard des standards du secteur technologique. La dilution est plus que compensée par le programme de rachat de 12 Mds€. Rémunération du dirigeant en hausse marquée (~5 M€ → ~7 M€) mais partant d'un niveau bas.
+Moins de 1 % du CA, dilution inférieure à 0,5 % par an, largement compensée par les rachats. Critères de performance publics (CA, ROAIC, rendement pour l'actionnaire).
 
-### Flux de trésorerie vs résultat net — POINT DE VIGILANCE
-La trésorerie et placements court terme sont passés de **12,7 Mds€ (fin 2024) à 7,6 Mds€ (fin T2 2026)** alors même que le résultat net atteignait des records. L'explication est connue et légitime — rachats d'actions, dividendes, capex d'expansion — mais l'écart mérite un suivi rigoureux : **le besoin en fonds de roulement d'une expansion de capacité de 30 % est massif** (stocks, en-cours, acomptes fournisseurs).
-
-**À surveiller** : la conversion résultat net → free cash-flow trimestre après trimestre en 2027, ainsi que l'évolution des stocks rapportée au chiffre d'affaires.
+### Goodwill et incorporels — RISQUE FAIBLE
+Goodwill stable à **4,6 Md€** (Cymer, HMI), soit ~20 % des capitaux propres, sans dépréciation. Incorporels de ~0,6 Md€. Pas de capitalisation agressive de la R&D (passée en charges dans les comptes en US GAAP qui servent à la communication financière).
 
 ---
 
 ### Verdict global
-
-**Risque comptable : FAIBLE.** ASML est auditée par **Deloitte**, cotée au Nasdaq (donc soumise au SOX et au 20-F), et sa communication financière est considérée comme l'une des plus rigoureuses d'Europe. Aucun signal de manipulation n'est identifié. Les zones de vigilance relèvent de la **structure du modèle** — reconnaissance de revenus par machine unitaire, carnet non ferme, segment unique — et non d'une intention comptable douteuse. La discipline consiste à ne pas confondre l'absence de red flag comptable avec l'absence de risque économique.`,
+**Risque comptable : FAIBLE À MODÉRÉ.** ASML est auditée par KPMG, publie des comptes clairs et un guidage historiquement prudent. Aucune fraude ni anomalie n'est identifiée. Les vrais points de vigilance sont **structurels** : la **volatilité des acomptes** qui flatte le flux de trésorerie, **l'opacité croissante** (un seul segment, plus de commandes publiées) et le **gain Mistral** qui gonfle le résultat du T3. Pour analyser ASML, il faut regarder le **résultat d'exploitation** et la **marge brute hors mises à niveau**, pas le flux de trésorerie trimestriel ni le résultat net.`,
   },
   {
     id: 13,
     title: "Questions au Management",
     category: "Préparation d'entretien",
     icon: "❓",
-    content: `## 15 questions prioritaires pour Christophe Fouquet et Roger Dassen
+    content: `## 15 questions prioritaires pour Christophe Fouquet, classées par importance
 
-### Stratégie et avantage concurrentiel
+### Risques majeurs
 
-**1.** Vous augmentez la capacité EUV Low NA de 30 % pour 2027 et étudiez 30 % de plus pour 2028. **Quelle part de ce plan repose sur des engagements clients contractuellement fermes**, avec pénalités d'annulation, plutôt que sur des intentions inscrites au carnet ?
+**1.** Vous augmentez vos capacités de 30 % en 2027 et étudiez davantage pour 2028, alors que l'histoire du secteur est faite de pénuries suivies de surcapacités. **Quelle part de vos coûts de montée en capacité est réversible** si la demande se retourne en 2028, et quelles clauses protègent ASML en cas d'annulation des réservations 2029-2030 ?
 
-**2.** Le carnet de commandes est exposé aux annulations et décalages — octobre 2024 l'a rappelé brutalement. **Quel est aujourd'hui le taux d'annulation ou de report historique** sur votre carnet, et pourquoi devrions-nous croire que le cycle actuel se comportera différemment ?
+**2.** Le MATCH Act pourrait interdire le DUV immersion **et le service** de votre base installée en Chine. **Quel est l'impact chiffré** sur le CA et la marge d'un tel scénario, et comment gérez-vous vos obligations contractuelles envers les clients chinois dans ce cas ?
 
-**3.** Votre capacité est contrainte par Zeiss SMT et TRUMPF autant que par vous-mêmes. **Ces partenaires ont-ils déjà engagé les investissements correspondant à +30 % en 2027 et +30 % en 2028**, et quel est leur point de rupture ?
+**3.** Vous avez cessé de publier vos prises de commandes. **Quel indicateur avancé** les actionnaires doivent-ils suivre désormais pour anticiper un retournement avant qu'il n'apparaisse dans vos ventes ?
 
-**4.** Le High NA coûte environ 380 M$ par unité. **Quel retour sur investissement démontré pouvez-vous présenter à un fondeur** par rapport à un double patterning Low NA, et pourquoi TSMC reste-t-elle plus prudente qu'Intel sur ce calendrier ?
+### Avantage concurrentiel et stratégie long terme
 
-### Allocation du capital et rentabilité
+**4.** La Chine prévoit de produire ~20 machines DUV immersion en 2027. **À quel horizon** une machine chinoise pourrait-elle être compétitive sur les couches critiques de 7 nm, et à quel horizon voyez-vous une EUV chinoise crédible ?
 
-**5.** Vous rachetez pour 12 Mds€ d'actions sur 2026-2028, à des multiples proches de leurs plus hauts historiques. **Quel niveau de valorisation vous conduirait à ralentir ces rachats** au profit de la trésorerie ou du dividende ?
+**5.** TSMC ne prévoit l'adoption du High-NA en volume que vers 2030. **Qu'est-ce qui bloque** : le coût par couche, la productivité, l'écosystème des masques ? Quel est votre plan pour convaincre TSMC plus tôt ?
 
-**6.** La trésorerie et les placements court terme sont passés de 12,7 Mds€ fin 2024 à 7,6 Mds€ fin T2 2026. **Quel plancher de liquidité considérez-vous comme intangible** compte tenu du besoin en fonds de roulement de l'expansion de capacité ?
+**6.** Les mises à niveau de la base installée ont porté la marge du T3 à 57,5 %. **Quelle part de la hausse de marge 2026 est structurelle** (prix, mix EUV) et quelle part est cyclique (mises à niveau liées à la pénurie) ?
 
-**7.** Vous avez investi environ 1,3 Md€ dans Mistral AI. **Quelle est la thèse industrielle précise** de cet investissement, comment est-il évalué au bilan, et quels jalons vous conduiraient à le considérer comme un échec ?
+**7.** Le Capital Markets Day de juin 2027 réévaluera vos objectifs 2030. **Est-il raisonnable** de penser que le haut de la fourchette (60 Md€) est désormais un plancher ?
 
-**8.** ASML ne publie **qu'un seul segment opérationnel**. Pouvez-vous indiquer l'écart de marge brute entre l'EUV, le DUV et l'Installed Base Management, ne serait-ce qu'en ordre de grandeur ? À défaut, **qu'est-ce qui vous en empêche** ?
+### Allocation du capital
 
-### Risques
+**8.** Vous avez racheté pour 4,1 Md€ d'actions au T3, au plus haut historique du cours. **Selon quels critères de valorisation** pilotez-vous le rythme des rachats, et pourquoi ne pas privilégier un dividende exceptionnel ?
 
-**9.** La Chine est passée de 47 % des ventes de systèmes au T3 2024 à 19 % au T1 2026. **Modélisez-vous un scénario à 0 %**, et quel serait son impact sur le chiffre d'affaires, la marge brute et le résultat par action ?
+**9.** La participation dans Mistral AI a généré un gain de ~0,5 Md€. **Quelle est la logique stratégique** de long terme de cette participation, envisagez-vous d'investir davantage dans l'IA, et comment éviterez-vous que ces gains comptables brouillent la lecture de vos résultats ?
 
-**10.** Le MATCH Act viserait aussi le **service** de vos machines DUV en Chine. Quelle part de vos revenus Installed Base Management provient de la Chine, et **cette rente serait-elle perdue de façon permanente** ?
+**10.** Avec ~10,7 Md€ de trésorerie nette et un flux de trésorerie record, **envisagez-vous d'intégrer davantage votre chaîne d'approvisionnement** (au-delà des 24,9 % dans Zeiss SMT) pour sécuriser la montée en capacité ?
 
-**11.** Chaque restriction accélère l'effort d'indigénisation chinois. **Quel horizon retenez-vous en interne** pour qu'un acteur chinois produise un DUV d'immersion qualifié en production de masse ? Et pour un EUV ?
+### Exécution et chaîne d'approvisionnement
 
-**12.** Si l'investissement mondial en infrastructure d'IA se normalisait de 20 à 30 % en 2028, **quelle serait votre flexibilité de coûts** ? Quelle part de votre base de coûts est réellement variable à douze mois ?
+**11.** **Quel est le goulot d'étranglement** de votre montée en capacité 2027-2028 : les optiques Zeiss, les sources EUV, la main-d'œuvre qualifiée, les infrastructures aux Pays-Bas (électricité, logement, recrutement de talents étrangers) ?
 
-### Vision long terme et gouvernance
+**12.** Votre dépendance à des fournisseurs américains vous expose à la pression de Washington. **Avez-vous un plan pour réduire le contenu américain** de vos machines, et à quel horizon ?
 
-**13.** Le HBM4 tire aujourd'hui la demande EUV côté mémoire. **Quelle est la durabilité de ce moteur** si l'architecture mémoire des accélérateurs d'IA évolue vers d'autres solutions dans les cinq prochaines années ?
+### Clients et marchés
 
-**14.** ASML n'a aucun actionnaire de référence et une direction issue du rang. **Quel contrepouvoir interne existe-t-il** pour contester une décision d'expansion industrielle majeure, au-delà du conseil de surveillance ?
+**13.** La mémoire représente désormais près de la moitié de vos ventes de systèmes. **Comment évaluez-vous le risque d'une surcapacité de la HBM** en 2027-2028, sachant que la mémoire est historiquement le segment le plus cyclique ?
 
-**15.** Quel est le risque que vous sous-estimez le plus aujourd'hui, et que le marché ne voit pas encore ?`,
+**14.** Si Intel et Samsung ne parviennent pas à rattraper TSMC dans la fonderie avancée, **comment évolue votre pouvoir de négociation** face à un client quasi unique sur le leading edge ?
+
+### Gouvernance
+
+**15.** Vous avez rejoint le conseil d'administration d'Airbus en octobre 2026, au cœur de la plus forte montée en cadence de l'histoire d'ASML. **Comment garantissez-vous votre disponibilité**, et quel est le plan de succession pour le directoire, dont plusieurs membres sont en poste depuis plus de quinze ans ?`,
   },
   {
     id: 14,
@@ -665,40 +751,53 @@ La trésorerie et placements court terme sont passés de **12,7 Mds€ (fin 202
     icon: "😈",
     content: `## Thèse short — Démontage de l'argumentaire haussier
 
-Précision liminaire : personne de sérieux ne conteste la qualité industrielle d'ASML. La thèse baissière ne porte pas sur l'entreprise mais sur **le prix payé pour une hypothèse implicite** — celle d'un capex d'IA sans discontinuité.
+### 1. Ce qui peut compromettre structurellement le modèle : le cycle, pas la concurrence
 
-### 1. Le monopole protège le prix, pas le volume
+Les optimistes confondent **monopole** et **visibilité**. ASML a un monopole technologique, mais elle vend des **biens d'équipement** à une industrie qui investit par vagues. En 2026, toutes les planètes sont alignées : pénurie, IA, mémoire, hausses de prix, mises à niveau. Ce sont **précisément les conditions d'un sommet de cycle**. Le chiffre d'affaires d'ASML a déjà été divisé par près de deux en 2009 (de 3,0 à 1,6 Md€), et le titre a perdu près de 50 % en 2022. Les bénéfices records se paient au multiple le plus bas, pas au plus haut.
 
-C'est l'erreur de raisonnement centrale des optimistes. ASML contrôle totalement **combien elle facture** une machine. Elle ne contrôle **rien** de ce qui détermine combien de machines seront commandées : les décisions de capex de trois clients, le rythme de construction de fabs dans le monde, la demande finale de puces d'IA. Un monopole sur un marché cyclique reste **un actif cyclique**. Octobre 2024 — une chute de plus de 16 % en une séance sur un simple trou d'air de commandes — en constitue la démonstration expérimentale, sur cette valeur précise, il y a moins de deux ans.
+### 2. Où se concentrent les revenus — et ce qui se passe si cela change
 
-### 2. La concentration des revenus est extrême et croissante
+- **Clients** : TSMC, Samsung et SK Hynix concentrent la grande majorité des ventes EUV. Si un seul d'entre eux décale son plan d'investissement d'un an, c'est plusieurs milliards de CA qui glissent
+- **Thème** : l'IA porte l'essentiel de la croissance 2026-2028. Or la demande de calcul pour l'IA est financée par une poignée d'hyperscalers et de laboratoires, de plus en plus par la **dette**. Un ralentissement du financement de l'IA se transmettrait à ASML en 12 à 18 mois
+- **Chine** : encore ~20 % des ventes, exposées à une décision politique américaine
 
-**Trois clients** — TSMC, Samsung, Intel — décident de l'essentiel des ventes de systèmes avancés. À cela s'ajoute que ces trois clients dépendent eux-mêmes d'une poignée de donneurs d'ordre (NVIDIA, Apple, hyperscalers). La chaîne est donc : *quelques hyperscalers → quelques fabless → trois fondeurs → ASML*. Une décision de rationalisation prise dans deux ou trois salles de conseil d'administration suffit à décaler le chiffre d'affaires d'ASML de plusieurs milliards. Le dirigeant d'ASML a lui-même souligné que les États-Unis absorbent environ **80 % des puces avancées** : cette concentration géographique est un facteur de fragilité, pas de solidité.
+### 3. Pourquoi l'avantage concurrentiel est plus fragile qu'il n'y paraît
 
-### 3. Le carnet de commandes est un mirage rassurant
+L'EUV est un monopole, mais **le DUV ne l'est pas**, et il représente encore près de la moitié des ventes de systèmes. La Chine produit ses premières machines DUV immersion, financées sans contrainte de rentabilité. Surtout, le monopole d'ASML repose sur **un fournisseur unique** (Zeiss) et sur des **composants américains** : c'est un monopole sous **tutelle géopolitique**. Washington décide à qui ASML vend, et le gouvernement néerlandais l'a toujours suivi.
 
-38,8 Mds€ fin 2025, environ 45 Mds€ selon la presse mi-2026. Ces chiffres sont brandis comme une garantie. Ils n'en sont pas une : ASML reconnaît explicitement dans ses facteurs de risque le risque **d'annulation, de décalage et de blocage à l'export**. Un carnet de commandes de biens d'équipement à 200 M€ l'unité, dans un secteur où les clients ajustent leurs plans deux fois par an, est un indicateur de sentiment. **Le trimestre où ce carnet cessera de croître, le multiple se comprimera avant même que le chiffre d'affaires ne bouge.**
+### 4. Le concurrent le plus dangereux que les optimistes sous-estiment
 
-### 4. La Chine : un tiers du marché perdu, et un concurrent financé
+**Ce n'est pas Nikon ni Canon : c'est l'État chinois.** Le groupe public Shanghai Aishengna (issu de SMEE et Yuliangsheng) a démarré la production de DUV immersion, avec SMIC, Hua Hong et CXMT comme clients captifs. Pékin n'a pas besoin de rentabilité, seulement d'indépendance. Chaque machine chinoise installée est une machine ASML en moins, **et un parc de service en moins**. À plus long terme, la Chine poursuit des voies alternatives à l'EUV (sources à accélérateur de particules, lithographie par nano-impression de Canon) qui pourraient contourner le verrou optique de Zeiss.
 
-La Chine représentait 33 % du chiffre d'affaires en 2025 et environ 47 % des ventes de systèmes au pic du T3 2024. Elle est tombée à **19 % au T1 2026**. Le **MATCH Act** vise désormais aussi le **service** des DUV d'immersion — c'est-à-dire la partie récurrente et à haute marge. La trajectoire est unidirectionnelle : vers zéro. Pire, chaque restriction transforme une contrainte politique en **programme industriel national chinois** doté de moyens illimités. Sur un horizon de dix à quinze ans, ASML finance involontairement l'apparition de son unique concurrent potentiel.
+### 5. Les pires décisions d'allocation du capital
 
-### 5. L'expansion de capacité au sommet du cycle — le classique du secteur
+- **Mistral AI (1,3 Md€)** : un investissement hors du cœur de métier dans une start-up d'IA générative non rentable, au sommet de l'euphorie. Le gain comptable de 0,5 Md€ embellit le T3, mais repose sur une valorisation privée non vérifiable
+- **Rachats au plus haut** : 4,1 Md€ rachetés au T3 2026, quand le titre était proche de ses records, après en avoir très peu racheté en 2023-2024 quand il était deux fois moins cher
+- **Montée en capacité de +60 %** décidée au sommet du cycle
 
-Décider +30 % de capacité EUV pour 2027, étudier +30 % de plus pour 2028, entraîner Zeiss et TRUMPF dans la même direction : voilà exactement le type de décision que les entreprises d'équipement prennent au **sommet** des cycles, jamais au creux. Si la demande fléchit de 20 %, ASML se retrouve avec une structure de coûts fixes dimensionnée pour un monde qui n'existe plus, et une chaîne de fournisseurs en surcapacité qu'elle devra soutenir. La direction, issue de l'ingénierie et non de la finance, présente le plus grand risque du dossier comme une bonne nouvelle.
+### 6. Parties liées, comptabilité, incitations
 
-### 6. La valorisation ne pardonne aucun décalage
+Pas de fraude. Mais : **fin de la publication trimestrielle des commandes** depuis 2026 (décidée en janvier 2025, la dernière publication étant un record),  **un seul segment** publié, un **flux de trésorerie gonflé par les acomptes** et un **résultat embelli par un gain Mistral**. Prises ensemble, ces décisions réduisent la capacité des investisseurs à détecter un retournement. La rémunération variable fondée sur le CA et le rendement pour l'actionnaire incite à **maximiser les volumes** dans le cycle haut.
 
-À **~56x les bénéfices des douze derniers mois** et **~42x ceux de 2026 estimés**, après **+148 % en un an** et **+72 % depuis le 1er janvier**, ASML se paie plus cher que Applied Materials (~34x) et Lam Research (~34x) alors que sa croissance de 2027-2028 devrait *converger* vers la leur. Le titre n'a pas besoin d'une mauvaise nouvelle pour baisser : **il lui suffit d'une bonne nouvelle légèrement moins bonne qu'attendu.** Janvier 2026 l'a montré — 13,2 Mds€ de commandes, presque le double du consensus, et le titre a clôturé en baisse.
+### 7. Les hypothèses qui doivent se vérifier pour justifier le cours
 
-### Que se passe-t-il si la croissance déçoit de 20 à 30 % ?
-Chiffre d'affaires 2028 à 48 Mds€ au lieu de 62, BPA à ~40 € au lieu de ~54, multiple normalisé à 24x au lieu de 42x : le cours reviendrait vers **960 €**, soit **-38 %**. Aucune fraude, aucun effondrement du moat — simplement une normalisation de croissance et de multiple simultanée. C'est le scénario classique de l'actif de qualité acheté au mauvais prix.
+À ~1 528 €, le marché suppose :
+1. Une croissance du BPA de ~30 % en 2027 et ~20 % en 2028, **sans retournement de cycle avant 2029**
+2. Une marge brute maintenue au-dessus de 56 %, donc des mises à niveau et des hausses de prix durables
+3. Aucune perte supplémentaire en Chine (MATCH Act non appliqué ou contourné)
+4. Une adoption du High-NA dans les délais (Samsung 2028, TSMC 2030)
+5. Un multiple d'environ 28-30x maintenu sur des bénéfices de haut de cycle
 
-### Le scénario catastrophe unique
-**Une digestion mondiale du capex d'IA en 2027-2028.** Les hyperscalers ont accumulé une capacité de calcul qui excède la demande monétisable ; ils réduisent leurs commandes de 25 % ; TSMC et Samsung décalent leurs plans de fabs de douze mois ; le carnet d'ASML se dégonfle en deux trimestres ; la capacité tout juste installée devient un fardeau. Probabilité ? Difficile à estimer, mais **manifestement non nulle** : l'histoire des cycles d'investissement technologique (télécoms 2001, solaire 2011, mémoire 2019 et 2023) suggère qu'une phase de suraccumulation est la règle, pas l'exception.
+### 8. Si la croissance déçoit de 20 à 30 %
+
+Si le BPA 2027 ressort à **~40-44 €** au lieu de ~55 € (soit un BPA stable par rapport à 2026, au lieu de +30 %), et que le marché applique un multiple de cycle mûr (25x) : cours théorique de **1 000 à 1 100 €**, soit **-28 à -35 %**. En cas de vrai retournement (BPA en baisse de 20 % et multiple de 22x), le titre retomberait vers **750 €**, soit **-50 %**, comme en 2022.
+
+### 9. Le scénario unique qui pourrait nuire durablement à l'entreprise
+
+**Un découplage technologique sino-occidental total.** Le MATCH Act est voté, ASML perd le DUV et le service en Chine (~20 % des ventes et une part importante de sa base installée, la plus rentable), et la Chine, privée de toute alternative, accélère massivement sa propre filière. En dix ans, l'industrie mondiale se scinde en deux écosystèmes, et ASML perd définitivement l'accès au premier marché mondial des semi-conducteurs. **Plausibilité** : élevée pour le volet réglementaire (30 à 40 % d'ici 2028, le texte bénéficiant d'un soutien bipartisan), plus faible pour la perte durable de compétitivité (la Chine resterait des années derrière sur l'EUV).
 
 ### Conclusion short
-ASML est **l'une des meilleures entreprises industrielles du monde**. Mais à 42x les bénéfices prospectifs, l'acheteur d'aujourd'hui n'achète pas le monopole — il achète le pari que trois clients continueront d'accélérer leurs investissements pendant trois ans, sans trou d'air, dans un contexte géopolitique qui se durcit. Le monopole survivra à ce pari. **Le multiple, non.**`,
+ASML est **la meilleure entreprise du secteur**, mais **pas un titre sans risque**. Le marché paie ~36x des bénéfices 2026 de haut de cycle, gonflés par des mises à niveau temporaires, un gain non opérationnel et une pénurie par définition passagère, alors que l'entreprise a réduit sa transparence au moment même où le cycle devient plus difficile à lire. **Le monopole protège l'entreprise, il ne protège pas l'actionnaire du cycle.**`,
   },
 ];
 
