@@ -20,6 +20,7 @@ import hims from "./hims.js";
 import cava from "./cava.js";
 import amd from "./amd.js";
 import asml from "./asml.js";
+import you from "./you.js";
 
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
@@ -35,6 +36,7 @@ export const COMPANIES = [
  cava,
  amd,
  asml,
+ you,
  
  
 
