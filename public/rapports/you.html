@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOU — Rapport de risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#120f0b; --panel:#1a1510; --panel2:#221b13; --line:#3a2e20;
+  --txt:#f3ead9; --mut:#b3a38a; --acc:#f2b450;
+  --red:#ff4d5e; --amber:#ff9f43; --gold:#ffd23f; --green:#28d17c;
+  --id:#ffd23f; /* couleur d'identité = zone du score global (67 → jaune/or) */
+  --mono:'JetBrains Mono',monospace; --body:'DM Sans',sans-serif; --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 12% 0%,rgba(242,180,80,.08),transparent 40%),radial-gradient(circle at 88% 100%,rgba(255,210,63,.05),transparent 45%);}
+.page{max-width:880px;margin:0 auto;padding:18px 16px 64px}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:6px 0 12px;margin-bottom:14px}
+.brand .b1{font-family:var(--head);font-weight:800;font-size:22px;color:var(--acc)}
+.brand .b2{font-style:italic;color:var(--mut);font-size:14px}
+.brand .b3{font-family:var(--mono);font-size:13px;color:var(--mut);letter-spacing:.6px;text-transform:uppercase}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:13px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+.hero{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:18px;padding:24px 22px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,210,63,.14),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:18px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:6px}
+.chip{display:inline-flex;align-self:flex-start;align-items:center;font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px;color:#1a1208;background:linear-gradient(135deg,#c9892b,#ffd27a);padding:2px 16px;border-radius:12px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:16px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:76px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid var(--id);color:var(--id);background:rgba(255,210,63,.1)}
+.scale-note{font-size:14px;color:var(--mut);margin-top:18px;position:relative}
+.cbar-wrap{margin-top:34px;position:relative}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.z.r{flex:30;background:var(--red)}.z.a{flex:20;background:var(--amber)}.z.g{flex:20;background:var(--gold)}.z.gr{flex:30;background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:none}.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:4px}
+.marker{position:absolute;top:-26px;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;margin-bottom:3px;box-shadow:0 2px 8px rgba(255,210,63,.45)}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff}
+.sec-title{font-family:var(--head);font-size:28px;font-weight:800;margin:38px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:16px}
+.kpi-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px;color:var(--mut)}
+.up{color:var(--green)!important}.down{color:var(--red)!important}
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 14px;margin-top:14px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+.xlab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:6px}
+.events{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:6px 14px;margin-top:12px;font-size:13px;color:var(--mut)}
+.events b{font-family:var(--mono);color:var(--acc)}
+.grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.4}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:17px;margin-top:4px}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px;font-size:13px}
+.explainer{background:rgba(242,180,80,.06);border:1px solid rgba(242,180,80,.28);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--acc);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--acc);color:#1a1208;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px;font-size:14px;color:#d9ccb4;line-height:1.6}
+.bd-row{margin-top:16px}
+.bd-head{display:flex;justify-content:space-between;font-size:15px;margin-bottom:6px;gap:10px;flex-wrap:wrap}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:14px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+.tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--line)}
+.qtable{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:14px;min-width:680px}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 10px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.qtable th:first-child,.qtable td:first-child{text-align:left}
+.qtable td{padding:11px 10px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.08)}.qtable tr.dec td{background:rgba(255,77,94,.08)}.qtable tr.fut td{background:rgba(242,180,80,.06);color:var(--mut)}
+.flag{font-size:12px;padding:2px 8px;border-radius:14px;white-space:nowrap}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}.flag.go{color:var(--acc);background:rgba(242,180,80,.15)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:15px;padding:7px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}.eline .ev{font-weight:700;text-align:right}
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:22px;font-weight:700;margin-bottom:10px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:none}
+.item .it{font-size:15px;font-weight:700;margin-bottom:5px}
+.item .id{font-size:14px;color:var(--mut);line-height:1.45}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}.sev.med-pos{color:var(--gold);background:rgba(255,210,63,.13)}
+.signals{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--green);border-radius:13px;padding:16px 18px;margin-top:14px}
+.signals.sell{border-left-color:var(--red)}
+.signals h4{font-family:var(--head);font-size:22px;font-weight:700;margin-bottom:6px}
+.signals.buy h4{color:var(--green)}.signals.sell h4{color:var(--red)}
+.sig{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+.sig:last-of-type{border-bottom:none}
+.sig .st{flex:none;font-family:var(--mono);font-size:12px;font-weight:700;padding:3px 8px;border-radius:12px;min-width:150px;text-align:center}
+.st.conf{color:var(--green);background:rgba(40,209,124,.14)}.st.opp{color:var(--gold);background:rgba(255,210,63,.13)}
+.st.rupt{color:var(--red);background:rgba(255,77,94,.14)}.st.all{color:var(--amber);background:rgba(255,159,67,.14)}.st.surv{color:var(--acc);background:rgba(242,180,80,.12)}
+.sig .sx{font-size:14px;line-height:1.45}
+.sig-note{font-size:13px;color:var(--mut);font-style:italic;margin-top:8px}
+.bottom{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:16px;padding:22px 20px}
+.bottom .blh{font-family:var(--head);font-size:24px;font-weight:800;margin-bottom:8px}
+.rating-bar{height:15px;border-radius:9px;position:relative;margin:36px 0 8px;
+  background:linear-gradient(90deg,var(--red) 0 30%,var(--amber) 30% 50%,var(--gold) 50% 70%,var(--green) 70% 100%)}
+.rating-bar .rm{position:absolute;top:-26px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.rating-bar .rmval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px}
+.rating-bar .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff}
+.rating-labels{position:relative;height:18px;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.rating-labels span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.verdict{font-size:15px;line-height:1.65;color:#e5d9c2;margin-top:18px}
+.verdict b{color:#fff6e6}
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:8px 0 4px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;transition:all .2s}
+#copyBtn:hover{border-color:var(--acc);color:var(--acc)}#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+.bh-head{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:16px;padding:20px 20px 16px}
+.bh-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.bh-note{font-family:var(--head);font-size:64px;font-weight:900;line-height:1;color:var(--gold)}
+.bh-note small{font-family:var(--mono);font-size:22px;font-weight:400;color:var(--mut);margin-left:8px}
+.bh-badge{padding:10px 18px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:16px;border:1.5px solid var(--gold);color:var(--gold);background:rgba(255,210,63,.1)}
+.bh-lede{font-size:14px;color:var(--mut);margin-top:10px;line-height:1.55}
+.bh-scale{height:13px;border-radius:8px;position:relative;margin:34px 0 6px;background:linear-gradient(90deg,var(--red) 0 40%,var(--amber) 40% 60%,var(--gold) 60% 80%,var(--green) 80% 100%)}
+.bh-scale .rm{position:absolute;top:-25px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.bh-scale .rmval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--gold);padding:1px 7px;border-radius:8px;margin-bottom:3px}
+.bh-scale .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff}
+.bh-ticks{position:relative;height:18px;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.bh-ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.bh-zones{display:grid;grid-template-columns:4fr 2fr 2fr 2fr;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.bh-zones span{text-align:center}
+@media(max-width:520px){.bh-zones{display:none}}
+.bh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.trait{background:var(--panel);border:1px solid var(--line);border-top:4px solid;border-radius:12px;padding:15px 16px 16px}
+.trait .tn{font-family:var(--mono);font-size:13px;color:var(--mut);letter-spacing:.5px}
+.trait .tt{font-family:var(--head);font-size:20px;font-weight:700;margin-top:4px;line-height:1.2}
+.trait .tv{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:10px}
+.trait .tv b{font-family:var(--mono);font-size:26px;font-weight:800}
+.trait .tv b small{font-size:14px;color:var(--mut);font-weight:400}
+.trait .tbar{height:8px;background:var(--panel2);border-radius:5px;overflow:hidden;margin-top:8px}
+.trait .tbar div{height:100%;border-radius:5px}
+.trait .tq{font-size:13px;color:var(--acc);font-style:italic;margin-top:11px;line-height:1.4}
+.trait .td{font-size:14px;color:#d9ccb4;margin-top:7px;line-height:1.5}
+.lock{display:flex;gap:12px;align-items:flex-start;background:rgba(40,209,124,.07);border:1px solid rgba(40,209,124,.35);border-radius:11px;padding:13px 16px;margin-top:12px;font-size:14px;line-height:1.5}
+.lock .lk{flex:none;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--green);background:rgba(40,209,124,.14);padding:3px 9px;border-radius:12px}
+.lock.warn{background:rgba(255,159,67,.07);border-color:rgba(255,159,67,.4)}
+.lock.warn .lk{color:var(--amber);background:rgba(255,159,67,.15)}
+@media(max-width:760px){.bh-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.kpi-strip,.grid6{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.chip{font-size:30px}.score-box .num{font-size:60px}.sig{flex-direction:column;gap:6px}.sig .st{min-width:0}}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<div class="brand">
+  <div><span class="b1">221 Bourse</span> <span class="b2">· Élémentaire, mon cher Buffett.</span></div>
+  <div class="b3">Le cabinet d'analyse fondamentale</div>
+</div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="chip">YOU</div>
+      <div class="name">Clear Secure, Inc. (CLEAR) · NYSE · Identité biométrique</div>
+      <div class="price">44,96 $ <span class="up">+1,5 %</span> <span style="color:var(--mut);font-size:13px">· clôture du 15 oct. 2026</span></div>
+    </div>
+    <div class="score-box"><div class="num">67</div><div class="of">/ 100</div></div>
+    <div class="badge">RISQUE MODÉRÉ</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 0–30 rouge · 30–50 orange · 50–70 jaune · 70–100 vert.</div>
+  <div class="cbar-wrap">
+    <div class="cbar"><div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div></div>
+    <div class="marker" style="left:67%"><div class="mval">67</div><div class="tri"></div></div>
+    <div class="cbar-ticks"><span style="left:0%">0</span><span style="left:30%">30</span><span style="left:50%">50</span><span style="left:70%">70</span><span style="left:100%">100</span></div>
+    <div class="cbar-labels"><span>Risque très élevé</span><span>Sûr</span></div>
+  </div>
+</div>
+
+<!-- ===== KPI ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données au 15 octobre 2026 (clôture) · derniers comptes : T2 2026 (clos le 30 juin, publiés le 5 août)</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">6,08 Md$</div><div class="d up">+44 % sur 12 mois</div></div>
+  <div class="kpi"><div class="l">PER</div><div class="v">19,8x</div><div class="d">fwd · 30,3x publié</div></div>
+  <div class="kpi"><div class="l">CA 12 mois</div><div class="v">1,00 Md$</div><div class="d up">+26,6 % au T2</div></div>
+  <div class="kpi"><div class="l">BPA T2 (GAAP)</div><div class="v">0,49 $</div><div class="d up">+88 % a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">1,3 %</div><div class="d">0,60 $/an + spéciaux</div></div>
+  <div class="kpi"><div class="l">Fourchette 52 sem.</div><div class="v">30–69 $</div><div class="d">record le 5 août</div></div>
+</div>
+
+<!-- ===== GRAPHIQUE 12 MOIS ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (clôtures mensuelles)</div>
+    <div class="r">31 $ → <span class="up">45 $</span> · <span class="up">+44 %</span> · <span class="down">−35 % vs record</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cours de Clear Secure d'octobre 2025 à octobre 2026">
+      <defs><linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f2b450" stop-opacity="0.32"/><stop offset="100%" stop-color="#f2b450" stop-opacity="0"/></linearGradient></defs>
+      <g stroke="#3a2e20" stroke-width="1"><line x1="0" y1="216" x2="800" y2="216"/><line x1="0" y1="136" x2="800" y2="136"/><line x1="0" y1="56" x2="800" y2="56"/></g>
+      <g font-family="JetBrains Mono, monospace" font-size="15" fill="#7d6e58"><text x="4" y="211">30 $</text><text x="4" y="131">45 $</text><text x="4" y="51">60 $</text></g>
+      <path d="M10,209.1 L70,214.6 L130,187.9 L190,188.9 L250,202.0 L310,116.6 L370,117.8 L430,91.3 L490,80.3 L550,78.8 L610,81.4 L670,140.5 L730,152.3 L790,136.2 L790,250 L10,250 Z" fill="url(#fill)"/>
+      <path d="M10,209.1 L70,214.6 L130,187.9 L190,188.9 L250,202.0 L310,116.6 L370,117.8 L430,91.3 L490,80.3 L550,78.8 L610,81.4 L670,140.5 L730,152.3 L790,136.2" fill="none" stroke="#f2b450" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <g font-family="JetBrains Mono, monospace" font-size="15" font-weight="800" text-anchor="middle">
+        <circle cx="310" cy="116.6" r="11" fill="#28d17c"/><text x="310" y="121.7" fill="#111">1</text>
+        <circle cx="490" cy="80.3" r="11" fill="#28d17c"/><text x="490" y="85.4" fill="#111">2</text>
+        <circle cx="670" cy="140.5" r="11" fill="#ff4d5e"/><text x="670" y="145.6" fill="#111">3</text>
+        <circle cx="730" cy="152.3" r="11" fill="#ff4d5e"/><text x="730" y="157.4" fill="#111">4</text>
+      </g>
+      <circle cx="790" cy="136.2" r="5" fill="#f2b450"/>
+    </svg>
+  </div>
+  <div class="xlab"><span>oct. 25</span><span>janv.</span><span>avr.</span><span>juil.</span><span>oct. 26</span></div>
+  <div class="events">
+    <div><b>1</b> 25 févr. : +39 % en une séance, résultats du T4 et dividende relevé</div>
+    <div><b>2</b> 6 mai : +9 %, réservations du T1 à +40,8 %</div>
+    <div><b>3</b> août : −20 %, record à 69 $ le 5 puis retournement</div>
+    <div><b>4</b> sept. : plus bas à 37,38 $, trafic TSA en baisse</div>
+  </div>
+</div>
+
+<!-- ===== VALORISATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime modérée sur les bénéfices, une décote nette sur le cash : le marché paie un coupe-file menacé, pas une plateforme.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER futur (12 mois)</div><div class="cv">19,8x</div><div class="cd">Contre 15,5x pour la médiane des pairs de l'identité.</div><span class="tag go">PRIME MODÉRÉE</span></div>
+  <div class="card"><div class="cl">PER publié (GAAP)</div><div class="cv">30,3x</div><div class="cd">Sur un BPA de 1,47 $ sur 12 mois, encore en forte hausse.</div><span class="tag am">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">VE / CA</div><div class="cv">5,1x</div><div class="cd">Au-dessus des bureaux de crédit (3,6-3,8x), loin d'Okta (11x).</div><span class="tag go">PRIME</span></div>
+  <div class="card"><div class="cl">VE / EBIT</div><div class="cv">20,5x</div><div class="cd">En ligne avec la médiane des pairs (19,8x) pour 25 % de croissance.</div><span class="tag gr">RAISONNABLE</span></div>
+  <div class="card"><div class="cl">Rendement FCF</div><div class="cv">~7,9 %</div><div class="cd">Au moins 480 M$ de FCF visés en 2026 pour 6,08 Md$ de capitalisation.</div><span class="tag gr">ATTRACTIF</span></div>
+  <div class="card"><div class="cl">Objectif analystes</div><div class="cv">58,17 $</div><div class="cd">+29 % de potentiel · 6 analystes · de 45 à 70 $.</div><span class="tag gr">POTENTIEL</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison avec la médiane des pairs (Okta, Equifax, TransUnion, Mitek)</div>
+  <div class="mcomp"><div class="mk">PER futur</div><div class="mvals"><b>19,8x</b><span class="sep">vs</span>15,5x</div></div>
+  <div class="mcomp"><div class="mk">VE / CA</div><div class="mvals"><b>5,1x</b><span class="sep">vs</span>3,7x</div></div>
+  <div class="mcomp"><div class="mk">VE / EBIT</div><div class="mvals"><b>20,5x</b><span class="sep">vs</span>19,8x</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un PER de 30x et un rendement FCF de 8 % en même temps ?</summary>
+  <div class="body">Le PER rapporte le cours au bénéfice comptable par action, le rendement FCF rapporte le cash réellement encaissé à la capitalisation. Chez CLEAR, les deux divergent fortement car <b>les abonnés paient leur année d'avance</b> : le cash rentre tout de suite, le chiffre d'affaires est reconnu mois après mois. Tant que les abonnés sont de plus en plus nombreux, le cash dépasse donc le bénéfice. Le PER publié (30,3x) est aussi gonflé par une base de bénéfices encore en rattrapage : sur les bénéfices attendus des 12 prochains mois, il tombe à 19,8x. Attention : si les abonnés cessaient de croître, l'avantage du cash se réduirait avant même que le bénéfice ne baisse.</div>
+</details>
+
+<!-- ===== SANTÉ FINANCIÈRE ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Aucune dette, une montagne de cash, des marges record ; les points d'attention sont la rétention et les engagements envers les partenaires.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Trésorerie nette</div><div class="cv">~850 M$</div><div class="cd">959 M$ de cash et titres, aucune dette financière (~6,3 $ par action).</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">FCF 12 mois</div><div class="cv">508 M$</div><div class="cd">Marge FCF de 51 % ; T3 négatif attendu (versement partenaire).</div><span class="tag gr">ROBUSTE</span></div>
+  <div class="card"><div class="cl">Marge EBITDA aj.</div><div class="cv">36,4 %</div><div class="cd">Au T2, +900 pb, au-delà de l'objectif de 35 % de l'IPO.</div><span class="tag gr">RECORD</span></div>
+  <div class="card"><div class="cl">Rétention brute</div><div class="cv">86,4 %</div><div class="cd">En 2025, contre 88,5 % en 2024 ; non publiée en 2026.</div><span class="tag am">À SURVEILLER</span></div>
+  <div class="card"><div class="cl">Engagements</div><div class="cv">~570 M$</div><div class="cd">~315 M$ dus au partenaire de cartes au T3 + ~257 M$ de TRA.</div><span class="tag go">À SUIVRE</span></div>
+  <div class="card"><div class="cl">ROIC</div><div class="cv">~53 %</div><div class="cd">ROE de 119 %, gonflé par des capitaux propres très faibles.</div><span class="tag gr">EXCELLENT</span></div>
+</div>
+<details class="explainer">
+  <summary>Qu'est-ce que le « versement au partenaire de cartes » et le TRA ?</summary>
+  <div class="body">Une grande partie des abonnés CLEAR+ arrive via les cartes American Express, qui offrent l'abonnement en avantage. En contrepartie, CLEAR effectue <b>un versement annuel</b> à son partenaire de cartes (~229 M$ en 2025, ~315 M$ attendus au T3 2026) : il est provisionné tout au long de l'année puis payé d'un coup, ce qui rend le cash-flow du troisième trimestre négatif. Le <b>TRA</b> (contrat de partage d'économies d'impôt) est un héritage de l'introduction en bourse : CLEAR reverse aux anciens porteurs d'unités (dont les fondateurs) une partie des économies d'impôt dont elle bénéficie, soit ~257 M$ au total, payés sur de nombreuses années. Aucun des deux n'est une dette bancaire, mais les deux consomment du cash qui n'ira pas aux actionnaires.</div>
+</details>
+
+<!-- ===== CROISSANCE ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">Une accélération réelle au premier semestre 2026, qui doit maintenant résister à un trafic aérien en recul.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA T2 2026</div><div class="cv">+26,6 %</div><div class="cd">277,8 M$, au-dessus du consensus (269,7 M$).</div><span class="tag gr">FORTE</span></div>
+  <div class="card"><div class="cl">Réservations T2</div><div class="cv">+32,8 %</div><div class="cd">295,9 M$, l'indicateur avancé du chiffre d'affaires.</div><span class="tag gr">ACCÉLÉRATION</span></div>
+  <div class="card"><div class="cl">Guidance T3</div><div class="cv">+20,5 %</div><div class="cd">Réservations de 311-316 M$ ; CA +24,6 %.</div><span class="tag am">RALENTISSEMENT</span></div>
+  <div class="card"><div class="cl">Abonnés CLEAR+</div><div class="cv">8,3 M</div><div class="cd">+15,2 % a/a ; 43,5 M d'identités inscrites (+30 %).</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">Trafic TSA (août)</div><div class="cv">−4,4 %</div><div class="cd">Après −2,1 % en juillet : moins de files, moins de ventes.</div><span class="tag rd">VENT CONTRAIRE</span></div>
+  <div class="card"><div class="cl">CLEAR1</div><div class="cv">+50 %</div><div class="cd">Signatures d'un trimestre sur l'autre ; CA jamais publié.</div><span class="tag go">À CONFIRMER</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi suivre les « réservations » plutôt que le chiffre d'affaires ?</summary>
+  <div class="body">Les <b>réservations</b> (bookings) mesurent l'argent facturé aux abonnés pendant le trimestre, nouveaux comme renouvellements. Comme l'abonnement est annuel et payé d'avance, ce montant n'est reconnu en chiffre d'affaires qu'au fil des douze mois suivants. Les réservations annoncent donc le chiffre d'affaires futur : leur croissance de +32,8 % au T2 garantit une bonne partie de la croissance des prochains trimestres. Leur ralentissement guidé au T3 (+20,5 %) est à l'inverse le premier signal que le marché surveille. Ce n'est pas un indicateur comptable : sa définition doit rester stable dans le temps.</div>
+</details>
+
+<!-- ===== DÉTAIL DU SCORE ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd-row">
+  <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+  <div class="bd-track"><div class="bd-fill" style="width:65%;background:var(--gold)"></div></div>
+  <div class="bd-score">65 / 100 — prime modérée sur les bénéfices, rendement FCF de ~8 %, potentiel vers l'objectif des analystes</div>
+</div>
+<div class="bd-row">
+  <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+  <div class="bd-track"><div class="bd-fill" style="width:74%;background:var(--green)"></div></div>
+  <div class="bd-score">74 / 100 — aucune dette, cash abondant, marges record ; rétention en baisse et engagements partenaires</div>
+</div>
+<div class="bd-row">
+  <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+  <div class="bd-track"><div class="bd-fill" style="width:61%;background:var(--gold)"></div></div>
+  <div class="bd-score">61 / 100 — CA et réservations en accélération, mais trafic TSA en recul et concurrence publique gratuite</div>
+</div>
+<div class="bd-row" style="margin-top:22px;border-top:1px solid var(--line);padding-top:16px">
+  <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35 × 65 + 0,35 × 74 + 0,30 × 61 = 66,95</span></div>
+  <div class="bd-track"><div class="bd-fill" style="width:67%;background:var(--id)"></div></div>
+  <div class="bd-score" style="color:var(--id)">67 / 100 — Risque modéré</div>
+</div>
+
+<!-- ===== PAGE 2 ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = amélioration · Rouge = dégradation · Abonnés actifs retraités par la société (comptes expirés retirés)</div>
+<div class="tbl-wrap">
+<table class="qtable">
+  <thead><tr><th>Trimestre</th><th>CA (M$)</th><th>Croiss. a/a</th><th>Réservations (M$)</th><th>Croiss. résa</th><th>Marge EBITDA aj.</th><th>Abonnés (M)</th><th>Tendance</th></tr></thead>
+  <tbody>
+    <tr class="imp"><td>T2 2025</td><td>219,5</td><td>+17,6 %</td><td>222,9</td><td>—</td><td>27,4 %</td><td>7,23</td><td><span class="flag gr">▲ Marge</span></td></tr>
+    <tr class="dec"><td>T3 2025</td><td>229,2</td><td>+15,5 %</td><td>260,1</td><td>+14,3 %</td><td>30,6 %</td><td>7,40</td><td><span class="flag rd">▼ Rétention 86,9 %</span></td></tr>
+    <tr class="imp"><td>T4 2025</td><td>240,8</td><td>+16,7 %</td><td>287,1</td><td>+25,4 %</td><td>33,2 %</td><td>7,62</td><td><span class="flag gr">▲ Déclic</span></td></tr>
+    <tr class="imp"><td>T1 2026</td><td>253,0</td><td>+19,7 %</td><td>291,7</td><td>+40,8 %</td><td>31,9 %</td><td>8,17</td><td><span class="flag gr">▲ Shutdown DHS</span></td></tr>
+    <tr class="imp"><td>T2 2026</td><td>277,8</td><td>+26,6 %</td><td>295,9</td><td>+32,8 %</td><td>36,4 %</td><td>8,33</td><td><span class="flag gr">▲ Record</span></td></tr>
+    <tr class="fut"><td>T3 2026 (guid.)</td><td>284-287</td><td>~+24,6 %</td><td>311-316</td><td>~+20,5 %</td><td>—</td><td>—</td><td><span class="flag go">● Publication 5 nov.</span></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Le T3 2025 a enregistré un free cash-flow négatif (−53,5 M$) en raison du versement annuel d'environ 229 M$ au partenaire de cartes ; le même phénomène (~315 M$) est attendu au T3 2026.</div>
+
+<div class="sec-title">Derniers résultats et prochaine échéance</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T2 2026 · publié le 5 août</div>
+    <div class="eline"><span>CA vs consensus</span><span class="ev up">277,8 vs 269,7 M$</span></div>
+    <div class="eline"><span>BPA vs consensus</span><span class="ev up">0,49 vs 0,40 $</span></div>
+    <div class="eline"><span>Réservations</span><span class="ev up">295,9 M$ (+32,8 %)</span></div>
+    <div class="eline"><span>FCF du trimestre</span><span class="ev up">189,0 M$ (+60 %)</span></div>
+    <div class="eline"><span>Réaction du titre</span><span class="ev down">69 $ en séance, puis −20 % en août</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">T3 2026 · publication le 5 novembre</div>
+    <div class="eline"><span>Guidance CA</span><span class="ev">284-287 M$</span></div>
+    <div class="eline"><span>Guidance réservations</span><span class="ev">311-316 M$</span></div>
+    <div class="eline"><span>FCF 2026 visé</span><span class="ev">≥ 480 M$</span></div>
+    <div class="eline"><span>FCF du T3</span><span class="ev down">négatif (~315 M$ versés)</span></div>
+    <div class="eline"><span>Jalon clé</span><span class="ev up">abonnés après la hausse de prix</span></div>
+  </div>
+</div>
+
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">eGates et levier sur les marges</div><div class="id">Plus de 70 % du réseau équipé, salaires directs ramenés à 17,3 % du CA ; la direction voit une « marge de progression significative » au-delà de 36 %.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Pouvoir de prix et montée en gamme</div><div class="id">CLEAR+ à 219 $ depuis le 1er juillet sans effet visible sur la rétention ; Concierge dans 39 aéroports, nouveau partenariat de cartes.</div></div>
+    <div class="item"><span class="sev med-pos">IMPACT MOYEN</span><div class="it">CLEAR1 : l'identité au-delà de l'aéroport</div><div class="id">Santé (Mount Sinai), administrations (CMS, FedRAMP), lutte anti-deepfake, vérification de l'humain derrière les agents IA ; signatures +50 %.</div></div>
+    <div class="item"><span class="sev med-pos">IMPACT MOYEN</span><div class="it">Retour aux actionnaires</div><div class="id">959 M$ de trésorerie, FCF d'au moins 480 M$, dividende relevé de 20 %, dividendes spéciaux et rachats repris au T3.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">PreCheck Touchless ID, gratuit</div><div class="id">La TSA vérifie l'identité par reconnaissance faciale dans ~65 aéroports avec les cinq grandes compagnies : la même étape que CLEAR, sans frais.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Trafic aérien et rétention</div><div class="id">Trafic TSA en baisse (−4,4 % en août), rétention brute passée de 88,5 % à 86,4 %, réservations guidées en ralentissement.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Dépendance aux canaux</div><div class="id">American Express et les compagnies aériennes apportent une large part des abonnés ; ~315 M$ versés chaque année au partenaire de cartes.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Politique et concessions</div><div class="id">Critiques du « coupe-file », lois des États, renouvellement des contrats aéroportuaires et du partage de revenus.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Gouvernance et pression vendeuse</div><div class="id">Initiés uniquement vendeurs, TRA de ~257 M$ dû aux fondateurs, ~14 % du flottant vendu à découvert.</div></div>
+  </div>
+</div>
+
+<!-- ===== ENCARTS SIGNAUX ===== -->
+<div class="signals buy">
+  <h4>Quand renforcer ? Les signaux d'achat</h4>
+  <div class="sig"><span class="st conf">CONFIRMATION</span><span class="sx">Abonnés actifs CLEAR+ en hausse d'au moins 12 % a/a au T3 et au T4 2026 malgré la baisse du trafic TSA et Touchless ID.</span></div>
+  <div class="sig"><span class="st conf">CONFIRMATION</span><span class="sx">Rétention brute 2026 publiée à 87 % ou plus avec les résultats annuels, après la hausse de prix du 1er juillet.</span></div>
+  <div class="sig"><span class="st conf">CONFIRMATION</span><span class="sx">CLEAR1 chiffré pour la première fois, ou un contrat d'administration ou de santé de plusieurs dizaines de millions de dollars.</span></div>
+  <div class="sig"><span class="st opp">OPPORTUNITÉ DE PRIX</span><span class="sx">Repli vers 35-38 $ (~10 fois le FCF par action 2026 de ~3,55 $) sans dégradation des abonnés.</span></div>
+  <div class="sig"><span class="st opp">OPPORTUNITÉ DE PRIX</span><span class="sx">Rendement FCF supérieur à 9 % à la faveur d'une publication mensuelle de trafic TSA décevante.</span></div>
+  <div class="sig-note">Un bond de séance sur des files TSA allongées (shutdown, pointe de trafic) ne justifie pas à lui seul un renforcement : l'effet du shutdown de mars n'a duré qu'environ trois semaines.</div>
+</div>
+<div class="signals sell">
+  <h4>Quand vendre ? Les signaux de sortie</h4>
+  <div class="sig"><span class="st rupt">RUPTURE DE THÈSE</span><span class="sx">Abonnés actifs en baisse d'une année sur l'autre deux trimestres de suite.</span></div>
+  <div class="sig"><span class="st rupt">RUPTURE DE THÈSE</span><span class="sx">Fin ou réduction de l'avantage CLEAR+ dans les cartes American Express, ou perte d'un grand aéroport hub.</span></div>
+  <div class="sig"><span class="st all">ALLÈGEMENT</span><span class="sx">Cours au-delà de 70 $ (plus de 18 fois le FCF) sans accélération des abonnés ni chiffrage de CLEAR1.</span></div>
+  <div class="sig"><span class="st surv">À SURVEILLER</span><span class="sx">Touchless ID étendu à plus de 100 aéroports avec des voies dédiées aussi rapides que CLEAR.</span></div>
+  <div class="sig"><span class="st surv">À SURVEILLER</span><span class="sx">Rétention brute sous 85 % ou réservations en croissance inférieure à 10 %.</span></div>
+  <div class="sig-note">Une baisse sur un chiffre mensuel de trafic TSA ne justifie pas à elle seule une vente : au T2, le trafic reculait pendant que les réservations progressaient de 32,8 %.</div>
+</div>
+
+<!-- ===== GRILLE BUY AND HOLD ===== -->
+<div class="sec-title">Grille Buy and Hold : les 6 traits</div>
+<div class="sec-sub">Le titre passé au crible des six traits des grands gagnants boursiers (cours 221 Bourse, module 2). Une lecture complémentaire du score de risque : elle juge la qualité de l'entreprise pour une détention longue, pas le prix d'entrée.</div>
+<div class="bh-head">
+  <div class="bh-row">
+    <div><div class="bh-note">6,5<small>/ 10</small></div></div>
+    <div class="bh-badge">PROFIL COMPATIBLE</div>
+  </div>
+  <div class="bh-scale"><div class="rm" style="left:65%"><div class="rmval">6,5</div><div class="tri"></div></div></div>
+  <div class="bh-ticks"><span style="left:0;transform:none">0</span><span style="left:40%">4</span><span style="left:60%">6</span><span style="left:80%">8</span><span style="left:100%;transform:translateX(-100%)">10</span></div>
+  <div class="bh-zones"><span>Hors profil</span><span>Partiel</span><span>Compatible</span><span>Profil type</span></div>
+  <div class="bh-lede">Note générale = moyenne simple des six traits : (7 + 5 + 6 + 8 + 6 + 7) / 6 = <b>6,5</b>. Barème : 8 à 10 profil type · 6 à 8 compatible · 4 à 6 partiel · moins de 4 hors profil.</div>
+</div>
+<div class="bh-grid">
+  <div class="trait" style="border-top-color:var(--gold)"><div class="tn">TRAIT N°1</div><div class="tt">Leader d'un secteur émergent</div><div class="tv"><b style="color:var(--gold)">7<small>/10</small></b><span class="tag go" style="margin-top:0">PLUTÔT OUI</span></div><div class="tbar"><div style="width:70%;background:var(--gold)"></div></div><div class="tq">Est-ce le numéro un d'un marché jeune, important et en forte croissance ?</div><div class="td">CLEAR est le seul réseau privé d'identité biométrique au contrôle de sûreté américain, avec 8,3 M d'abonnés payants. L'identité numérique est un marché jeune et en plein essor, mais CLEAR n'en est le leader que sur sa niche aéroportuaire ; en ligne, ID.me ou Persona sont mieux installés.</div></div>
+  <div class="trait" style="border-top-color:var(--amber)"><div class="tn">TRAIT N°2</div><div class="tt">Avantage compétitif durable</div><div class="tv"><b style="color:var(--amber)">5<small>/10</small></b><span class="tag am" style="margin-top:0">PARTIEL</span></div><div class="tbar"><div style="width:50%;background:var(--amber)"></div></div><div class="tq">Les clients resteraient-ils face à un concurrent moins cher ?</div><div class="td">C'est la question qui fâche : le concurrent n'est pas « moins cher », il est gratuit (Touchless ID). Le réseau, les concessions et les agréments forment un vrai rempart, mais il est loué aux aéroports et dépend de la TSA ; la rétention recule (86,4 %).</div></div>
+  <div class="trait" style="border-top-color:var(--gold)"><div class="tn">TRAIT N°3</div><div class="tt">Forte hausse passée du cours</div><div class="tv"><b style="color:var(--gold)">6<small>/10</small></b><span class="tag go" style="margin-top:0">PLUTÔT OUI</span></div><div class="tbar"><div style="width:60%;background:var(--gold)"></div></div><div class="tq">Le cours confirme-t-il une exécution réussie ?</div><div class="td">+44 % sur un an et un record à 69 $ en août, porté par une exécution réelle (marge +900 pb, FCF +60 %). Mais seulement +45 % depuis l'introduction de 2021, et −35 % depuis le record : la tendance de fond n'est pas celle d'un grand gagnant.</div></div>
+  <div class="trait" style="border-top-color:var(--green)"><div class="tn">TRAIT N°4</div><div class="tt">Bon management, bons soutiens</div><div class="tv"><b style="color:var(--green)">8<small>/10</small></b><span class="tag gr" style="margin-top:0">OUI</span></div><div class="tbar"><div style="width:80%;background:var(--green)"></div></div><div class="tq">Le fondateur est-il là ? Qui est au capital ?</div><div class="td">La fondatrice Caryn Seidman Becker est aux commandes depuis 2010 : elle a transformé une faillite en machine à cash de 1 Md$ de CA. Équipe financière renforcée en 2025. Réserves : initiés uniquement vendeurs et TRA favorable aux fondateurs.</div></div>
+  <div class="trait" style="border-top-color:var(--gold)"><div class="tn">TRAIT N°5</div><div class="tt">Forte attractivité client</div><div class="tv"><b style="color:var(--gold)">6<small>/10</small></b><span class="tag go" style="margin-top:0">PLUTÔT OUI</span></div><div class="tbar"><div style="width:60%;background:var(--gold)"></div></div><div class="tq">Les clients aiment-ils la marque et la recommandent-ils ?</div><div class="td">Les voyageurs fréquents en ont fait un réflexe (7 passages par an en moyenne) et acceptent les hausses de prix. Mais la direction reconnaît une expérience dégradée en 2023-2024, et beaucoup d'abonnés tiennent à l'avantage de leur carte plus qu'à la marque.</div></div>
+  <div class="trait" style="border-top-color:var(--gold)"><div class="tn">TRAIT N°6</div><div class="tt">Jugée « surévaluée »</div><div class="tv"><b style="color:var(--gold)">7<small>/10</small></b><span class="tag go" style="margin-top:0">PLUTÔT OUI</span></div><div class="tbar"><div style="width:70%;background:var(--gold)"></div></div><div class="tq">Les bénéfices peuvent-ils rattraper la valorisation en cinq ou six ans ?</div><div class="td">Oui, sans difficulté : à 30 fois le BPA publié, une croissance des bénéfices de 15 %/an le ramènerait vers 15x en cinq ans. Le marché juge d'ailleurs CLEAR plus « menacée » que « chère » : ~14 % du flottant est vendu à découvert.</div></div>
+</div>
+<div class="lock warn"><span class="lk">⚠ VERROU</span><span>Le cours prévient : « un “non” franc sur les traits 1, 2 ou 4 doit faire réfléchir ». <b>Pas de non franc ici</b> (7, 5 et 8/10), mais le <b>trait n°2 n'est que partiel</b> : la durabilité de l'avantage face à une technologie publique gratuite est la question centrale du dossier, à revérifier à chaque publication.</span></div>
+<details class="explainer">
+  <summary>Comment lire cette grille ?</summary>
+  <div class="body">Les six traits décrivent le profil des entreprises qui ont fait les plus grandes performances boursières sur longue période : un leader de secteur jeune, protégé par un avantage durable, dont le cours confirme l'exécution, dirigé par une équipe de qualité, aimé de ses clients… et souvent jugé trop cher. Une entreprise n'a pas besoin de six « oui ». La grille n'est pas une formule : deux traits (forte hausse passée et réputation de « surévaluée ») vont même à rebours des réflexes habituels, et ne valent qu'avec les quatre autres. C'est pourquoi la note Buy and Hold (6,5/10) et le score de risque (67/100) disent deux choses différentes : CLEAR est une entreprise rentable, sans dette et raisonnablement valorisée, mais la durabilité de son avantage reste à prouver.</div>
+</details>
+
+<!-- ===== EN RÉSUMÉ ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque modéré (67/100)</div>
+  <div class="rating-bar"><div class="rm" style="left:67%"><div class="rmval">67</div><div class="tri"></div></div></div>
+  <div class="rating-labels"><span style="left:15%">Très élevé</span><span style="left:40%">Élevé</span><span style="left:60%">Modéré</span><span style="left:85%">Faible</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> CLEAR est devenue une <b>machine à cash sans dette</b> : 26,6 % de croissance au T2, 36,4 % de marge EBITDA ajustée, au moins 480 M$ de FCF visés en 2026 et 959 M$ de trésorerie. Son réseau biométrique dans 62 aéroports et ses <b>43,5 millions d'identités vérifiées</b> forment un actif sans équivalent privé aux États-Unis, que CLEAR1 cherche à monétiser dans la santé, le travail et les administrations.<br><br>
+    Le risque n'est ni le bilan ni le prix (~11 fois le FCF), c'est <b>la durabilité de la proposition de valeur</b> : la TSA déploie gratuitement Touchless ID sur la même étape, le trafic aérien recule et la rétention s'est effritée. La santé financière (74/100) porte le score ; la valorisation (65) et la croissance (61) restent en zone jaune.<br><br>
+    Au crible de la grille Buy and Hold, CLEAR obtient <b>6,5/10, profil compatible</b> : une fondatrice remarquable et une valorisation qui laisse de la marge, mais un avantage compétitif seulement partiel. Profil adapté à un investisseur de long terme qui croit à l'identité numérique et accepte la volatilité des chiffres mensuels de la TSA ; renforcer sur les signaux de confirmation des abonnés plutôt qu'à chaud. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqués de résultats de Clear Secure pour le T2 2026 (5 août 2026), le T1 2026 (6 mai 2026), le T4 2025 (25 févr. 2026) et le T3 2025 ; formulaire 10-Q du T2 2026 ; circulaire de la direction 2026 (DEF 14A) ; conférence téléphonique du T2 2026 ; cours, ratios et consensus : S&amp;P Global Market Intelligence via StockAnalysis (clôture du 15 oct. 2026) ; couverture de presse et d'analystes (Investing.com, MarketBeat, The Motley Fool, Barchart, TIKR) ; rapport Spruce Point (avril 2025). Grille des 6 traits : cours 221 Bourse « Stratégie Buy and Hold », module 2 (édition octobre 2026) ; notes attribuées par 221 Bourse, la note générale est une moyenne simple. Le score de risque est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %, chaque pilier noté sur quatre sous-critères) et non une note d'agence. Données arrêtées au 15 octobre 2026. Faites vos propres recherches.
+</div>
+
+</div>
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const text = `YOU — Clear Secure, Inc. (CLEAR) | RAPPORT DE RISQUE (16 octobre 2026)
+221 Bourse · Le cabinet d'analyse fondamentale
+Échelle : plus le risque est élevé, plus le score est bas (0-30 rouge, 30-50 orange, 50-70 jaune, 70-100 vert)
+
+SCORE GLOBAL : 67/100 — RISQUE MODÉRÉ
+= 0,35 × 65 (Valorisation) + 0,35 × 74 (Santé financière) + 0,30 × 61 (Croissance) = 66,95
+Cours : 44,96 $ (clôture du 15 oct. 2026) | Cap. 6,08 Md$ | +44 % sur 12 mois | record 69,07 $ le 5 août 2026 (−35 %)
+
+VALORISATION (65/100)
+- PER futur 19,8x (médiane des pairs 15,5x) | PER publié 30,3x | VE/CA 5,1x (pairs 3,7x) | VE/EBIT 20,5x (pairs 19,8x)
+- Rendement FCF ~7,9 % (≥ 480 M$ visés en 2026) | objectif moyen des analystes 58,17 $ (+29 %)
+
+SANTÉ FINANCIÈRE (74/100)
+- Trésorerie 959 M$, aucune dette financière (~850 M$ net, ~6,3 $ par action) | FCF 12 mois 508 M$ (marge 51 %)
+- Marge EBITDA ajustée 36,4 % au T2 | ROIC ~53 % | rétention brute 86,4 % en 2025 (88,5 % en 2024)
+- Engagements : ~315 M$ dus au partenaire de cartes au T3 + TRA ~257 M$
+
+CROISSANCE (61/100)
+- CA T2 2026 277,8 M$ (+26,6 %) | réservations 295,9 M$ (+32,8 %) | guidance T3 : CA +24,6 %, réservations +20,5 %
+- Abonnés CLEAR+ actifs 8,3 M (+15,2 %) | 43,5 M d'identités (+30 %) | trafic TSA −4,4 % en août | CLEAR1 : signatures +50 %
+
+TENDANCE TRIMESTRIELLE (CA M$ / réservations M$ / marge EBITDA aj. / abonnés M)
+- T2 25 : 219,5 / 222,9 / 27,4 % / 7,23 | T3 25 : 229,2 / 260,1 / 30,6 % / 7,40 | T4 25 : 240,8 / 287,1 / 33,2 % / 7,62
+- T1 26 : 253,0 / 291,7 / 31,9 % / 8,17 | T2 26 : 277,8 / 295,9 / 36,4 % / 8,33 | T3 26 (guid.) : 284-287 / 311-316
+
+PROCHAINE ÉCHÉANCE : résultats du T3 le 5 novembre 2026 (FCF du trimestre négatif attendu, versement ~315 M$)
+
+CATALYSEURS : eGates et levier sur les marges (fort) · pouvoir de prix et Concierge (fort) · CLEAR1 (moyen) · retour aux actionnaires (moyen)
+RISQUES : Touchless ID gratuit de la TSA (fort) · trafic aérien et rétention (fort) · dépendance aux canaux Amex et compagnies (fort) · politique et concessions (moyen) · gouvernance et pression vendeuse (moyen)
+
+GRILLE BUY AND HOLD — LES 6 TRAITS : 6,5/10, PROFIL COMPATIBLE
+- 1. Leader d'un secteur émergent : 7/10 (seul réseau privé biométrique aux aéroports US)
+- 2. Avantage compétitif durable : 5/10 (concurrent public gratuit, moat loué)
+- 3. Forte hausse passée : 6/10 (+44 % sur un an, mais −35 % depuis le record)
+- 4. Bon management, bons soutiens : 8/10 (fondatrice depuis 2010, initiés vendeurs)
+- 5. Forte attractivité client : 6/10 (réflexe des voyageurs fréquents, expérience dégradée en 2023-2024)
+- 6. Jugée « surévaluée » : 7/10 (les bénéfices rattrapent la valorisation sans difficulté)
+- Verrou (traits 1, 2, 4) : pas de « non » franc, mais trait 2 seulement partiel
+
+QUAND RENFORCER ?
+- CONFIRMATION : abonnés actifs +12 % a/a ou plus aux T3 et T4 2026
+- CONFIRMATION : rétention brute 2026 ≥ 87 %
+- CONFIRMATION : CLEAR1 chiffré ou grand contrat public/santé
+- OPPORTUNITÉ DE PRIX : repli vers 35-38 $ (~10 fois le FCF par action 2026)
+- OPPORTUNITÉ DE PRIX : rendement FCF > 9 %
+  (Un bond lié à des files TSA allongées ne justifie pas à lui seul un renforcement.)
+
+QUAND VENDRE ?
+- RUPTURE DE THÈSE : abonnés actifs en baisse a/a deux trimestres de suite
+- RUPTURE DE THÈSE : fin de l'avantage CLEAR+ chez American Express ou perte d'un grand hub
+- ALLÈGEMENT : cours > 70 $ (> 18 fois le FCF) sans accélération
+- À SURVEILLER : Touchless ID dans plus de 100 aéroports avec voies dédiées
+- À SURVEILLER : rétention < 85 % ou réservations < +10 %
+  (Une baisse sur un chiffre mensuel de trafic TSA ne justifie pas à elle seule une vente.)
+
+VERDICT : machine à cash sans dette (36,4 % de marge, ≥ 480 M$ de FCF, 959 M$ de trésorerie) et réseau d'identité sans équivalent privé ;
+le risque est la durabilité de la proposition de valeur face à Touchless ID, pas le prix (~11 fois le FCF). Ceci n'est pas un conseil en investissement.`;
+  const ok = () => { btn.textContent = "✓ Copié !"; btn.classList.add('done'); setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200); };
+  try { await navigator.clipboard.writeText(text); ok(); }
+  catch(e){
+    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); ok(); }catch(_){ btn.textContent="Échec — copie manuelle"; }
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
