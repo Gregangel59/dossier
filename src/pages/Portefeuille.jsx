@@ -121,9 +121,9 @@ export default function Portefeuille() {
               <span className="pf-big-sub">soit {P.multiple.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} fois les sommes investies</span>
             </div>
             <div className="pf-big">
-              <span className="pf-big-label">CAGR annualisé</span>
+              <span className="pf-big-label">Rendement annualisé (TRI)</span>
               <b className={tone(P.irr)}>{pct(P.irr)} <small>par an</small></b>
-              <span className="pf-big-sub">chaque achat compté à sa date (TRI)</span>
+              <span className="pf-big-sub">chaque achat et chaque vente comptés à leur date</span>
             </div>
           </div>
           <div className="pf-stats">
@@ -217,7 +217,7 @@ export default function Portefeuille() {
           <h2 id="pf-meth" className="pf-h3">Comment lire ces chiffres</h2>
           <ul>
             <li>Cours de clôture du {fmtDate(P.asOf)}. Les poids sont calculés en euros, au taux de {P.eurusd.toLocaleString("fr-FR", { minimumFractionDigits: 4 })} dollar pour 1 euro.</li>
-            <li>La performance globale compare la valeur actuelle des lignes, augmentée du produit des ventes, au total des achats depuis {year(P.oldest)}, y compris ceux des lignes vendues. Le CAGR annualisé est un taux de rendement interne : il tient compte de la date de chaque achat et de chaque vente, puisque l'argent a été investi progressivement et non en une seule fois en {year(P.oldest)}. Les deux sont hors dividendes et hors effet de change.</li>
+            <li>La performance globale compare la valeur actuelle des lignes, augmentée du produit des ventes, au total des achats depuis {year(P.oldest)}, y compris ceux des lignes vendues. Le rendement annualisé est un taux de rendement interne (TRI) : il tient compte de la date de chaque achat et de chaque vente, puisque l'argent a été investi progressivement et non en une seule fois en {year(P.oldest)}. Les deux sont hors dividendes et hors effet de change.</li>
             <li>Le poids actuel est la part de la ligne dans la valeur du portefeuille aujourd'hui. La part investie est sa part dans le total des sommes investies sur les lignes détenues (prix de revient). L'écart entre les deux montre ce que le marché a fait de chaque mise : Netflix pèse aujourd'hui bien plus que ce qu'elle a coûté, une ligne récente pèse souvent moins. Pour cette part investie, les achats en dollars sont convertis au même taux que ci-dessus.</li>
             <li>La performance d'une ligne compare le cours actuel au prix de revient moyen de tous les achats de la ligne, dans la devise de cotation : hors dividendes et hors effet de change. Les cours sont ajustés des divisions d'actions.</li>
             <li>« Nouvelle tranche » désigne un achat complémentaire sur une ligne déjà détenue, vers son allocation cible.</li>
