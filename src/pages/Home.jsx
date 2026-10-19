@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { COMPANIES } from "../data/index.js";
 import { COURS } from "./Cours.jsx";
+import { PORTEFEUILLE } from "../data/portefeuille.js";
 
 // ============================================================
 //  PAGE D'ACCUEIL DU PORTAIL — palette « sombre chaleureux » (oct. 2026),
@@ -217,6 +218,29 @@ export default function Home() {
               <div className="hp-actions">
                 <span className="hp-cta" aria-hidden="true">Lire le cours</span>
                 <a className="hp-report" href={COURS.pdf} download={COURS.downloadName}>Télécharger le PDF ↓</a>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section className="hp-section" aria-labelledby="hp-pf">
+          <h2 id="hp-pf" className="hp-h2">Mon portefeuille <span className="hp-h2-hint">en pourcentages, sans montants</span></h2>
+          <article className="hp-course">
+            <div className="hp-badge" aria-hidden="true">{PORTEFEUILLE.lines}</div>
+            <div className="hp-course-main">
+              <h3 className="hp-name">
+                <Link to="/portefeuille" className="hp-stretch">Ce que je détiens, et ce que j'ai fait cette année</Link>
+              </h3>
+              <p className="hp-tagline">
+                Le poids et la performance de chaque ligne, puis chaque achat et chaque vente des douze derniers mois.
+              </p>
+              <div className="hp-chips">
+                <span className="hp-chip">{PORTEFEUILLE.lines} lignes</span>
+                <span className="hp-chip">{PORTEFEUILLE.moves.length} mouvements en 12 mois</span>
+                <span className="hp-chip">Suivi au {new Date(PORTEFEUILLE.asOf + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</span>
+              </div>
+              <div className="hp-actions">
+                <span className="hp-cta" aria-hidden="true">Voir le portefeuille</span>
               </div>
             </div>
           </article>
