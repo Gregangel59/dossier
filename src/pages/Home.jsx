@@ -4,6 +4,11 @@ import { COMPANIES } from "../data/index.js";
 import { COURS } from "./Cours.jsx";
 import { PORTEFEUILLE } from "../data/portefeuille.js";
 
+// Portefeuilles suivis publiquement : ajouter une entrée par portefeuille (lien de sa page + ses données).
+const PORTEFEUILLES = [
+  { name: "Portefeuille Historique", to: "/portefeuille", data: PORTEFEUILLE },
+];
+
 // ============================================================
 //  PAGE D'ACCUEIL DU PORTAIL — palette « sombre chaleureux » (oct. 2026),
 //  commune à Dossier.jsx et DossierAccueil.jsx.
@@ -200,50 +205,37 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="hp-section" aria-labelledby="hp-cours">
-          <h2 id="hp-cours" className="hp-h2">Formation <span className="hp-h2-hint">gratuite, en PDF</span></h2>
-          <article className="hp-course">
-            <img className="hp-course-cover" src={COURS.cover} alt="" width="663" height="937" />
-            <div className="hp-course-main">
-              <h3 className="hp-name">
+        <section className="hp-section hp-compact" aria-labelledby="hp-cours">
+          <h2 id="hp-cours" className="hp-label">Formation</h2>
+          <article className="hp-mini">
+            <img className="hp-mini-cover" src={COURS.cover} alt="" width="663" height="937" />
+            <div className="hp-mini-main">
+              <h3 className="hp-mini-name">
                 <Link to="/cours" className="hp-stretch">{COURS.title} : {COURS.subtitle.toLowerCase()}</Link>
               </h3>
-              <p className="hp-tagline">
-                Les 6 habitudes de l'investisseur, les 6 traits des entreprises recherchées
-                et les 6 principes du portefeuille, expliqués leçon par leçon.
-              </p>
-              <div className="hp-chips">
-                {COURS.facts.map((f) => <span key={f} className="hp-chip">{f}</span>)}
-              </div>
-              <div className="hp-actions">
-                <span className="hp-cta" aria-hidden="true">Lire le cours</span>
-                <a className="hp-report" href={COURS.pdf} download={COURS.downloadName}>Télécharger le PDF ↓</a>
-              </div>
+              <div className="hp-mini-meta">{["PDF gratuit", ...COURS.facts.slice(0, 2)].join(" · ")}</div>
             </div>
+            <a className="hp-report hp-mini-dl" href={COURS.pdf} download={COURS.downloadName}>PDF ↓</a>
+            <span className="hp-chevron" aria-hidden="true">›</span>
           </article>
-        </section>
 
-        <section className="hp-section" aria-labelledby="hp-pf">
-          <h2 id="hp-pf" className="hp-h2">Portefeuille</h2>
-          <article className="hp-course">
-            <div className="hp-badge" aria-hidden="true">{PORTEFEUILLE.lines}</div>
-            <div className="hp-course-main">
-              <h3 className="hp-name">
-                <Link to="/portefeuille" className="hp-stretch">Portefeuille Historique</Link>
-              </h3>
-              <p className="hp-tagline">
-                Le poids et la performance de chaque ligne, puis chaque achat et chaque vente des douze derniers mois.
-              </p>
-              <div className="hp-chips">
-                <span className="hp-chip">{PORTEFEUILLE.lines} lignes</span>
-                <span className="hp-chip">{PORTEFEUILLE.moves.length} mouvements en 12 mois</span>
-                <span className="hp-chip">Suivi au {new Date(PORTEFEUILLE.asOf + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</span>
-              </div>
-              <div className="hp-actions">
-                <span className="hp-cta" aria-hidden="true">Voir le portefeuille</span>
-              </div>
-            </div>
-          </article>
+          <h2 id="hp-pf" className="hp-label">Portefeuilles</h2>
+          <div className="hp-mini-grid">
+            {PORTEFEUILLES.map((pf) => (
+              <article key={pf.to} className="hp-mini">
+                <div className="hp-mini-badge" aria-hidden="true">{pf.data.lines}</div>
+                <div className="hp-mini-main">
+                  <h3 className="hp-mini-name">
+                    <Link to={pf.to} className="hp-stretch">{pf.name}</Link>
+                  </h3>
+                  <div className="hp-mini-meta">
+                    {pf.data.lines} lignes · {pf.data.moves.length} mouvements sur un an
+                  </div>
+                </div>
+                <span className="hp-chevron" aria-hidden="true">›</span>
+              </article>
+            ))}
+          </div>
         </section>
 
         {featured.length > 0 && (
@@ -342,6 +334,26 @@ const CSS = `
 .hp-report{position:relative;z-index:2;font-size:.88rem;font-weight:600;color:#ffd23f;text-decoration:none;
   border:1px solid rgba(255,210,63,.35);background:rgba(255,210,63,.07);border-radius:999px;padding:.5rem 1rem}
 .hp-report:hover{background:rgba(255,210,63,.15)}
+
+/* Bloc compact « Formation » et « Portefeuilles » */
+.hp-compact{margin-top:2.2rem}
+.hp-label{margin:0 0 .55rem;font-size:.78rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:#f2b450}
+.hp-label + .hp-mini{margin-bottom:1.2rem}
+.hp-mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:.6rem}
+.hp-mini{position:relative;display:flex;align-items:center;gap:.9rem;min-height:68px;
+  background:linear-gradient(150deg,#2a2015,#1b1610 60%);border:1px solid #33291c;border-radius:14px;padding:.6rem 1rem;
+  transition:border-color .15s ease,background .15s ease}
+.hp-mini:hover{border-color:#f2b45099}
+.hp-mini:focus-within{outline:2px solid #f2b450;outline-offset:3px}
+.hp-mini-cover{flex:none;width:34px;height:auto;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,.45)}
+.hp-mini-badge{flex:none;min-width:40px;height:40px;padding:0 .4rem;border-radius:11px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(140deg,#f2b450,#d98c2b);color:#1b1206;font-weight:900;font-size:.9rem}
+.hp-mini-main{flex:1;min-width:0}
+.hp-mini-name{margin:0;font-family:Georgia,serif;font-size:1.08rem;font-weight:800;line-height:1.25}
+.hp-mini-name a{color:#f8eedc;text-decoration:none}
+.hp-mini-meta{margin-top:.2rem;font-size:.8rem;color:#8c7c65;line-height:1.35}
+.hp-mini-dl{flex:none;padding:.3rem .75rem;font-size:.8rem}
+.hp-mini:hover .hp-chevron{color:#f2b450}
 
 /* Carte « Formation » */
 .hp-course{position:relative;display:flex;gap:1.6rem;align-items:center;
