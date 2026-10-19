@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { PORTEFEUILLE as P } from "../data/portefeuille.js";
 
 // ============================================================
-//  PAGE « MON PORTEFEUILLE » — suivi public, sans aucun montant.
+//  PAGE « PORTEFEUILLE HISTORIQUE » — suivi public (poids, performances, mouvements).
 //  Les données viennent de src/data/portefeuille.js (poids en %, performances en %, dates).
 //  Même palette « sombre chaleureux » que Home.jsx, Dossier.jsx et Cours.jsx.
 // ============================================================
@@ -70,7 +70,7 @@ export default function Portefeuille() {
   const [sector, setSector] = useState("all");
 
   useEffect(() => {
-    document.title = "Mon portefeuille — 221 Bourse";
+    document.title = "Portefeuille Historique — 221 Bourse";
     window.scrollTo(0, 0);
   }, []);
 
@@ -101,19 +101,18 @@ export default function Portefeuille() {
         <Link to="/" className="pf-back" aria-label="Retour à l'accueil">‹</Link>
         <div className="pf-logo" aria-hidden="true">221</div>
         <div className="pf-header-title">
-          <div className="pf-header-name">Mon portefeuille</div>
+          <div className="pf-header-name">Portefeuille Historique</div>
           <div className="pf-header-sub">221 Bourse — Suivi au {fmtDate(P.asOf, { day: "numeric", month: "long", year: "numeric" })}</div>
         </div>
       </header>
 
       <main className="pf-main">
         <section className="pf-hero">
-          <div className="pf-kicker">Suivi de portefeuille · en pourcentages</div>
-          <h1 className="pf-title">Ce que je détiens, et ce que j'ai fait cette année</h1>
+          <div className="pf-kicker">Suivi de portefeuille</div>
+          <h1 className="pf-title">Portefeuille Historique</h1>
           <p className="pf-lead">
-            Toutes les lignes de mon portefeuille historique, avec leur poids et leur performance depuis
-            la première entrée, puis chaque achat et chaque vente des douze derniers mois. Aucun montant
-            n'est publié : seulement des pourcentages et des dates.
+            Toutes les lignes du portefeuille, avec leur poids, leur part dans les sommes investies et leur
+            performance depuis la première entrée, puis chaque achat et chaque vente des douze derniers mois.
           </p>
           <div className="pf-stats">
             <div className="pf-stat"><b>{P.lines}</b><span>lignes</span></div>

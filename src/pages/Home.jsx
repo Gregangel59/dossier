@@ -224,12 +224,12 @@ export default function Home() {
         </section>
 
         <section className="hp-section" aria-labelledby="hp-pf">
-          <h2 id="hp-pf" className="hp-h2">Mon portefeuille <span className="hp-h2-hint">en pourcentages, sans montants</span></h2>
+          <h2 id="hp-pf" className="hp-h2">Portefeuille</h2>
           <article className="hp-course">
             <div className="hp-badge" aria-hidden="true">{PORTEFEUILLE.lines}</div>
             <div className="hp-course-main">
               <h3 className="hp-name">
-                <Link to="/portefeuille" className="hp-stretch">Ce que je détiens, et ce que j'ai fait cette année</Link>
+                <Link to="/portefeuille" className="hp-stretch">Portefeuille Historique</Link>
               </h3>
               <p className="hp-tagline">
                 Le poids et la performance de chaque ligne, puis chaque achat et chaque vente des douze derniers mois.
