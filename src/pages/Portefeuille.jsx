@@ -114,6 +114,18 @@ export default function Portefeuille() {
             Toutes les lignes du portefeuille, avec leur poids, leur part dans les sommes investies et leur
             performance depuis la première entrée, puis chaque achat et chaque vente des douze derniers mois.
           </p>
+          <div className="pf-perfs">
+            <div className="pf-big">
+              <span className="pf-big-label">Performance globale</span>
+              <b className={tone(P.globalPerf)}>{pct(P.globalPerf)}</b>
+              <span className="pf-big-sub">soit {P.multiple.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} fois les sommes investies</span>
+            </div>
+            <div className="pf-big">
+              <span className="pf-big-label">CAGR annualisé</span>
+              <b className={tone(P.irr)}>{pct(P.irr)} <small>par an</small></b>
+              <span className="pf-big-sub">chaque achat compté à sa date (TRI)</span>
+            </div>
+          </div>
           <div className="pf-stats">
             <div className="pf-stat"><b>{P.lines}</b><span>lignes</span></div>
             <div className="pf-stat"><b>{year(P.oldest)}</b><span>première entrée</span></div>
@@ -205,6 +217,7 @@ export default function Portefeuille() {
           <h2 id="pf-meth" className="pf-h3">Comment lire ces chiffres</h2>
           <ul>
             <li>Cours de clôture du {fmtDate(P.asOf)}. Les poids sont calculés en euros, au taux de {P.eurusd.toLocaleString("fr-FR", { minimumFractionDigits: 4 })} dollar pour 1 euro.</li>
+            <li>La performance globale compare la valeur actuelle des lignes, augmentée du produit des ventes, au total des achats depuis {year(P.oldest)}, y compris ceux des lignes vendues. Le CAGR annualisé est un taux de rendement interne : il tient compte de la date de chaque achat et de chaque vente, puisque l'argent a été investi progressivement et non en une seule fois en {year(P.oldest)}. Les deux sont hors dividendes et hors effet de change.</li>
             <li>Le poids actuel est la part de la ligne dans la valeur du portefeuille aujourd'hui. La part investie est sa part dans le total des sommes investies sur les lignes détenues (prix de revient). L'écart entre les deux montre ce que le marché a fait de chaque mise : Netflix pèse aujourd'hui bien plus que ce qu'elle a coûté, une ligne récente pèse souvent moins. Pour cette part investie, les achats en dollars sont convertis au même taux que ci-dessus.</li>
             <li>La performance d'une ligne compare le cours actuel au prix de revient moyen de tous les achats de la ligne, dans la devise de cotation : hors dividendes et hors effet de change. Les cours sont ajustés des divisions d'actions.</li>
             <li>« Nouvelle tranche » désigne un achat complémentaire sur une ligne déjà détenue, vers son allocation cible.</li>
@@ -235,6 +248,12 @@ const CSS = `
 .pf-kicker{font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f2b450}
 .pf-title{margin:.4rem 0 0;font-family:Georgia,serif;font-size:2.3rem;font-weight:800;line-height:1.15;color:#f8eedc;max-width:24ch}
 .pf-lead{margin:1rem 0 0;max-width:64ch;font-size:1.02rem;line-height:1.7;color:#b9a98f}
+.pf-perfs{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1.6rem}
+.pf-big{background:linear-gradient(150deg,#2a2015,#1b1610 60%);border:1px solid #33291c;border-radius:18px;padding:1.2rem 1.4rem}
+.pf-big-label{display:block;font-size:.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#f2b450}
+.pf-big b{display:block;margin-top:.35rem;font-family:Georgia,serif;font-size:2.6rem;font-weight:900;line-height:1.05}
+.pf-big b small{font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:.95rem;font-weight:600;color:#b9a98f}
+.pf-big-sub{display:block;margin-top:.35rem;font-size:.85rem;color:#b9a98f}
 .pf-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:1.6rem}
 .pf-stat{background:#1b1610;border:1px solid #33291c;border-radius:16px;padding:1rem 1.1rem}
 .pf-stat b{display:block;font-family:Georgia,serif;font-size:1.8rem;font-weight:900;color:#f8eedc;line-height:1.1}
@@ -318,6 +337,8 @@ const CSS = `
 @media (max-width:640px){
   .pf-main{padding:1.6rem 1rem 3rem}
   .pf-title{font-size:1.75rem}
+  .pf-perfs{grid-template-columns:1fr}
+  .pf-big b{font-size:2.1rem}
   .pf-move{flex-direction:column;gap:.35rem;padding-left:1.1rem}
   .pf-move-date{width:auto}
   .pf-sector{grid-template-columns:1fr 62px;gap:.3rem .7rem}

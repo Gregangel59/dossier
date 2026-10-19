@@ -116,13 +116,34 @@ for t, ls in lots.items():
                 since=round(100*(p/l["px"]-1),1)))
 moves.sort(key=lambda m: m["date"], reverse=True)
 
+# Performance globale et rendement annualisé (TRI / XIRR)
+# Flux : chaque achat = sortie d'argent à sa date, chaque vente = entrée, valeur actuelle = entrée finale.
+# Tous les flux en dollars sont convertis au même taux EURUSD (hors effet de change), hors dividendes.
+flows = []
+for t, ls in lots.items():
+    fx = 1 if t in EUR else EURUSD
+    for l in ls:
+        amt = l["qty"]*l["px"]/fx
+        flows.append((l["date"], -amt if l["side"]=="BUY" else amt))
+flows.append((ASOF, tot))
+invested = -sum(a for _, a in flows if a < 0)
+returned = sum(a for _, a in flows if a > 0)
+def npv(r): return sum(a/(1+r)**((dt-ASOF).days/365.25) for dt, a in flows)
+lo, hi = -0.99, 10.0
+for _ in range(200):
+    mid = (lo+hi)/2
+    if npv(mid) > 0: lo = mid
+    else: hi = mid
+irr = (lo+hi)/2
+
 # Répartition sectorielle
 sectors = defaultdict(float)
 for p in positions: sectors[p["sector"]] += p["weight"]
 sectors = [dict(name=k, weight=round(v,1)) for k,v in sorted(sectors.items(), key=lambda kv:-kv[1])]
 
 data = dict(asOf=ASOF.isoformat(), eurusd=EURUSD, windowStart=WINDOW_START.isoformat(),
-    lines=len(positions), globalPerf=round(100*(tot/tot_cost-1),0),
+    lines=len(positions), globalPerf=round(100*(returned/invested-1), 1),
+    multiple=round(returned/invested, 2), irr=round(100*irr, 1),
     top10=round(sum(p["weight"] for p in positions[:10]),1),
     oldest=min(h["first"] for h in holdings).isoformat(),
     positions=positions, moves=moves, sectors=sectors)

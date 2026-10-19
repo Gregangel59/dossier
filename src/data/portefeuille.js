@@ -6,7 +6,9 @@ export const PORTEFEUILLE = {
  "eurusd": 1.1227,
  "windowStart": "2025-10-20",
  "lines": 43,
- "globalPerf": 868.0,
+ "globalPerf": 835.8,
+ "multiple": 9.36,
+ "irr": 24.4,
  "top10": 76.5,
  "oldest": "2012-10-10",
  "positions": [
