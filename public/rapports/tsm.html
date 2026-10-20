@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TSM — Rapport de risque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#120f0b; --panel:#1a1510; --panel2:#221b13; --line:#3a2e20;
+  --txt:#f3ead9; --mut:#b3a38a; --acc:#f2b450;
+  --red:#ff4d5e; --amber:#ff9f43; --gold:#ffd23f; --green:#28d17c;
+  --id:#28d17c; /* couleur d'identité = zone du score global (72 → vert) */
+  --mono:'JetBrains Mono',monospace; --body:'DM Sans',sans-serif; --head:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(circle at 12% 0%,rgba(242,180,80,.08),transparent 40%),radial-gradient(circle at 88% 100%,rgba(40,209,124,.05),transparent 45%);}
+.page{max-width:880px;margin:0 auto;padding:18px 16px 64px}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:6px 0 12px;margin-bottom:14px}
+.brand .b1{font-family:var(--head);font-weight:800;font-size:22px;color:var(--acc)}
+.brand .b2{font-style:italic;color:var(--mut);font-size:14px}
+.brand .b3{font-family:var(--mono);font-size:13px;color:var(--mut);letter-spacing:.6px;text-transform:uppercase}
+.page-break{border-top:1px dashed var(--line);margin:54px 0 38px;text-align:center}
+.page-break span{font-family:var(--mono);font-size:13px;color:var(--mut);background:var(--bg);padding:0 14px;position:relative;top:-10px;letter-spacing:2px}
+/* HERO */
+.hero{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:18px;padding:24px 22px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(40,209,124,.14),transparent 50%);pointer-events:none}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:18px;justify-content:space-between;position:relative}
+.tk{display:flex;flex-direction:column;gap:6px}
+.chip{display:inline-flex;align-self:flex-start;align-items:center;font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:1px;color:#1a1208;background:linear-gradient(135deg,#c9892b,#ffd27a);padding:2px 16px;border-radius:12px}
+.tk .name{font-size:15px;color:var(--mut)}
+.tk .price{font-family:var(--mono);font-size:16px}
+.score-box{text-align:center}
+.score-box .num{font-family:var(--head);font-size:76px;font-weight:900;line-height:1;color:var(--id)}
+.score-box .of{font-family:var(--mono);font-size:14px;color:var(--mut);margin-top:2px}
+.badge{padding:11px 20px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.5px;border:1.5px solid var(--id);color:var(--id);background:rgba(40,209,124,.1)}
+.scale-note{font-size:14px;color:var(--mut);margin-top:18px;position:relative}
+/* BARRE DE COULEUR — zones 0-30 / 30-50 / 50-70 / 70-100 */
+.cbar-wrap{margin-top:34px;position:relative}
+.cbar{height:18px;border-radius:10px;display:flex;overflow:hidden}
+.z.r{flex:30;background:var(--red)}.z.a{flex:20;background:var(--amber)}.z.g{flex:20;background:var(--gold)}.z.gr{flex:30;background:var(--green)}
+.cbar-ticks{position:relative;height:18px;margin-top:7px}
+.cbar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--mut)}
+.cbar-ticks span:first-child{transform:none}.cbar-ticks span:last-child{transform:translateX(-100%)}
+.cbar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:4px}
+.marker{position:absolute;top:-26px;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center}
+.marker .mval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 8px;border-radius:9px;margin-bottom:3px;box-shadow:0 2px 8px rgba(40,209,124,.45)}
+.marker .tri{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #fff}
+/* SECTIONS */
+.sec-title{font-family:var(--head);font-size:28px;font-weight:800;margin:38px 0 6px;letter-spacing:.3px}
+.sec-sub{font-size:14px;color:var(--mut);margin-bottom:16px}
+.kpi-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.kpi .d{font-family:var(--mono);font-size:13px;margin-top:3px;color:var(--mut)}
+.up{color:var(--green)!important}.down{color:var(--red)!important}
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 14px;margin-top:14px}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.chart-head .t{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.chart-head .r{font-family:var(--mono);font-size:14px}
+.chart svg{width:100%;height:auto;display:block}
+.xlab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:6px}
+.events{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:6px 14px;margin-top:12px;font-size:13px;color:var(--mut)}
+.events b{font-family:var(--mono);color:var(--acc)}
+.grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.card .cl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.card .cv{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:7px}
+.card .cd{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.4}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:9px;letter-spacing:.4px}
+.tag.gr{color:var(--green);background:rgba(40,209,124,.13)}.tag.go{color:var(--gold);background:rgba(255,210,63,.13)}
+.tag.am{color:var(--amber);background:rgba(255,159,67,.14)}.tag.rd{color:var(--red);background:rgba(255,77,94,.13)}
+.median{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.median .mtitle{grid-column:1/-1;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.mcomp .mk{font-size:13px;color:var(--mut)}
+.mcomp .mvals{font-family:var(--mono);font-size:17px;margin-top:4px}
+.mcomp .mvals .sep{color:var(--mut);margin:0 6px;font-size:13px}
+.explainer{background:rgba(242,180,80,.06);border:1px solid rgba(242,180,80,.28);border-radius:11px;margin-top:12px;overflow:hidden}
+.explainer summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--acc);display:flex;align-items:center;gap:9px}
+.explainer summary::-webkit-details-marker{display:none}
+.explainer summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--acc);color:#1a1208;font-size:13px;font-weight:800;flex:none}
+.explainer[open] summary::before{content:"−"}
+.explainer .body{padding:0 16px 15px;font-size:14px;color:#d9ccb4;line-height:1.6}
+.bd-row{margin-top:16px}
+.bd-head{display:flex;justify-content:space-between;font-size:15px;margin-bottom:6px;gap:10px;flex-wrap:wrap}
+.bd-head .bn{font-weight:700}.bd-head .bw{font-family:var(--mono);color:var(--mut);font-size:13px}
+.bd-track{height:14px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bd-fill{height:100%;border-radius:8px}
+.bd-score{font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:5px}
+.tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--line)}
+.qtable{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:14px;min-width:640px}
+.qtable th{background:var(--panel2);color:var(--mut);text-align:right;padding:11px 10px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.qtable th:first-child,.qtable td:first-child{text-align:left}
+.qtable td{padding:11px 10px;text-align:right;border-top:1px solid var(--line)}
+.qtable td:first-child{font-weight:700}
+.qtable tr.imp td{background:rgba(40,209,124,.08)}.qtable tr.dec td{background:rgba(255,77,94,.08)}.qtable tr.fut td{background:rgba(242,180,80,.06);color:var(--mut)}
+.flag{font-size:12px;padding:2px 8px;border-radius:14px;white-space:nowrap}
+.flag.gr{color:var(--green);background:rgba(40,209,124,.15)}.flag.rd{color:var(--red);background:rgba(255,77,94,.15)}.flag.go{color:var(--acc);background:rgba(242,180,80,.15)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ecard .eh{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.eline{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:15px;padding:7px 0;border-bottom:1px solid var(--line)}
+.eline:last-child{border-bottom:none}.eline .ev{font-weight:700;text-align:right}
+.cr{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
+.crcol{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.crcol h4{font-family:var(--head);font-size:22px;font-weight:700;margin-bottom:10px}
+.crcol.cat h4{color:var(--green)}.crcol.rsk h4{color:var(--red)}
+.item{padding:11px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:none}
+.item .it{font-size:15px;font-weight:700;margin-bottom:5px}
+.item .id{font-size:14px;color:var(--mut);line-height:1.45}
+.sev{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;padding:2px 9px;border-radius:14px;margin-bottom:6px;letter-spacing:.4px}
+.sev.high{color:var(--red);background:rgba(255,77,94,.14)}.sev.med{color:var(--amber);background:rgba(255,159,67,.14)}
+.sev.hi-pos{color:var(--green);background:rgba(40,209,124,.14)}.sev.med-pos{color:var(--gold);background:rgba(255,210,63,.13)}
+.signals{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--green);border-radius:13px;padding:16px 18px;margin-top:14px}
+.signals.sell{border-left-color:var(--red)}
+.signals h4{font-family:var(--head);font-size:22px;font-weight:700;margin-bottom:6px}
+.signals.buy h4{color:var(--green)}.signals.sell h4{color:var(--red)}
+.sig{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+.sig:last-of-type{border-bottom:none}
+.sig .st{flex:none;font-family:var(--mono);font-size:12px;font-weight:700;padding:3px 8px;border-radius:12px;min-width:150px;text-align:center}
+.st.conf{color:var(--green);background:rgba(40,209,124,.14)}.st.opp{color:var(--gold);background:rgba(255,210,63,.13)}
+.st.rupt{color:var(--red);background:rgba(255,77,94,.14)}.st.all{color:var(--amber);background:rgba(255,159,67,.14)}.st.surv{color:var(--acc);background:rgba(242,180,80,.12)}
+.sig .sx{font-size:14px;line-height:1.45}
+.sig-note{font-size:13px;color:var(--mut);font-style:italic;margin-top:8px}
+.bottom{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:16px;padding:22px 20px}
+.bottom .blh{font-family:var(--head);font-size:24px;font-weight:800;margin-bottom:8px}
+.rating-bar{height:15px;border-radius:9px;position:relative;margin:36px 0 8px;
+  background:linear-gradient(90deg,var(--red) 0 30%,var(--amber) 30% 50%,var(--gold) 50% 70%,var(--green) 70% 100%)}
+.rating-bar .rm{position:absolute;top:-26px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.rating-bar .rmval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--id);padding:1px 7px;border-radius:8px;margin-bottom:3px}
+.rating-bar .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff}
+.rating-labels{position:relative;height:18px;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.rating-labels span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.verdict{font-size:15px;line-height:1.65;color:#e5d9c2;margin-top:18px}
+.verdict b{color:#fff6e6}
+.exportbar{position:sticky;top:0;z-index:20;display:flex;justify-content:flex-end;padding:8px 0 4px}
+#copyBtn{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;transition:all .2s}
+#copyBtn:hover{border-color:var(--acc);color:var(--acc)}#copyBtn.done{border-color:var(--green);color:var(--green)}
+.foot{font-size:12px;color:var(--mut);margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+.bh-head{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:16px;padding:20px 20px 16px}
+.bh-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.bh-note{font-family:var(--head);font-size:64px;font-weight:900;line-height:1;color:var(--gold)}
+.bh-note small{font-family:var(--mono);font-size:22px;font-weight:400;color:var(--mut);margin-left:8px}
+.bh-badge{padding:10px 18px;border-radius:30px;font-family:var(--mono);font-weight:700;font-size:16px;border:1.5px solid var(--gold);color:var(--gold);background:rgba(255,210,63,.1)}
+.bh-lede{font-size:14px;color:var(--mut);margin-top:10px;line-height:1.55}
+.bh-scale{height:13px;border-radius:8px;position:relative;margin:34px 0 6px;background:linear-gradient(90deg,var(--red) 0 40%,var(--amber) 40% 60%,var(--gold) 60% 80%,var(--green) 80% 100%)}
+.bh-scale .rm{position:absolute;top:-25px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.bh-scale .rmval{font-family:var(--mono);font-size:13px;font-weight:800;color:#111;background:var(--gold);padding:1px 7px;border-radius:8px;margin-bottom:3px}
+.bh-scale .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #fff}
+.bh-ticks{position:relative;height:18px;font-family:var(--mono);font-size:13px;color:var(--mut)}
+.bh-ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.bh-zones{display:grid;grid-template-columns:4fr 2fr 2fr 2fr;font-family:var(--mono);font-size:13px;color:var(--mut);margin-top:2px}
+.bh-zones span{text-align:center}
+@media(max-width:520px){.bh-zones{display:none}}
+.bh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.trait{background:var(--panel);border:1px solid var(--line);border-top:4px solid;border-radius:12px;padding:15px 16px 16px}
+.trait .tn{font-family:var(--mono);font-size:13px;color:var(--mut);letter-spacing:.5px}
+.trait .tt{font-family:var(--head);font-size:20px;font-weight:700;margin-top:4px;line-height:1.2}
+.trait .tv{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:10px}
+.trait .tv b{font-family:var(--mono);font-size:26px;font-weight:800}
+.trait .tv b small{font-size:14px;color:var(--mut);font-weight:400}
+.trait .tbar{height:8px;background:var(--panel2);border-radius:5px;overflow:hidden;margin-top:8px}
+.trait .tbar div{height:100%;border-radius:5px}
+.trait .tq{font-size:13px;color:var(--acc);font-style:italic;margin-top:11px;line-height:1.4}
+.trait .td{font-size:14px;color:#d9ccb4;margin-top:7px;line-height:1.5}
+.lock{display:flex;gap:12px;align-items:flex-start;background:rgba(40,209,124,.07);border:1px solid rgba(40,209,124,.35);border-radius:11px;padding:13px 16px;margin-top:12px;font-size:14px;line-height:1.5}
+.lock .lk{flex:none;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--green);background:rgba(40,209,124,.14);padding:3px 9px;border-radius:12px}
+@media(max-width:760px){.bh-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.kpi-strip,.grid6{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.chip{font-size:30px}.score-box .num{font-size:60px}.sig{flex-direction:column;gap:6px}.sig .st{min-width:0}}
+</style>
+</head>
+<body>
+<div class="page" id="report">
+
+<div class="exportbar"><button id="copyBtn">⧉ Copier le rapport</button></div>
+
+<div class="brand">
+  <div><span class="b1">221 Bourse</span> <span class="b2">· Élémentaire, mon cher Buffett.</span></div>
+  <div class="b3">Le cabinet d'analyse fondamentale</div>
+</div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="tk">
+      <div class="chip">TSM</div>
+      <div class="name">Taiwan Semiconductor Manufacturing Co. (TSMC) · NYSE (ADR) · TWSE 2330 · Fonderie de semi-conducteurs</div>
+      <div class="price">420,22 $ <span class="up">+1,8 %</span> <span style="color:var(--mut);font-size:13px">· données au 20 oct. 2026 (dernier cours du 19 oct.)</span></div>
+    </div>
+    <div class="score-box"><div class="num">72</div><div class="of">/ 100</div></div>
+    <div class="badge">RISQUE FAIBLE</div>
+  </div>
+  <div class="scale-note">Échelle : <b>plus le risque est élevé, plus le score est bas.</b> 0–30 rouge · 30–50 orange · 50–70 jaune · 70–100 vert.</div>
+  <div class="cbar-wrap">
+    <div class="cbar"><div class="z r"></div><div class="z a"></div><div class="z g"></div><div class="z gr"></div></div>
+    <div class="marker" style="left:72%"><div class="mval">72</div><div class="tri"></div></div>
+    <div class="cbar-ticks"><span style="left:0%">0</span><span style="left:30%">30</span><span style="left:50%">50</span><span style="left:70%">70</span><span style="left:100%">100</span></div>
+    <div class="cbar-labels"><span>Risque très élevé</span><span>Sûr</span></div>
+  </div>
+</div>
+
+<!-- ===== KPI ===== -->
+<div class="sec-title">Indicateurs clés</div>
+<div class="sec-sub">Données au 20 octobre 2026 (derniers cours du 19 octobre) · derniers comptes : T3 2026 (clos le 30 septembre, publiés le 15 octobre) · montants par ADR (1 ADR = 5 actions)</div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="l">Cap. boursière</div><div class="v">~2 180 Md$</div><div class="d up">+38 % depuis janvier</div></div>
+  <div class="kpi"><div class="l">PER</div><div class="v">27x</div><div class="d">12 mois · ~19,5x 2027E</div></div>
+  <div class="kpi"><div class="l">CA 12 mois</div><div class="v">156,6 Md$</div><div class="d up">+35 % a/a</div></div>
+  <div class="kpi"><div class="l">BPA T3 (par ADR)</div><div class="v">4,60 $</div><div class="d up">+57,5 % a/a</div></div>
+  <div class="kpi"><div class="l">Rdt dividende</div><div class="v">~1,0 %</div><div class="d">NT$7 par trimestre</div></div>
+  <div class="kpi"><div class="l">Fourchette 52 sem.</div><div class="v">267–487 $</div><div class="d">record début oct.</div></div>
+</div>
+
+<!-- ===== GRAPHIQUE 12 MOIS ===== -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="t">Cours sur 12 mois (clôtures mensuelles)</div>
+    <div class="r">300 $ → <span class="up">420 $</span> · <span class="up">+40 %</span></div>
+  </div>
+  <div class="chart">
+    <svg viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cours de l'ADR TSMC d'octobre 2025 à octobre 2026">
+      <defs><linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f2b450" stop-opacity="0.32"/><stop offset="100%" stop-color="#f2b450" stop-opacity="0"/></linearGradient></defs>
+      <g stroke="#3a2e20" stroke-width="1"><line x1="0" y1="186" x2="800" y2="186"/><line x1="0" y1="106" x2="800" y2="106"/><line x1="0" y1="26" x2="800" y2="26"/></g>
+      <g font-family="JetBrains Mono, monospace" font-size="15" fill="#7d6e58"><text x="4" y="181">300 $</text><text x="4" y="101">400 $</text><text x="4" y="21">500 $</text></g>
+      <path d="M10,185.7 L75,192.8 L140,182.9 L205,161.6 L270,126.3 L335,155.6 L400,109.2 L465,91.2 L530,43.9 L595,78.7 L660,94.2 L725,60.4 L790,89.8 L790,250 L10,250 Z" fill="url(#fill)"/>
+      <path d="M10,185.7 L75,192.8 L140,182.9 L205,161.6 L270,126.3 L335,155.6 L400,109.2 L465,91.2 L530,43.9 L595,78.7 L660,94.2 L725,60.4 L790,89.8" fill="none" stroke="#f2b450" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <g font-family="JetBrains Mono, monospace" font-size="15" font-weight="800" text-anchor="middle">
+        <circle cx="205" cy="161.6" r="11" fill="#28d17c"/><text x="205" y="166.7" fill="#111">1</text>
+        <circle cx="335" cy="155.6" r="11" fill="#ff4d5e"/><text x="335" y="160.7" fill="#111">2</text>
+        <circle cx="595" cy="78.7" r="11" fill="#ff4d5e"/><text x="595" y="83.8" fill="#111">3</text>
+        <circle cx="725" cy="60.4" r="11" fill="#28d17c"/><text x="725" y="65.5" fill="#111">4</text>
+      </g>
+      <circle cx="790" cy="89.8" r="5" fill="#f2b450"/>
+    </svg>
+  </div>
+  <div class="xlab"><span>oct. 25</span><span>janv.</span><span>avr.</span><span>juil.</span><span>oct. 26</span></div>
+  <div class="events">
+    <div><b>1</b> 15 janv. : ~+5 %, résultats du T4 et capex 2026 de 52-56 Md$</div>
+    <div><b>2</b> mars : −9,6 % sur le mois, conflit au Moyen-Orient</div>
+    <div><b>3</b> 17 juil. : −7,3 % à Taipei, marge du T3 guidée sous les attentes</div>
+    <div><b>4</b> 5 oct. : record de 485,80 $, puis −13,5 % jusqu'au 19 oct.</div>
+  </div>
+</div>
+
+<!-- ===== VALORISATION ===== -->
+<div class="sec-title">Valorisation</div>
+<div class="sec-sub">Une prime de qualité sur le chiffre d'affaires, mais un multiple de bénéfices dans la moyenne des pairs pour une croissance sans équivalent.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">PER 2027E</div><div class="cv">~19,5x</div><div class="cd">Sur un BPA 2027 estimé à ~21,60 $ par ADR (+23 %).</div><span class="tag gr">RAISONNABLE</span></div>
+  <div class="card"><div class="cl">PER publié (12 mois)</div><div class="cv">27x</div><div class="cd">BPA 12 mois de 15,54 $ ; 24x le BPA 2026 estimé.</div><span class="tag go">DANS LA NORME</span></div>
+  <div class="card"><div class="cl">VE / CA</div><div class="cv">~13x</div><div class="cd">Contre ~3,8x pour les pairs, mais avec une marge nette de 51 %.</div><span class="tag am">ÉLEVÉ</span></div>
+  <div class="card"><div class="cl">PEG</div><div class="cv">~0,7</div><div class="cd">PER 2026E de 24x pour un BPA attendu à +34 %/an sur 2025-2028.</div><span class="tag gr">ATTRACTIF</span></div>
+  <div class="card"><div class="cl">Objectif analystes</div><div class="cv">529–584 $</div><div class="cd">+26 à +39 % selon les agrégateurs · consensus « Achat ».</div><span class="tag gr">POTENTIEL</span></div>
+  <div class="card"><div class="cl">Rendement FCF</div><div class="cv">~2,1 %</div><div class="cd">~46 Md$ de FCF sur 12 mois, comprimé par un capex record.</div><span class="tag am">MODESTE</span></div>
+</div>
+<div class="median">
+  <div class="mtitle">Comparaison avec la médiane des pairs (Samsung, Intel, SMIC, UMC, GlobalFoundries)</div>
+  <div class="mcomp"><div class="mk">PER prévisionnel</div><div class="mvals"><b>~19,5x</b><span class="sep">vs</span>~19x</div></div>
+  <div class="mcomp"><div class="mk">VE / CA</div><div class="mvals"><b>~13x</b><span class="sep">vs</span>~3,8x</div></div>
+  <div class="mcomp"><div class="mk">ROE moyen 5 ans</div><div class="mvals"><b>~32 %</b><span class="sep">vs</span>~7 %</div></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi un VE/CA de 13x n'est-il pas forcément cher ?</summary>
+  <div class="body">Le ratio VE/CA compare la valeur de l'entreprise (capitalisation moins la trésorerie nette) à son chiffre d'affaires. Il est utile pour des sociétés peu ou pas rentables, mais trompeur pour TSMC : sur chaque dollar de ventes, elle garde <b>51 cents de bénéfice net</b>, quand ses concurrents en gardent quelques-uns. Un dollar de CA de TSMC vaut donc beaucoup plus qu'un dollar de CA de Samsung Foundry ou de GlobalFoundries. C'est pourquoi le multiple de bénéfices (PER ~19,5x sur 2027) est le meilleur repère : il est <b>au niveau de la médiane des pairs</b>, alors que la croissance et la rentabilité de TSMC sont très supérieures. La décote reflète surtout le risque géopolitique de Taïwan.</div>
+</details>
+
+<!-- ===== SANTÉ FINANCIÈRE ===== -->
+<div class="sec-title">Santé financière</div>
+<div class="sec-sub">Un bilan de forteresse et une rentabilité record ; le point d'attention est l'intensité capitalistique.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">Trésorerie nette</div><div class="cv">~100 Md$</div><div class="cd">126 Md$ de cash et placements pour ~26 Md$ de dette à long terme.</div><span class="tag gr">SOLIDE</span></div>
+  <div class="card"><div class="cl">FCF 12 mois</div><div class="cv">~46 Md$</div><div class="cd">14,9 Md$ au seul T3 (+66 % sur le trimestre).</div><span class="tag gr">ROBUSTE</span></div>
+  <div class="card"><div class="cl">Marge brute</div><div class="cv">66,4 %</div><div class="cd">−1,3 pt sur le trimestre (2 nm, usines à l'étranger), +6,9 pts sur un an.</div><span class="tag go">SOUS PRESSION</span></div>
+  <div class="card"><div class="cl">Marge opérationnelle</div><div class="cv">58,7 %</div><div class="cd">Charges opérationnelles à 7,8 % du CA seulement.</div><span class="tag gr">EXCEPTIONNELLE</span></div>
+  <div class="card"><div class="cl">ROE (annualisé)</div><div class="cv">45,5 %</div><div class="cd">~35 % en 2025, ~32 % en moyenne sur cinq ans.</div><span class="tag gr">EXCEPTIONNEL</span></div>
+  <div class="card"><div class="cl">Capex 2026</div><div class="cv">60–64 Md$</div><div class="cd">~35 % du CA ; 2026-2028 « nettement supérieur » aux trois années passées.</div><span class="tag am">LOURD</span></div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi la marge baisse-t-elle alors que tout va bien ?</summary>
+  <div class="body">Une nouvelle génération de gravure (le 2 nm) commence toujours par <b>diluer</b> la marge : les machines coûtent très cher, les rendements progressent mois après mois et les volumes sont encore faibles. TSMC estime cet effet à 2 à 3 points de marge brute pendant la montée en puissance. S'y ajoutent les <b>usines à l'étranger</b> (Arizona, Japon, Allemagne), environ 30 % plus coûteuses qu'à Taïwan : près de 2 points en 2026, puis 3 à 4 points dans les années suivantes. Ces baisses sont <b>annoncées et chiffrées à l'avance</b>, et compensées en partie par des hausses de prix. À 66 %, la marge reste près de 10 points au-dessus de l'objectif plancher de la direction (56 % à travers le cycle).</div>
+</details>
+
+<!-- ===== CROISSANCE ===== -->
+<div class="sec-title">Croissance</div>
+<div class="sec-sub">La plus forte croissance de l'histoire récente de TSMC, tirée par l'IA et la montée en puissance du 2 nm.</div>
+<div class="grid6">
+  <div class="card"><div class="cl">CA T3 2026</div><div class="cv">+41 %</div><div class="cd">46,72 Md$, au-dessus du haut de la fourchette (45,8 Md$).</div><span class="tag gr">FORTE</span></div>
+  <div class="card"><div class="cl">HPC (IA, serveurs)</div><div class="cv">68 %</div><div class="cd">+22 % sur un seul trimestre ; 37 % du CA en 2021.</div><span class="tag gr">EXPLOSIVE</span></div>
+  <div class="card"><div class="cl">Guidance T4</div><div class="cv">52,3–54,3 Md$</div><div class="cd">+58 % a/a et +14 % séquentiel au milieu de la fourchette.</div><span class="tag gr">ACCÉLÉRATION</span></div>
+  <div class="card"><div class="cl">Résultat net T3</div><div class="cv">+68,7 %</div><div class="cd">NT$763 Md, sixième trimestre record consécutif.</div><span class="tag gr">FORTE</span></div>
+  <div class="card"><div class="cl">2 nm</div><div class="cv">8 %</div><div class="cd">du CA wafers dès le 3e trimestre de production ; capacité ×2 en 2027.</div><span class="tag go">EN RAMPE</span></div>
+  <div class="card"><div class="cl">Concentration</div><div class="cv">79 %</div><div class="cd">du CA réalisé avec des clients nord-américains ; deux clients ~40 % (est.).</div><span class="tag am">À SURVEILLER</span></div>
+</div>
+<details class="explainer">
+  <summary>Que signifient « 2 nm », « HPC » et « CoWoS » ?</summary>
+  <div class="body">Le <b>« 2 nm »</b> désigne une génération de gravure : plus le chiffre est petit, plus on loge de transistors sur une puce, et plus elle est rapide et économe. TSMC est la seule à produire le 2 nm en grand volume. <b>HPC</b> (calcul haute performance) regroupe les puces des serveurs, de l'IA et des PC : c'est aujourd'hui 68 % de son activité. Le <b>CoWoS</b> est une technique d'assemblage qui relie, dans un même boîtier, le processeur d'IA et sa mémoire ultra-rapide (HBM) : c'est le goulot d'étranglement mondial des accélérateurs d'IA, et TSMC en est le principal fournisseur.</div>
+</details>
+
+<!-- ===== DÉTAIL DU SCORE ===== -->
+<div class="sec-title">Détail du score</div>
+<div class="sec-sub">Pondération : Valorisation 35 % · Santé financière 35 % · Croissance 30 %</div>
+<div class="bd-row">
+  <div class="bd-head"><span class="bn">Valorisation</span><span class="bw">poids 35 %</span></div>
+  <div class="bd-track"><div class="bd-fill" style="width:52%;background:var(--gold)"></div></div>
+  <div class="bd-score">52 / 100 — PER raisonnable pour la croissance, mais VE/CA élevé et rendement FCF modeste</div>
+</div>
+<div class="bd-row">
+  <div class="bd-head"><span class="bn">Santé financière</span><span class="bw">poids 35 %</span></div>
+  <div class="bd-track"><div class="bd-fill" style="width:84%;background:var(--green)"></div></div>
+  <div class="bd-score">84 / 100 — trésorerie nette de ~100 Md$, ROE record ; capex très lourd et marges sous pression</div>
+</div>
+<div class="bd-row">
+  <div class="bd-head"><span class="bn">Croissance</span><span class="bw">poids 30 %</span></div>
+  <div class="bd-track"><div class="bd-fill" style="width:81%;background:var(--green)"></div></div>
+  <div class="bd-score">81 / 100 — croissance et visibilité exceptionnelles, concentrée sur l'IA et sur Taïwan</div>
+</div>
+<div class="bd-row" style="margin-top:22px;border-top:1px solid var(--line);padding-top:16px">
+  <div class="bd-head"><span class="bn">Score global pondéré</span><span class="bw">= 0,35 × 52 + 0,35 × 84 + 0,30 × 81 = 71,9</span></div>
+  <div class="bd-track"><div class="bd-fill" style="width:72%;background:var(--id)"></div></div>
+  <div class="bd-score" style="color:var(--id)">72 / 100 — Risque faible</div>
+</div>
+<details class="explainer">
+  <summary>Pourquoi le risque géopolitique ne baisse-t-il pas davantage le score ?</summary>
+  <div class="body">Le score mesure trois piliers financiers : le prix payé, la solidité du bilan et la croissance. Le risque de crise autour de Taïwan n'entre que de manière indirecte, à travers le critère de <b>concentration</b> du pilier croissance. C'est un choix de méthode : un événement rare mais extrême ne se résume pas bien dans une moyenne. Le score de 72 est donc à lire comme « <b>entreprise et bilan à faible risque, à 2 points de la zone jaune</b> », complété par une question à part : quelle part de son portefeuille exposer à un risque géopolitique que personne ne sait chiffrer ?</div>
+</details>
+
+<!-- ===== PAGE 2 ===== -->
+<div class="page-break"><span>PAGE 2 / 2</span></div>
+
+<div class="sec-title">Tendance trimestrielle</div>
+<div class="sec-sub">Vert = amélioration · Rouge = dégradation · CA et BPA en dollars, BPA par ADR</div>
+<div class="tbl-wrap">
+<table class="qtable">
+  <thead><tr><th>Trimestre</th><th>CA (Md$)</th><th>Croiss. a/a</th><th>Marge brute</th><th>Marge opér.</th><th>BPA / ADR</th><th>Part ≤ 7 nm</th><th>Tendance</th></tr></thead>
+  <tbody>
+    <tr class="imp"><td>T2 2025</td><td>30,07</td><td>+44 %</td><td>58,6 %</td><td>49,6 %</td><td>2,47 $</td><td>74 %</td><td><span class="flag gr">▲ +18 % séq.</span></td></tr>
+    <tr class="imp"><td>T3 2025</td><td>33,10</td><td>+41 %</td><td>59,5 %</td><td>50,6 %</td><td>2,92 $</td><td>74 %</td><td><span class="flag gr">▲ Marge en hausse</span></td></tr>
+    <tr class="imp"><td>T4 2025</td><td>33,73</td><td>+25 %</td><td>62,3 %</td><td>54,0 %</td><td>3,14 $</td><td>77 %</td><td><span class="flag gr">▲ Marge record</span></td></tr>
+    <tr class="imp"><td>T1 2026</td><td>35,90</td><td>+41 %</td><td>66,2 %</td><td>58,1 %</td><td>3,49 $</td><td>74 %</td><td><span class="flag gr">▲ Marge record</span></td></tr>
+    <tr class="imp"><td>T2 2026</td><td>40,20</td><td>+34 %</td><td>67,7 %</td><td>60,3 %</td><td>~4,31 $</td><td>77 %</td><td><span class="flag gr">▲ Record absolu</span></td></tr>
+    <tr class="dec"><td>T3 2026</td><td>46,72</td><td>+41 %</td><td>66,4 %</td><td>58,7 %</td><td>4,60 $</td><td>79 %</td><td><span class="flag rd">▼ Marge −1,3 pt</span></td></tr>
+    <tr class="fut"><td>T4 2026 (guid.)</td><td>52,3–54,3</td><td>~+58 %</td><td>65–67 %</td><td>56,5–58,5 %</td><td>—</td><td>—</td><td><span class="flag go">● Publication mi-janv.</span></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="sec-sub" style="margin-top:8px;font-size:13px">Au T3 2026, le chiffre d'affaires et le bénéfice battent des records, mais la marge brute recule pour la première fois depuis cinq trimestres (dilution du 2 nm et des usines à l'étranger) : la ligne est rouge pour signaler ce changement de tendance. Le BPA du T2 2026 par ADR est calculé au change moyen du trimestre.</div>
+
+<div class="sec-title">Derniers résultats et prochaine échéance</div>
+<div class="two">
+  <div class="ecard">
+    <div class="eh">T3 2026 · publié le 15 octobre</div>
+    <div class="eline"><span>CA vs consensus</span><span class="ev up">46,72 vs ~45,41 Md$</span></div>
+    <div class="eline"><span>BPA / ADR vs consensus</span><span class="ev up">4,60 vs ~4,42 $</span></div>
+    <div class="eline"><span>Marge brute</span><span class="ev">66,4 % (guid. 65–67 %)</span></div>
+    <div class="eline"><span>FCF du trimestre</span><span class="ev up">~14,9 Md$</span></div>
+    <div class="eline"><span>Réaction de l'ADR</span><span class="ev down">−2,3 % le 16 oct.</span></div>
+  </div>
+  <div class="ecard">
+    <div class="eh">T4 2026 · publication mi-janvier 2027</div>
+    <div class="eline"><span>Guidance CA</span><span class="ev">52,3–54,3 Md$</span></div>
+    <div class="eline"><span>Marge brute visée</span><span class="ev">65–67 %</span></div>
+    <div class="eline"><span>Marge opér. visée</span><span class="ev">56,5–58,5 %</span></div>
+    <div class="eline"><span>Croissance 2026 en $</span><span class="ev up">~+44 %</span></div>
+    <div class="eline"><span>Jalon clé</span><span class="ev">capex et cap 2027</span></div>
+  </div>
+</div>
+
+<div class="sec-title">Catalyseurs vs risques</div>
+<div class="cr">
+  <div class="crcol cat">
+    <h4>↗ Catalyseurs</h4>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Rampe du 2 nm, puis A16 et A14</div><div class="id">Capacité 2 nm plus que doublée en 2027, A14 en production de masse en 2028 ; chaque génération se vend plus cher par plaquette.</div></div>
+    <div class="item"><span class="sev hi-pos">FORT IMPACT</span><div class="it">Demande d'IA supérieure à l'offre</div><div class="id">Accélérateurs IA attendus à « mi à haut 50 % » par an jusqu'en 2029, objectif jugé « probablement » dépassé ; processeurs de l'IA agentique en plus.</div></div>
+    <div class="item"><span class="sev med-pos">IMPACT MOYEN</span><div class="it">Hausses de prix 2027</div><div class="id">Jusqu'à +10 % évoqués par la presse, surcharges sur les volumes HPC non prévus : de quoi compenser les dilutions.</div></div>
+    <div class="item"><span class="sev med-pos">IMPACT MOYEN</span><div class="it">Packaging avancé et nouveaux sites</div><div class="id">CoWoS en croissance de plus de 80 % par an, projet au Texas et discussions sur Terafab, coentreprise avec Sony.</div></div>
+  </div>
+  <div class="crcol rsk">
+    <h4>↘ Risques</h4>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Géopolitique de Taïwan</div><div class="id">Plus de 90 % de la capacité de pointe sur l'île : un blocus ou une crise prolongée arrêterait la production en quelques semaines.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Retournement du capex de l'IA</div><div class="id">68 % du CA dans le HPC ; inquiétudes sur la dette des « néo-clouds » ; près de 20 usines en chantier au sommet du cycle.</div></div>
+    <div class="item"><span class="sev high">FORT IMPACT</span><div class="it">Intensité capitalistique</div><div class="id">Capex de 60 à 64 Md$ en 2026, jusqu'à 100 Md$ anticipés par certains courtiers pour 2028 : le FCF dépend de la durée du cycle.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Dilution des marges</div><div class="id">2 nm puis A16 en démarrage, usines à l'étranger à 3-4 points de marge brute dans les prochaines années.</div></div>
+    <div class="item"><span class="sev med">IMPACT MOYEN</span><div class="it">Concurrence soutenue par les États</div><div class="id">Intel 14A (État américain au capital, Tesla, Terafab), Samsung 2 nm (Tesla), droits de douane de la section 232.</div></div>
+  </div>
+</div>
+
+<!-- ===== ENCARTS SIGNAUX ===== -->
+<div class="signals buy">
+  <h4>Quand renforcer ? Les signaux d'achat</h4>
+  <div class="sig"><span class="st conf">CONFIRMATION</span><span class="sx">Marge brute du T4 2026 à 65 % ou plus malgré la rampe du 2 nm, et objectif de croissance 2027 d'au moins +25 % en dollars à la mi-janvier.</span></div>
+  <div class="sig"><span class="st conf">CONFIRMATION</span><span class="sx">Capex 2027 annoncé avec une croissance du CA supérieure à celle du capex, conformément à la règle fixée par la direction.</span></div>
+  <div class="sig"><span class="st conf">CONFIRMATION</span><span class="sx">Hausses de prix 2027 confirmées (au moins +5 % sur les nœuds avancés) ou accord Terafab exploité par TSMC.</span></div>
+  <div class="sig"><span class="st opp">OPPORTUNITÉ DE PRIX</span><span class="sx">Repli vers 360-380 $ (~17x le BPA 2027 estimé, sous les plus bas de l'été) sans dégradation de la thèse.</span></div>
+  <div class="sig"><span class="st opp">OPPORTUNITÉ DE PRIX</span><span class="sx">PER 2027E ramené sous 17x à la faveur d'une correction des valeurs de l'IA.</span></div>
+  <div class="sig-note">Une hausse de séance après une annonce de partenariat (Terafab, Texas) ne justifie pas à elle seule un renforcement : la marge et le capex restent les vrais juges de paix.</div>
+</div>
+<div class="signals sell">
+  <h4>Quand vendre ? Les signaux de sortie</h4>
+  <div class="sig"><span class="st rupt">RUPTURE DE THÈSE</span><span class="sx">Escalade militaire ou blocus autour de Taïwan, ou restrictions perturbant l'exploitation des usines de l'île.</span></div>
+  <div class="sig"><span class="st rupt">RUPTURE DE THÈSE</span><span class="sx">Transfert d'un nœud de pointe d'un client majeur (Nvidia ou Apple) vers Intel ou Samsung, ou marge brute sous 60 % deux trimestres de suite.</span></div>
+  <div class="sig"><span class="st all">ALLÈGEMENT</span><span class="sx">ADR au-delà de ~600 $ sans relèvement des BPA 2027, soit un PER 2027E supérieur à 28x.</span></div>
+  <div class="sig"><span class="st surv">À SURVEILLER</span><span class="sx">Capex 2027 supérieur à 90 Md$ avec une croissance du CA attendue sous +20 %.</span></div>
+  <div class="sig"><span class="st surv">À SURVEILLER</span><span class="sx">Baisse des capex des hyperscalers ou difficultés de financement des « néo-clouds » (signal avancé de la demande de CoWoS).</span></div>
+  <div class="sig-note">Une baisse de 2 à 7 % après une publication record ne justifie pas à elle seule une vente : en 2026, le titre a ainsi réagi à deux trimestres pourtant excellents.</div>
+</div>
+
+<!-- ===== GRILLE BUY AND HOLD ===== -->
+<div class="sec-title">Grille Buy and Hold : les 6 traits</div>
+<div class="sec-sub">Le titre passé au crible des six traits des grands gagnants boursiers (cours 221 Bourse, module 2). Une lecture complémentaire du score de risque : elle juge la qualité de l'entreprise pour une détention longue, pas le prix d'entrée.</div>
+<div class="bh-head">
+  <div class="bh-row">
+    <div><div class="bh-note">7,8<small>/ 10</small></div></div>
+    <div class="bh-badge">PROFIL COMPATIBLE</div>
+  </div>
+  <div class="bh-scale"><div class="rm" style="left:78%"><div class="rmval">7,8</div><div class="tri"></div></div></div>
+  <div class="bh-ticks"><span style="left:0;transform:none">0</span><span style="left:40%">4</span><span style="left:60%">6</span><span style="left:80%">8</span><span style="left:100%;transform:translateX(-100%)">10</span></div>
+  <div class="bh-zones"><span>Hors profil</span><span>Partiel</span><span>Compatible</span><span>Profil type</span></div>
+  <div class="bh-lede">Note générale = moyenne simple des six traits : (9 + 9 + 8 + 7 + 7 + 7) / 6 = <b>7,8</b>. Barème : 8 à 10 profil type · 6 à 8 compatible · 4 à 6 partiel · moins de 4 hors profil.</div>
+</div>
+<div class="bh-grid">
+  <div class="trait" style="border-top-color:var(--green)"><div class="tn">TRAIT N°1</div><div class="tt">Leader d'un secteur émergent</div><div class="tv"><b style="color:var(--green)">9<small>/10</small></b><span class="tag gr" style="margin-top:0">OUI</span></div><div class="tbar"><div style="width:90%;background:var(--green)"></div></div><div class="tq">Est-ce le numéro un d'un marché jeune, important et en forte croissance ?</div><div class="td">TSMC est le numéro un incontesté (72,5 % de la fonderie, quasi-monopole sur le 2 nm et le CoWoS) d'un marché devenu stratégique avec l'IA. Seule réserve : la fonderie n'est pas un secteur jeune ; c'est la fabrication des puces d'IA, elle, qui l'est.</div></div>
+  <div class="trait" style="border-top-color:var(--green)"><div class="tn">TRAIT N°2</div><div class="tt">Avantage compétitif durable</div><div class="tv"><b style="color:var(--green)">9<small>/10</small></b><span class="tag gr" style="margin-top:0">OUI</span></div><div class="tbar"><div style="width:90%;background:var(--green)"></div></div><div class="tq">Les clients resteraient-ils face à un concurrent moins cher ?</div><div class="td">Oui, et c'est démontré : Samsung et Intel proposent des prix plus bas, TSMC relève les siens et sa part de marché progresse. Avance technologique, rendements, écosystème de conception et neutralité se renforcent mutuellement. Le risque vient des États qui subventionnent les concurrents.</div></div>
+  <div class="trait" style="border-top-color:var(--green)"><div class="tn">TRAIT N°3</div><div class="tt">Forte hausse passée du cours</div><div class="tv"><b style="color:var(--green)">8<small>/10</small></b><span class="tag gr" style="margin-top:0">OUI</span></div><div class="tbar"><div style="width:80%;background:var(--green)"></div></div><div class="tq">Le cours confirme-t-il une exécution réussie ?</div><div class="td">+38 % depuis janvier, près de ×5 en trois ans, record historique début octobre. La hausse est portée par les résultats (bénéfice net +69 % au T3), pas par des promesses. Réserve : −13,5 % depuis le record, le marché doute de la durée du cycle.</div></div>
+  <div class="trait" style="border-top-color:var(--gold)"><div class="tn">TRAIT N°4</div><div class="tt">Bon management, bons soutiens</div><div class="tv"><b style="color:var(--gold)">7<small>/10</small></b><span class="tag go" style="margin-top:0">PLUTÔT OUI</span></div><div class="tbar"><div style="width:70%;background:var(--gold)"></div></div><div class="tq">Le fondateur est-il là ? Qui est au capital ?</div><div class="td">Le fondateur Morris Chang s'est retiré en 2018, mais C.C. Wei, formé à son école, exécute sans faute (2 nm, CoWoS, Arizona). Premier actionnaire : l'État taïwanais (6,38 %), soutien stable mais politique. Réserves : participation modeste des dirigeants et succession à préparer.</div></div>
+  <div class="trait" style="border-top-color:var(--gold)"><div class="tn">TRAIT N°5</div><div class="tt">Forte attractivité client</div><div class="tv"><b style="color:var(--gold)">7<small>/10</small></b><span class="tag go" style="margin-top:0">PLUTÔT OUI</span></div><div class="tbar"><div style="width:70%;background:var(--gold)"></div></div><div class="tq">Les clients aiment-ils la marque et la recommandent-ils ?</div><div class="td">Les clients se battent pour sa capacité et la citent comme gage de qualité : la « confiance des clients » est l'un des trois piliers revendiqués. Mais TSMC n'a aucune marque grand public, et ses grands clients financent activement des alternatives pour réduire leur dépendance.</div></div>
+  <div class="trait" style="border-top-color:var(--gold)"><div class="tn">TRAIT N°6</div><div class="tt">Jugée « surévaluée »</div><div class="tv"><b style="color:var(--gold)">7<small>/10</small></b><span class="tag go" style="margin-top:0">PLUTÔT OUI</span></div><div class="tbar"><div style="width:70%;background:var(--gold)"></div></div><div class="tq">Les bénéfices peuvent-ils rattraper la valorisation en cinq ou six ans ?</div><div class="td">Largement : à 27 fois le BPA actuel, une hausse des bénéfices de 20 %/an pendant cinq ans ramènerait le PER vers 11x à cours constant. Mais peu d'investisseurs jugent TSMC « trop chère » : elle se paie moins cher que ses clients, ce qui la rapproche moins du profil type de ce trait.</div></div>
+</div>
+<div class="lock"><span class="lk">✓ VERROU</span><span>Le cours prévient : « un “non” franc sur les traits 1, 2 ou 4 doit faire réfléchir ». <b>Aucun non franc ici</b> (9, 9 et 7/10). Le trait le plus fragile du trio est le 4 : un management d'exécution, sans fondateur, et une gouvernance où l'État taïwanais pèse.</span></div>
+<details class="explainer">
+  <summary>Comment lire cette grille ?</summary>
+  <div class="body">Les six traits décrivent le profil des entreprises qui ont fait les plus grandes performances boursières sur longue période : un leader de secteur jeune, protégé par un avantage durable, dont le cours confirme l'exécution, dirigé par une équipe de qualité, aimé de ses clients… et souvent jugé trop cher. Une entreprise n'a pas besoin de six « oui ». La grille n'est pas une formule : deux traits (forte hausse passée et réputation de « surévaluée ») vont même à rebours des réflexes habituels, et ne valent qu'avec les quatre autres. C'est pourquoi la note Buy and Hold (7,8/10) et le score de risque (72/100) disent deux choses différentes mais concordantes : TSMC a le profil d'un gagnant de long terme, à un prix qui ne réclame pas la perfection ; le risque principal est hors de son contrôle.</div>
+</details>
+
+<!-- ===== EN RÉSUMÉ ===== -->
+<div class="sec-title">En résumé</div>
+<div class="bottom">
+  <div class="blh">Notation globale : Risque faible (72/100)</div>
+  <div class="rating-bar"><div class="rm" style="left:72%"><div class="rmval">72</div><div class="tri"></div></div></div>
+  <div class="rating-labels"><span style="left:15%">Très élevé</span><span style="left:40%">Élevé</span><span style="left:60%">Modéré</span><span style="left:85%">Faible</span></div>
+  <div class="verdict">
+    <b>Verdict :</b> TSMC est le <b>passage obligé de toute l'IA mondiale</b> : 72,5 % de la fonderie, seule productrice en volume du 2 nm, leader du packaging CoWoS, avec des clients qui se battent pour sa capacité. Les chiffres suivent : CA +41 % au T3, guidance T4 à +58 %, bénéfice net +69 %, ROE de 45 %, ~100 Md$ de trésorerie nette. Et contrairement à la plupart des valeurs de l'IA, le titre ne se paie que <b>~19,5 fois les bénéfices 2027</b>, moins cher que ses propres clients.<br><br>
+    Le score de 72 (zone verte, à la limite de la jaune) reflète une <b>entreprise à faible risque financier</b> : la santé financière (84) et la croissance (81) compensent une valorisation correcte sans être bon marché (52). Les deux vraies menaces sont <b>extérieures au bilan</b> : la durée du cycle d'investissement de l'IA, alors que près de 20 usines sont en chantier, et le risque géopolitique de Taïwan, que ni le score ni le marché ne savent chiffrer.<br><br>
+    Au crible de la grille Buy and Hold, TSMC obtient <b>7,8/10, profil compatible</b>, tout proche du profil type : leadership et avantage compétitif au maximum, management d'exécution plutôt que de fondateur. Profil adapté à un investisseur de long terme qui accepte une volatilité modérée (bêta ~1,2-1,4) et un risque géopolitique non diversifiable : à <b>dimensionner en conséquence</b>, et à renforcer sur les corrections du secteur plutôt qu'à chaud. <b>Ceci n'est pas un conseil en investissement.</b>
+  </div>
+</div>
+
+<div class="foot">
+  Sources : communiqué, présentation, rapport de gestion et conférence téléphonique de TSMC pour le T3 2026 (15 oct. 2026) ; communiqués des T4 2025 (15 janv. 2026), T1 2026 (16 avr. 2026) et T2 2026 (16 juil. 2026) ; résolutions du conseil d'administration (12 mai et 11 août 2026) ; rapport annuel 2025 ; parts de marché : TrendForce (9 sept. 2026) ; cours et consensus : Morningstar, Yahoo Finance, MarketBeat, StockAnalysis (cours de clôture du 19 oct. 2026) ; couverture de presse (Reuters, CNBC, Bloomberg via TNW, Taiwan News, TrendForce News, Investing.com, Benzinga). Multiples des pairs : estimations à partir des cours et publications disponibles. Grille des 6 traits : cours 221 Bourse « Stratégie Buy and Hold », module 2 (édition octobre 2026) ; notes attribuées par 221 Bourse, la note générale est une moyenne simple. Le score de risque est un indicateur composite illustratif (Valorisation 35 % / Santé financière 35 % / Croissance 30 %, chaque pilier noté sur quatre sous-critères) et non une note d'agence. Données arrêtées au 20 octobre 2026. Faites vos propres recherches.
+</div>
+
+</div>
+<script>
+document.getElementById('copyBtn').addEventListener('click', async function(){
+  const btn = this;
+  const text = "TSM \u2014 Taiwan Semiconductor Manufacturing Co. (TSMC) | RAPPORT DE RISQUE (20 octobre 2026)\n221 Bourse \u00b7 Le cabinet d'analyse fondamentale\n\u00c9chelle\u202f: plus le risque est \u00e9lev\u00e9, plus le score est bas (0-30 rouge, 30-50 orange, 50-70 jaune, 70-100 vert)\n\nSCORE GLOBAL\u202f: 72/100 \u2014 RISQUE FAIBLE\n= 0,35 \u00d7 52 (Valorisation) + 0,35 \u00d7 84 (Sant\u00e9 financi\u00e8re) + 0,30 \u00d7 81 (Croissance) = 71,9\nCours ADR\u202f: 420,22\u00a0$ (cl\u00f4ture du 19 oct. 2026) | Cap. ~2\u202f180\u00a0Md$ | +38\u202f% depuis janvier | record 485,80\u00a0$ le 5 oct.\n\nVALORISATION (52/100)\n- PER 12 mois 27x | PER 2027E ~19,5x (m\u00e9diane des pairs ~19x) | PEG ~0,7\n- VE/CA ~13x (pairs ~3,8x) | objectif des analystes 529-584\u00a0$ (+26 \u00e0 +39\u202f%) | rendement FCF ~2,1\u202f%\n\nSANT\u00c9 FINANCI\u00c8RE (84/100)\n- Tr\u00e9sorerie nette ~100\u00a0Md$ (126\u00a0Md$ de cash) | FCF 12 mois ~46\u00a0Md$ | ROE 45,5\u202f% (T3 annualis\u00e9)\n- Marge brute 66,4\u202f% (\u22121,3 pt) | marge op\u00e9r. 58,7\u202f% | capex 2026 de 60-64\u00a0Md$\n\nCROISSANCE (81/100)\n- CA T3 2026 46,72\u00a0Md$ (+41\u202f% en $) | r\u00e9sultat net +68,7\u202f% | HPC 68\u202f% du CA\n- Guidance T4 52,3-54,3\u00a0Md$ (+58\u202f%) | 2026 ~+44\u202f% | 2\u00a0nm \u00e0 8\u202f% du CA wafers | 79\u202f% du CA en Am\u00e9rique du Nord\n\nTENDANCE TRIMESTRIELLE (CA Md$ / marge brute / BPA par ADR)\n- T2 25\u202f: 30,07 / 58,6\u202f% / 2,47\u00a0$ | T3 25\u202f: 33,10 / 59,5\u202f% / 2,92\u00a0$ | T4 25\u202f: 33,73 / 62,3\u202f% / 3,14\u00a0$\n- T1 26\u202f: 35,90 / 66,2\u202f% / 3,49\u00a0$ | T2 26\u202f: 40,20 / 67,7\u202f% / ~4,31\u00a0$ | T3 26\u202f: 46,72 / 66,4\u202f% / 4,60\u00a0$\n- T4 26 (guid.)\u202f: 52,3-54,3 / 65-67\u202f%\n\nPROCHAINE \u00c9CH\u00c9ANCE\u202f: r\u00e9sultats du T4 2026 \u00e0 la mi-janvier 2027 (capex et objectifs 2027)\n\nCATALYSEURS\u202f: rampe du 2\u00a0nm, A16 et A14 (fort) \u00b7 demande d'IA sup\u00e9rieure \u00e0 l'offre (fort) \u00b7 hausses de prix 2027 (moyen) \u00b7 packaging avanc\u00e9 et nouveaux sites (moyen)\nRISQUES\u202f: g\u00e9opolitique de Ta\u00efwan (fort) \u00b7 retournement du capex de l'IA (fort) \u00b7 intensit\u00e9 capitalistique (fort) \u00b7 dilution des marges (moyen) \u00b7 concurrence soutenue par les \u00c9tats (moyen)\n\nGRILLE BUY AND HOLD \u2014 LES 6 TRAITS\u202f: 7,8/10, PROFIL COMPATIBLE\n- 1. Leader d'un secteur \u00e9mergent\u202f: 9/10 (72,5\u202f% de la fonderie, quasi-monopole sur le 2\u00a0nm)\n- 2. Avantage comp\u00e9titif durable\u202f: 9/10 (prix en hausse, part de march\u00e9 en hausse)\n- 3. Forte hausse pass\u00e9e\u202f: 8/10 (+38\u202f% depuis janvier, port\u00e9e par les r\u00e9sultats)\n- 4. Bon management, bons soutiens\u202f: 7/10 (C.C. Wei, ex\u00e9cution sans faute\u202f; succession \u00e0 pr\u00e9parer)\n- 5. Forte attractivit\u00e9 client\u202f: 7/10 (confiance des clients, pas de marque grand public)\n- 6. Jug\u00e9e \u00ab\u00a0sur\u00e9valu\u00e9e\u00a0\u00bb\u202f: 7/10 (PER ~11x dans 5\u00a0ans si BPA +20\u202f%/an)\n- Verrou (traits 1, 2, 4)\u202f: aucun \u00ab\u00a0non\u00a0\u00bb franc\n\nQUAND RENFORCER\u202f?\n- CONFIRMATION\u202f: marge brute T4 \u2265 65\u202f% et objectif 2027 \u2265 +25\u202f% en $\n- CONFIRMATION\u202f: croissance du CA 2027 sup\u00e9rieure \u00e0 celle du capex\n- CONFIRMATION\u202f: hausses de prix 2027 confirm\u00e9es ou accord Terafab exploit\u00e9 par TSMC\n- OPPORTUNIT\u00c9 DE PRIX\u202f: repli vers 360-380\u00a0$ (~17x BPA 2027E)\n- OPPORTUNIT\u00c9 DE PRIX\u202f: PER 2027E sous 17x\n  (Une hausse de s\u00e9ance apr\u00e8s une annonce de partenariat ne justifie pas \u00e0 elle seule un renforcement.)\n\nQUAND VENDRE\u202f?\n- RUPTURE DE TH\u00c8SE\u202f: escalade militaire ou blocus autour de Ta\u00efwan\n- RUPTURE DE TH\u00c8SE\u202f: perte d'un n\u0153ud de pointe chez Nvidia ou Apple, ou marge brute < 60\u202f% deux trimestres de suite\n- ALL\u00c8GEMENT\u202f: ADR > ~600\u00a0$ sans rel\u00e8vement des BPA 2027 (PER 2027E > 28x)\n- \u00c0 SURVEILLER\u202f: capex 2027 > 90\u00a0Md$ avec une croissance du CA < +20\u202f%\n- \u00c0 SURVEILLER\u202f: baisse des capex des hyperscalers ou difficult\u00e9s de financement des n\u00e9o-clouds\n  (Une baisse de 2 \u00e0 7\u202f% apr\u00e8s une publication record ne justifie pas \u00e0 elle seule une vente.)\n\nVERDICT\u202f: passage oblig\u00e9 de l'IA mondiale, croissance record et bilan de forteresse, pour ~19,5x les b\u00e9n\u00e9fices 2027\u202f;\nles vrais risques sont hors bilan (dur\u00e9e du cycle de l'IA, g\u00e9opolitique de Ta\u00efwan). Ceci n'est pas un conseil en investissement.";
+  const ok = () => { btn.textContent = "✓ Copié !"; btn.classList.add('done'); setTimeout(()=>{btn.textContent="⧉ Copier le rapport";btn.classList.remove('done');},2200); };
+  try { await navigator.clipboard.writeText(text); ok(); }
+  catch(e){
+    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); ok(); }catch(_){ btn.textContent="Échec — copie manuelle"; }
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>
