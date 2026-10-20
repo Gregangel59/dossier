@@ -1,20 +1,33 @@
 # Génère src/data/portefeuilles.js à partir des exports CSV du suivi de portefeuille.
 #
+# Prérequis : pip install CurrencyConverter  (cours de référence historiques de la BCE)
+#
 # Usage (depuis le dossier du site) :
 #   python3 scripts/portefeuille.py historique=Historique.csv big-bang=BigBang.csv epique=Epique.csv
 #
 # À chaque mise à jour, ajuster ASOF, EURUSD et CASH_PCT ci-dessous,
 # et ajouter dans META le nom et le secteur de toute nouvelle ligne.
+# Achats et ventes en dollars : convertis au cours BCE du jour de la transaction.
 # Les CSV ne doivent JAMAIS être déposés dans le dépôt : ils contiennent les quantités.
 # Le fichier généré ne contient que des pourcentages, des prix unitaires de marché et des dates.
 import csv, json, sys
 from datetime import date, timedelta
 from collections import defaultdict
+from currency_converter import CurrencyConverter, ECB_URL
 
 ASOF = date(2026, 10, 19)   # date des cours de l'export
 EURUSD = 1.1227             # dollars pour 1 euro à cette date
 CASH_PCT = 4.3              # part des liquidités dans le total des avoirs en bourse (%)
 OUT = "src/data/portefeuilles.js"
+
+# Cours EUR/USD (dollars pour 1 euro) à saisir à la main pour les transactions plus récentes
+# que les données BCE disponibles (le script s'arrête et indique les dates manquantes).
+RATES_OVERRIDE = {
+    date(2026, 9, 25): 1.1390,
+    date(2026, 9, 28): 1.1372,
+    date(2026, 10, 1): 1.1298,   # Banque de France
+    date(2026, 10, 7): 1.1214,
+}
 
 # Ordre d'affichage sur l'accueil
 PORTFOLIOS = [
@@ -139,7 +152,26 @@ def d(s):
 
 
 def fx(t):
+    """Taux de conversion à la date des cours (valeur actuelle)."""
     return 1 if t in EUR else EURUSD
+
+
+try:   # fichier BCE le plus récent ; à défaut, celui fourni avec le module
+    _CC = CurrencyConverter(ECB_URL, fallback_on_missing_rate=True)
+except Exception:
+    _CC = CurrencyConverter(fallback_on_missing_rate=True)
+_ECB_LAST = _CC.bounds["USD"].last_date
+
+
+def fx_at(t, dt):
+    """Taux de conversion au jour de la transaction (cours de référence BCE)."""
+    if t in EUR:
+        return 1
+    if dt in RATES_OVERRIDE:
+        return RATES_OVERRIDE[dt]
+    if dt > _ECB_LAST:
+        sys.exit(f"Pas de cours BCE pour le {dt} (données jusqu'au {_ECB_LAST}) : l'ajouter dans RATES_OVERRIDE.")
+    return _CC.convert(1, "EUR", "USD", date=dt)
 
 
 def irr_of(flows):
@@ -187,8 +219,9 @@ def build(slug, name, path):
         if qty <= 1e-9:
             continue
         cost = sum(l["qty"] * l["px"] for l in buys)
+        cost_eur = sum(l["qty"] * l["px"] / fx_at(t, l["date"]) for l in buys)
         pru = cost / sum(l["qty"] for l in buys)
-        holdings.append(dict(t=t, val=qty * price[t] / fx(t), cost=cost / fx(t),
+        holdings.append(dict(t=t, val=qty * price[t] / fx(t), cost=cost_eur,
                              perf=price[t] / pru - 1, first=buys[0]["date"]))
     tot = sum(h["val"] for h in holdings)
     tot_cost = sum(h["cost"] for h in holdings)
@@ -237,14 +270,15 @@ def build(slug, name, path):
                                   since=round(100 * (price[t] / l["px"] - 1), 1)))
     if constitution:
         now = sum(l["qty"] * price[t] / fx(t) for t, l in constitution)
-        paid = sum(l["qty"] * l["px"] / fx(t) for t, l in constitution)
+        paid = sum(l["qty"] * l["px"] / fx_at(t, l["date"]) for t, l in constitution)
         moves.append(dict(date=created.isoformat(), type="Constitution",
                           tickers=sorted(DISPLAY.get(t, t) for t, _ in constitution),
                           since=round(100 * (now / paid - 1), 1)))
     moves.sort(key=lambda m: (m["date"], m["type"] != "Constitution"), reverse=True)
 
-    # Performance globale et rendement annualisé (TRI), hors dividendes et hors effet de change
-    flows = [(l["date"], (-1 if l["side"] == "BUY" else 1) * l["qty"] * l["px"] / fx(t))
+    # Performance globale et rendement annualisé (TRI) en euros, effet de change compris, hors dividendes :
+    # chaque achat et chaque vente sont convertis au cours BCE de leur date.
+    flows = [(l["date"], (-1 if l["side"] == "BUY" else 1) * l["qty"] * l["px"] / fx_at(t, l["date"]))
              for t, ls in lots.items() for l in ls]
     flows.append((ASOF, tot))
     invested = -sum(a for _, a in flows if a < 0)

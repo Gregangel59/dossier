@@ -53,7 +53,7 @@ function Move({ m }) {
           </div>
           <div className="pf-move-tickers">{m.tickers.join(" · ")}</div>
           <div className="pf-move-facts">
-            <span>Ce panier depuis l'achat : <b className={tone(m.since)}>{pct(m.since)}</b></span>
+            <span>Ce panier depuis l'achat, en euros : <b className={tone(m.since)}>{pct(m.since)}</b></span>
           </div>
         </div>
       </li>
@@ -281,7 +281,7 @@ export default function Portefeuille() {
         <section className="pf-method" aria-labelledby="pf-meth">
           <h2 id="pf-meth" className="pf-h3">Comment lire ces chiffres</h2>
           <ul>
-            <li>Cours de clôture du {fmtDate(P.asOf)}. Les poids sont calculés en euros, au taux de {P.eurusd.toLocaleString("fr-FR", { minimumFractionDigits: 4 })} dollar pour 1 euro.</li>
+            <li>Cours de clôture du {fmtDate(P.asOf)}. Les valeurs actuelles sont converties en euros au taux de {P.eurusd.toLocaleString("fr-FR", { minimumFractionDigits: 4 })} dollar pour 1 euro ; chaque achat et chaque vente en dollars, au cours de référence de la BCE du jour de la transaction.</li>
             <li>La part de mes avoirs en bourse rapporte la valeur du portefeuille à l'ensemble de mes trois portefeuilles et de mes liquidités ({nf1.format(CASH_PCT)} %).</li>
             <li>
               La performance globale compare la valeur actuelle des lignes, augmentée du produit des ventes, au total des achats
@@ -289,9 +289,9 @@ export default function Portefeuille() {
               {P.irr === null
                 ? " Elle n'est pas annualisée tant que le portefeuille n'a pas un an."
                 : " Le rendement annualisé est un taux de rendement interne (TRI) : il tient compte de la date de chaque achat et de chaque vente, puisque l'argent a été investi progressivement et non en une seule fois à la création."}
-              {" "}Hors dividendes et hors effet de change.
+              {" "}Ces chiffres sont calculés en euros, effet de change compris, hors dividendes.
             </li>
-            <li>Le poids actuel est la part de la ligne dans la valeur du portefeuille aujourd'hui. La part investie est sa part dans le total des sommes investies sur les lignes détenues (prix de revient). L'écart entre les deux montre ce que le marché a fait de chaque mise. Pour cette part investie, les achats en dollars sont convertis au même taux que ci-dessus.</li>
+            <li>Le poids actuel est la part de la ligne dans la valeur du portefeuille aujourd'hui. La part investie est sa part dans le total des sommes investies sur les lignes détenues (prix de revient). L'écart entre les deux montre ce que le marché a fait de chaque mise.</li>
             <li>La performance d'une ligne compare le cours actuel au prix de revient moyen de tous les achats de la ligne, dans la devise de cotation : hors dividendes et hors effet de change. Les cours sont ajustés des divisions d'actions.</li>
             <li>« Constitution » regroupe les lignes achetées le jour de la création du portefeuille. « Nouvelle tranche » désigne un achat complémentaire sur une ligne déjà détenue, vers son allocation cible.</li>
             <li>Les lignes vendues ne figurent plus dans la liste : leur résultat apparaît dans les mouvements.</li>

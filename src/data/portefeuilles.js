@@ -11,9 +11,9 @@ export const PORTEFEUILLES = [
   "windowStart": "2025-10-20",
   "windowFromCreation": false,
   "lines": 43,
-  "globalPerf": 835.8,
-  "multiple": 9.36,
-  "irr": 24.4,
+  "globalPerf": 876.4,
+  "multiple": 9.76,
+  "irr": 25.6,
   "top10": 76.5,
   "positions": [
    {
@@ -21,7 +21,7 @@ export const PORTEFEUILLES = [
     "name": "Netflix",
     "sector": "Médias & divertissement",
     "weight": 13.77,
-    "invested": 2.56,
+    "invested": 2.26,
     "perf": 5112.7,
     "since": "2012-12-19",
     "devise": "USD"
@@ -31,7 +31,7 @@ export const PORTEFEUILLES = [
     "name": "Meta Platforms",
     "sector": "Internet & plateformes",
     "weight": 11.29,
-    "invested": 4.26,
+    "invested": 4.04,
     "perf": 2467.0,
     "since": "2012-10-10",
     "devise": "USD"
@@ -41,7 +41,7 @@ export const PORTEFEUILLES = [
     "name": "Arista Networks",
     "sector": "Semi-conducteurs & réseaux",
     "weight": 10.1,
-    "invested": 2.46,
+    "invested": 2.33,
     "perf": 3868.5,
     "since": "2014-11-25",
     "devise": "USD"
@@ -51,7 +51,7 @@ export const PORTEFEUILLES = [
     "name": "Alphabet",
     "sector": "Internet & plateformes",
     "weight": 9.39,
-    "invested": 5.02,
+    "invested": 4.51,
     "perf": 1707.4,
     "since": "2012-10-17",
     "devise": "USD"
@@ -61,7 +61,7 @@ export const PORTEFEUILLES = [
     "name": "Tesla",
     "sector": "Consommation",
     "weight": 8.43,
-    "invested": 2.55,
+    "invested": 2.22,
     "perf": 3092.2,
     "since": "2013-10-10",
     "devise": "USD"
@@ -71,7 +71,7 @@ export const PORTEFEUILLES = [
     "name": "Amazon",
     "sector": "Internet & plateformes",
     "weight": 5.48,
-    "invested": 2.5,
+    "invested": 2.24,
     "perf": 2021.7,
     "since": "2012-10-17",
     "devise": "USD"
@@ -81,7 +81,7 @@ export const PORTEFEUILLES = [
     "name": "MercadoLibre",
     "sector": "Internet & plateformes",
     "weight": 5.15,
-    "invested": 2.48,
+    "invested": 2.23,
     "perf": 1906.0,
     "since": "2012-10-17",
     "devise": "USD"
@@ -91,7 +91,7 @@ export const PORTEFEUILLES = [
     "name": "Take-Two Interactive",
     "sector": "Médias & divertissement",
     "weight": 5.01,
-    "invested": 2.44,
+    "invested": 2.23,
     "perf": 1885.7,
     "since": "2012-10-10",
     "devise": "USD"
@@ -111,7 +111,7 @@ export const PORTEFEUILLES = [
     "name": "Nvidia",
     "sector": "Semi-conducteurs & réseaux",
     "weight": 3.59,
-    "invested": 1.87,
+    "invested": 2.27,
     "perf": 1760.2,
     "since": "2022-10-10",
     "devise": "USD"
@@ -121,7 +121,7 @@ export const PORTEFEUILLES = [
     "name": "Axon Enterprise",
     "sector": "Industrie & énergie",
     "weight": 2.57,
-    "invested": 2.19,
+    "invested": 2.3,
     "perf": 1034.1,
     "since": "2015-06-24",
     "devise": "USD"
@@ -131,7 +131,7 @@ export const PORTEFEUILLES = [
     "name": "Intuitive Surgical",
     "sector": "Santé",
     "weight": 2.05,
-    "invested": 2.52,
+    "invested": 2.3,
     "perf": 688.2,
     "since": "2012-10-10",
     "devise": "USD"
@@ -141,7 +141,7 @@ export const PORTEFEUILLES = [
     "name": "Alnylam Pharmaceuticals",
     "sector": "Santé",
     "weight": 2.02,
-    "invested": 2.54,
+    "invested": 2.23,
     "perf": 671.2,
     "since": "2013-06-19",
     "devise": "USD"
@@ -151,7 +151,7 @@ export const PORTEFEUILLES = [
     "name": "BNP Paribas Easy S&P 500",
     "sector": "Fonds & ETF",
     "weight": 1.81,
-    "invested": 4.3,
+    "invested": 4.51,
     "perf": 306.5,
     "since": "2016-10-19",
     "devise": "EUR"
@@ -161,7 +161,7 @@ export const PORTEFEUILLES = [
     "name": "Salesforce",
     "sector": "Logiciel",
     "weight": 1.62,
-    "invested": 2.46,
+    "invested": 2.2,
     "perf": 539.5,
     "since": "2012-10-17",
     "devise": "USD"
@@ -171,7 +171,7 @@ export const PORTEFEUILLES = [
     "name": "Chipotle",
     "sector": "Consommation",
     "weight": 1.35,
-    "invested": 2.54,
+    "invested": 2.28,
     "perf": 414.7,
     "since": "2012-10-17",
     "devise": "USD"
@@ -181,7 +181,7 @@ export const PORTEFEUILLES = [
     "name": "Bloom Energy",
     "sector": "Industrie & énergie",
     "weight": 1.34,
-    "invested": 2.15,
+    "invested": 2.2,
     "perf": 501.3,
     "since": "2025-07-30",
     "devise": "USD"
@@ -191,7 +191,7 @@ export const PORTEFEUILLES = [
     "name": "MongoDB",
     "sector": "Logiciel",
     "weight": 1.1,
-    "invested": 2.15,
+    "invested": 2.2,
     "perf": 394.4,
     "since": "2018-10-17",
     "devise": "USD"
@@ -201,7 +201,7 @@ export const PORTEFEUILLES = [
     "name": "Starbucks",
     "sector": "Consommation",
     "weight": 1.04,
-    "invested": 2.42,
+    "invested": 2.21,
     "perf": 316.8,
     "since": "2012-10-10",
     "devise": "USD"
@@ -211,7 +211,7 @@ export const PORTEFEUILLES = [
     "name": "Intel",
     "sector": "Semi-conducteurs & réseaux",
     "weight": 0.87,
-    "invested": 2.15,
+    "invested": 2.26,
     "perf": 292.3,
     "since": "2024-09-30",
     "devise": "USD"
@@ -221,7 +221,7 @@ export const PORTEFEUILLES = [
     "name": "Indépendance AM Europe Small",
     "sector": "Fonds & ETF",
     "weight": 0.79,
-    "invested": 4.46,
+    "invested": 4.68,
     "perf": 71.4,
     "since": "2023-06-21",
     "devise": "EUR"
@@ -231,7 +231,7 @@ export const PORTEFEUILLES = [
     "name": "Uber",
     "sector": "Internet & plateformes",
     "weight": 0.69,
-    "invested": 2.05,
+    "invested": 2.29,
     "perf": 225.4,
     "since": "2022-06-22",
     "devise": "USD"
@@ -241,7 +241,7 @@ export const PORTEFEUILLES = [
     "name": "ASML",
     "sector": "Semi-conducteurs & réseaux",
     "weight": 0.65,
-    "invested": 2.1,
+    "invested": 2.34,
     "perf": 199.7,
     "since": "2023-01-03",
     "devise": "USD"
@@ -251,7 +251,7 @@ export const PORTEFEUILLES = [
     "name": "HubSpot",
     "sector": "Logiciel",
     "weight": 0.65,
-    "invested": 2.24,
+    "invested": 2.23,
     "perf": 180.0,
     "since": "2017-10-11",
     "devise": "USD"
@@ -261,7 +261,7 @@ export const PORTEFEUILLES = [
     "name": "AMD",
     "sector": "Semi-conducteurs & réseaux",
     "weight": 0.57,
-    "invested": 2.24,
+    "invested": 2.29,
     "perf": 147.4,
     "since": "2026-04-02",
     "devise": "USD"
@@ -271,7 +271,7 @@ export const PORTEFEUILLES = [
     "name": "Disney",
     "sector": "Médias & divertissement",
     "weight": 0.56,
-    "invested": 2.59,
+    "invested": 2.33,
     "perf": 109.6,
     "since": "2012-10-17",
     "devise": "USD"
@@ -281,7 +281,7 @@ export const PORTEFEUILLES = [
     "name": "Rocket Lab",
     "sector": "Industrie & énergie",
     "weight": 0.44,
-    "invested": 2.9,
+    "invested": 3.2,
     "perf": 45.1,
     "since": "2025-02-05",
     "devise": "USD"
@@ -291,7 +291,7 @@ export const PORTEFEUILLES = [
     "name": "Cava Group",
     "sector": "Consommation",
     "weight": 0.35,
-    "invested": 2.0,
+    "invested": 2.22,
     "perf": 70.8,
     "since": "2023-10-24",
     "devise": "USD"
@@ -301,7 +301,7 @@ export const PORTEFEUILLES = [
     "name": "BridgeBio Pharma",
     "sector": "Santé",
     "weight": 0.35,
-    "invested": 2.29,
+    "invested": 2.31,
     "perf": 46.8,
     "since": "2025-07-10",
     "devise": "USD"
@@ -311,7 +311,7 @@ export const PORTEFEUILLES = [
     "name": "Palantir",
     "sector": "Logiciel",
     "weight": 0.34,
-    "invested": 2.33,
+    "invested": 2.3,
     "perf": 43.1,
     "since": "2026-02-11",
     "devise": "USD"
@@ -321,7 +321,7 @@ export const PORTEFEUILLES = [
     "name": "FIGS",
     "sector": "Consommation",
     "weight": 0.32,
-    "invested": 1.91,
+    "invested": 1.97,
     "perf": 62.4,
     "since": "2026-06-26",
     "devise": "USD"
@@ -331,7 +331,7 @@ export const PORTEFEUILLES = [
     "name": "Vertex Pharmaceuticals",
     "sector": "Santé",
     "weight": 0.32,
-    "invested": 1.78,
+    "invested": 2.14,
     "perf": 71.9,
     "since": "2022-10-19",
     "devise": "USD"
@@ -341,7 +341,7 @@ export const PORTEFEUILLES = [
     "name": "On Holding",
     "sector": "Consommation",
     "weight": 0.24,
-    "invested": 2.05,
+    "invested": 2.23,
     "perf": 12.2,
     "since": "2024-02-21",
     "devise": "USD"
@@ -351,7 +351,7 @@ export const PORTEFEUILLES = [
     "name": "Duolingo",
     "sector": "Internet & plateformes",
     "weight": 0.22,
-    "invested": 2.17,
+    "invested": 2.34,
     "perf": -0.1,
     "since": "2023-06-21",
     "devise": "USD"
@@ -371,7 +371,7 @@ export const PORTEFEUILLES = [
     "name": "monday.com",
     "sector": "Logiciel",
     "weight": 0.18,
-    "invested": 1.98,
+    "invested": 2.22,
     "perf": -10.1,
     "since": "2022-06-22",
     "devise": "USD"
@@ -381,7 +381,7 @@ export const PORTEFEUILLES = [
     "name": "Sterling Infrastructure",
     "sector": "Industrie & énergie",
     "weight": 0.17,
-    "invested": 0.78,
+    "invested": 0.8,
     "perf": 107.1,
     "since": "2025-06-11",
     "devise": "USD"
@@ -391,7 +391,7 @@ export const PORTEFEUILLES = [
     "name": "Toast",
     "sector": "Logiciel",
     "weight": 0.16,
-    "invested": 2.1,
+    "invested": 2.35,
     "perf": -25.8,
     "since": "2024-11-21",
     "devise": "USD"
@@ -401,7 +401,7 @@ export const PORTEFEUILLES = [
     "name": "Grab Holdings",
     "sector": "Internet & plateformes",
     "weight": 0.15,
-    "invested": 2.04,
+    "invested": 2.22,
     "perf": -30.3,
     "since": "2024-10-30",
     "devise": "USD"
@@ -411,7 +411,7 @@ export const PORTEFEUILLES = [
     "name": "Viking Holdings",
     "sector": "Consommation",
     "weight": 0.11,
-    "invested": 1.3,
+    "invested": 1.34,
     "perf": -18.6,
     "since": "2026-06-26",
     "devise": "USD"
@@ -421,7 +421,7 @@ export const PORTEFEUILLES = [
     "name": "QXO",
     "sector": "Industrie & énergie",
     "weight": 0.08,
-    "invested": 0.95,
+    "invested": 0.98,
     "perf": -18.4,
     "since": "2026-09-25",
     "devise": "USD"
@@ -431,7 +431,7 @@ export const PORTEFEUILLES = [
     "name": "Figma",
     "sector": "Logiciel",
     "weight": 0.08,
-    "invested": 0.9,
+    "invested": 0.92,
     "perf": -13.9,
     "since": "2026-07-21",
     "devise": "USD"
@@ -441,7 +441,7 @@ export const PORTEFEUILLES = [
     "name": "Hims & Hers Health",
     "sector": "Santé",
     "weight": 0.08,
-    "invested": 0.77,
+    "invested": 0.81,
     "perf": -4.0,
     "since": "2026-10-07",
     "devise": "USD"
@@ -628,9 +628,9 @@ export const PORTEFEUILLES = [
   "windowStart": "2025-10-14",
   "windowFromCreation": true,
   "lines": 34,
-  "globalPerf": -4.5,
-  "multiple": 0.96,
-  "irr": -5.9,
+  "globalPerf": -1.0,
+  "multiple": 0.99,
+  "irr": -1.3,
   "top10": 51.4,
   "positions": [
    {
@@ -638,7 +638,7 @@ export const PORTEFEUILLES = [
     "name": "AMD",
     "sector": "Semi-conducteurs & réseaux",
     "weight": 9.51,
-    "invested": 3.75,
+    "invested": 3.74,
     "perf": 146.0,
     "since": "2025-12-01",
     "devise": "USD"
@@ -648,7 +648,7 @@ export const PORTEFEUILLES = [
     "name": "Alphabet",
     "sector": "Internet & plateformes",
     "weight": 5.1,
-    "invested": 4.42,
+    "invested": 4.39,
     "perf": 11.9,
     "since": "2025-12-19",
     "devise": "USD"
@@ -658,7 +658,7 @@ export const PORTEFEUILLES = [
     "name": "Intuitive Surgical",
     "sector": "Santé",
     "weight": 5.06,
-    "invested": 5.91,
+    "invested": 5.92,
     "perf": -17.1,
     "since": "2025-12-19",
     "devise": "USD"
@@ -668,7 +668,7 @@ export const PORTEFEUILLES = [
     "name": "SharkNinja",
     "sector": "Consommation",
     "weight": 4.95,
-    "invested": 2.24,
+    "invested": 2.27,
     "perf": 113.9,
     "since": "2025-11-21",
     "devise": "USD"
@@ -678,7 +678,7 @@ export const PORTEFEUILLES = [
     "name": "Bloom Energy",
     "sector": "Industrie & énergie",
     "weight": 4.86,
-    "invested": 2.23,
+    "invested": 2.22,
     "perf": 110.8,
     "since": "2025-12-29",
     "devise": "USD"
@@ -688,7 +688,7 @@ export const PORTEFEUILLES = [
     "name": "Netflix",
     "sector": "Médias & divertissement",
     "weight": 4.66,
-    "invested": 5.95,
+    "invested": 5.92,
     "perf": -24.2,
     "since": "2025-12-31",
     "devise": "USD"
@@ -698,7 +698,7 @@ export const PORTEFEUILLES = [
     "name": "Cava Group",
     "sector": "Consommation",
     "weight": 4.66,
-    "invested": 4.42,
+    "invested": 4.39,
     "perf": 2.0,
     "since": "2025-12-19",
     "devise": "USD"
@@ -708,7 +708,7 @@ export const PORTEFEUILLES = [
     "name": "Toast",
     "sector": "Logiciel",
     "weight": 4.65,
-    "invested": 4.67,
+    "invested": 4.71,
     "perf": -3.7,
     "since": "2025-10-14",
     "devise": "USD"
@@ -718,7 +718,7 @@ export const PORTEFEUILLES = [
     "name": "Vertex Pharmaceuticals",
     "sector": "Santé",
     "weight": 4.17,
-    "invested": 3.53,
+    "invested": 3.58,
     "perf": 14.3,
     "since": "2025-10-14",
     "devise": "USD"
@@ -738,7 +738,7 @@ export const PORTEFEUILLES = [
     "name": "Duolingo",
     "sector": "Internet & plateformes",
     "weight": 3.78,
-    "invested": 4.86,
+    "invested": 4.9,
     "perf": -24.6,
     "since": "2025-11-07",
     "devise": "USD"
@@ -758,7 +758,7 @@ export const PORTEFEUILLES = [
     "name": "On Holding",
     "sector": "Consommation",
     "weight": 3.25,
-    "invested": 3.72,
+    "invested": 3.76,
     "perf": -15.4,
     "since": "2025-10-14",
     "devise": "USD"
@@ -778,7 +778,7 @@ export const PORTEFEUILLES = [
     "name": "Figma",
     "sector": "Logiciel",
     "weight": 2.68,
-    "invested": 4.45,
+    "invested": 4.41,
     "perf": -41.7,
     "since": "2025-12-31",
     "devise": "USD"
@@ -788,7 +788,7 @@ export const PORTEFEUILLES = [
     "name": "FIGS",
     "sector": "Consommation",
     "weight": 2.61,
-    "invested": 1.49,
+    "invested": 1.52,
     "perf": 70.3,
     "since": "2026-06-26",
     "devise": "USD"
@@ -808,7 +808,7 @@ export const PORTEFEUILLES = [
     "name": "Cloudflare",
     "sector": "Logiciel",
     "weight": 2.29,
-    "invested": 1.48,
+    "invested": 1.47,
     "perf": 49.3,
     "since": "2025-12-31",
     "devise": "USD"
@@ -818,7 +818,7 @@ export const PORTEFEUILLES = [
     "name": "BeOne Medicines",
     "sector": "Santé",
     "weight": 2.28,
-    "invested": 2.09,
+    "invested": 2.07,
     "perf": 5.5,
     "since": "2026-02-13",
     "devise": "USD"
@@ -828,7 +828,7 @@ export const PORTEFEUILLES = [
     "name": "Sportradar",
     "sector": "Médias & divertissement",
     "weight": 2.26,
-    "invested": 3.74,
+    "invested": 3.77,
     "perf": -41.3,
     "since": "2025-11-07",
     "devise": "USD"
@@ -838,7 +838,7 @@ export const PORTEFEUILLES = [
     "name": "Lemonade",
     "sector": "Services financiers",
     "weight": 2.17,
-    "invested": 3.75,
+    "invested": 3.74,
     "perf": -43.9,
     "since": "2025-12-01",
     "devise": "USD"
@@ -848,7 +848,7 @@ export const PORTEFEUILLES = [
     "name": "monday.com",
     "sector": "Logiciel",
     "weight": 1.84,
-    "invested": 3.3,
+    "invested": 3.32,
     "perf": -45.9,
     "since": "2025-10-14",
     "devise": "USD"
@@ -858,7 +858,7 @@ export const PORTEFEUILLES = [
     "name": "Rhythm Pharmaceuticals",
     "sector": "Santé",
     "weight": 1.73,
-    "invested": 1.84,
+    "invested": 1.82,
     "perf": -9.0,
     "since": "2026-02-27",
     "devise": "USD"
@@ -868,7 +868,7 @@ export const PORTEFEUILLES = [
     "name": "Lyft",
     "sector": "Internet & plateformes",
     "weight": 1.72,
-    "invested": 2.24,
+    "invested": 2.22,
     "perf": -25.6,
     "since": "2025-12-29",
     "devise": "USD"
@@ -888,7 +888,7 @@ export const PORTEFEUILLES = [
     "name": "Palantir",
     "sector": "Logiciel",
     "weight": 1.66,
-    "invested": 1.48,
+    "invested": 1.47,
     "perf": 8.1,
     "since": "2025-12-31",
     "devise": "USD"
@@ -898,7 +898,7 @@ export const PORTEFEUILLES = [
     "name": "Viking Holdings",
     "sector": "Consommation",
     "weight": 1.63,
-    "invested": 1.5,
+    "invested": 1.49,
     "perf": 5.8,
     "since": "2026-04-10",
     "devise": "USD"
@@ -908,7 +908,7 @@ export const PORTEFEUILLES = [
     "name": "BioNTech",
     "sector": "Santé",
     "weight": 1.53,
-    "invested": 1.5,
+    "invested": 1.53,
     "perf": -0.9,
     "since": "2026-07-24",
     "devise": "USD"
@@ -938,7 +938,7 @@ export const PORTEFEUILLES = [
     "name": "Dutch Bros",
     "sector": "Consommation",
     "weight": 1.23,
-    "invested": 1.51,
+    "invested": 1.48,
     "perf": -21.1,
     "since": "2026-01-30",
     "devise": "USD"
@@ -968,7 +968,7 @@ export const PORTEFEUILLES = [
     "name": "Fiverr",
     "sector": "Internet & plateformes",
     "weight": 0.65,
-    "invested": 1.45,
+    "invested": 1.44,
     "perf": -56.7,
     "since": "2025-12-19",
     "devise": "USD"
@@ -1445,7 +1445,7 @@ export const PORTEFEUILLES = [
      "TOST",
      "VRTX"
     ],
-    "since": -15.0
+    "since": -12.6
    }
   ],
   "sectors": [
@@ -1493,8 +1493,8 @@ export const PORTEFEUILLES = [
   "windowStart": "2026-04-16",
   "windowFromCreation": true,
   "lines": 54,
-  "globalPerf": 7.1,
-  "multiple": 1.07,
+  "globalPerf": 12.1,
+  "multiple": 1.12,
   "irr": null,
   "top10": 30.8,
   "positions": [
@@ -1513,7 +1513,7 @@ export const PORTEFEUILLES = [
     "name": "Shopify",
     "sector": "Internet & plateformes",
     "weight": 3.32,
-    "invested": 2.8,
+    "invested": 2.81,
     "perf": 26.0,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1523,7 +1523,7 @@ export const PORTEFEUILLES = [
     "name": "CrowdStrike",
     "sector": "Logiciel",
     "weight": 3.04,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": 118.1,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1553,7 +1553,7 @@ export const PORTEFEUILLES = [
     "name": "Viking Holdings",
     "sector": "Consommation",
     "weight": 2.61,
-    "invested": 2.8,
+    "invested": 2.81,
     "perf": -0.6,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1563,7 +1563,7 @@ export const PORTEFEUILLES = [
     "name": "Cloudflare",
     "sector": "Logiciel",
     "weight": 2.54,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": 50.8,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1583,7 +1583,7 @@ export const PORTEFEUILLES = [
     "name": "Krystal Biotech",
     "sector": "Santé",
     "weight": 2.22,
-    "invested": 2.0,
+    "invested": 1.99,
     "perf": 18.2,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1593,7 +1593,7 @@ export const PORTEFEUILLES = [
     "name": "BillionToOne",
     "sector": "Santé",
     "weight": 2.17,
-    "invested": 1.81,
+    "invested": 1.8,
     "perf": 28.2,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1623,7 +1623,7 @@ export const PORTEFEUILLES = [
     "name": "Mastercard",
     "sector": "Services financiers",
     "weight": 2.03,
-    "invested": 1.82,
+    "invested": 1.81,
     "perf": 18.9,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1643,7 +1643,7 @@ export const PORTEFEUILLES = [
     "name": "Vertex Pharmaceuticals",
     "sector": "Santé",
     "weight": 1.95,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": 15.2,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1653,7 +1653,7 @@ export const PORTEFEUILLES = [
     "name": "Symbotic",
     "sector": "Industrie & énergie",
     "weight": 1.92,
-    "invested": 2.8,
+    "invested": 2.82,
     "perf": -27.0,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1673,7 +1673,7 @@ export const PORTEFEUILLES = [
     "name": "Warby Parker",
     "sector": "Consommation",
     "weight": 1.83,
-    "invested": 1.81,
+    "invested": 1.8,
     "perf": 7.9,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1683,7 +1683,7 @@ export const PORTEFEUILLES = [
     "name": "Medtronic",
     "sector": "Santé",
     "weight": 1.83,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": 8.3,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1703,7 +1703,7 @@ export const PORTEFEUILLES = [
     "name": "BWX Technologies",
     "sector": "Industrie & énergie",
     "weight": 1.76,
-    "invested": 2.8,
+    "invested": 2.81,
     "perf": -33.1,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1713,7 +1713,7 @@ export const PORTEFEUILLES = [
     "name": "Mueller Industries",
     "sector": "Industrie & énergie",
     "weight": 1.74,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": 2.9,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1723,7 +1723,7 @@ export const PORTEFEUILLES = [
     "name": "Alphabet",
     "sector": "Internet & plateformes",
     "weight": 1.73,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": 2.4,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1763,7 +1763,7 @@ export const PORTEFEUILLES = [
     "name": "MSCI",
     "sector": "Services financiers",
     "weight": 1.69,
-    "invested": 1.81,
+    "invested": 1.8,
     "perf": -0.2,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1773,7 +1773,7 @@ export const PORTEFEUILLES = [
     "name": "argenx",
     "sector": "Santé",
     "weight": 1.68,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": -0.3,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1783,7 +1783,7 @@ export const PORTEFEUILLES = [
     "name": "CME Group",
     "sector": "Services financiers",
     "weight": 1.68,
-    "invested": 1.81,
+    "invested": 1.8,
     "perf": -0.9,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1793,7 +1793,7 @@ export const PORTEFEUILLES = [
     "name": "Sterling Infrastructure",
     "sector": "Industrie & énergie",
     "weight": 1.63,
-    "invested": 1.81,
+    "invested": 1.8,
     "perf": -4.0,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1823,7 +1823,7 @@ export const PORTEFEUILLES = [
     "name": "TKO Group",
     "sector": "Médias & divertissement",
     "weight": 1.6,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": -5.5,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1833,7 +1833,7 @@ export const PORTEFEUILLES = [
     "name": "Nu Holdings",
     "sector": "Services financiers",
     "weight": 1.6,
-    "invested": 1.81,
+    "invested": 1.8,
     "perf": -6.0,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1843,7 +1843,7 @@ export const PORTEFEUILLES = [
     "name": "Tesla",
     "sector": "Consommation",
     "weight": 1.59,
-    "invested": 1.79,
+    "invested": 1.78,
     "perf": -5.4,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1853,7 +1853,7 @@ export const PORTEFEUILLES = [
     "name": "United Therapeutics",
     "sector": "Santé",
     "weight": 1.58,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": -6.4,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1883,7 +1883,7 @@ export const PORTEFEUILLES = [
     "name": "Comfort Systems USA",
     "sector": "Industrie & énergie",
     "weight": 1.54,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": -8.8,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1893,7 +1893,7 @@ export const PORTEFEUILLES = [
     "name": "EMCOR Group",
     "sector": "Industrie & énergie",
     "weight": 1.53,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": -9.5,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1903,7 +1903,7 @@ export const PORTEFEUILLES = [
     "name": "Prologis",
     "sector": "Immobilier",
     "weight": 1.48,
-    "invested": 1.8,
+    "invested": 1.79,
     "perf": -12.7,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1913,7 +1913,7 @@ export const PORTEFEUILLES = [
     "name": "Schneider Electric",
     "sector": "Industrie & énergie",
     "weight": 1.47,
-    "invested": 1.71,
+    "invested": 1.79,
     "perf": -8.7,
     "since": "2026-04-16",
     "devise": "EUR"
@@ -1923,7 +1923,7 @@ export const PORTEFEUILLES = [
     "name": "Sezzle",
     "sector": "Services financiers",
     "weight": 1.4,
-    "invested": 1.4,
+    "invested": 1.42,
     "perf": 6.1,
     "since": "2026-09-11",
     "devise": "USD"
@@ -1943,7 +1943,7 @@ export const PORTEFEUILLES = [
     "name": "Medline",
     "sector": "Santé",
     "weight": 1.27,
-    "invested": 1.81,
+    "invested": 1.8,
     "perf": -25.0,
     "since": "2026-04-16",
     "devise": "USD"
@@ -1983,7 +1983,7 @@ export const PORTEFEUILLES = [
     "name": "Kiniksa Pharmaceuticals",
     "sector": "Santé",
     "weight": 1.18,
-    "invested": 1.0,
+    "invested": 1.03,
     "perf": 25.5,
     "since": "2026-07-10",
     "devise": "USD"
@@ -2023,7 +2023,7 @@ export const PORTEFEUILLES = [
     "name": "Lumentum",
     "sector": "Semi-conducteurs & réseaux",
     "weight": 0.84,
-    "invested": 1.0,
+    "invested": 1.01,
     "perf": -10.2,
     "since": "2026-05-15",
     "devise": "USD"
@@ -2033,7 +2033,7 @@ export const PORTEFEUILLES = [
     "name": "Broadcom",
     "sector": "Semi-conducteurs & réseaux",
     "weight": 0.83,
-    "invested": 1.0,
+    "invested": 1.02,
     "perf": -12.1,
     "since": "2026-06-12",
     "devise": "USD"
@@ -2223,7 +2223,7 @@ export const PORTEFEUILLES = [
      "VRTX",
      "WRBY"
     ],
-    "since": 8.2
+    "since": 13.4
    }
   ],
   "sectors": [
