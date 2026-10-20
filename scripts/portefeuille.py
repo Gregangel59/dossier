@@ -1,16 +1,30 @@
-# Usage : python3 scripts/portefeuille.py "portfolio.csv"
-# Mettre à jour EURUSD et ASOF ci-dessous, et META pour toute nouvelle ligne.
+# Génère src/data/portefeuilles.js à partir des exports CSV du suivi de portefeuille.
+#
+# Usage (depuis le dossier du site) :
+#   python3 scripts/portefeuille.py historique=Historique.csv big-bang=BigBang.csv epique=Epique.csv
+#
+# À chaque mise à jour, ajuster ASOF, EURUSD et CASH_PCT ci-dessous,
+# et ajouter dans META le nom et le secteur de toute nouvelle ligne.
+# Les CSV ne doivent JAMAIS être déposés dans le dépôt : ils contiennent les quantités.
+# Le fichier généré ne contient que des pourcentages, des prix unitaires de marché et des dates.
 import csv, json, sys
-from datetime import date
+from datetime import date, timedelta
 from collections import defaultdict
 
-SRC = sys.argv[1]  # export CSV du suivi de portefeuille
-OUT = sys.argv[2] if len(sys.argv) > 2 else "src/data/portefeuille.js"
-EURUSD = 1.1227          # clôture BCE/marché du 19/10/2026
-ASOF = date(2026, 10, 19)
-WINDOW_START = date(2025, 10, 20)
+ASOF = date(2026, 10, 19)   # date des cours de l'export
+EURUSD = 1.1227             # dollars pour 1 euro à cette date
+CASH_PCT = 4.3              # part des liquidités dans le total des avoirs en bourse (%)
+OUT = "src/data/portefeuilles.js"
+
+# Ordre d'affichage sur l'accueil
+PORTFOLIOS = [
+    ("historique", "Portefeuille Historique"),
+    ("big-bang", "Portefeuille Big Bang"),
+    ("epique", "Portefeuille Épique"),
+]
 
 META = {
+ # Portefeuille Historique
  "HIMS": ("Hims & Hers Health", "Santé"),
  "QXO": ("QXO", "Industrie & énergie"),
  "VIK": ("Viking Holdings", "Consommation"),
@@ -56,104 +70,232 @@ META = {
  "NVDA": ("Nvidia", "Semi-conducteurs & réseaux"),
  "AMZN": ("Amazon", "Internet & plateformes"),
  "MELI": ("MercadoLibre", "Internet & plateformes"),
+ # Portefeuille Big Bang
+ "SPOT": ("Spotify", "Médias & divertissement"),
+ "BNTX": ("BioNTech", "Santé"),
+ "YOU": ("Clear Secure", "Logiciel"),
+ "AXP": ("American Express", "Services financiers"),
+ "IONS": ("Ionis Pharmaceuticals", "Santé"),
+ "RYTM": ("Rhythm Pharmaceuticals", "Santé"),
+ "ONC": ("BeOne Medicines", "Santé"),
+ "BROS": ("Dutch Bros", "Consommation"),
+ "NET": ("Cloudflare", "Logiciel"),
+ "MIRM": ("Mirum Pharmaceuticals", "Santé"),
+ "FVRR": ("Fiverr", "Internet & plateformes"),
+ "TMDX": ("TransMedics", "Santé"),
+ "SN": ("SharkNinja", "Consommation"),
+ "SOUN": ("SoundHound AI", "Logiciel"),
+ "LYFT": ("Lyft", "Internet & plateformes"),
+ "LMND": ("Lemonade", "Services financiers"),
+ "SRAD": ("Sportradar", "Médias & divertissement"),
+ # Portefeuille Épique
+ "SEZL": ("Sezzle", "Services financiers"),
+ "AVGO": ("Broadcom", "Semi-conducteurs & réseaux"),
+ "KNSA": ("Kiniksa Pharmaceuticals", "Santé"),
+ "LITE": ("Lumentum", "Semi-conducteurs & réseaux"),
+ "SPG": ("Simon Property Group", "Immobilier"),
+ "SU.PA": ("Schneider Electric", "Industrie & énergie"),
+ "SYM": ("Symbotic", "Industrie & énergie"),
+ "TKO": ("TKO Group", "Médias & divertissement"),
+ "ULS": ("UL Solutions", "Industrie & énergie"),
+ "UTHR": ("United Therapeutics", "Santé"),
+ "WRBY": ("Warby Parker", "Consommation"),
+ "DE": ("Deere & Company", "Industrie & énergie"),
+ "MDLN": ("Medline", "Santé"),
+ "MRVL": ("Marvell Technology", "Semi-conducteurs & réseaux"),
+ "ROAD": ("Construction Partners", "Industrie & énergie"),
+ "BLLN": ("BillionToOne", "Santé"),
+ "HON": ("Honeywell", "Industrie & énergie"),
+ "AMTM": ("Amentum", "Industrie & énergie"),
+ "ARGX": ("argenx", "Santé"),
+ "TBBB": ("BBB Foods", "Consommation"),
+ "BLK": ("BlackRock", "Services financiers"),
+ "BWXT": ("BWX Technologies", "Industrie & énergie"),
+ "CME": ("CME Group", "Services financiers"),
+ "FIX": ("Comfort Systems USA", "Industrie & énergie"),
+ "CRWD": ("CrowdStrike", "Logiciel"),
+ "DASH": ("DoorDash", "Internet & plateformes"),
+ "EME": ("EMCOR Group", "Industrie & énergie"),
+ "KARO": ("Karooooo", "Logiciel"),
+ "KRYS": ("Krystal Biotech", "Santé"),
+ "MA": ("Mastercard", "Services financiers"),
+ "MDT": ("Medtronic", "Santé"),
+ "MRNA": ("Moderna", "Santé"),
+ "MLI": ("Mueller Industries", "Industrie & énergie"),
+ "NTDOY": ("Nintendo", "Médias & divertissement"),
+ "NU": ("Nu Holdings", "Services financiers"),
+ "OC": ("Owens Corning", "Industrie & énergie"),
+ "PLD": ("Prologis", "Immobilier"),
+ "RDDT": ("Reddit", "Internet & plateformes"),
+ "GOOGL": ("Alphabet", "Internet & plateformes"),
 }
-EUR = {"0P0001DKPM.F", "ESE.PA"}
-DISPLAY = {"0P0001DKPM.F": "OPCVM", "ESE.PA": "ESE"}
+EUR = {"0P0001DKPM.F", "ESE.PA", "SU.PA"}           # lignes cotées en euros
+DISPLAY = {"0P0001DKPM.F": "OPCVM", "ESE.PA": "ESE", "SU.PA": "SU"}
 
-def d(s): s=str(s); return date(int(s[:4]), int(s[4:6]), int(s[6:]))
 
-rows = list(csv.DictReader(open(SRC, encoding="utf-8-sig")))
-lots = defaultdict(list)
-price = {}
-for r in rows:
-    t = r["Symbol"]; price[t] = float(r["Current Price"])
-    lots[t].append(dict(date=d(r["Trade Date"]), px=float(r["Purchase Price"]),
-                        qty=float(r["Quantity"]), side=r["Transaction Type"]))
+def d(s):
+    s = str(s)
+    return date(int(s[:4]), int(s[4:6]), int(s[6:]))
 
-holdings = []
-for t, ls in lots.items():
-    qty = sum(l["qty"] * (1 if l["side"]=="BUY" else -1) for l in ls)
-    if qty <= 0: continue
-    buys = [l for l in ls if l["side"]=="BUY"]
-    cost = sum(l["qty"]*l["px"] for l in buys); bq = sum(l["qty"] for l in buys)
-    pru = cost/bq; p = price[t]
-    val_eur = qty*p/(1 if t in EUR else EURUSD)
-    first = min(l["date"] for l in buys)
-    holdings.append(dict(t=t, val=val_eur, perf=p/pru-1, first=first,
-                         lots=len(buys), cost_eur=cost/(1 if t in EUR else EURUSD)))
-tot = sum(h["val"] for h in holdings)
-tot_cost = sum(h["cost_eur"] for h in holdings)
 
-positions = []
-for h in sorted(holdings, key=lambda h: -h["val"]):
-    name, sector = META[h["t"]]
-    positions.append(dict(ticker=DISPLAY.get(h["t"], h["t"]), name=name, sector=sector,
-        weight=round(100*h["val"]/tot, 2), invested=round(100*h["cost_eur"]/tot_cost, 2),
-        perf=round(100*h["perf"], 1),
-        since=h["first"].isoformat(), devise="EUR" if h["t"] in EUR else "USD"))
+def fx(t):
+    return 1 if t in EUR else EURUSD
 
-# Mouvements des 12 derniers mois
-moves = []
-for t, ls in lots.items():
-    name, _ = META[t]
-    ls_sorted = sorted(ls, key=lambda l: l["date"])
-    for i, l in enumerate(ls_sorted):
-        if l["date"] < WINDOW_START: continue
-        p = price[t]
-        if l["side"] == "SELL":
-            buys = [b for b in ls_sorted if b["side"]=="BUY" and b["date"] < l["date"]]
-            bc = sum(b["qty"]*b["px"] for b in buys)/sum(b["qty"] for b in buys)
-            held = sum(b["qty"] for b in ls_sorted if b["side"]=="BUY") - sum(b["qty"] for b in ls_sorted if b["side"]=="SELL")
-            moves.append(dict(date=l["date"].isoformat(), type="Sortie" if held<=0 else "Allègement",
-                ticker=DISPLAY.get(t,t), name=name, price=l["px"],
-                realized=round(100*(l["px"]/bc-1),1), heldSince=min(b["date"] for b in buys).isoformat(),
-                since=round(100*(p/l["px"]-1),1)))
+
+def irr_of(flows):
+    def npv(r):
+        return sum(a / (1 + r) ** ((dt - ASOF).days / 365.25) for dt, a in flows)
+    lo, hi = -0.99, 10.0
+    for _ in range(200):
+        mid = (lo + hi) / 2
+        if npv(mid) > 0:
+            lo = mid
         else:
-            earlier = [b for b in ls_sorted if b["side"]=="BUY" and b["date"] < l["date"]]
-            moves.append(dict(date=l["date"].isoformat(),
-                type="Nouvelle tranche" if earlier else "Nouvelle ligne",
-                ticker=DISPLAY.get(t,t), name=name, price=l["px"],
-                since=round(100*(p/l["px"]-1),1)))
-moves.sort(key=lambda m: m["date"], reverse=True)
+            hi = mid
+    return (lo + hi) / 2
 
-# Performance globale et rendement annualisé (TRI / XIRR)
-# Flux : chaque achat = sortie d'argent à sa date, chaque vente = entrée, valeur actuelle = entrée finale.
-# Tous les flux en dollars sont convertis au même taux EURUSD (hors effet de change), hors dividendes.
-flows = []
-for t, ls in lots.items():
-    fx = 1 if t in EUR else EURUSD
-    for l in ls:
-        amt = l["qty"]*l["px"]/fx
-        flows.append((l["date"], -amt if l["side"]=="BUY" else amt))
-flows.append((ASOF, tot))
-invested = -sum(a for _, a in flows if a < 0)
-returned = sum(a for _, a in flows if a > 0)
-def npv(r): return sum(a/(1+r)**((dt-ASOF).days/365.25) for dt, a in flows)
-lo, hi = -0.99, 10.0
-for _ in range(200):
-    mid = (lo+hi)/2
-    if npv(mid) > 0: lo = mid
-    else: hi = mid
-irr = (lo+hi)/2
 
-# Répartition sectorielle
-sectors = defaultdict(float)
-for p in positions: sectors[p["sector"]] += p["weight"]
-sectors = [dict(name=k, weight=round(v,1)) for k,v in sorted(sectors.items(), key=lambda kv:-kv[1])]
+def build(slug, name, path):
+    rows = list(csv.DictReader(open(path, encoding="utf-8-sig")))
+    missing = sorted({r["Symbol"] for r in rows} - META.keys())
+    if missing:
+        sys.exit(f"[{slug}] Lignes inconnues, à ajouter dans META : {', '.join(missing)}")
 
-data = dict(asOf=ASOF.isoformat(), eurusd=EURUSD, windowStart=WINDOW_START.isoformat(),
-    lines=len(positions), globalPerf=round(100*(returned/invested-1), 1),
-    multiple=round(returned/invested, 2), irr=round(100*irr, 1),
-    top10=round(sum(p["weight"] for p in positions[:10]),1),
-    oldest=min(h["first"] for h in holdings).isoformat(),
-    positions=positions, moves=moves, sectors=sectors)
+    # Les fractions achetées le même jour au même prix sont regroupées en un seul mouvement.
+    raw = defaultdict(lambda: [0.0, 0.0])        # (ticker, date, side) -> [quantité, coût]
+    price = {}
+    for r in rows:
+        t = r["Symbol"]
+        price[t] = float(r["Current Price"])
+        k = (t, d(r["Trade Date"]), r["Transaction Type"])
+        q = float(r["Quantity"])
+        raw[k][0] += q
+        raw[k][1] += q * float(r["Purchase Price"])
+    lots = defaultdict(list)
+    for (t, dt, side), (q, c) in raw.items():
+        lots[t].append(dict(date=dt, qty=q, px=c / q, side=side))
+    for t in lots:
+        lots[t].sort(key=lambda l: (l["date"], l["side"] != "BUY"))
 
-js = ("// Suivi du portefeuille 221 Bourse — généré depuis l'export CSV du suivi de portefeuille.\n"
-      "// AUCUN montant, aucune quantité : uniquement des poids (%), des performances (%) et des dates.\n"
-      "// Pour mettre à jour : relancer le script de génération sur le nouvel export.\n"
-      "export const PORTEFEUILLE = " + json.dumps(data, ensure_ascii=False, indent=1) + ";\n")
-open(OUT, "w").write(js)
-print(json.dumps({k:v for k,v in data.items() if k not in ("positions","moves")}, ensure_ascii=False, indent=1))
-for p in positions[:12]: print(p)
-print("...")
-for m in moves: print(m)
+    created = min(l["date"] for ls in lots.values() for l in ls)
+
+    # Lignes détenues
+    holdings = []
+    for t, ls in lots.items():
+        buys = [l for l in ls if l["side"] == "BUY"]
+        qty = sum(l["qty"] for l in buys) - sum(l["qty"] for l in ls if l["side"] == "SELL")
+        if qty <= 1e-9:
+            continue
+        cost = sum(l["qty"] * l["px"] for l in buys)
+        pru = cost / sum(l["qty"] for l in buys)
+        holdings.append(dict(t=t, val=qty * price[t] / fx(t), cost=cost / fx(t),
+                             perf=price[t] / pru - 1, first=buys[0]["date"]))
+    tot = sum(h["val"] for h in holdings)
+    tot_cost = sum(h["cost"] for h in holdings)
+
+    positions = []
+    for h in sorted(holdings, key=lambda h: -h["val"]):
+        nm, sector = META[h["t"]]
+        positions.append(dict(ticker=DISPLAY.get(h["t"], h["t"]), name=nm, sector=sector,
+                              weight=round(100 * h["val"] / tot, 2),
+                              invested=round(100 * h["cost"] / tot_cost, 2),
+                              perf=round(100 * h["perf"], 1), since=h["first"].isoformat(),
+                              devise="EUR" if h["t"] in EUR else "USD"))
+
+    # Fenêtre des mouvements : les 12 derniers mois, ou depuis la création
+    # si le portefeuille a moins de 13 mois (on ne coupe pas ses premiers achats).
+    year_ago = ASOF - timedelta(days=365)
+    from_creation = created >= ASOF - timedelta(days=395)
+    window = created if from_creation else year_ago + timedelta(days=1)
+
+    moves, constitution = [], []
+    for t, ls in lots.items():
+        nm, _ = META[t]
+        tk = DISPLAY.get(t, t)
+        dev = "EUR" if t in EUR else "USD"
+        for i, l in enumerate(ls):
+            if l["date"] < window:
+                continue
+            before = ls[:i]
+            if l["side"] == "SELL":
+                bb = [b for b in before if b["side"] == "BUY"]
+                pru = sum(b["qty"] * b["px"] for b in bb) / sum(b["qty"] for b in bb)
+                left = sum(x["qty"] * (1 if x["side"] == "BUY" else -1) for x in ls[: i + 1])
+                moves.append(dict(date=l["date"].isoformat(),
+                                  type="Sortie" if left <= 1e-9 else "Allègement",
+                                  ticker=tk, name=nm, devise=dev, price=round(l["px"], 2),
+                                  realized=round(100 * (l["px"] / pru - 1), 1),
+                                  heldSince=bb[0]["date"].isoformat(),
+                                  since=round(100 * (price[t] / l["px"] - 1), 1)))
+            elif l["date"] == created:
+                constitution.append((t, l))
+            else:
+                held = any(b["side"] == "BUY" for b in before)
+                moves.append(dict(date=l["date"].isoformat(),
+                                  type="Nouvelle tranche" if held else "Nouvelle ligne",
+                                  ticker=tk, name=nm, devise=dev, price=round(l["px"], 2),
+                                  since=round(100 * (price[t] / l["px"] - 1), 1)))
+    if constitution:
+        now = sum(l["qty"] * price[t] / fx(t) for t, l in constitution)
+        paid = sum(l["qty"] * l["px"] / fx(t) for t, l in constitution)
+        moves.append(dict(date=created.isoformat(), type="Constitution",
+                          tickers=sorted(DISPLAY.get(t, t) for t, _ in constitution),
+                          since=round(100 * (now / paid - 1), 1)))
+    moves.sort(key=lambda m: (m["date"], m["type"] != "Constitution"), reverse=True)
+
+    # Performance globale et rendement annualisé (TRI), hors dividendes et hors effet de change
+    flows = [(l["date"], (-1 if l["side"] == "BUY" else 1) * l["qty"] * l["px"] / fx(t))
+             for t, ls in lots.items() for l in ls]
+    flows.append((ASOF, tot))
+    invested = -sum(a for _, a in flows if a < 0)
+    returned = sum(a for _, a in flows if a > 0)
+    age_days = (ASOF - created).days
+    irr = round(100 * irr_of(flows), 1) if age_days >= 365 else None   # pas d'annualisation avant un an
+
+    sectors = defaultdict(float)
+    for p in positions:
+        sectors[p["sector"]] += p["weight"]
+    sectors = [dict(name=k, weight=round(v, 1)) for k, v in sorted(sectors.items(), key=lambda kv: -kv[1])]
+
+    data = dict(slug=slug, name=name, asOf=ASOF.isoformat(), eurusd=EURUSD, created=created.isoformat(),
+                windowStart=window.isoformat(), windowFromCreation=from_creation,
+                lines=len(positions), globalPerf=round(100 * (returned / invested - 1), 1),
+                multiple=round(returned / invested, 2), irr=irr,
+                top10=round(sum(p["weight"] for p in positions[:10]), 1),
+                positions=positions, moves=moves, sectors=sectors)
+    return data, tot
+
+
+def main():
+    args = dict(a.split("=", 1) for a in sys.argv[1:])
+    unknown = set(args) - {s for s, _ in PORTFOLIOS}
+    if unknown or not args:
+        sys.exit("Usage : python3 scripts/portefeuille.py "
+                 + " ".join(f"{s}=fichier.csv" for s, _ in PORTFOLIOS))
+    built = [build(s, n, args[s]) for s, n in PORTFOLIOS if s in args]
+    # Part de chaque portefeuille dans le total des avoirs en bourse (liquidités comprises),
+    # arrondie au dixième de façon que portefeuilles + liquidités fassent exactement 100 %.
+    total = sum(v for _, v in built)
+    exact = [v / total * (100 - CASH_PCT) * 10 for _, v in built]
+    tenths = [int(x) for x in exact]
+    target = round((100 - CASH_PCT) * 10)
+    for i in sorted(range(len(exact)), key=lambda i: exact[i] - tenths[i], reverse=True)[: target - sum(tenths)]:
+        tenths[i] += 1
+    for (data, _), t in zip(built, tenths):
+        data["shareOfAssets"] = t / 10
+
+    out = ("// Suivi des portefeuilles 221 Bourse — fichier généré par scripts/portefeuille.py.\n"
+           "// AUCUN montant, aucune quantité : uniquement des pourcentages, des prix unitaires et des dates.\n"
+           f"export const CASH_PCT = {CASH_PCT};\n"
+           "export const PORTEFEUILLES = "
+           + json.dumps([d for d, _ in built], ensure_ascii=False, indent=1) + ";\n")
+    open(OUT, "w").write(out)
+    for data, _ in built:
+        print(f"{data['name']:26} créé {data['created']}  {data['lines']:3} lignes  "
+              f"{len(data['moves']):3} mouvements  part {data['shareOfAssets']:5} %  "
+              f"perf {data['globalPerf']:7} %  TRI {data['irr']}")
+    print(f"Liquidités : {CASH_PCT} %  — total : {round(sum(d['shareOfAssets'] for d, _ in built) + CASH_PCT, 1)} %")
+
+
+if __name__ == "__main__":
+    main()

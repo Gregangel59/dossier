@@ -10,7 +10,8 @@ export default function App() {
       <Route path="/" element={<Home />} />
       <Route path="/dossier/:slug" element={<Dossier />} />
       <Route path="/cours" element={<Cours />} />
-      <Route path="/portefeuille" element={<Portefeuille />} />
+      <Route path="/portefeuille" element={<Navigate to="/portefeuille/historique" replace />} />
+      <Route path="/portefeuille/:slug" element={<Portefeuille />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

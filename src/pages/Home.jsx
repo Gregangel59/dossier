@@ -2,12 +2,11 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { COMPANIES } from "../data/index.js";
 import { COURS } from "./Cours.jsx";
-import { PORTEFEUILLE } from "../data/portefeuille.js";
+import { PORTEFEUILLES, CASH_PCT } from "../data/portefeuilles.js";
 
-// Portefeuilles suivis publiquement : ajouter une entrée par portefeuille (lien de sa page + ses données).
-const PORTEFEUILLES = [
-  { name: "Portefeuille Historique", to: "/portefeuille", data: PORTEFEUILLE },
-];
+const pct1 = (v) => `${v.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %`;
+const created = (iso) =>
+  new Date(iso + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
 
 // ============================================================
 //  PAGE D'ACCUEIL DU PORTAIL — palette « sombre chaleureux » (oct. 2026),
@@ -222,20 +221,21 @@ export default function Home() {
           <h2 id="hp-pf" className="hp-label">Portefeuilles</h2>
           <div className="hp-mini-grid">
             {PORTEFEUILLES.map((pf) => (
-              <article key={pf.to} className="hp-mini">
-                <div className="hp-mini-badge" aria-hidden="true">{pf.data.lines}</div>
+              <article key={pf.slug} className="hp-mini">
                 <div className="hp-mini-main">
                   <h3 className="hp-mini-name">
-                    <Link to={pf.to} className="hp-stretch">{pf.name}</Link>
+                    <Link to={`/portefeuille/${pf.slug}`} className="hp-stretch">{pf.name}</Link>
                   </h3>
-                  <div className="hp-mini-meta">
-                    {pf.data.lines} lignes · {pf.data.moves.length} mouvements sur un an
-                  </div>
+                  <div className="hp-mini-meta">Créé le {created(pf.created)} · {pf.lines} lignes</div>
                 </div>
-                <span className="hp-chevron" aria-hidden="true">›</span>
+                <div className="hp-mini-share">
+                  <b>{pct1(pf.shareOfAssets)}</b>
+                  <span>de mes avoirs</span>
+                </div>
               </article>
             ))}
           </div>
+          <p className="hp-mini-note">Liquidités : {pct1(CASH_PCT)} des avoirs en bourse.</p>
         </section>
 
         {featured.length > 0 && (
@@ -346,9 +346,11 @@ const CSS = `
 .hp-mini:hover{border-color:#f2b45099}
 .hp-mini:focus-within{outline:2px solid #f2b450;outline-offset:3px}
 .hp-mini-cover{flex:none;width:34px;height:auto;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,.45)}
-.hp-mini-badge{flex:none;min-width:40px;height:40px;padding:0 .4rem;border-radius:11px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(140deg,#f2b450,#d98c2b);color:#1b1206;font-weight:900;font-size:.9rem}
 .hp-mini-main{flex:1;min-width:0}
+.hp-mini-share{flex:none;text-align:right;line-height:1.1}
+.hp-mini-share b{display:block;font-family:Georgia,serif;font-size:1.3rem;font-weight:900;color:#f2b450;font-variant-numeric:tabular-nums}
+.hp-mini-share span{display:block;margin-top:.15rem;font-size:.7rem;color:#8c7c65}
+.hp-mini-note{margin:.55rem 0 0;font-size:.8rem;color:#8c7c65}
 .hp-mini-name{margin:0;font-family:Georgia,serif;font-size:1.08rem;font-weight:800;line-height:1.25}
 .hp-mini-name a{color:#f8eedc;text-decoration:none}
 .hp-mini-meta{margin-top:.2rem;font-size:.8rem;color:#8c7c65;line-height:1.35}

@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { PORTEFEUILLE as P } from "../data/portefeuille.js";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { PORTEFEUILLES, CASH_PCT } from "../data/portefeuilles.js";
 
 // ============================================================
-//  PAGE « PORTEFEUILLE HISTORIQUE » — suivi public (poids, performances, mouvements).
-//  Les données viennent de src/data/portefeuille.js (poids en %, performances en %, dates).
+//  PAGE D'UN PORTEFEUILLE — /portefeuille/:slug (historique, big-bang, epique).
+//  Les données viennent de src/data/portefeuilles.js, généré par scripts/portefeuille.py.
 //  Même palette « sombre chaleureux » que Home.jsx, Dossier.jsx et Cours.jsx.
 // ============================================================
 
@@ -18,11 +18,13 @@ const pct = (v) => {
 };
 const weight = (v) => (v < 0.1 ? "< 0,1 %" : `${nf1.format(v)} %`);
 const tone = (v) => (v > 0 ? "pf-up" : v < 0 ? "pf-down" : "");
-const fmtDate = (iso, opts = { day: "numeric", month: "short", year: "numeric" }) =>
+export const fmtDate = (iso, opts = { day: "numeric", month: "short", year: "numeric" }) =>
   new Date(iso + "T12:00:00").toLocaleDateString("fr-FR", opts);
 const year = (iso) => iso.slice(0, 4);
+const monthYear = (iso) => fmtDate(iso, { month: "short", year: "numeric" });
 
 const TYPE_CLASS = {
+  Constitution: "pf-tag-const",
   "Nouvelle ligne": "pf-tag-new",
   "Nouvelle tranche": "pf-tag-add",
   "Allègement": "pf-tag-trim",
@@ -36,9 +38,29 @@ const SORTS = [
   { id: "since", label: "Ancienneté" },
 ];
 
+const MOVES_SHOWN = 12;   // au-delà de MOVES_SHOWN + 6 mouvements, la liste est repliée
+const MOVES_FOLD = MOVES_SHOWN + 6;
+
 function Move({ m }) {
+  if (m.type === "Constitution") {
+    return (
+      <li className="pf-move">
+        <div className="pf-move-date">{fmtDate(m.date)}</div>
+        <div className="pf-move-body">
+          <div className="pf-move-head">
+            <span className={`pf-tag ${TYPE_CLASS[m.type]}`}>Constitution</span>
+            <span className="pf-move-ticker">{m.tickers.length} lignes achetées le jour de la création</span>
+          </div>
+          <div className="pf-move-tickers">{m.tickers.join(" · ")}</div>
+          <div className="pf-move-facts">
+            <span>Ce panier depuis l'achat : <b className={tone(m.since)}>{pct(m.since)}</b></span>
+          </div>
+        </div>
+      </li>
+    );
+  }
   const sell = m.type === "Sortie" || m.type === "Allègement";
-  const cur = m.ticker === "ESE" || m.ticker === "OPCVM" ? "€" : "$";
+  const cur = m.devise === "EUR" ? "€" : "$";
   return (
     <li className="pf-move">
       <div className="pf-move-date">{fmtDate(m.date)}</div>
@@ -53,7 +75,7 @@ function Move({ m }) {
           {sell && (
             <span>
               Résultat sur la ligne : <b className={tone(m.realized)}>{pct(m.realized)}</b>
-              <i> (détenue depuis {year(m.heldSince)})</i>
+              <i> (détenue depuis {monthYear(m.heldSince)})</i>
             </span>
           )}
           <span>
@@ -66,21 +88,28 @@ function Move({ m }) {
 }
 
 export default function Portefeuille() {
+  const { slug } = useParams();
+  const P = PORTEFEUILLES.find((p) => p.slug === slug);
   const [sort, setSort] = useState("weight");
   const [sector, setSector] = useState("all");
+  const [allMoves, setAllMoves] = useState(false);
 
   useEffect(() => {
-    document.title = "Portefeuille Historique — 221 Bourse";
+    if (P) document.title = `${P.name} — 221 Bourse`;
+    setSort("weight");
+    setSector("all");
+    setAllMoves(false);
     window.scrollTo(0, 0);
-  }, []);
+  }, [slug]);
 
   const counts = useMemo(() => {
     const c = {};
-    P.moves.forEach((m) => (c[m.type] = (c[m.type] || 0) + 1));
+    (P ? P.moves : []).forEach((m) => (c[m.type] = (c[m.type] || 0) + 1));
     return c;
-  }, []);
+  }, [P]);
 
   const rows = useMemo(() => {
+    if (!P) return [];
     const list = P.positions
       .map((p, i) => ({ ...p, rank: i + 1 }))
       .filter((p) => sector === "all" || p.sector === sector);
@@ -88,10 +117,19 @@ export default function Portefeuille() {
     else if (sort === "perf") list.sort((a, b) => b.perf - a.perf);
     else if (sort === "since") list.sort((a, b) => a.since.localeCompare(b.since));
     return list;
-  }, [sort, sector]);
+  }, [P, sort, sector]);
+
+  if (!P) return <Navigate to="/" replace />;
 
   const maxW = P.positions[0].weight;
   const maxS = P.sectors[0].weight;
+  const young = new Date(P.asOf) - new Date(P.created) < 2 * 365 * 864e5;
+  const entry = young ? monthYear : year;
+  const folds = P.moves.length > MOVES_FOLD;
+  const moves = allMoves || !folds ? P.moves : P.moves.slice(0, MOVES_SHOWN);
+  const windowLabel = P.windowFromCreation
+    ? `depuis la création, du ${fmtDate(P.windowStart)} au ${fmtDate(P.asOf)}`
+    : `du ${fmtDate(P.windowStart)} au ${fmtDate(P.asOf)}`;
 
   return (
     <div className="pf-root" lang="fr">
@@ -101,42 +139,64 @@ export default function Portefeuille() {
         <Link to="/" className="pf-back" aria-label="Retour à l'accueil">‹</Link>
         <div className="pf-logo" aria-hidden="true">221</div>
         <div className="pf-header-title">
-          <div className="pf-header-name">Portefeuille Historique</div>
+          <div className="pf-header-name">{P.name}</div>
           <div className="pf-header-sub">221 Bourse — Suivi au {fmtDate(P.asOf, { day: "numeric", month: "long", year: "numeric" })}</div>
         </div>
       </header>
 
       <main className="pf-main">
+        <nav className="pf-switch" aria-label="Choisir un portefeuille">
+          {PORTEFEUILLES.map((p) => (
+            <Link key={p.slug} to={`/portefeuille/${p.slug}`}
+              className={`pf-switch-a${p.slug === P.slug ? " is-on" : ""}`}
+              aria-current={p.slug === P.slug ? "page" : undefined}>
+              {p.name.replace("Portefeuille ", "")}
+            </Link>
+          ))}
+        </nav>
+
         <section className="pf-hero">
-          <div className="pf-kicker">Suivi de portefeuille</div>
-          <h1 className="pf-title">Portefeuille Historique</h1>
+          <div className="pf-kicker">Suivi de portefeuille · créé le {fmtDate(P.created, { day: "numeric", month: "long", year: "numeric" })}</div>
+          <h1 className="pf-title">{P.name}</h1>
           <p className="pf-lead">
             Toutes les lignes du portefeuille, avec leur poids, leur part dans les sommes investies et leur
-            performance depuis la première entrée, puis chaque achat et chaque vente des douze derniers mois.
+            performance depuis la première entrée, puis chaque achat et chaque vente{" "}
+            {P.windowFromCreation ? "depuis sa création" : "des douze derniers mois"}.
           </p>
           <div className="pf-perfs">
             <div className="pf-big">
               <span className="pf-big-label">Performance globale</span>
               <b className={tone(P.globalPerf)}>{pct(P.globalPerf)}</b>
-              <span className="pf-big-sub">soit {P.multiple.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} fois les sommes investies</span>
+              <span className="pf-big-sub">
+                soit {P.multiple.toLocaleString("fr-FR", { maximumFractionDigits: P.multiple < 2 ? 2 : 1 })} fois les sommes investies
+              </span>
             </div>
             <div className="pf-big">
               <span className="pf-big-label">Rendement annualisé (TRI)</span>
-              <b className={tone(P.irr)}>{pct(P.irr)} <small>par an</small></b>
-              <span className="pf-big-sub">chaque achat et chaque vente comptés à leur date</span>
+              {P.irr === null ? (
+                <>
+                  <b className="pf-na">non annualisé</b>
+                  <span className="pf-big-sub">le portefeuille a moins d'un an : un taux annuel extrapolerait quelques mois</span>
+                </>
+              ) : (
+                <>
+                  <b className={tone(P.irr)}>{pct(P.irr)} <small>par an</small></b>
+                  <span className="pf-big-sub">chaque achat et chaque vente comptés à leur date</span>
+                </>
+              )}
             </div>
           </div>
           <div className="pf-stats">
+            <div className="pf-stat"><b>{nf1.format(P.shareOfAssets)} %</b><span>de mes avoirs en bourse</span></div>
             <div className="pf-stat"><b>{P.lines}</b><span>lignes</span></div>
-            <div className="pf-stat"><b>{year(P.oldest)}</b><span>première entrée</span></div>
             <div className="pf-stat"><b>{nf0.format(P.top10)} %</b><span>dans les 10 premières lignes</span></div>
-            <div className="pf-stat"><b>{P.moves.length}</b><span>mouvements en 12 mois</span></div>
+            <div className="pf-stat"><b>{P.moves.length}</b><span>mouvements {P.windowFromCreation ? "depuis la création" : "en 12 mois"}</span></div>
           </div>
         </section>
 
         <section className="pf-section" aria-labelledby="pf-mvt">
           <h2 id="pf-mvt" className="pf-h2">
-            Les mouvements <span className="pf-h2-hint">du {fmtDate(P.windowStart)} au {fmtDate(P.asOf)}</span>
+            Les mouvements <span className="pf-h2-hint">{windowLabel}</span>
           </h2>
           <div className="pf-chips">
             {Object.entries(counts).map(([t, n]) => (
@@ -144,8 +204,13 @@ export default function Portefeuille() {
             ))}
           </div>
           <ol className="pf-moves">
-            {P.moves.map((m, i) => <Move key={`${m.date}-${m.ticker}-${i}`} m={m} />)}
+            {moves.map((m, i) => <Move key={`${m.date}-${m.ticker || "c"}-${i}`} m={m} />)}
           </ol>
+          {folds && (
+            <button type="button" className="pf-more" onClick={() => setAllMoves(!allMoves)} aria-expanded={allMoves}>
+              {allMoves ? "Afficher moins" : `Afficher les ${P.moves.length - MOVES_SHOWN} mouvements plus anciens`}
+            </button>
+          )}
         </section>
 
         <section className="pf-section" aria-labelledby="pf-sect">
@@ -207,7 +272,7 @@ export default function Portefeuille() {
                 </span>
                 <span className="pf-r pf-inv" role="cell">{weight(p.invested)}</span>
                 <span className={`pf-r pf-perf ${tone(p.perf)}`} role="cell">{pct(p.perf)}</span>
-                <span className="pf-r pf-since" role="cell">{year(p.since)}</span>
+                <span className="pf-r pf-since" role="cell">{entry(p.since)}</span>
               </div>
             ))}
           </div>
@@ -217,11 +282,19 @@ export default function Portefeuille() {
           <h2 id="pf-meth" className="pf-h3">Comment lire ces chiffres</h2>
           <ul>
             <li>Cours de clôture du {fmtDate(P.asOf)}. Les poids sont calculés en euros, au taux de {P.eurusd.toLocaleString("fr-FR", { minimumFractionDigits: 4 })} dollar pour 1 euro.</li>
-            <li>La performance globale compare la valeur actuelle des lignes, augmentée du produit des ventes, au total des achats depuis {year(P.oldest)}, y compris ceux des lignes vendues. Le rendement annualisé est un taux de rendement interne (TRI) : il tient compte de la date de chaque achat et de chaque vente, puisque l'argent a été investi progressivement et non en une seule fois en {year(P.oldest)}. Les deux sont hors dividendes et hors effet de change.</li>
-            <li>Le poids actuel est la part de la ligne dans la valeur du portefeuille aujourd'hui. La part investie est sa part dans le total des sommes investies sur les lignes détenues (prix de revient). L'écart entre les deux montre ce que le marché a fait de chaque mise : Netflix pèse aujourd'hui bien plus que ce qu'elle a coûté, une ligne récente pèse souvent moins. Pour cette part investie, les achats en dollars sont convertis au même taux que ci-dessus.</li>
+            <li>La part de mes avoirs en bourse rapporte la valeur du portefeuille à l'ensemble de mes trois portefeuilles et de mes liquidités ({nf1.format(CASH_PCT)} %).</li>
+            <li>
+              La performance globale compare la valeur actuelle des lignes, augmentée du produit des ventes, au total des achats
+              depuis la création, y compris ceux des lignes vendues.
+              {P.irr === null
+                ? " Elle n'est pas annualisée tant que le portefeuille n'a pas un an."
+                : " Le rendement annualisé est un taux de rendement interne (TRI) : il tient compte de la date de chaque achat et de chaque vente, puisque l'argent a été investi progressivement et non en une seule fois à la création."}
+              {" "}Hors dividendes et hors effet de change.
+            </li>
+            <li>Le poids actuel est la part de la ligne dans la valeur du portefeuille aujourd'hui. La part investie est sa part dans le total des sommes investies sur les lignes détenues (prix de revient). L'écart entre les deux montre ce que le marché a fait de chaque mise. Pour cette part investie, les achats en dollars sont convertis au même taux que ci-dessus.</li>
             <li>La performance d'une ligne compare le cours actuel au prix de revient moyen de tous les achats de la ligne, dans la devise de cotation : hors dividendes et hors effet de change. Les cours sont ajustés des divisions d'actions.</li>
-            <li>« Nouvelle tranche » désigne un achat complémentaire sur une ligne déjà détenue, vers son allocation cible.</li>
-            <li>Les lignes vendues ne figurent plus dans la liste : leur résultat apparaît dans les mouvements de l'année.</li>
+            <li>« Constitution » regroupe les lignes achetées le jour de la création du portefeuille. « Nouvelle tranche » désigne un achat complémentaire sur une ligne déjà détenue, vers son allocation cible.</li>
+            <li>Les lignes vendues ne figurent plus dans la liste : leur résultat apparaît dans les mouvements.</li>
           </ul>
         </section>
 
@@ -284,6 +357,18 @@ const CSS = `
 .pf-move-facts b{font-weight:700}
 .pf-move-facts i{color:#8c7c65;font-style:normal}
 
+.pf-switch{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 1.6rem}
+.pf-switch-a{font-size:.84rem;font-weight:600;color:#b9a98f;text-decoration:none;border:1px solid #33291c;border-radius:999px;padding:.35rem .9rem}
+.pf-switch-a:hover{border-color:#f2b45066;color:#efe3cf}
+.pf-switch-a.is-on{color:#1b1206;background:linear-gradient(140deg,#f2b450,#d98c2b);border-color:transparent}
+.pf-switch-a:focus-visible{outline:2px solid #f2b450;outline-offset:2px}
+.pf-tag-const{color:#9cc3f0;border-color:rgba(156,195,240,.38);background:rgba(156,195,240,.08)}
+.pf-move-tickers{margin-top:.45rem;font-size:.82rem;line-height:1.6;color:#efe3cf;letter-spacing:.2px}
+.pf-more{display:block;margin:1rem 0 0 1.8rem;font:inherit;font-size:.88rem;font-weight:600;cursor:pointer;color:#ffd23f;
+  border:1px solid rgba(255,210,63,.35);background:rgba(255,210,63,.07);border-radius:999px;padding:.5rem 1.1rem}
+.pf-more:hover{background:rgba(255,210,63,.15)}
+.pf-more:focus-visible{outline:2px solid #f2b450;outline-offset:2px}
+.pf-big b.pf-na{font-size:1.6rem;color:#b9a98f;padding:.35rem 0 .2rem}
 .pf-up{color:#7fd69a}
 .pf-down{color:#f08a7a}
 
