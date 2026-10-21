@@ -89,10 +89,16 @@ function reportUrl(c) {
   return c.riskReport ? `${import.meta.env.BASE_URL}rapports/${c.riskReport}` : null;
 }
 
+// « Les points clés de l'investisseur patient » : facultatif, absent des anciens dossiers
+function keyUrl(c) {
+  return c.bhReport ? `${import.meta.env.BASE_URL}rapports/${c.bhReport}` : null;
+}
+
 // Grande bannière « À la une »
 function Feature({ c, lead }) {
   const date = formatDate(c);
   const report = reportUrl(c);
+  const key = keyUrl(c);
   return (
     <article className={`hp-feature${lead ? " hp-feature-lead" : ""}`}>
       <div className="hp-feature-main">
@@ -117,6 +123,12 @@ function Feature({ c, lead }) {
           {report && (
             <a className="hp-report" href={report} target="_blank" rel="noopener noreferrer">
               Rapport de risque ↗
+            </a>
+          )}
+          {key && (
+            <a className="hp-report hp-key" href={key} target="_blank" rel="noopener noreferrer"
+               title="Les points clés de l'investisseur patient">
+              Investisseur patient ↗
             </a>
           )}
         </div>
@@ -334,6 +346,8 @@ const CSS = `
 .hp-report{position:relative;z-index:2;font-size:.88rem;font-weight:600;color:#ffd23f;text-decoration:none;
   border:1px solid rgba(255,210,63,.35);background:rgba(255,210,63,.07);border-radius:999px;padding:.5rem 1rem}
 .hp-report:hover{background:rgba(255,210,63,.15)}
+.hp-key{color:#f2b450;border-color:rgba(242,180,80,.4);background:rgba(242,180,80,.08)}
+.hp-key:hover{background:rgba(242,180,80,.16)}
 
 /* Bloc compact « Formation » et « Portefeuilles » */
 .hp-compact{margin-top:2.2rem}
