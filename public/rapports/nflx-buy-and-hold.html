@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NFLX — Les points clés de l'investisseur patient</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#120f0b;--panel:#1a1510;--panel2:#221b13;--line:#3a2e20;--txt:#f3ead9;--mut:#b3a38a;--acc:#f2b450;
+--red:#ff4d5e;--amber:#ff9f43;--gold:#ffd23f;--green:#28d17c;
+--mono:'JetBrains Mono',monospace;--body:'DM Sans',sans-serif;--head:'Playfair Display',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.55;
+background-image:radial-gradient(circle at 12% 0%,rgba(242,180,80,.08),transparent 40%),radial-gradient(circle at 88% 100%,rgba(255,210,63,.05),transparent 45%)}
+.page{max-width:860px;margin:0 auto;padding:20px 16px 64px}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:6px 0 12px;margin-bottom:16px}
+.brand .b1{font-family:var(--head);font-weight:800;font-size:22px;color:var(--acc)}
+.brand .b2{font-style:italic;color:var(--mut);font-size:14px}
+.brand .b3{font-family:var(--mono);font-size:13px;color:var(--mut);letter-spacing:.6px;text-transform:uppercase}
+.hero{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:18px;padding:24px 22px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 92% 8%,rgba(255,210,63,.14),transparent 50%);pointer-events:none}
+.chip{display:inline-block;font-family:var(--mono);font-size:30px;font-weight:800;letter-spacing:1px;color:#1a1208;background:linear-gradient(135deg,#c9892b,#ffd27a);padding:2px 14px;border-radius:11px}
+.kicker{font-family:var(--mono);font-size:13px;color:var(--acc);letter-spacing:1px;text-transform:uppercase;margin-top:16px}
+h1{font-family:var(--head);font-size:36px;font-weight:900;line-height:1.15;margin-top:6px;position:relative}
+.lede{font-size:17px;color:#e5d9c2;margin-top:12px;max-width:680px;position:relative}
+.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px;position:relative}
+.sc{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.sc .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.sc .v{font-family:var(--mono);font-size:26px;font-weight:800;margin-top:4px}
+.sc .d{font-size:13px;color:var(--mut)}
+.sec{font-family:var(--head);font-size:28px;font-weight:800;margin:40px 0 6px}
+.sub{font-size:14px;color:var(--mut);margin-bottom:16px}
+.oneliner{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--acc);border-radius:12px;padding:18px 20px;font-size:17px;line-height:1.6}
+.oneliner b{color:#fff6e6}
+.pt{display:grid;grid-template-columns:56px 1fr;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px}
+.pt .n{font-family:var(--head);font-size:44px;font-weight:900;color:var(--acc);line-height:1}
+.pt h3{font-family:var(--head);font-size:21px;font-weight:700;line-height:1.25}
+.pt p{font-size:15px;color:#d9ccb4;margin-top:8px}
+.pt .fig{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pt .fig span{font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(242,180,80,.12);color:var(--acc)}
+.quote{margin-top:10px;border-left:3px solid var(--line);padding-left:12px;font-size:14px;font-style:italic;color:var(--mut)}
+.quote em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--acc);display:block;margin-top:3px}
+.why{display:inline-block;margin-top:10px;font-size:14px;background:rgba(40,209,124,.08);border:1px solid rgba(40,209,124,.3);border-radius:9px;padding:8px 12px}
+.why b{color:var(--green);font-family:var(--mono);font-size:12px;letter-spacing:.5px;margin-right:6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.col{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.col h4{font-family:var(--head);font-size:22px;font-weight:700;margin-bottom:8px}
+.col.bad h4{color:var(--red)}.col.good h4{color:var(--green)}
+.col li{list-style:none;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;color:#d9ccb4}
+.col li:last-child{border-bottom:none}
+.col li b{color:var(--txt)}
+.contra{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid rgba(242,180,80,.35);border-radius:14px;padding:20px;font-size:16px;line-height:1.65;color:#e5d9c2}
+.contra .k{font-family:var(--mono);font-size:13px;color:var(--acc);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.contra b{color:#fff6e6}
+.bh{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.bhh{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.bhh .note{font-family:var(--head);font-size:44px;font-weight:900;color:var(--gold);line-height:1}
+.bhh .note small{font-family:var(--mono);font-size:18px;color:var(--mut);font-weight:400}
+.bhh .badge{font-family:var(--mono);font-weight:700;font-size:15px;border:1.5px solid var(--gold);color:var(--gold);border-radius:30px;padding:8px 16px;background:rgba(255,210,63,.1)}
+.tr{display:grid;grid-template-columns:26px 1fr 140px 52px 96px;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:15px}
+.tr .tn{font-family:var(--mono);color:var(--mut);font-size:13px}
+.tr .tb{height:8px;background:var(--panel2);border-radius:5px;overflow:hidden;display:block}
+.tr .tb span{display:block;height:100%;border-radius:5px}
+.tr b{font-family:var(--mono);font-size:15px;text-align:right}
+.tr .tl{font-family:var(--mono);font-size:12px;font-weight:700;text-align:right}
+.bhnote{font-size:14px;color:var(--mut);margin-top:10px}
+.watch{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.w{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.w .when{font-family:var(--mono);font-size:13px;color:var(--acc);text-transform:uppercase;letter-spacing:.6px}
+.w .what{font-family:var(--head);font-size:19px;font-weight:700;margin-top:6px;line-height:1.25}
+.w .bar{font-size:14px;color:#d9ccb4;margin-top:8px}
+.w .bar b{font-family:var(--mono);color:var(--green)}
+.act{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.act .col h4{font-size:20px}
+.verdict{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:16px;padding:22px 20px;font-size:16px;line-height:1.7;color:#e5d9c2}
+.verdict .t{font-family:var(--head);font-size:24px;font-weight:800;color:var(--txt);margin-bottom:10px}
+.verdict b{color:#fff6e6}
+.disc{font-size:12px;color:var(--mut);margin-top:24px;text-align:center}
+@media(max-width:700px){.two,.act,.watch,.scores{grid-template-columns:1fr}h1{font-size:29px}.tr{grid-template-columns:22px 1fr 44px;row-gap:4px}.tr .tb{grid-column:2/4}.tr .tl{display:none}.pt{grid-template-columns:1fr}.pt .n{font-size:34px}}
+@media print{:root{--bg:#fff;--panel:#fff;--panel2:#eee;--line:#d6d0c4;--txt:#1a1a1a;--mut:#5c5346;--acc:#a8641a;--gold:#b08800;--green:#13844b;--red:#c62835;--amber:#c46a12}
+body{background:#fff;background-image:none}.hero,.contra,.verdict{background:#fff}.hero::before{display:none}
+.oneliner b,.contra b,.verdict b,.col li b{color:#000}.pt p,.col li,.w .bar,.lede,.contra,.verdict,.oneliner{color:#2a2a2a}.sc{background:#fff}
+.pt,.col,.w,.bh,.verdict,.contra{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="brand">
+  <div><span class="b1">221 Bourse</span> <span class="b2">· Élémentaire, mon cher Buffett.</span></div>
+  <div class="b3">Le cabinet d'analyse fondamentale</div>
+</div>
+
+<div class="hero">
+  <span class="chip">NFLX</span>
+  <div class="kicker">Netflix · après les résultats du T3 2026 · 21 octobre 2026</div>
+  <h1>Les points clés de l'investisseur patient</h1>
+  <div class="lede">La machine financière n'a jamais été aussi solide ; la croissance ralentit et le marché doute. Ce qu'il faut retenir pour décider de garder, renforcer ou alléger sur le long terme.</div>
+  <div class="scores">
+    <div class="sc"><div class="l">Note Buy and Hold</div><div class="v" style="color:var(--gold)">6,5/10</div><div class="d">Profil compatible</div></div>
+    <div class="sc"><div class="l">Score de risque</div><div class="v" style="color:var(--gold)">66/100</div><div class="d">Risque modéré</div></div>
+    <div class="sc"><div class="l">Cours / valorisation</div><div class="v">~65 $</div><div class="d">~18x les bénéfices futurs</div></div>
+  </div>
+</div>
+
+<div class="sec">En une phrase</div>
+<div class="oneliner">Netflix est devenu une <b>machine à monétiser</b> plutôt qu'une machine à recruter : la croissance vient désormais des <b>prix, de la publicité et de l'international</b>, les marges et le cash progressent, et le titre se paie <b>deux fois moins cher qu'il y a deux ans</b>. La seule question qui compte pour un détenteur de long terme : <b>l'érosion du temps passé finira-t-elle par atteindre le pouvoir de prix ?</b></div>
+
+<div class="sec">Les 5 points à retenir</div>
+<div class="sub">Ce que la direction a confirmé le 20 octobre et ce que disent les chiffres.</div>
+
+<div class="pt"><div class="n">1</div><div>
+  <h3>Le cœur de la machine reste les programmes originaux</h3>
+  <p>Malgré le sport en direct, les podcasts vidéo ou les formats courts, environ <b>95 % des dépenses et la quasi-totalité du chiffre d'affaires</b> restent concentrés sur les séries et films. La direction place le capital là où il rapporte le plus : les programmes qui retiennent les abonnés et justifient les hausses de prix dans tous les pays.</p>
+  <div class="quote">« Environ 95 % de nos dépenses et presque tout notre chiffre d'affaires portent sur ce cœur. »<em>Ted Sarandos, co-directeur général</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Pas de dispersion stratégique : le moteur qui a créé la valeur reste prioritaire.</div>
+</div></div>
+
+<div class="pt"><div class="n">2</div><div>
+  <h3>La publicité ralentit volontairement pour garder le contrôle</h3>
+  <p>Netflix construit sa propre technologie publicitaire plutôt que de dépendre de tiers. Résultat à court terme : des produits livrés en retard et un objectif 2026 ramené de 3 à <b>2,7 Md$</b>. Mais l'activité croît encore de <b>plus de 80 %</b>, le revenu par abonné de l'offre avec publicité rattrape celui de l'offre standard, et <b>15 nouveaux pays</b> s'ouvriront en 2027 (dès mars).</p>
+  <div class="fig"><span>~2,7 Md$ en 2026</span><span>+80 %</span><span>15 pays en 2027</span><span>~5 % du CA</span></div>
+  <div class="quote">« Un modeste sacrifice à court terme pour une meilleure position stratégique à long terme. »<em>Greg Peters, co-directeur général</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Un arbitrage typique de long terme : la maîtrise des données publicitaires vaut plus qu'un trimestre de revenus.</div>
+</div></div>
+
+<div class="pt"><div class="n">3</div><div>
+  <h3>Netflix devient aussi un agrégateur, ce qui protège la fidélité</h3>
+  <p>Les partenariats avec des chaînes et des studios (TF1 en France, licences Disney et Sony) enrichissent le catalogue <b>sans mobiliser des capitaux massifs</b>. Plus de variété, c'est moins de raisons de résilier : le taux de résiliation <b>s'est amélioré sur un an</b>, au niveau mondial comme aux États-Unis, malgré les hausses de prix de 2026.</p>
+  <div class="quote">« Le principal moteur de notre portée et de notre fidélisation, leaders du secteur. »<em>Greg Peters, co-directeur général</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>La fidélité des abonnés est l'indicateur n° 1 du fossé économique : il tient.</div>
+</div></div>
+
+<div class="pt"><div class="n">4</div><div>
+  <h3>L'international accélère, les États-Unis sont le chantier</h3>
+  <p>Le visionnage progresse vite hors des États-Unis : <b>Inde +24 % d'heures vues</b> et +18 % de chiffre d'affaires, Asie-Pacifique +15 % hors change. Aux États-Unis, la direction reconnaît un besoin de <b>meilleure exécution</b> sur les contenus et a confié la tâche à Peter Rice, nouveau directeur des contenus, réputé pour ses relations avec les créateurs.</p>
+  <div class="fig"><span>Inde : heures +24 %</span><span>Asie-Pacifique : +15 %</span><span>États-Unis : +11 %</span></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Le relais de croissance existe ; la reprise américaine est le point à vérifier en 2027.</div>
+</div></div>
+
+<div class="pt"><div class="n">5</div><div>
+  <h3>Les objectifs financiers sont inchangés, et la machine à cash tourne</h3>
+  <p>Croissance à deux chiffres, marges en hausse, cash-flow libre en progression : le cap n'a pas bougé. Marge opérationnelle de <b>34,6 %</b> au T3 et de <b>31,5 %</b> attendue sur l'année, environ <b>12 Md$</b> de cash-flow libre en 2026, dette nette d'à peine 0,4 fois l'EBITDA, et des <b>rachats d'actions record</b> (4,8 Md$ au T3) qui réduisent le nombre d'actions de plus de 3 % par an.</p>
+  <div class="fig"><span>BPA T3 +49 %</span><span>Marge 31,5 % (2026)</span><span>FCF ~12 Md$</span><span>ROIC ~27 %</span></div>
+  <div class="quote">« Nos objectifs financiers sont inchangés. »<em>Spence Neumann, directeur financier</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Même sans accélération, le BPA récurrent peut croître d'environ 20 % par an d'ici 2028.</div>
+</div></div>
+
+<div class="sec">Le débat en deux colonnes</div>
+<div class="two">
+  <div class="col bad"><h4>Ce qui inquiète le marché</h4><ul>
+    <li><b>La décélération.</b> De +17,6 % fin 2025 à +11,5 % prévus au T4 2026 : quatrième trimestre de ralentissement d'affilée.</li>
+    <li><b>Le temps d'écran.</b> Heures vues +2 % seulement ; YouTube capte près de deux fois plus de temps TV aux États-Unis.</li>
+    <li><b>Les turbulences internes.</b> Départ de la directrice des contenus, 1 000 postes supprimés, fondateur sorti du conseil.</li>
+    <li><b>Le cours.</b> −45 % depuis le plus haut, quatre publications de suite sanctionnées malgré des bénéfices supérieurs aux attentes.</li>
+  </ul></div>
+  <div class="col good"><h4>Ce qui rassure l'investisseur patient</h4><ul>
+    <li><b>Le pouvoir de prix.</b> Les hausses passent et les résiliations baissent : la valeur perçue tient.</li>
+    <li><b>La rentabilité.</b> Seul streamer payant très rentable (31 % de marge quand les concurrents oscillent entre la perte et 10 %).</li>
+    <li><b>Le bilan.</b> Peu de dette, 12 Md$ de cash-flow libre, 22 Md$ de rachats encore autorisés.</li>
+    <li><b>Le prix.</b> ~18 fois les bénéfices futurs, le plus bas depuis plus de dix ans, pour une croissance du BPA proche de 20 %.</li>
+  </ul></div>
+</div>
+
+<div class="sec">Ce que le marché refuse de voir</div>
+<div class="contra"><div class="k">Point de vue à contre-courant</div>
+La monnaie de Netflix n'est pas l'heure de visionnage, c'est <b>l'abonnement payé chaque mois</b>. Un foyer peut regarder davantage YouTube tout en gardant Netflix ; la baisse du taux de résiliation malgré les hausses de prix le démontre. Tant que cet indicateur tient, une croissance d'environ 10 %, une marge qui gagne un à deux points par an et des rachats de 4 à 5 % du capital suffisent à faire progresser le BPA de près de 20 % par an. Le marché confond <b>un ralentissement de la croissance</b> avec <b>une perte d'avantage concurrentiel</b>.
+</div>
+
+<div class="sec">La grille des 6 traits</div>
+<div class="sub">Les six traits des grands gagnants boursiers, appliqués à Netflix.</div>
+<div class="bh">
+  <div class="bhh"><div class="note">6,5<small> / 10</small></div><div class="badge">PROFIL COMPATIBLE</div></div>
+  <div class="tr"><span class="tn">1</span><span class="tt">Leader d'un secteur émergent</span><span class="tb"><span style="width:70%;background:var(--gold)"></span></span><b style="color:var(--gold)">7/10</b><span class="tl" style="color:var(--gold)">PLUTÔT OUI</span></div>
+<div class="tr"><span class="tn">2</span><span class="tt">Avantage compétitif durable</span><span class="tb"><span style="width:70%;background:var(--gold)"></span></span><b style="color:var(--gold)">7/10</b><span class="tl" style="color:var(--gold)">PLUTÔT OUI</span></div>
+<div class="tr"><span class="tn">3</span><span class="tt">Forte hausse passée du cours</span><span class="tb"><span style="width:30%;background:var(--red)"></span></span><b style="color:var(--red)">3/10</b><span class="tl" style="color:var(--red)">NON</span></div>
+<div class="tr"><span class="tn">4</span><span class="tt">Bon management, bons soutiens</span><span class="tb"><span style="width:60%;background:var(--gold)"></span></span><b style="color:var(--gold)">6/10</b><span class="tl" style="color:var(--gold)">PLUTÔT OUI</span></div>
+<div class="tr"><span class="tn">5</span><span class="tt">Forte attractivité client</span><span class="tb"><span style="width:70%;background:var(--gold)"></span></span><b style="color:var(--gold)">7/10</b><span class="tl" style="color:var(--gold)">PLUTÔT OUI</span></div>
+<div class="tr"><span class="tn">6</span><span class="tt">Jugée « surévaluée »</span><span class="tb"><span style="width:90%;background:var(--green)"></span></span><b style="color:var(--green)">9/10</b><span class="tl" style="color:var(--green)">OUI</span></div>
+  <div class="bhnote"><b>Verrou respecté :</b> aucun « non » franc sur les traits 1, 2 et 4. Le seul « non » porte sur la dynamique du cours, qui traduit le doute du marché et non une faiblesse de l'entreprise. Le trait le plus fragile du verrou est le management (6/10), en plein remaniement.</div>
+</div>
+
+<div class="sec">Les trois rendez-vous à surveiller</div>
+<div class="watch">
+  <div class="w"><div class="when">Mi-janvier 2027</div><div class="what">Résultats du T4 et objectifs 2027</div><div class="bar">Seuil rassurant : <b>≥ +10 %</b> de croissance et <b>≥ 33 %</b> de marge visée.</div></div>
+  <div class="w"><div class="when">Mars 2027</div><div class="what">Publicité dans 12 premiers nouveaux pays</div><div class="bar">Seuil rassurant : objectif publicitaire 2027 <b>≥ 4,5 Md$</b>.</div></div>
+  <div class="w"><div class="when">Au fil de 2027</div><div class="what">Prochaine hausse de prix américaine</div><div class="bar">Seuil rassurant : <b>pas de remontée</b> des résiliations, heures vues en hausse.</div></div>
+</div>
+
+<div class="sec">Que faire ?</div>
+<div class="act">
+  <div class="col good"><h4>Renforcer si…</h4><ul>
+    <li>Les objectifs 2027 confirment une croissance à deux chiffres et une marge en hausse.</li>
+    <li>Le titre revient vers <b>55-60 $</b> (~15-16 fois le BPA 2027) sans dégradation de la thèse.</li>
+    <li>Le temps de visionnage repart (plus de +3 % sur un semestre).</li>
+  </ul></div>
+  <div class="col bad"><h4>Alléger ou sortir si…</h4><ul>
+    <li>La croissance hors change passe sous <b>+8 %</b> deux trimestres de suite.</li>
+    <li>Une hausse de prix provoque une remontée des résiliations.</li>
+    <li>La direction relance une acquisition géante financée par la dette.</li>
+  </ul></div>
+</div>
+
+<div class="sec">Verdict</div>
+<div class="verdict"><div class="t">Une qualité intacte, une croissance à reconquérir</div>
+Pour l'investisseur Buy and Hold, Netflix reste <b>une entreprise de premier rang</b> : leader mondial rentable, pouvoir de prix démontré, discipline du capital (abandon de Warner Bros. au bon moment), bilan sain et rachats massifs. Ce qui a changé, c'est le <b>régime de croissance</b> : moins de volume, plus de monétisation. À environ 18 fois les bénéfices futurs, le prix intègre déjà ce ralentissement.<br><br>
+La position se justifie pour qui accepte de parier sur <b>la publicité, l'international et les hausses de prix</b> plutôt que sur la croissance des heures vues, avec une volatilité forte autour de chaque publication. La règle : <b>conserver, renforcer sur les confirmations ou les replis, et surveiller un seul signal d'alarme, le taux de résiliation</b>.
+</div>
+
+<div class="disc">Ceci n'est pas un conseil en investissement. Données arrêtées au 21 octobre 2026.</div>
+</div>
+</body>
+</html>
