@@ -23,6 +23,7 @@ import asml from "./asml.js";
 import you from "./you.js";
 import vrtx from "./vrtx.js";
 import tsm from "./tsm.js";
+import nflx from "./nflx.js";
 
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
@@ -41,6 +42,7 @@ export const COMPANIES = [
  you,
  vrtx,
  tsm,
+ nflx,
  
  
 
