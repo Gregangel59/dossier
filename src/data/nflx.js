@@ -18,6 +18,8 @@ const meta = {
   riskLabel: "Risque modéré",
   // Nom du fichier HTML déposé dans public/rapports/ (ou null si absent) :
   riskReport: "nflx.html",
+  // « Les points clés de l'investisseur patient » (HTML déposé dans public/rapports/, ou null si absent) :
+  bhReport: "nflx-buy-and-hold.html",
   updated: "2026-10",               // période des données
   published: "2026-10-21",          // date exacte de publication
 };
