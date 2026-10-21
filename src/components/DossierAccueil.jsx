@@ -152,7 +152,7 @@ export function groupByPhase(modules) {
   return phases;
 }
 
-export default function DossierAccueil({ company, modules, reportHref, onOpen }) {
+export default function DossierAccueil({ company, modules, reportHref, keyHref, onOpen }) {
   const phases = groupByPhase(modules);
 
   const first = phases[0]?.items[0]?.module;
@@ -236,24 +236,45 @@ export default function DossierAccueil({ company, modules, reportHref, onOpen })
             </li>
           ))}
 
-          {reportHref && (
+          {(reportHref || keyHref) && (
             <li className="da-step">
               <div className="da-step-num da-step-num-gold" aria-hidden="true">★</div>
               <div className="da-step-body">
                 <h2 className="da-step-title">
                   Conclure <span className="da-step-hint">la synthèse</span>
                 </h2>
-                <p className="da-step-intro">Tout le dossier résumé en une note sur 100 et deux pages.</p>
-                <a className="da-report" href={reportHref} target="_blank" rel="noopener noreferrer">
-                  <span className="da-icon da-icon-gold" aria-hidden="true">🎯</span>
-                  <span className="da-tile-text">
-                    <span className="da-tile-title">Ouvrir le rapport de risque ↗</span>
-                    <span className="da-tile-desc">
-                      {hasScore ? `${zone.label} — ${company.riskScore}/100. ` : ""}
-                      Valorisation, santé financière, croissance, et quand renforcer ou vendre.
-                    </span>
-                  </span>
-                </a>
+                <p className="da-step-intro">
+                  {reportHref && keyHref
+                    ? "Tout le dossier résumé en une note sur 100, puis l'essentiel à retenir pour une détention longue."
+                    : reportHref
+                    ? "Tout le dossier résumé en une note sur 100 et deux pages."
+                    : "L'essentiel à retenir pour une détention longue."}
+                </p>
+                <div className="da-final">
+                  {reportHref && (
+                    <a className="da-report" href={reportHref} target="_blank" rel="noopener noreferrer">
+                      <span className="da-icon da-icon-gold" aria-hidden="true">🎯</span>
+                      <span className="da-tile-text">
+                        <span className="da-tile-title">Ouvrir le rapport de risque ↗</span>
+                        <span className="da-tile-desc">
+                          {hasScore ? `${zone.label} — ${company.riskScore}/100. ` : ""}
+                          Valorisation, santé financière, croissance, et quand renforcer ou vendre.
+                        </span>
+                      </span>
+                    </a>
+                  )}
+                  {keyHref && (
+                    <a className="da-report da-key" href={keyHref} target="_blank" rel="noopener noreferrer">
+                      <span className="da-icon da-icon-key" aria-hidden="true">🧭</span>
+                      <span className="da-tile-text">
+                        <span className="da-tile-title">Les points clés de l'investisseur patient ↗</span>
+                        <span className="da-tile-desc">
+                          Ce qu'il faut retenir pour garder le titre sur la durée : thèse, débat, rendez-vous à surveiller et règles d'action.
+                        </span>
+                      </span>
+                    </a>
+                  )}
+                </div>
               </div>
             </li>
           )}
@@ -322,6 +343,12 @@ const CSS = `
 .da-tile-title{font-size:1rem;font-weight:700;color:${C.text};line-height:1.3;overflow-wrap:break-word;hyphens:auto}
 .da-tile-desc{font-size:.88rem;line-height:1.45;color:${C.muted}}
 .da-report .da-tile-title{color:${C.gold}}
+.da-final{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.7rem}
+.da-final .da-report{max-width:none}
+.da-key{background:rgba(242,180,80,.07);border-color:${C.amber}88}
+.da-key:hover{background:rgba(242,180,80,.13);border-color:${C.amber}}
+.da-key .da-tile-title{color:${C.amber}}
+.da-icon-key{background:rgba(242,180,80,.18)}
 .da-tip{margin:.9rem 0 0;font-size:.92rem;line-height:1.55;color:#e9c98f;background:rgba(242,180,80,.07);
   border:1px dashed ${C.amber}55;border-radius:12px;padding:.7rem .9rem}
 .da-more{display:flex;align-items:center;gap:1rem;margin-top:2.6rem;padding:1.1rem 1.3rem;border-radius:16px;text-decoration:none;

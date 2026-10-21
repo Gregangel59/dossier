@@ -7,7 +7,7 @@
 
 import { Link } from "react-router-dom";
 
-export default function DossierMenu({ phases, active, onOpen, onHome, reportHref }) {
+export default function DossierMenu({ phases, active, onOpen, onHome, reportHref, keyHref }) {
   const total = phases.reduce((n, p) => n + p.items.length, 0);
   const currentPhase = phases.findIndex((p) => p.items.some((i) => i.module.id === active));
 
@@ -56,7 +56,7 @@ export default function DossierMenu({ phases, active, onOpen, onHome, reportHref
           );
         })}
 
-        {reportHref && (
+        {(reportHref || keyHref) && (
           <li className="dm-phase dm-phase-final">
             <div className="dm-phase-head">
               <span className="dm-num dm-num-gold" aria-hidden="true">★</span>
@@ -64,12 +64,23 @@ export default function DossierMenu({ phases, active, onOpen, onHome, reportHref
               <span className="dm-phase-hint">la synthèse</span>
             </div>
             <ul className="dm-items">
-              <li>
-                <a className="dm-report" href={reportHref} target="_blank" rel="noopener noreferrer">
-                  <span className="dm-icon" aria-hidden="true">🎯</span>
-                  <span className="dm-item-title">Rapport de risque ↗</span>
-                </a>
-              </li>
+              {reportHref && (
+                <li>
+                  <a className="dm-report" href={reportHref} target="_blank" rel="noopener noreferrer">
+                    <span className="dm-icon" aria-hidden="true">🎯</span>
+                    <span className="dm-item-title">Rapport de risque ↗</span>
+                  </a>
+                </li>
+              )}
+              {keyHref && (
+                <li>
+                  <a className="dm-report dm-key" href={keyHref} target="_blank" rel="noopener noreferrer"
+                     title="Les points clés de l'investisseur patient">
+                    <span className="dm-icon" aria-hidden="true">🧭</span>
+                    <span className="dm-item-title">Points clés de l'investisseur patient ↗</span>
+                  </a>
+                </li>
+              )}
             </ul>
           </li>
         )}
@@ -120,5 +131,9 @@ const CSS = `
 .dm-report{border:1px solid #ffd23f88;background:rgba(255,210,63,.06)}
 .dm-report:hover{background:rgba(255,210,63,.13)}
 .dm-report .dm-item-title{color:#ffd23f;font-weight:600}
+.dm-report + .dm-report,li + li > .dm-report{margin-top:.35rem}
+.dm-key{border-color:#f2b45088;background:rgba(242,180,80,.07)}
+.dm-key:hover{background:rgba(242,180,80,.14)}
+.dm-key .dm-item-title{color:#f2b450}
 .dm-home:focus-visible,.dm-item:focus-visible,.dm-report:focus-visible{outline:2px solid #f2b450;outline-offset:1px}
 `;
