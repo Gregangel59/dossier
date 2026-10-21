@@ -86,6 +86,10 @@ export default function Dossier() {
   const reportHref = company.riskReport
     ? `${import.meta.env.BASE_URL}rapports/${company.riskReport}`
     : null;
+  // « Les points clés de l'investisseur patient » : facultatif, absent des anciens dossiers
+  const keyHref = company.bhReport
+    ? `${import.meta.env.BASE_URL}rapports/${company.bhReport}`
+    : null;
 
   return (
     <div
@@ -191,6 +195,28 @@ export default function Dossier() {
               <span className="dh-short">Risque ↗</span>
             </a>
           )}
+          {keyHref && (
+            <a
+              href={keyHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Les points clés de l'investisseur patient"
+              style={{
+                background: "rgba(242,180,80,.1)",
+                color: "#f2b450",
+                fontSize: "0.65rem",
+                padding: "3px 9px",
+                borderRadius: "10px",
+                border: "1px solid rgba(242,180,80,.3)",
+                fontWeight: 600,
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <span className="dh-long">Investisseur patient ↗</span>
+              <span className="dh-short">Patient ↗</span>
+            </a>
+          )}
           <span
             className="dh-count"
             style={{
@@ -238,6 +264,7 @@ export default function Dossier() {
               onOpen={openModule}
               onHome={() => openModule(null)}
               reportHref={reportHref}
+              keyHref={keyHref}
             />
           </div>
         </aside>
@@ -248,6 +275,7 @@ export default function Dossier() {
               company={company}
               modules={modules}
               reportHref={reportHref}
+              keyHref={keyHref}
               onOpen={openModule}
             />
           ) : (
@@ -314,12 +342,20 @@ export default function Dossier() {
                     <span className="dn-title">{next.title} →</span>
                   </button>
                 ) : (
-                  reportHref && (
-                    <a className="dn-btn dn-next dn-final" href={reportHref} target="_blank" rel="noopener noreferrer">
-                      <span className="dn-label">Conclure · la synthèse</span>
-                      <span className="dn-title">Rapport de risque ↗</span>
-                    </a>
-                  )
+                  <>
+                    {reportHref && (
+                      <a className="dn-btn dn-next dn-final" href={reportHref} target="_blank" rel="noopener noreferrer">
+                        <span className="dn-label">Conclure · la synthèse</span>
+                        <span className="dn-title">Rapport de risque ↗</span>
+                      </a>
+                    )}
+                    {keyHref && (
+                      <a className="dn-btn dn-next dn-final" href={keyHref} target="_blank" rel="noopener noreferrer">
+                        <span className="dn-label">Pour finir · la détention longue</span>
+                        <span className="dn-title">Les points clés de l'investisseur patient ↗</span>
+                      </a>
+                    )}
+                  </>
                 )}
               </nav>
             </div>
