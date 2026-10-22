@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { COMPANIES } from "../data/index.js";
-import { COURS } from "./Cours.jsx";
+import { FORMATIONS } from "./Cours.jsx";
 import { PORTEFEUILLES, CASH_PCT } from "../data/portefeuilles.js";
 
 const pct1 = (v) => `${v.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %`;
@@ -218,17 +218,21 @@ export default function Home() {
 
         <section className="hp-section hp-compact" aria-labelledby="hp-cours">
           <h2 id="hp-cours" className="hp-label">Formation</h2>
-          <article className="hp-mini">
-            <img className="hp-mini-cover" src={COURS.cover} alt="" width="663" height="937" />
-            <div className="hp-mini-main">
-              <h3 className="hp-mini-name">
-                <Link to="/cours" className="hp-stretch">{COURS.title} : {COURS.subtitle.toLowerCase()}</Link>
-              </h3>
-              <div className="hp-mini-meta">{["PDF gratuit", ...COURS.facts.slice(0, 2)].join(" · ")}</div>
-            </div>
-            <a className="hp-report hp-mini-dl" href={COURS.pdf} download={COURS.downloadName}>PDF ↓</a>
-            <span className="hp-chevron" aria-hidden="true">›</span>
-          </article>
+          <div className="hp-mini-grid hp-formations">
+            {FORMATIONS.map((f) => (
+              <article key={f.slug} className="hp-mini">
+                <img className="hp-mini-cover" src={f.cover} alt="" width="663" height="937" />
+                <div className="hp-mini-main">
+                  <h3 className="hp-mini-name">
+                    <Link to={f.path} className="hp-stretch">{f.cardTitle}</Link>
+                  </h3>
+                  <div className="hp-mini-meta">{["PDF gratuit", ...f.facts.slice(0, 2)].join(" · ")}</div>
+                </div>
+                <a className="hp-report hp-mini-dl" href={f.pdf} download={f.downloadName}>PDF ↓</a>
+                <span className="hp-chevron" aria-hidden="true">›</span>
+              </article>
+            ))}
+          </div>
 
           <h2 id="hp-pf" className="hp-label">Portefeuilles</h2>
           <div className="hp-mini-grid">
@@ -353,6 +357,7 @@ const CSS = `
 .hp-compact{margin-top:2.2rem}
 .hp-label{margin:0 0 .55rem;font-size:.78rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:#f2b450}
 .hp-label + .hp-mini{margin-bottom:1.2rem}
+.hp-formations{margin-bottom:1.2rem}
 .hp-mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:.6rem}
 .hp-mini{position:relative;display:flex;align-items:center;gap:.9rem;min-height:68px;
   background:linear-gradient(150deg,#2a2015,#1b1610 60%);border:1px solid #33291c;border-radius:14px;padding:.6rem 1rem;
