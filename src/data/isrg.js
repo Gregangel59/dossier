@@ -18,8 +18,10 @@ const meta = {
   riskLabel: "Risque modéré",
   // Nom du fichier HTML déposé dans public/rapports/ (ou null si absent) :
   riskReport: "isrg.html",
+  // « Les points clés de l'investisseur patient » (HTML déposé dans public/rapports/, ou null si absent) :
+  bhReport: "isrg-buy-and-hold.html",
   updated: "2026-10",               // période des données
-  published: "2026-10-22",          // date de publication (tri « À la une »)
+  published: "2026-10-22",          // date exacte de publication
 };
 
 const modules = [
