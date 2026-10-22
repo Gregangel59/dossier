@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISRG — L'essentiel Buy and Hold</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#120f0b;--panel:#1a1510;--panel2:#221b13;--line:#3a2e20;--txt:#f3ead9;--mut:#b3a38a;--acc:#f2b450;
+--red:#ff4d5e;--amber:#ff9f43;--gold:#ffd23f;--green:#28d17c;
+--mono:'JetBrains Mono',monospace;--body:'DM Sans',sans-serif;--head:'Playfair Display',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.55;
+background-image:radial-gradient(circle at 12% 0%,rgba(242,180,80,.08),transparent 40%),radial-gradient(circle at 88% 100%,rgba(255,210,63,.05),transparent 45%)}
+.page{max-width:860px;margin:0 auto;padding:20px 16px 64px}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:6px 0 12px;margin-bottom:16px}
+.brand .b1{font-family:var(--head);font-weight:800;font-size:22px;color:var(--acc)}
+.brand .b2{font-style:italic;color:var(--mut);font-size:14px}
+.brand .b3{font-family:var(--mono);font-size:13px;color:var(--mut);letter-spacing:.6px;text-transform:uppercase}
+.hero{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:18px;padding:24px 22px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 92% 8%,rgba(255,210,63,.14),transparent 50%);pointer-events:none}
+.chip{display:inline-block;font-family:var(--mono);font-size:30px;font-weight:800;letter-spacing:1px;color:#1a1208;background:linear-gradient(135deg,#c9892b,#ffd27a);padding:2px 14px;border-radius:11px}
+.kicker{font-family:var(--mono);font-size:13px;color:var(--acc);letter-spacing:1px;text-transform:uppercase;margin-top:16px}
+h1{font-family:var(--head);font-size:36px;font-weight:900;line-height:1.15;margin-top:6px;position:relative}
+.lede{font-size:17px;color:#e5d9c2;margin-top:12px;max-width:680px;position:relative}
+.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px;position:relative}
+.sc{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.sc .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.sc .v{font-family:var(--mono);font-size:26px;font-weight:800;margin-top:4px}
+.sc .d{font-size:13px;color:var(--mut)}
+.sec{font-family:var(--head);font-size:28px;font-weight:800;margin:40px 0 6px}
+.sub{font-size:14px;color:var(--mut);margin-bottom:16px}
+.oneliner{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--acc);border-radius:12px;padding:18px 20px;font-size:17px;line-height:1.6}
+.oneliner b{color:#fff6e6}
+.pt{display:grid;grid-template-columns:56px 1fr;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px}
+.pt .n{font-family:var(--head);font-size:44px;font-weight:900;color:var(--acc);line-height:1}
+.pt h3{font-family:var(--head);font-size:21px;font-weight:700;line-height:1.25}
+.pt p{font-size:15px;color:#d9ccb4;margin-top:8px}
+.pt .fig{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pt .fig span{font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(242,180,80,.12);color:var(--acc)}
+.quote{margin-top:10px;border-left:3px solid var(--line);padding-left:12px;font-size:14px;font-style:italic;color:var(--mut)}
+.quote em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--acc);display:block;margin-top:3px}
+.why{display:inline-block;margin-top:10px;font-size:14px;background:rgba(40,209,124,.08);border:1px solid rgba(40,209,124,.3);border-radius:9px;padding:8px 12px}
+.why b{color:var(--green);font-family:var(--mono);font-size:12px;letter-spacing:.5px;margin-right:6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.col{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.col h4{font-family:var(--head);font-size:22px;font-weight:700;margin-bottom:8px}
+.col.bad h4{color:var(--red)}.col.good h4{color:var(--green)}
+.col li{list-style:none;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;color:#d9ccb4}
+.col li:last-child{border-bottom:none}
+.col li b{color:var(--txt)}
+.contra{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid rgba(242,180,80,.35);border-radius:14px;padding:20px;font-size:16px;line-height:1.65;color:#e5d9c2}
+.contra .k{font-family:var(--mono);font-size:13px;color:var(--acc);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.contra b{color:#fff6e6}
+.bh{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.bhh{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.bhh .note{font-family:var(--head);font-size:44px;font-weight:900;color:var(--gold);line-height:1}
+.bhh .note small{font-family:var(--mono);font-size:18px;color:var(--mut);font-weight:400}
+.bhh .badge{font-family:var(--mono);font-weight:700;font-size:15px;border:1.5px solid var(--gold);color:var(--gold);border-radius:30px;padding:8px 16px;background:rgba(255,210,63,.1)}
+.tr{display:grid;grid-template-columns:26px 1fr 140px 52px 96px;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:15px}
+.tr .tn{font-family:var(--mono);color:var(--mut);font-size:13px}
+.tr .tb{height:8px;background:var(--panel2);border-radius:5px;overflow:hidden;display:block}
+.tr .tb span{display:block;height:100%;border-radius:5px}
+.tr b{font-family:var(--mono);font-size:15px;text-align:right}
+.tr .tl{font-family:var(--mono);font-size:12px;font-weight:700;text-align:right}
+.bhnote{font-size:14px;color:var(--mut);margin-top:10px}
+.watch{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.w{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.w .when{font-family:var(--mono);font-size:13px;color:var(--acc);text-transform:uppercase;letter-spacing:.6px}
+.w .what{font-family:var(--head);font-size:19px;font-weight:700;margin-top:6px;line-height:1.25}
+.w .bar{font-size:14px;color:#d9ccb4;margin-top:8px}
+.w .bar b{font-family:var(--mono);color:var(--green)}
+.act{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.act .col h4{font-size:20px}
+.verdict{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:16px;padding:22px 20px;font-size:16px;line-height:1.7;color:#e5d9c2}
+.verdict .t{font-family:var(--head);font-size:24px;font-weight:800;color:var(--txt);margin-bottom:10px}
+.verdict b{color:#fff6e6}
+.disc{font-size:12px;color:var(--mut);margin-top:24px;text-align:center}
+@media(max-width:700px){.two,.act,.watch,.scores{grid-template-columns:1fr}h1{font-size:29px}.tr{grid-template-columns:22px 1fr 44px;row-gap:4px}.tr .tb{grid-column:2/4}.tr .tl{display:none}.pt{grid-template-columns:1fr}.pt .n{font-size:34px}}
+@media print{:root{--bg:#fff;--panel:#fff;--panel2:#eee;--line:#d6d0c4;--txt:#1a1a1a;--mut:#5c5346;--acc:#a8641a;--gold:#b08800;--green:#13844b;--red:#c62835;--amber:#c46a12}
+body{background:#fff;background-image:none}.hero,.contra,.verdict{background:#fff}.hero::before{display:none}
+.oneliner b,.contra b,.verdict b,.col li b{color:#000}.pt p,.col li,.w .bar,.lede,.contra,.verdict,.oneliner{color:#2a2a2a}.sc{background:#fff}
+.pt,.col,.w,.bh,.verdict,.contra{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="brand">
+  <div><span class="b1">221 Bourse</span> <span class="b2">· Élémentaire, mon cher Buffett.</span></div>
+  <div class="b3">Le cabinet d'analyse fondamentale</div>
+</div>
+
+<div class="hero">
+  <span class="chip">ISRG</span>
+  <div class="kicker">Intuitive Surgical · après les résultats du T3 2026 · 22 octobre 2026</div>
+  <h1>L'essentiel pour l'investisseur Buy and Hold</h1>
+  <div class="lede">Le leader de la chirurgie robotique choisit de baisser ses prix pour élargir son marché, au moment où ses premiers vrais concurrents arrivent. Ce qu'il faut retenir pour décider de garder, renforcer ou alléger sur le long terme.</div>
+  <div class="scores">
+    <div class="sc"><div class="l">Note Buy and Hold</div><div class="v" style="color:var(--gold)">7,5/10</div><div class="d">Profil compatible</div></div>
+    <div class="sc"><div class="l">Score de risque</div><div class="v" style="color:var(--gold)">59/100</div><div class="d">Risque modéré</div></div>
+    <div class="sc"><div class="l">Cours / valorisation</div><div class="v">~428 $</div><div class="d">~36x les bénéfices futurs</div></div>
+  </div>
+</div>
+
+<div class="sec">En une phrase</div>
+<div class="oneliner">Intuitive échange <b>un peu de revenu par intervention contre beaucoup plus de volume</b> : elle baisse le coût de ses instruments pour conquérir les chirurgies courantes et les centres ambulatoires, règle son principal litige avec les hôpitaux et verrouille sa base installée <b>avant que Medtronic et Johnson &amp; Johnson ne montent en puissance</b>. La seule question qui compte pour un détenteur de long terme : <b>les volumes accéléreront-ils assez pour compenser la baisse de prix ?</b></div>
+
+<div class="sec">Les 5 points à retenir</div>
+<div class="sub">Ce que la direction a annoncé le 20 octobre et ce que disent les chiffres.</div>
+
+<div class="pt"><div class="n">1</div><div>
+  <h3>Baisser le prix des instruments pour élargir le marché</h3>
+  <p>À partir du S1 2027, Intuitive va <b>prolonger la durée de vie</b> d'une partie de ses instruments EndoWrist et introduire des <b>remises sur volume</b> dans les interventions courantes (hernie, vésicule, gynécologie bénigne), là où le coût freine encore le passage au robot. Avec la réforme des prix en Chine, le revenu d'instruments par intervention baissera de <b>3 à 5 %</b> une fois le dispositif pleinement déployé, fin 2027.</p>
+  <div class="fig"><span>−3 à −5 % par intervention</span><span>S1 2027</span><span>~1 860 $ / intervention</span><span>Interventions +15 %</span></div>
+  <div class="quote">« C'est une décision stratégique : réinvestir une partie de la valeur créée par notre innovation et baisser les coûts de nos clients là où cela aura le plus d'impact sur l'adoption. Nous pensons qu'une adoption plus large crée plus de valeur à long terme que le revenu par intervention à court terme. »<em>Jamie Samath, directeur financier</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Un sacrifice volontaire de court terme pour agrandir le marché adressable et retirer aux concurrents leur seul argument : le prix.</div>
+</div></div>
+
+<div class="pt"><div class="n">2</div><div>
+  <h3>Les centres de chirurgie ambulatoire, nouveau terrain de conquête</h3>
+  <p>Les chirurgiens déplacent les interventions courantes vers les <b>centres ambulatoires</b>, qui pèsent encore moins de 10 % des volumes américains de chirurgie des tissus mous mais croissent vite. Intuitive s'y installe avec le <b>da Vinci XiR</b>, une version moins chère : <b>18 robots</b> placés en ambulatoire au T3, dont 15 XiR. Objectif : occuper le terrain avant que Hugo ou Ottava n'y prennent pied.</p>
+  <div class="fig"><span>18 robots en ambulatoire au T3</span><span>dont 15 XiR</span><span>&lt; 10 % des volumes US</span></div>
+  <div class="quote">« Le nombre de systèmes placés en centres ambulatoires sur les deux derniers trimestres cumulés dépasse ce que nous y avions installé en près de trois ans, et nous pensons que cela reste une opportunité attractive. »<em>Jamie Samath, directeur financier</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Chaque robot installé génère des revenus récurrents pendant 7 à 10 ans : prendre le marché ambulatoire maintenant, c'est verrouiller la prochaine décennie.</div>
+</div></div>
+
+<div class="pt"><div class="n">3</div><div>
+  <h3>Le règlement de 450 M$ lève une incertitude majeure avec les hôpitaux</h3>
+  <p>Intuitive a conclu un <b>règlement sans reconnaissance de faute</b> de 450 M$ dans le recours collectif sur la remise en état des instruments et la maintenance par des tiers. La charge pèse sur le BPA comptable du trimestre (1,49 $ contre 3,00 $ en ajusté), mais elle apaise la relation avec les grands réseaux hospitaliers, qui sont aussi ses plus gros clients. Le règlement doit encore être approuvé par le tribunal (décision attendue en 2027), et un autre procès antitrust a été relancé en appel en août.</p>
+  <div class="fig"><span>450 M$ en une fois</span><span>−0,99 $ de BPA GAAP</span><span>Décision en 2027</span></div>
+  <div class="quote">« Nous pensons que ce règlement sans reconnaissance de faute apporte de la certitude à nos clients comme à Intuitive, et préserve notre capacité à faire progresser la sécurité, la qualité et la sûreté de nos produits. »<em>Dave Rosa, directeur général</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Une charge ponctuelle qui ne touche ni la trésorerie (6,8 Md$, zéro dette) ni le modèle, mais qui protège la relation client.</div>
+</div></div>
+
+<div class="pt"><div class="n">4</div><div>
+  <h3>L'adoption s'élargit partout, sauf aux États-Unis où elle ralentit</h3>
+  <p>Toutes les plateformes progressent : <b>546 robots da Vinci</b> placés (record, +28 %), dont 315 da Vinci 5 ; <b>SP +55 %</b> d'interventions, <b>Ion +31 %</b>, chirurgie cardiaque +40 %. Hors des États-Unis, les interventions croissent de 20 %, avec l'Europe (+83 % de placements) et l'Inde (+42 % d'interventions) en tête. Le point faible : les interventions da Vinci américaines n'augmentent plus que de <b>10 %</b>, leur plus bas rythme depuis la COVID.</p>
+  <div class="fig"><span>546 robots (+28 %)</span><span>SP +55 %</span><span>Ion +31 %</span><span>Hors US +20 %</span><span>US +10 %</span></div>
+  <div class="quote">« Le T3 a été un trimestre solide pour Intuitive, avec une adoption large de nos plateformes multiport, single-port et Ion. »<em>Dave Rosa, directeur général</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Les relais de croissance existent ; la réaccélération américaine est le point à vérifier en 2027.</div>
+</div></div>
+
+<div class="pt"><div class="n">5</div><div>
+  <h3>Une machine financière intacte, et une direction qui rachète ses actions</h3>
+  <p>Chiffre d'affaires de <b>3,05 Md$ (+22 %)</b>, BPA ajusté de <b>3,00 $ (+25 %)</b>, sixième trimestre d'affilée au-dessus des attentes. La marge brute ajustée atteint 69,9 % et la marge opérationnelle ajustée 42 %. Le bilan n'a <b>aucune dette</b>, et la direction a racheté <b>2,9 Md$ d'actions</b> au T3 au prix moyen de 377 $, près des plus bas de l'année.</p>
+  <div class="fig"><span>BPA T3 +25 %</span><span>Marge opér. 42 %</span><span>FCF ~3,2 Md$</span><span>ROIC ~24 %</span><span>0 dette</span></div>
+  <div class="quote">« Avec le temps, nous voulons faire nettement progresser le Quintuple Objectif, pour que l'ensemble du parcours du patient devienne plus prévisible, plus connecté et moins perturbant pour sa vie. »<em>Dave Rosa, directeur général</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Même avec la baisse de prix, le BPA peut croître d'environ 13 à 15 % par an d'ici 2028.</div>
+</div></div>
+
+<div class="sec">Le débat en deux colonnes</div>
+<div class="two">
+  <div class="col bad"><h4>Ce qui inquiète le marché</h4><ul>
+    <li><b>La décélération américaine.</b> Interventions da Vinci aux États-Unis à +10 %, contre environ +16 % un an plus tôt : fin des subventions ACA, recul du bariatrique avec les GLP-1, ou début de maturité ?</li>
+    <li><b>La fin du pouvoir de prix.</b> Baisse volontaire de 3 à 5 %, prix imposés en Chine, litiges antitrust : le modèle des instruments chers est contesté.</li>
+    <li><b>La concurrence enfin crédible.</b> Hugo (Medtronic) autorisé aux États-Unis en urologie, Ottava (J&amp;J) en chirurgie générale, robots chinois favorisés dans les appels d'offres.</li>
+    <li><b>Le cours.</b> −24 % depuis janvier, −46 % entre le plus haut et le plus bas de l'année, trois publications sanctionnées malgré des résultats supérieurs aux attentes.</li>
+  </ul></div>
+  <div class="col good"><h4>Ce qui rassure l'investisseur patient</h4><ul>
+    <li><b>Les coûts de changement.</b> Changer de robot, c'est reformer toutes les équipes et perdre des années de preuves cliniques : la base de 12 094 robots est solidement verrouillée.</li>
+    <li><b>Les revenus récurrents.</b> 84 % du chiffre d'affaires vient des instruments, des services et des loyers, liés aux interventions et non aux ventes de robots.</li>
+    <li><b>Le bilan.</b> Zéro dette, 6,8 Md$ de trésorerie, 3,2 Md$ de cash-flow libre par an et des rachats massifs.</li>
+    <li><b>Le prix.</b> ~36 fois les bénéfices futurs, le plus bas depuis près de dix ans, pour une croissance du BPA de 13 à 15 % par an.</li>
+  </ul></div>
+</div>
+
+<div class="sec">Ce que le marché refuse de voir</div>
+<div class="contra"><div class="k">Point de vue à contre-courant</div>
+Le marché lit la baisse de prix comme <b>un aveu de faiblesse</b>. On peut la lire à l'inverse : c'est le geste d'un leader qui <b>choisit de convertir sa marge en volume</b> au moment exact où ses concurrents ont besoin d'un argument prix pour exister. Intuitive garde une marge opérationnelle de plus de 40 %, qu'aucun rival ne peut égaler ; elle peut donc baisser ses prix plus longtemps que quiconque. Si les chirurgies bénignes, les centres ambulatoires et l'international répondent, 2027 peut marquer <b>le retour de l'accélération des volumes</b>, et le titre, sanctionné aujourd'hui pour sa décélération, retrouverait sa prime. Le marché confond <b>un changement de modèle de prix</b> avec <b>une perte d'avantage concurrentiel</b>.
+</div>
+
+<div class="sec">La grille des 6 traits</div>
+<div class="sub">Les six traits des grands gagnants boursiers, appliqués à Intuitive Surgical.</div>
+<div class="bh">
+  <div class="bhh"><div class="note">7,5<small> / 10</small></div><div class="badge">PROFIL COMPATIBLE</div></div>
+  <div class="tr"><span class="tn">1</span><span class="tt">Leader d'un secteur émergent</span><span class="tb"><span style="width:90%;background:var(--green)"></span></span><b style="color:var(--green)">9/10</b><span class="tl" style="color:var(--green)">OUI</span></div>
+  <div class="tr"><span class="tn">2</span><span class="tt">Avantage compétitif durable</span><span class="tb"><span style="width:80%;background:var(--green)"></span></span><b style="color:var(--green)">8/10</b><span class="tl" style="color:var(--green)">OUI</span></div>
+  <div class="tr"><span class="tn">3</span><span class="tt">Forte hausse passée du cours</span><span class="tb"><span style="width:50%;background:var(--amber)"></span></span><b style="color:var(--amber)">5/10</b><span class="tl" style="color:var(--amber)">PARTIEL</span></div>
+  <div class="tr"><span class="tn">4</span><span class="tt">Bon management, bons soutiens</span><span class="tb"><span style="width:80%;background:var(--green)"></span></span><b style="color:var(--green)">8/10</b><span class="tl" style="color:var(--green)">OUI</span></div>
+  <div class="tr"><span class="tn">5</span><span class="tt">Forte attractivité client</span><span class="tb"><span style="width:70%;background:var(--gold)"></span></span><b style="color:var(--gold)">7/10</b><span class="tl" style="color:var(--gold)">PLUTÔT OUI</span></div>
+  <div class="tr"><span class="tn">6</span><span class="tt">Jugée « surévaluée »</span><span class="tb"><span style="width:80%;background:var(--green)"></span></span><b style="color:var(--green)">8/10</b><span class="tl" style="color:var(--green)">OUI</span></div>
+  <div class="bhnote"><b>Verrou respecté :</b> aucun « non » franc sur les traits 1, 2 et 4, qui sont au contraire les plus solides du profil (9, 8 et 8/10). Le seul point faible est la dynamique du cours (5/10) : le BPA a progressé de 25 % pendant que le titre perdait 24 %. Ce retard traduit le doute du marché, pas une faiblesse d'exécution.</div>
+</div>
+
+<div class="sec">Les trois rendez-vous à surveiller</div>
+<div class="watch">
+  <div class="w"><div class="when">Fin janvier 2027</div><div class="what">Résultats du T4 et prévisions 2027</div><div class="bar">Seuil rassurant : interventions da Vinci 2027 <b>≥ +13 %</b> et marge brute ajustée <b>≥ 67 %</b>.</div></div>
+  <div class="w"><div class="when">S1 2027</div><div class="what">Feu vert de la FDA et lancement de l'usage prolongé</div><div class="bar">Seuil rassurant : interventions américaines revenues à <b>≥ +12 %</b> sur deux trimestres.</div></div>
+  <div class="w"><div class="when">Au fil de 2027</div><div class="what">Hugo et Ottava sur le terrain, décisions de justice</div><div class="bar">Seuil rassurant : <b>aucune perte</b> de grand réseau hospitalier, règlement approuvé.</div></div>
+</div>
+
+<div class="sec">Que faire ?</div>
+<div class="act">
+  <div class="col good"><h4>Renforcer si…</h4><ul>
+    <li>Les prévisions 2027 confirment des interventions en hausse d'au moins 13 % malgré la baisse de prix.</li>
+    <li>Le titre revient vers <b>330-350 $</b> (~26-28 fois le BPA 2027 estimé) sans dégradation de la thèse.</li>
+    <li>Les interventions américaines réaccélèrent au-dessus de +12 %.</li>
+  </ul></div>
+  <div class="col bad"><h4>Alléger ou sortir si…</h4><ul>
+    <li>La croissance des interventions da Vinci passe sous <b>+10 %</b> au niveau mondial.</li>
+    <li>Ottava ou Hugo remportent au moins deux grands réseaux hospitaliers américains.</li>
+    <li>La marge brute ajustée tombe sous 66 % deux trimestres de suite, signe que la baisse de prix ne se compense pas.</li>
+  </ul></div>
+</div>
+
+<div class="sec">Verdict</div>
+<div class="verdict"><div class="t">Un monopole qui choisit le volume plutôt que le prix</div>
+Pour l'investisseur Buy and Hold, Intuitive reste <b>une entreprise de premier rang</b> : inventeur et leader incontesté de la chirurgie robotique, 12 094 robots installés, 84 % de revenus récurrents, une marge opérationnelle de 42 % et un bilan sans dette. Ce qui change, c'est le <b>régime de prix</b> : la direction accepte de gagner un peu moins par intervention pour élargir le marché et barrer la route aux nouveaux entrants. À environ 36 fois les bénéfices futurs, le plus bas multiple depuis près de dix ans, le prix intègre déjà une bonne part de ce doute.<br><br>
+La position se justifie pour qui accepte de parier sur <b>l'élasticité des volumes, l'ambulatoire et l'international</b>, avec une volatilité forte autour de chaque publication. La règle : <b>conserver, renforcer sur les confirmations ou les replis, et surveiller un seul signal d'alarme, la croissance des interventions</b>.
+</div>
+
+<div class="disc">Ceci n'est pas un conseil en investissement. Données arrêtées au 22 octobre 2026.</div>
+</div>
+</body>
+</html>
