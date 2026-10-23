@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>META — L'essentiel Buy and Hold</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#120f0b;--panel:#1a1510;--panel2:#221b13;--line:#3a2e20;--txt:#f3ead9;--mut:#b3a38a;--acc:#f2b450;
+--red:#ff4d5e;--amber:#ff9f43;--gold:#ffd23f;--green:#28d17c;
+--mono:'JetBrains Mono',monospace;--body:'DM Sans',sans-serif;--head:'Playfair Display',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.55;
+background-image:radial-gradient(circle at 12% 0%,rgba(242,180,80,.08),transparent 40%),radial-gradient(circle at 88% 100%,rgba(255,210,63,.05),transparent 45%)}
+.page{max-width:860px;margin:0 auto;padding:20px 16px 64px}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:6px 0 12px;margin-bottom:16px}
+.brand .b1{font-family:var(--head);font-weight:800;font-size:22px;color:var(--acc)}
+.brand .b2{font-style:italic;color:var(--mut);font-size:14px}
+.brand .b3{font-family:var(--mono);font-size:13px;color:var(--mut);letter-spacing:.6px;text-transform:uppercase}
+.hero{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:18px;padding:24px 22px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 92% 8%,rgba(255,210,63,.14),transparent 50%);pointer-events:none}
+.chip{display:inline-block;font-family:var(--mono);font-size:30px;font-weight:800;letter-spacing:1px;color:#1a1208;background:linear-gradient(135deg,#c9892b,#ffd27a);padding:2px 14px;border-radius:11px}
+.kicker{font-family:var(--mono);font-size:13px;color:var(--acc);letter-spacing:1px;text-transform:uppercase;margin-top:16px}
+h1{font-family:var(--head);font-size:36px;font-weight:900;line-height:1.15;margin-top:6px;position:relative}
+.lede{font-size:17px;color:#e5d9c2;margin-top:12px;max-width:680px;position:relative}
+.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px;position:relative}
+.sc{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.sc .l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.sc .v{font-family:var(--mono);font-size:26px;font-weight:800;margin-top:4px}
+.sc .d{font-size:13px;color:var(--mut)}
+.sec{font-family:var(--head);font-size:28px;font-weight:800;margin:40px 0 6px}
+.sub{font-size:14px;color:var(--mut);margin-bottom:16px}
+.oneliner{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--acc);border-radius:12px;padding:18px 20px;font-size:17px;line-height:1.6}
+.oneliner b{color:#fff6e6}
+.pt{display:grid;grid-template-columns:56px 1fr;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px}
+.pt .n{font-family:var(--head);font-size:44px;font-weight:900;color:var(--acc);line-height:1}
+.pt h3{font-family:var(--head);font-size:21px;font-weight:700;line-height:1.25}
+.pt p{font-size:15px;color:#d9ccb4;margin-top:8px}
+.pt .fig{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pt .fig span{font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(242,180,80,.12);color:var(--acc)}
+.quote{margin-top:10px;border-left:3px solid var(--line);padding-left:12px;font-size:14px;font-style:italic;color:var(--mut)}
+.quote em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--acc);display:block;margin-top:3px}
+.why{display:inline-block;margin-top:10px;font-size:14px;background:rgba(40,209,124,.08);border:1px solid rgba(40,209,124,.3);border-radius:9px;padding:8px 12px}
+.why b{color:var(--green);font-family:var(--mono);font-size:12px;letter-spacing:.5px;margin-right:6px}
+.why.warn{background:rgba(255,159,67,.08);border-color:rgba(255,159,67,.35)}
+.why.warn b{color:var(--amber)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.col{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.col h4{font-family:var(--head);font-size:22px;font-weight:700;margin-bottom:8px}
+.col.bad h4{color:var(--red)}.col.good h4{color:var(--green)}
+.col li{list-style:none;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;color:#d9ccb4}
+.col li:last-child{border-bottom:none}
+.col li b{color:var(--txt)}
+.contra{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid rgba(242,180,80,.35);border-radius:14px;padding:20px;font-size:16px;line-height:1.65;color:#e5d9c2}
+.contra .k{font-family:var(--mono);font-size:13px;color:var(--acc);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.contra b{color:#fff6e6}
+.bh{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.bhh{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.bhh .note{font-family:var(--head);font-size:44px;font-weight:900;color:var(--gold);line-height:1}
+.bhh .note small{font-family:var(--mono);font-size:18px;color:var(--mut);font-weight:400}
+.bhh .badge{font-family:var(--mono);font-weight:700;font-size:15px;border:1.5px solid var(--gold);color:var(--gold);border-radius:30px;padding:8px 16px;background:rgba(255,210,63,.1)}
+.tr{display:grid;grid-template-columns:26px 1fr 140px 52px 96px;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:15px}
+.tr .tn{font-family:var(--mono);color:var(--mut);font-size:13px}
+.tr .tb{height:8px;background:var(--panel2);border-radius:5px;overflow:hidden;display:block}
+.tr .tb span{display:block;height:100%;border-radius:5px}
+.tr b{font-family:var(--mono);font-size:15px;text-align:right}
+.tr .tl{font-family:var(--mono);font-size:12px;font-weight:700;text-align:right}
+.bhnote{font-size:14px;color:var(--mut);margin-top:10px}
+.watch{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.w{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.w .when{font-family:var(--mono);font-size:13px;color:var(--acc);text-transform:uppercase;letter-spacing:.6px}
+.w .what{font-family:var(--head);font-size:19px;font-weight:700;margin-top:6px;line-height:1.25}
+.w .bar{font-size:14px;color:#d9ccb4;margin-top:8px}
+.w .bar b{font-family:var(--mono);color:var(--green)}
+.act{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.act .col h4{font-size:20px}
+.verdict{background:linear-gradient(135deg,#1d1710,#110d09);border:1px solid var(--line);border-radius:16px;padding:22px 20px;font-size:16px;line-height:1.7;color:#e5d9c2}
+.verdict .t{font-family:var(--head);font-size:24px;font-weight:800;color:var(--txt);margin-bottom:10px}
+.verdict b{color:#fff6e6}
+.disc{font-size:12px;color:var(--mut);margin-top:24px;text-align:center}
+@media(max-width:700px){.two,.act,.watch,.scores{grid-template-columns:1fr}h1{font-size:29px}.tr{grid-template-columns:22px 1fr 44px;row-gap:4px}.tr .tb{grid-column:2/4}.tr .tl{display:none}.pt{grid-template-columns:1fr}.pt .n{font-size:34px}}
+@media print{:root{--bg:#fff;--panel:#fff;--panel2:#eee;--line:#d6d0c4;--txt:#1a1a1a;--mut:#5c5346;--acc:#a8641a;--gold:#b08800;--green:#13844b;--red:#c62835;--amber:#c46a12}
+body{background:#fff;background-image:none}.hero,.contra,.verdict{background:#fff}.hero::before{display:none}
+.oneliner b,.contra b,.verdict b,.col li b{color:#000}.pt p,.col li,.w .bar,.lede,.contra,.verdict,.oneliner{color:#2a2a2a}.sc{background:#fff}
+.pt,.col,.w,.bh,.verdict,.contra{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="brand">
+  <div><span class="b1">221 Bourse</span> <span class="b2">· Élémentaire, mon cher Buffett.</span></div>
+  <div class="b3">Le cabinet d'analyse fondamentale</div>
+</div>
+
+<div class="hero">
+  <span class="chip">META</span>
+  <div class="kicker">Meta Platforms · après les résultats du T3 2026 · 22 octobre 2026</div>
+  <h1>L'essentiel pour l'investisseur Buy and Hold</h1>
+  <div class="lede">La meilleure machine publicitaire du monde finance le pari le plus ambitieux de la tech : un agent d'IA pour chaque personne. Ce qu'il faut retenir pour décider de garder, renforcer ou alléger sur le long terme.</div>
+  <div class="scores">
+    <div class="sc"><div class="l">Note Buy and Hold</div><div class="v" style="color:var(--gold)">7,0/10</div><div class="d">Profil compatible</div></div>
+    <div class="sc"><div class="l">Score de risque</div><div class="v" style="color:var(--gold)">56/100</div><div class="d">Risque modéré</div></div>
+    <div class="sc"><div class="l">Cours / valorisation</div><div class="v">~698 $</div><div class="d">~21x les bénéfices futurs</div></div>
+  </div>
+</div>
+
+<div class="sec">En une phrase</div>
+<div class="oneliner">Meta n'est plus seulement un vendeur d'attention : avec <b>Muse</b>, il veut devenir l'agent personnel qui achète, réserve et organise pour <b>3,6 milliards de personnes</b>. La publicité (+26 %) paie la facture, l'IA fait déjà baisser les coûts et monter les prix des publicités, et le titre se paie <b>moins cher qu'Alphabet et Amazon</b>. La seule question qui compte pour un détenteur de long terme : <b>les 135 à 145 Md$ investis cette année rapporteront-ils avant que le cash ne manque ?</b></div>
+
+<div class="sec">Les 5 points à retenir</div>
+<div class="sub">Ce que la direction a dit le 21 octobre et ce que disent les chiffres.</div>
+
+<div class="pt"><div class="n">1</div><div>
+  <h3>Muse décolle, et c'est le commerce qui le porte</h3>
+  <p>Lancé le 8 septembre, l'agent personnel <b>Muse</b> a été activé par <b>plus de 10 millions de personnes en six semaines</b>, dans deux pays seulement (États-Unis et Canada). Environ un quart des utilisateurs s'en servent chaque jour, plus de deux fois le démarrage de Threads. L'usage numéro un est le <b>shopping</b>, avec un panier moyen supérieur à 200 $ : de quoi construire un modèle de <b>commissions payées par les commerçants</b>, en plus des abonnements.</p>
+  <div class="fig"><span>10 M+ utilisateurs</span><span>~25 % d'usage quotidien</span><span>n° 1 de l'App Store</span><span>panier &gt; 200 $</span></div>
+  <div class="quote">« En à peine un mois et demi, plus de 10 millions de personnes ont configuré un agent Muse ; nous sommes numéro un de l'App Store presque chaque jour. »<em>Mark Zuckerberg, fondateur et directeur général</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>La preuve d'un usage massif est là ; reste à prouver qu'il se monétise et se déploie dans le monde entier.</div>
+</div></div>
+
+<div class="pt"><div class="n">2</div><div>
+  <h3>L'IA maison fait déjà baisser les coûts</h3>
+  <p>En basculant l'analyse des contenus d'Instagram, de Threads, de Facebook et des publicités sur ses propres modèles <b>Muse</b>, Meta obtient de meilleures recommandations <b>pour un coût unitaire réduit de plus de 80 %</b>. Dans le même temps, le moteur publicitaire s'améliore à chaque nouveau modèle : <b>prix moyen par publicité +14 %</b>, conversions en hausse, près de 10 millions d'annonceurs utilisant les outils créatifs d'IA.</p>
+  <div class="fig"><span>Coût unitaire −80 %</span><span>Prix par pub +14 %</span><span>Impressions +10 %</span><span>CA +26 %</span></div>
+  <div class="quote">« Ces modèles surpassent nos modèles de production précédents et réduisent de plus de 80 % le coût unitaire de traitement des contenus. »<em>Susan Li, directrice financière</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Les dépenses d'IA ne sont pas qu'un pari futur : elles renforcent déjà le cœur rentable et ses marges unitaires.</div>
+</div></div>
+
+<div class="pt"><div class="n">3</div><div>
+  <h3>Reality Labs passe au second plan, les pertes reculent</h3>
+  <p>Après plus de 80 Md$ de pertes cumulées depuis 2020, la direction ralentit les investissements dans les casques de réalité virtuelle (nouveaux modèles uniquement en cas de vraie rupture) et recentre la division sur les <b>lunettes connectées équipées de Muse</b>. Les pertes passent de <b>19,2 Md$ en 2025</b> à 18-19 Md$ en 2026, puis <b>environ 15 Md$ en 2027</b>, avec une trajectoire affichée vers la rentabilité.</p>
+  <div class="fig"><span>2025 : −19,2 Md$</span><span>2026 : −18 à −19 Md$</span><span>2027 : ~−15 Md$</span></div>
+  <div class="quote">« Nous attendons une amélioration du compte de résultat de Reality Labs, avec une perte ramenée à environ 15 milliards de dollars l'an prochain, puis une tendance vers la rentabilité. »<em>Mark Zuckerberg, fondateur et directeur général</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Le principal gouffre historique se réduit : chaque milliard de pertes en moins vaut environ 0,32 $ de BPA.</div>
+</div></div>
+
+<div class="pt"><div class="n">4</div><div>
+  <h3>La croissance doit rester forte en 2027</h3>
+  <p>Le T3 a battu toutes les attentes (<b>64,6 Md$, +26 %</b>, au-dessus de la fourchette de Meta), et la prévision du T4 (<b>73 à 76 Md$</b>, environ +24 %) dépasse le consensus. Sans donner de chiffre, la direction annonce une <b>« forte croissance » du chiffre d'affaires tout au long de 2027</b>, portée par la publicité et par de nouveaux revenus : WhatsApp payant, abonnements Meta One (15 millions), API et outils pour les entreprises.</p>
+  <div class="fig"><span>T3 : +26 %</span><span>T4 : ~+24 %</span><span>Autres revenus +59 %</span><span>3,64 Md d'utilisateurs/jour</span></div>
+  <div class="quote">« Les bénéfices de nos investissements en IA pour le cœur de métier, ajoutés aux nouvelles opportunités, nous permettent de maintenir une forte croissance du chiffre d'affaires tout au long de 2027. »<em>Susan Li, directrice financière</em></div>
+  <div class="why"><b>POUR LE BUY AND HOLD</b>Aucune entreprise de cette taille ne croît aussi vite : le moteur qui finance le pari ne faiblit pas.</div>
+</div></div>
+
+<div class="pt"><div class="n">5</div><div>
+  <h3>Le prix du pari : le cash devient le vrai sujet</h3>
+  <p>Les investissements atteindront <b>135 à 145 Md$ en 2026</b> (72 Md$ en 2025), et le flux de trésorerie disponible est devenu <b>négatif au T3</b> (−2,1 Md$), une première depuis 2012. Meta ne rachète plus d'actions, s'endette (81 Md$ de dette) et crée une <b>classe d'actions sans droit de vote</b> pour pouvoir lever des capitaux sans diluer le contrôle du fondateur. S'y ajoute un front judiciaire lourd, dont une pénalité de <b>25 Md$</b> au Nouveau-Mexique, frappée d'appel.</p>
+  <div class="fig"><span>Investissements ~140 Md$</span><span>FCF T3 −2,1 Md$</span><span>BPA hors charge +2 %</span><span>Actions C en janv. 2027</span></div>
+  <div class="quote">« Si l'efficacité du calcul continue de progresser rapidement pendant quelques années, ce qui est très probable, Muse sera très rentable. »<em>Mark Zuckerberg, fondateur et directeur général</em></div>
+  <div class="why warn"><b>POINT DE VIGILANCE</b>Toute la thèse repose sur la baisse du coût du calcul : c'est elle qui doit transformer la croissance en cash.</div>
+</div></div>
+
+<div class="sec">Le débat en deux colonnes</div>
+<div class="two">
+  <div class="col bad"><h4>Ce qui inquiète le marché</h4><ul>
+    <li><b>Le gouffre des investissements.</b> Plus de la moitié du chiffre d'affaires réinvestie en 2026, aucun chiffre pour 2027, près de 700 Md$ d'engagements hors bilan.</li>
+    <li><b>Le cash.</b> FCF négatif au T3, rachats suspendus, actions C prêtes à servir au financement.</li>
+    <li><b>Les tribunaux.</b> 25 Md$ au Nouveau-Mexique, accord de 18,6 Md$ avec les États, procès sur les mineurs en série.</li>
+    <li><b>La concurrence des agents.</b> OpenAI, Google, Amazon (qui bloque Muse) et Apple contrôlent une partie de l'accès au commerce.</li>
+  </ul></div>
+  <div class="col good"><h4>Ce qui rassure l'investisseur patient</h4><ul>
+    <li><b>Le fossé.</b> 3,64 milliards d'utilisateurs par jour et des annonceurs qui acceptent des prix en hausse de 14 %.</li>
+    <li><b>La rentabilité.</b> Marge opérationnelle de 35 % hors charges juridiques, ROIC de 26 %.</li>
+    <li><b>L'exécution.</b> Muse conçu et lancé en huit mois, coûts de traitement divisés par cinq, effectifs −15 % avec une croissance de +26 %.</li>
+    <li><b>Le prix.</b> ~21 fois les bénéfices futurs, sous Alphabet (25x), Amazon (28x) et la moyenne historique de Meta (~26x).</li>
+  </ul></div>
+</div>
+
+<div class="sec">Ce que le marché refuse de voir</div>
+<div class="contra"><div class="k">Point de vue à contre-courant</div>
+Le marché traite les dépenses d'IA de Meta comme il traitait le métavers : <b>un coût sans retour garanti</b>. Or une large part de ces dépenses est un investissement dans <b>le cœur publicitaire lui-même</b>, déjà rentabilisé par la hausse du prix des publicités et la baisse de 80 % du coût de traitement des contenus. Meta est par ailleurs la seule entreprise capable de déployer un agent d'IA <b>à l'intérieur de messageries que 3,6 milliards de personnes utilisent déjà</b>, sans avoir à les convaincre de télécharger quoi que ce soit. À 21 fois les bénéfices, l'investisseur paie l'entreprise de publicité et reçoit <b>l'option Muse presque gratuitement</b>.
+</div>
+
+<div class="sec">La grille des 6 traits</div>
+<div class="sub">Les six traits des grands gagnants boursiers, appliqués à Meta.</div>
+<div class="bh">
+  <div class="bhh"><div class="note">7,0<small> / 10</small></div><div class="badge">PROFIL COMPATIBLE</div></div>
+  <div class="tr"><span class="tn">1</span><span class="tt">Leader d'un secteur émergent</span><span class="tb"><span style="width:70%;background:var(--gold)"></span></span><b style="color:var(--gold)">7/10</b><span class="tl" style="color:var(--gold)">PLUTÔT OUI</span></div>
+  <div class="tr"><span class="tn">2</span><span class="tt">Avantage compétitif durable</span><span class="tb"><span style="width:90%;background:var(--green)"></span></span><b style="color:var(--green)">9/10</b><span class="tl" style="color:var(--green)">OUI</span></div>
+  <div class="tr"><span class="tn">3</span><span class="tt">Forte hausse passée du cours</span><span class="tb"><span style="width:60%;background:var(--gold)"></span></span><b style="color:var(--gold)">6/10</b><span class="tl" style="color:var(--gold)">PLUTÔT OUI</span></div>
+  <div class="tr"><span class="tn">4</span><span class="tt">Bon management, bons soutiens</span><span class="tb"><span style="width:70%;background:var(--gold)"></span></span><b style="color:var(--gold)">7/10</b><span class="tl" style="color:var(--gold)">PLUTÔT OUI</span></div>
+  <div class="tr"><span class="tn">5</span><span class="tt">Forte attractivité client</span><span class="tb"><span style="width:60%;background:var(--gold)"></span></span><b style="color:var(--gold)">6/10</b><span class="tl" style="color:var(--gold)">PLUTÔT OUI</span></div>
+  <div class="tr"><span class="tn">6</span><span class="tt">Jugée « surévaluée »</span><span class="tb"><span style="width:70%;background:var(--gold)"></span></span><b style="color:var(--gold)">7/10</b><span class="tl" style="color:var(--gold)">PLUTÔT OUI</span></div>
+  <div class="bhnote"><b>Verrou respecté :</b> aucun « non » franc sur les traits 1, 2 et 4. Le trait le plus solide est l'avantage compétitif (9/10) ; le plus discutable dans le verrou est le management (7/10), un fondateur brillant mais sans contre-pouvoir, qui a déjà perdu plus de 80 Md$ dans le métavers.</div>
+</div>
+
+<div class="sec">Les trois rendez-vous à surveiller</div>
+<div class="watch">
+  <div class="w"><div class="when">Fin janvier 2027</div><div class="what">Résultats du T4 et budget 2027</div><div class="bar">Seuil rassurant : croissance guidée <b>≥ 20 %</b> et investissements <b>≤ 200 Md$</b>.</div></div>
+  <div class="w"><div class="when">19 janvier 2027</div><div class="what">Naissance des actions de catégorie C</div><div class="bar">Seuil rassurant : <b>aucune émission</b> supérieure à 3 % du capital pour financer les centres de données.</div></div>
+  <div class="w"><div class="when">Au fil de 2027</div><div class="what">Monétisation et ouverture mondiale de Muse</div><div class="bar">Seuil rassurant : premier <b>chiffre de revenus</b> publié et plus de <b>50 M</b> d'utilisateurs.</div></div>
+</div>
+
+<div class="sec">Que faire ?</div>
+<div class="act">
+  <div class="col good"><h4>Renforcer si…</h4><ul>
+    <li>Le budget 2027 combine une croissance d'au moins 20 % et des investissements maîtrisés.</li>
+    <li>Le titre revient vers <b>560-600 $</b> (~18 fois le BPA 2027) sans dégradation de la publicité.</li>
+    <li>Le flux de trésorerie disponible redevient positif au premier semestre 2027.</li>
+  </ul></div>
+  <div class="col bad"><h4>Alléger ou sortir si…</h4><ul>
+    <li>La croissance de la publicité passe sous <b>15 %</b> deux trimestres de suite.</li>
+    <li>Les investissements 2027 dépassent <b>250 Md$</b> sans nouvelle source de revenus chiffrée.</li>
+    <li>Meta émet massivement des actions C ou les condamnations cumulées dépassent 60 Md$.</li>
+  </ul></div>
+</div>
+
+<div class="sec">Verdict</div>
+<div class="verdict"><div class="t">Un cœur exceptionnel, un pari à surveiller de près</div>
+Pour l'investisseur Buy and Hold, Meta reste <b>une entreprise de premier rang</b> : effets de réseau inégalés, machine publicitaire qui accélère grâce à l'IA, rentabilité de 35 % hors éléments exceptionnels et un nouveau produit, Muse, qui a trouvé son public en quelques semaines. Ce qui a changé, c'est <b>l'intensité capitalistique</b> : Meta est devenu un constructeur d'infrastructures, et ses bénéfices ne se transforment plus en cash pour l'instant.<br><br>
+La position se justifie pour qui accepte une forte volatilité (des replis de 25 à 30 % ont déjà eu lieu en 2025-2026) en échange d'une <b>option sur l'IA payée au prix d'une entreprise de publicité</b>. La règle : <b>conserver, renforcer sur les confirmations de janvier 2027 ou sur les replis, et surveiller un seul signal d'alarme, le retour du flux de trésorerie disponible</b>.
+</div>
+
+<div class="disc">Ceci n'est pas un conseil en investissement. Données arrêtées au 22 octobre 2026.</div>
+</div>
+</body>
+</html>
