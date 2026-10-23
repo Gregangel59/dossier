@@ -7,18 +7,21 @@
 
 // --- Métadonnées de l'entreprise (carte d'accueil + en-tête) ---
 const meta = {
-  slug: "meta",                     // identifiant d'URL : /dossier/meta
+  slug: "meta",                     // identifiant d'URL : /dossier/meta
   ticker: "META",
   name: "Meta Platforms, Inc.",
   exchange: "Nasdaq",
-  sector: "Publicité numérique & Intelligence artificielle",
+  sector: "Publicité numérique et intelligence artificielle",
   initials: "META",                 // affiché dans la pastille
-  tagline: "Géant de la publicité numérique (Facebook, Instagram, WhatsApp) en pleine bascule vers la superintelligence, piloté par Mark Zuckerberg.",
-  riskScore: 79,                    // score du rapport de risque (ou null)
-  riskLabel: "Risque faible",
-  // Nom du fichier HTML déposé dans public/rapports/ (ou null si absent) :
+  tagline: "La plus grande machine publicitaire du monde (3,64 milliards d'utilisateurs par jour, +26 % de croissance) se transforme en pari géant sur l'IA : 135 à 145 Md$ d'investissements en 2026, un flux de trésorerie devenu négatif et un front judiciaire ouvert.",
+  riskScore: 56,                    // score du rapport de risque (ou null)
+  riskLabel: "Risque modéré",
+  // Nom du fichier HTML déposé dans public/rapports/ (ou null si absent) :
   riskReport: "meta.html",
-  updated: "2026-07",               // période des données (clôture 1er juillet 2026)
+  // « Les points clés de l'investisseur patient » (HTML déposé dans public/rapports/, ou null si absent) :
+  bhReport: "meta-buy-and-hold.html",
+  updated: "2026-10",               // période des données
+  published: "2026-10-22",          // date exacte de publication
 };
 
 const modules = [
@@ -29,496 +32,632 @@ const modules = [
     icon: "🏢",
     content: `## Modèle économique
 
-Meta Platforms est le **n°1 mondial de la publicité sur les réseaux sociaux**, fondé en 2004 (sous le nom de Facebook), rebaptisé Meta en 2021. Le chiffre d'affaires 2025 atteint **200,97 milliards $** (+22% a/a), pour un bénéfice net de **60,5 milliards $**. L'entreprise touche **3,56 milliards d'utilisateurs quotidiens** (mars 2026) — près de la moitié de l'humanité.
+Meta est le **premier propriétaire mondial de réseaux sociaux et de messageries** : Facebook, Instagram, WhatsApp, Messenger et Threads réunissent **3,64 milliards de personnes chaque jour** (septembre 2026, +3 % sur un an). En 2025, le groupe a réalisé **201,0 Md$ de chiffre d'affaires (+22 %)** pour un résultat opérationnel de **83,3 Md$** (marge de 41 %). Sur les neuf premiers mois de 2026, le chiffre d'affaires atteint **181,7 Md$ (+29 %)** et la direction vise **73 à 76 Md$** au quatrième trimestre, soit environ **256 Md$ sur l'année**.
 
-Le modèle est d'une simplicité radicale et d'une puissance rare : **monétiser l'attention par la publicité ciblée**. ~98% des revenus proviennent de la publicité numérique vendue sur ses applications. La couche d'IA (recommandation de contenu via Reels, ciblage automatisé via Advantage+) transforme un **graphe social inégalé** en marges publicitaires.
+Le modèle tient en une phrase : **offrir gratuitement des services de communication et de divertissement à des milliards d'utilisateurs, puis vendre leur attention à des annonceurs grâce à un ciblage et une mesure de performance inégalés.**
+- **Capter du temps d'écran** : fils d'actualité, vidéos courtes (Reels), messageries ; le temps passé par utilisateur sur Instagram et sur les Reels de Facebook progresse encore de plus de 10 % par an
+- **Monétiser par la publicité** : 97,7 % du chiffre d'affaires en 2026 ; la croissance vient à la fois du volume (impressions +10 % au T3 2026) et du prix (+14 %)
+- **Réinvestir massivement dans l'IA** : les modèles de recommandation et de ciblage (Andromeda, GEM, Meta Generative Recommender) augmentent l'engagement et le rendement des campagnes ; depuis 2025, Meta construit aussi ses propres modèles d'IA de pointe (gamme **Muse**) et un **agent personnel**, Muse, lancé le 8 septembre 2026
 
-Deux segments reportés :
-- **Family of Apps (FoA, ~99% du CA)** : Facebook, Instagram, WhatsApp, Messenger, Threads — publicité + revenus annexes
-- **Reality Labs (RL, ~1% du CA)** : casques VR/AR (Quest), lunettes IA (Ray-Ban Meta), logiciels — déficitaire structurel
+Meta ne vend donc pas un réseau social : il vend **des conversions** (achats, téléchargements, prospects) à plus de 10 millions d'annonceurs, et son véritable actif est la combinaison **audience mondiale + données + algorithmes**.
 
 ## Principaux produits et services
 
-- **Instagram** : 3 milliards d'utilisateurs mensuels, &gt;50% du CA pub américain — moteur de croissance principal
-- **Facebook** : socle historique, toujours massif
-- **WhatsApp** : monétisation naissante (business messaging) en forte croissance (+74% sur "Other revenue")
-- **Advantage+** : suite publicitaire IA à ~60 Mds$ de run-rate — automatise ciblage, création et enchères
-- **Meta AI / Superintelligence Labs** : assistant IA (modèle Muse Spark), pari frontière
-- **Reality Labs** : Quest (VR), Ray-Ban Meta & Oakley Meta (lunettes IA), prototype AR Orion
+**Famille d'applications (Family of Apps, 99,3 % du chiffre d'affaires)**
+- **Facebook** (fil, Reels, Groupes, Marketplace) et **Instagram** (fil, Reels, Stories ; environ 2 milliards d'utilisateurs quotidiens) : le cœur de la monétisation publicitaire
+- **WhatsApp** et **Messenger** : messageries ; monétisation par la messagerie professionnelle payante, les publicités « clic vers WhatsApp » et désormais la publicité dans l'onglet Actualités
+- **Threads** : a dépassé X en utilisateurs mensuels selon Mark Zuckerberg (octobre 2026)
+- **Autres revenus** (1,1 Md$ au T3 2026, +59 %) : messagerie WhatsApp payante, abonnements **Meta One** (plus de 15 millions d'abonnements et d'essais), offre Meta Verified
+
+**IA (rattachée à la famille d'applications)**
+- **Meta AI** et l'agent **Muse** : plus de 10 millions d'utilisateurs aux États-Unis et au Canada en six semaines ; formule gratuite et abonnements payants
+- **Meta Enterprise** : interface de programmation (API) des modèles, **Muse Code**, agents pour les entreprises (Meta Business Agent)
+
+**Reality Labs (0,7 % du chiffre d'affaires, 18 à 19 Md$ de pertes attendues en 2026)**
+- Lunettes connectées Ray-Ban Meta, Oakley Meta et Ray-Ban Display (avec EssilorLuxottica), casques Quest, logiciels de réalité virtuelle et mixte
 
 ## Clients, fournisseurs, concurrents
 
-**Clients** : &gt;10 millions d'annonceurs (de la PME au grand compte), des marques mondiales aux commerçants locaux. Aucune dépendance à un client unique.
+**Clients** : les **annonceurs** — des millions de PME (Meta estime à 500 millions le nombre de petites entreprises présentes sur ses applications), des marques mondiales, des plateformes de commerce en ligne et d'applications (notamment chinoises), des agences (WPP, Publicis, Omnicom). Les **utilisateurs** ne paient rien dans l'immense majorité des cas.
 
-**Fournisseurs** : Nvidia, AMD (GPU) ; TSMC (puces, dont silicium maison MTIA) ; Nebius Group (capacité GPU, deal ~27 Mds$) ; EssilorLuxottica (partenaire lunettes Ray-Ban) ; fournisseurs d'énergie pour data centers.
+**Fournisseurs** : fabricants de puces et de serveurs (**Nvidia**, **AMD** — contrat de 6 GW signé en février 2026 —, **Broadcom** pour les puces maison MTIA, **TSMC** en fonderie), fournisseurs de capacité de calcul (**CoreWeave** pour 35 Md$ de contrats, **Google Cloud**, Oracle), constructeurs et financeurs de centres de données (**Blue Owl** pour Hyperion en Louisiane, **BlackRock** pour El Paso au Texas), électriciens, **EssilorLuxottica** pour les lunettes.
 
-**Concurrents** : **Alphabet/Google** (publicité, IA, cloud), **TikTok/ByteDance** (vidéo courte, audience jeune), **Amazon** (publicité retail), **Snap, Pinterest, Reddit** (réseaux sociaux), **Apple** (via ATT, contrôle de la donnée mobile), **OpenAI/Anthropic** (course à l'IA frontière).
+**Concurrents** : **Alphabet** (Google et YouTube) pour les budgets publicitaires et l'IA ; **TikTok** (ByteDance) pour le temps d'écran des jeunes ; **Amazon** (publicité sur les sites marchands) ; **OpenAI** (ChatGPT, agent Dots lancé le 29 septembre 2026) dans la course aux assistants ; Snap, Pinterest, Reddit, X, AppLovin sur des niches ; **Apple** et **Google** comme propriétaires des systèmes d'exploitation mobiles.
 
-## Modalités contractuelles
+## Modalités contractuelles et de paiement
 
-La publicité est un modèle **transactionnel et automatisé** : enchères en temps réel (CPM/CPC), pas de contrats long terme. La valeur vient de la **profondeur des données utilisateurs**, de l'**échelle d'audience** et de l'**efficacité algorithmique** du ciblage. C'est un business à **marge brute ~82%** et marge opérationnelle ~41%, dont la rentabilité dépend du maintien de l'engagement et de la capacité à monétiser via l'IA.
+- **Côté annonceurs** : achat principalement **en libre-service et aux enchères** via le Gestionnaire de publicités ; facturation au coût par mille impressions, au clic ou à l'objectif ; paiement par carte bancaire ou prélèvement pour les PME, **crédit à 30-60 jours** pour les grands comptes et les agences. Les créances clients s'élèvent à **22,7 Md$** (30 septembre 2026), soit environ un mois de chiffre d'affaires
+- **Pas d'engagement de long terme** : les budgets publicitaires sont ajustables chaque jour, ce qui rend le chiffre d'affaires **sensible au cycle économique** (2022 l'a montré) mais extrêmement réactif aux gains de performance
+- **Côté fournisseurs** : contrats pluriannuels de plus en plus lourds — **349 Md$ d'engagements non résiliables** (cloud, matériel) et environ **347 Md$ de baux de centres de données non encore démarrés**, sur des durées allant jusqu'à 30 ans
 
-> **Note de prudence** : malgré une rentabilité exceptionnelle du cœur publicitaire, Meta engage un **capex IA massif (125-145 Mds$ en 2026, ~2× 2025)** dont le retour sur investissement n'est pas encore prouvé. Reality Labs creuse par ailleurs une perte cumulée &gt;70 Mds$ depuis 2021.`,
+> **Note de lecture** : Meta est aujourd'hui deux entreprises en une. La première, la publicité, est l'une des plus rentables du monde (marge opérationnelle de la famille d'applications proche de 45 % hors charges juridiques). La seconde, l'IA de pointe et les lunettes, consomme désormais **plus de trésorerie que la première n'en produit** : au T3 2026, les investissements (34,9 Md$) ont dépassé les flux d'exploitation (32,8 Md$) pour la première fois depuis l'introduction en Bourse de 2012.`,
   },
   {
     id: 2,
-    title: "Avantages compétitifs",
-    category: "Compréhension du business",
-    icon: "🏆",
-    content: `## Les fossés économiques (Moats)
-
-### 1. Effets de réseau — Moat le plus puissant au monde
-Avec **3,56 milliards d'utilisateurs quotidiens**, Meta possède le **plus grand graphe social de l'histoire**. La valeur de chaque application croît avec le nombre d'utilisateurs : on reste sur Instagram/WhatsApp parce que tout le monde y est. Ce verrouillage est **structurellement irréplicable** pour un nouvel entrant — il faudrait reconstruire des milliards de relations.
-
-### 2. Moat de données — Le carburant de l'IA publicitaire
-Des années d'interactions (likes, partages, temps passé, achats) alimentent un **moteur de ciblage publicitaire** que peu d'acteurs peuvent égaler. Advantage+ (run-rate ~60 Mds$) transforme cette donnée en performance mesurable pour l'annonceur, créant un avantage de rendement difficile à concurrencer.
-
-### 3. Échelle et effet de levier opérationnel
-Une marge opérationnelle de **41%** sur 201 Mds$ de CA témoigne d'une structure de coûts diluée sur une base d'utilisateurs colossale. Chaque dollar de revenu publicitaire supplémentaire tombe en grande partie en résultat.
-
-### 4. Intégration verticale IA — Moat en construction
-Le **silicium maison MTIA** (4ᵉ génération) réduit la dépendance à Nvidia ; l'acquisition de Scale AI (~14,3 Mds$, fondateur Alexandr Wang comme directeur IA) verrouille un intrant critique de la chaîne d'entraînement. Meta tente de devenir auto-suffisant à l'échelle des modèles frontière.
-
-### 5. Marque et habitude — Coûts de changement comportementaux
-Si les coûts de changement contractuels sont nuls, les **coûts comportementaux** sont élevés : changer de réseau social signifie quitter ses contacts, son historique, ses habitudes. C'est un verrouillage psychologique et social, pas juridique.
-
-## Positionnement vs concurrence
-
-| Critère | Meta | Alphabet | TikTok |
-|---|---|---|---|
-| Audience quotidienne | ~3,56 Md | ~Énorme (Search/YouTube) | Forte, jeune |
-| Marge opérationnelle | ~41% | ~32% | Privé, opaque |
-| Diversification revenus | Faible (~98% pub) | Forte (cloud, devices) | Faible (pub) |
-| Avance IA publicitaire | Élevée | Élevée | Modérée |
-| Part pub sociale mondiale | ~70% | — | En hausse |
-
-## Pouvoir de négociation
-
-- **Vis-à-vis des annonceurs** : **Élevé** — l'audience et le rendement du ciblage rendent Meta quasi incontournable pour la pub digitale, mais la concurrence d'Alphabet et TikTok limite le pouvoir de prix absolu
-- **Vis-à-vis des fournisseurs de puces** : **Croissant** — le silicium maison MTIA et la multiplication des fournisseurs (Nvidia, AMD) réduisent la dépendance
-- **Vis-à-vis d'Apple** : **Faible** — l'App Tracking Transparency (ATT) a montré qu'Apple contrôle l'accès à la donnée mobile, un point de vulnérabilité structurel`,
-  },
-  {
-    id: 3,
     title: "Chaîne d'approvisionnement",
     category: "Compréhension du business",
     icon: "🔗",
-    content: `## Position de Meta dans la chaîne de valeur
+    content: `## La place de Meta dans la chaîne de valeur
 
-Meta occupe une position de **plateforme d'intermédiation publicitaire** : elle agrège l'attention de milliards d'utilisateurs en amont (gratuitement, en échange du service) et la revend aux annonceurs en aval. La couche technologique (IA, data centers) est le cœur de transformation.
+Meta occupe la position la plus rentable de la chaîne de la publicité numérique : **le propriétaire de l'audience et des données**. Il n'achète pas de contenus (ce sont les utilisateurs et les créateurs qui les produisent gratuitement), il ne dépend d'aucun intermédiaire pour vendre ses espaces, et il contrôle de plus en plus l'infrastructure technique qui fait tourner ses algorithmes. Sa dépendance majeure se déplace : hier les systèmes d'exploitation d'Apple et de Google, aujourd'hui **la puissance de calcul**.
 
-### Amont — Intrants
+### Amont — Le calcul, l'énergie et les contenus
 
-**Infrastructure de calcul** (poste d'investissement explosif) :
-- Nvidia, AMD — GPU pour l'entraînement et l'inférence IA
-- TSMC — fabrication des puces, dont le silicium maison **MTIA**
-- Nebius Group — capacité GPU externalisée (deal ~27 Mds$)
-- Fournisseurs d'énergie & opérateurs de data centers
+**Puces et serveurs** : **Nvidia** (processeurs graphiques Blackwell puis Rubin, accord pluriannuel conclu en février 2026), **AMD** (jusqu'à 6 GW de processeurs Instinct sur cinq ans à partir du second semestre 2026, avec un accélérateur sur mesure), **Broadcom** (conception des puces maison MTIA), **TSMC** (fabrication), **Arista** et **Broadcom** pour le réseau, fabricants de mémoire HBM (**SK Hynix**, **Samsung**, **Micron**), assembleurs de serveurs.
 
-**Matériel Reality Labs** :
-- EssilorLuxottica — partenaire des lunettes Ray-Ban Meta & Oakley Meta
-- Fabricants asiatiques de composants pour les casques Quest
+**Capacité de calcul louée** : **CoreWeave** (35 Md$ de contrats jusqu'en 2032), **Google Cloud** (contrat de plus de 10 Md$ sur six ans signé en 2025), **Oracle**, **Nebius** et d'autres fournisseurs spécialisés. Ces achats expliquent la ligne « coûts de jetons d'IA tiers » qui pèse désormais sur les charges.
 
-**Contenu** : généré gratuitement par les **utilisateurs eux-mêmes** (le produit, c'est l'attention) et les créateurs.
+**Centres de données** : campus **Hyperion** (Louisiane, coentreprise avec **Blue Owl**, environ 27 Md$ de financement obligataire, Meta à 20 %), **Prometheus** (Ohio), **El Paso** (Texas, coentreprise avec **BlackRock**), Alberta au Canada ; énergéticiens et producteurs d'électricité (dont du nucléaire et du gaz naturel) ; promoteurs et entreprises de construction (plus de 20 Md$ versés à des sous-traitants aux États-Unis).
+
+**Talents et modèles** : Meta Superintelligence Labs (dirigé par **Alexandr Wang**, ancien fondateur de **Scale AI**, dont Meta détient 49 % depuis 2025) ; données d'entraînement ; créateurs de contenus (plus de 10 millions référencés dans le Creator Marketing Hub).
+
+**Matériel grand public** : **EssilorLuxottica** (Ray-Ban, Oakley ; Meta en est actionnaire minoritaire), sous-traitants asiatiques pour les casques Quest.
 
 ---
 
-### Meta — Transformation et distribution
+### Meta — Le cœur technologique
 
-**Production** : data centers mondiaux, modèles d'IA (recommandation, ciblage, Muse Spark), plateformes applicatives.
+**Applications** : Facebook, Instagram, WhatsApp, Messenger, Threads, Edits (plus de 50 millions d'utilisateurs actifs), Muse.
 
-**Distribution** :
-- Applications mobiles & web (Facebook, Instagram, WhatsApp, Messenger, Threads)
-- Régie publicitaire automatisée (Advantage+, enchères temps réel)
-- Matériel grand public (Quest, lunettes IA)
+**Moteur d'IA** : systèmes de recommandation (classement des Reels, recherche générative), systèmes publicitaires (Andromeda pour la sélection, GEM pour le classement, Meta Generative Recommender), modèles de langage maison (Muse Spark, Muse Wonder), suite d'outils créatifs Advantage+.
 
----
-
-### Aval — Clients finaux
-
-**Annonceurs** : &gt;10 millions, de la PME locale aux multinationales — Procter & Gamble, Amazon (paradoxalement), e-commerçants Shopify, applications mobiles, marques de grande consommation.
-
-**Utilisateurs** : 3,56 milliards de personnes par jour — ils ne paient pas, ils sont monétisés via leur attention et leurs données.
-
-**Développeurs & créateurs** : écosystème de contenu et d'applications tierces.
+**Infrastructure** : plus de 250 Md$ d'immobilisations corporelles nettes, réseaux sous-marins, puces maison MTIA.
 
 ---
 
-### Cartographie simplifiée du flux
+### Aval — L'accès à l'utilisateur et à l'annonceur
+
+**Distribution des applications** : **Apple** (App Store, iOS) et **Google** (Play Store, Android) — une dépendance qui a coûté environ 10 Md$ de chiffre d'affaires en 2022 lors du changement de règles de suivi publicitaire d'Apple ; opérateurs télécoms ; fabricants de smartphones.
+
+**Annonceurs** : PME du monde entier, grandes marques (biens de consommation, distribution, automobile), commerçants en ligne et éditeurs d'applications (dont des plateformes chinoises comme **Temu** et **Shein**), agences (**WPP**, **Publicis**, **Omnicom**), partenaires de mesure et de commerce (**Shopify**, **Stripe**, **Walmart**, **Plaid** pour Muse ; protocole d'agents personnels avec **Sierra**).
+
+**Paiement** : **Visa**, **Mastercard**, **PayPal**, **Stripe** ; WhatsApp Pay en Inde et au Brésil.
+
+**Utilisateurs** : 3,64 milliards de personnes par jour, dont environ 43 % du chiffre d'affaires réalisé avec les utilisateurs des États-Unis et du Canada.
+
+---
+
+### Schéma de la chaîne de valeur
 
 \`\`\`
-INTRANTS            →   META (PLATEFORME)         →   AVAL
-Nvidia, AMD, TSMC       Data centers + IA             >10 M annonceurs
-Nebius (GPU)            Apps (FB, IG, WA)             3,56 Md utilisateurs
-EssilorLuxottica        Régie pub Advantage+          Créateurs
-(contenu = gratuit,     (ciblage = différenciateur)   (attention monétisée)
- fourni par les users)
+AMONT (CALCUL)              META (PLATEFORME)            AVAL (AUDIENCE ET REVENUS)
+Nvidia, AMD, Broadcom   →   Centres de données       →   iOS (Apple) / Android (Google)
+TSMC, SK Hynix, Micron      (Hyperion, Prometheus,        Opérateurs, smartphones
+CoreWeave, Google Cloud,    El Paso) ~140 Md$ en 2026     3,64 Md d'utilisateurs/jour
+Oracle, Nebius              Modèles Muse (MSL)            10 M+ annonceurs, 500 M PME
+Blue Owl, BlackRock         Recommandation + pub IA  →   Agences (WPP, Publicis…)
+(financement)               Facebook, Instagram,          Commerce : Shopify, Stripe,
+EssilorLuxottica            WhatsApp, Threads, Muse       Walmart, Plaid (agents)
+(lunettes)                  Reality Labs (lunettes)       Paiement : Visa, Mastercard
+Créateurs (contenu gratuit)                               Abonnés Meta One / Muse
 \`\`\`
 
-**Le pari central** : Meta investit massivement en amont (capex IA 125-145 Mds$) pour renforcer le moteur algorithmique qui monétise l'attention en aval — en pariant que cette dépense créera plus de valeur publicitaire qu'elle ne coûte.`,
+**Le pari central** : en possédant l'audience, les données et désormais les modèles d'IA, Meta capte presque toute la valeur publicitaire qu'il crée. Mais il devient, pour la première fois de son histoire, **une entreprise à forte intensité capitalistique** : ses investissements 2026 représentent plus de la moitié de son chiffre d'affaires, et sa dépendance la plus sensible est désormais l'**accès au calcul et à l'électricité**, dans un marché où Alphabet, Microsoft, Amazon et OpenAI se disputent les mêmes puces.`,
   },
   {
-    id: 4,
+    id: 3,
     title: "Segments",
     category: "Compréhension du business",
     icon: "📊",
-    content: `## Ventilation par segment — Exercice 2025
+    content: `## Ventilation du chiffre d'affaires et de la rentabilité
 
-Meta reporte **deux segments** : Family of Apps (FoA) et Reality Labs (RL). La quasi-totalité du profit vient de FoA ; RL est un investissement déficitaire de long terme.
+**Avertissement méthodologique** : Meta publie **deux segments** — la famille d'applications (Family of Apps, FoA) et Reality Labs (RL) — avec leur chiffre d'affaires et leur résultat opérationnel. Il **ne publie ni EBITDA ni résultat net par segment** ; l'EBITDA ci-dessous est approché en ajoutant au résultat opérationnel les dotations aux amortissements, majoritairement portées par la famille d'applications. La ventilation géographique ne porte que sur le chiffre d'affaires (selon la localisation des utilisateurs).
 
-### Family of Apps (FoA — ~99% du CA)
+### Par segment — exercices annuels (Md$)
 
-| Indicateur | 2025 | 2024 | Variation |
+| Segment | 2023 | 2024 | 2025 | 9 mois 2026 | Tendance |
+|---|---|---|---|---|---|
+| Famille d'applications — CA | 133,0 | 162,4 | 198,8 | 180,4 | +29 % sur 9 mois |
+| dont publicité | 131,9 | 160,6 | ~196,2 | 177,4 | +29 % (+27 % hors change) |
+| dont autres revenus | ~1,1 | ~1,7 | ~2,6 | 3,0 | +67 %, WhatsApp et abonnements |
+| Famille d'applications — résultat opé. | 62,9 | 87,1 | 102,5 | 67,4¹ | ~45 % de marge sur 9 mois hors charges juridiques |
+| Reality Labs — CA | 1,9 | 2,1 | 2,2 | 1,3 | Stable : Quest en baisse, lunettes en forte hausse |
+| Reality Labs — résultat opé. | −16,1 | −17,7 | −19,2 | −12,8 | 18 à 19 Md$ de pertes en 2026, ~15 Md$ en 2027 |
+| **Groupe — résultat opé.** | **46,8** | **69,4** | **83,3** | **54,6¹** | |
+| **Groupe — EBITDA approché** | **~57,9** | **~84,9** | **~101,8** | **~74,1** | |
+| **Groupe — résultat net** | **39,1** | **62,4** | **60,5²** | **52,5³** | |
+
+*¹ Après 12,3 Md$ de charges juridiques (2,4 Md$ au T2, 9,89 Md$ au T3) et 1,2 Md$ d'indemnités de licenciement. Hors ces éléments, le résultat opérationnel de la famille d'applications serait d'environ 80,9 Md$ sur neuf mois. ² Après une charge fiscale non monétaire de 15,93 Md$ liée à la loi fiscale américaine de 2025 (One Big Beautiful Bill Act). ³ Après un produit fiscal de 8,03 Md$ au T1 2026 qui compense en partie la charge de 2025.*
+
+### Par segment — trimestres récents (M$)
+
+| Trimestre | CA FoA | Résultat FoA | Marge FoA | CA RL | Perte RL |
+|---|---|---|---|---|---|
+| T3 2025 | 50 772 | 24 967 | 49 % | 470 | −4 432 |
+| T4 2025 | 58 938 | 30 766 | 52 % | 955 | −6 021 |
+| T1 2026 | 55 909 | 26 904 | 48 % | 402 | −4 030 |
+| T2 2026 | 60 370 | 23 390 | 39 %⁴ | 431 | −4 620 |
+| T3 2026 | 64 158 | 17 117 | 27 %⁴ | 443 | −4 129 |
+
+*⁴ T2 : 2,4 Md$ de charges juridiques et 1,2 Md$ d'indemnités ; T3 : 9,89 Md$ de charge liée à l'accord avec 52 procureurs généraux. Hors ces éléments, la marge de la famille d'applications serait d'environ 45 % au T2 et 42 % au T3.*
+
+---
+
+### Par zone géographique (part approximative du chiffre d'affaires)
+
+| Zone | Part du CA 2025 | Revenu moyen par utilisateur | Dynamique |
 |---|---|---|---|
-| Chiffre d'affaires | 198,8 Mds$ | 162,4 Mds$ | +22% |
-| Résultat opérationnel | 102,5 Mds$ | 87,1 Mds$ | +18% |
-| Marge opérationnelle | ~52% | ~54% | Légère pression |
+| États-Unis et Canada | ~43 % | Le plus élevé (plusieurs centaines de dollars par an) | Croissance soutenue par les prix ; marché le plus exposé aux litiges sur les mineurs |
+| Europe | ~23 % | Intermédiaire | Régulation (DMA, offre « publicités moins personnalisées ») ; croissance correcte |
+| Asie-Pacifique | ~19 % | Faible | Forte croissance des impressions ; annonceurs chinois exportateurs |
+| Reste du monde | ~15 % | Très faible | Volume d'utilisateurs ; monétisation de WhatsApp (Inde, Brésil) |
 
-FoA regroupe Facebook, Instagram, WhatsApp, Messenger, Threads. La publicité représente ~98% du total. Instagram (3 Md MAU) est devenu le principal moteur, &gt;50% du CA pub américain.
-
----
-
-### Reality Labs (RL — ~1% du CA)
-
-| Indicateur | 2025 | 2024 | Variation |
-|---|---|---|---|
-| Chiffre d'affaires | 2,2 Mds$ | 2,1 Mds$ | +3% |
-| Résultat opérationnel | -19,2 Mds$ | -17,7 Mds$ | -8% (perte accrue) |
-
-RL (Quest VR, Ray-Ban Meta, Orion AR) a perdu de l'argent **chaque trimestre** depuis sa séparation comptable. Perte cumulée &gt;70 Mds$ depuis 2021. La direction guide une perte 2026 "similaire à 2025", puis une réduction graduelle.
+**Lecture** : l'Amérique du Nord, avec environ 10 % des utilisateurs, génère plus de 40 % du chiffre d'affaires. La croissance des impressions vient surtout d'Asie et du reste du monde (zones moins monétisées), ce qui pèse mécaniquement sur le prix moyen par publicité ; à l'inverse, les gains de performance de l'IA font monter les prix dans les zones riches.
 
 ---
 
-### Évolution du chiffre d'affaires consolidé
+### Pourquoi les marges ont baissé en 2026
 
-| Exercice | CA | Croissance | Résultat net |
-|---|---|---|---|
-| 2024 | 164,5 Mds$ | — | ~62 Mds$ |
-| 2025 | 201,0 Mds$ | +22% | 60,5 Mds$ |
-| T1 2026 (trim.) | 56,3 Mds$ | +33% | 26,8 Mds$ |
+- **L'IA coûte plus cher qu'elle ne rapporte… pour l'instant** : amortissements (19,5 Md$ sur neuf mois, +48 %), achats de capacité cloud et de « jetons d'IA » à des tiers, salaires des chercheurs de Meta Superintelligence Labs. Les coûts et charges hors éléments juridiques ont progressé d'environ 36 % au T3 pour un chiffre d'affaires en hausse de 26 %
+- **Les litiges** : 12,3 Md$ de charges juridiques en 2026, sans compter les 25 Md$ de pénalité prononcés au Nouveau-Mexique le 21 octobre (frappés d'appel)
+- **Contrepoids** : réduction des effectifs (66 775 salariés fin septembre, −15 % sur un an) et baisse attendue des pertes de Reality Labs, réorientées vers l'IA
 
-**Point clé** : le résultat net 2025 (60,5 Mds$) est légèrement sous 2024 malgré la hausse du CA, du fait de l'accroissement de la perte RL et des coûts d'infrastructure. Le T1 2026 marque une **accélération** (+33%), dopée par un bénéfice fiscal exceptionnel de 8 Mds$.
+**Conclusion** : la famille d'applications reste une machine à cash exceptionnelle (plus de 100 Md$ de résultat opérationnel annuel), mais le groupe a délibérément choisi de sacrifier une partie de sa marge et la totalité de son flux de trésorerie disponible pour financer le calcul de l'IA. Le chiffre clé à suivre devient la **marge de la famille d'applications hors éléments exceptionnels** : 49 % au T3 2025, environ 42 % au T3 2026.`,
+  },
+  {
+    id: 4,
+    title: "Avantages compétitifs",
+    category: "Compréhension du business",
+    icon: "🏆",
+    content: `## Les fossés économiques (moats)
 
----
+### 1. Effets de réseau à l'échelle de la planète — le fossé principal
+3,64 milliards de personnes utilisent chaque jour au moins une application du groupe. WhatsApp est l'infrastructure de communication par défaut de l'Inde, du Brésil, de l'Europe du Sud ou de l'Afrique ; Instagram est le lieu où les marques et les créateurs construisent leur audience. Chaque nouvel utilisateur rend le service plus utile aux autres, et chaque annonceur supplémentaire enrichit le système d'enchères. **Aucun concurrent occidental ne peut reconstruire ce graphe social**, et même TikTok, qui a gagné la bataille du divertissement chez les jeunes, n'a pas de messagerie de masse.
 
-### Répartition géographique
+### 2. Données et machine publicitaire — l'avantage le plus rentable
+Vingt ans de signaux d'intérêt, d'engagement et de conversion alimentent des systèmes de ciblage et de mesure que les annonceurs jugent parmi les plus rentables du marché. L'IA renforce ce fossé : au T3 2026, le modèle GEM a augmenté de 9,6 % les conversions des publicités d'applications, Andromeda de 1,4 % les conversions sur Facebook, et les annonceurs qui suivent les recommandations de l'assistant Meta AI obtiennent près de 5 % de conversions en plus au même coût. **Le prix moyen par publicité progresse de 14 %** alors que les impressions augmentent de 10 % : la demande des annonceurs dépasse l'offre.
 
-Meta génère ses revenus mondialement, avec une **monétisation par utilisateur (ARPU) la plus élevée en Amérique du Nord et en Europe**. L'ARPU consolidé T1 2026 atteint 15,66 $ (+27% a/a). La croissance utilisateurs se fait surtout dans le reste du monde (ARPU plus faible).
+### 3. Échelle financière et capacité d'investissement
+Avec plus de 100 Md$ de résultat opérationnel annuel dans la famille d'applications, Meta peut investir 135 à 145 Md$ en 2026 sans vendre d'actions… jusqu'ici. Seule une poignée d'entreprises (Alphabet, Microsoft, Amazon) peuvent suivre ce rythme. C'est un **fossé par l'argent** : les acteurs de taille moyenne (Snap, Pinterest, Reddit) ne peuvent pas financer leurs propres modèles d'IA de pointe.
 
----
+### 4. Contrôle du fondateur et vitesse d'exécution
+La structure à deux classes d'actions donne à Mark Zuckerberg la majorité des droits de vote. C'est un risque de gouvernance, mais aussi un avantage : Meta peut **pivoter vite et investir à contre-courant** (Reels face à TikTok en 2020-2022, « année de l'efficacité » en 2023, Muse passé de l'idée au produit en huit mois en 2026). La création des actions sans droit de vote de catégorie C (janvier 2027) prolonge ce contrôle.
 
-### Dynamiques par segment
+### 5. Coûts de changement — MOYENS
+Côté utilisateurs, quitter WhatsApp ou Instagram signifie perdre ses contacts et son audience : le coût est élevé. Côté annonceurs, il est faible en théorie (les budgets se déplacent en un clic) mais élevé en pratique, car **aucun autre canal n'offre le même volume de conversions mesurables**. La faiblesse : les **jeunes générations**, qui partagent leur temps avec TikTok, YouTube et désormais les assistants d'IA.
 
-**Family of Apps** : moteur de profit quasi exclusif. Croissance tirée par le prix par publicité (+9% en 2025), les impressions (+18%) et la monétisation IA (Advantage+, WhatsApp business).
+## Positionnement face à la concurrence
 
-**Reality Labs** : option long terme sur l'informatique de demain. Échec relatif du métavers immersif, mais succès commercial inattendu des **lunettes Ray-Ban Meta** — pivot vers le wearable IA.`,
+| Critère | Meta | Alphabet (Google, YouTube) | TikTok | Amazon | OpenAI |
+|---|---|---|---|---|---|
+| Utilisateurs quotidiens | 3,64 Md (famille d'applications) | ~2 Md+ (YouTube, Search) | ~1 Md+ (mensuels, hors Chine) | — | Plusieurs centaines de millions (hebdomadaires) |
+| Part de la publicité dans le CA | ~98 % | ~75 % | ~100 % | ~10 % | Marginale |
+| Marge opérationnelle | ~33 % publiée (~39 % hors charges juridiques) | ~33 % | Non publiée | ~12 % | Négative |
+| Modèles d'IA maison | Oui (Muse Wonder, frontière depuis oct. 2026) | Oui (Gemini) | Oui (ByteDance) | Partiels | Oui (référence du secteur) |
+| Agent personnel | Muse (10 M+ utilisateurs) | Agents Gemini | — | Alexa+ | Dots (lancé le 29 sept. 2026) |
+| Messagerie de masse | Oui (WhatsApp, Messenger) | Non | Non | Non | Non |
+
+## Pouvoir de négociation
+
+- **Vis-à-vis des annonceurs** : **élevé**. Système d'enchères où la demande dépasse l'offre ; les prix montent de 12 à 14 % par an sans perte de clients
+- **Vis-à-vis des utilisateurs** : **élevé mais sous contrainte réglementaire** : l'accord de 2026 avec les procureurs généraux impose aux adolescents une limite par défaut de deux heures par jour et un blocage de minuit à 6 h ; l'Europe impose une offre « publicités moins personnalisées »
+- **Vis-à-vis des fournisseurs de puces et de cloud** : **faible à moyen**. Meta est l'un des trois ou quatre plus gros acheteurs de calcul au monde, mais Nvidia garde le pouvoir de prix ; la diversification (AMD, puces maison MTIA, location chez CoreWeave et Google) vise précisément à rééquilibrer ce rapport de force
+- **Vis-à-vis d'Apple et de Google** : **faible**. Ils contrôlent les systèmes d'exploitation, les magasins d'applications et une partie des signaux publicitaires. Les lunettes connectées sont la tentative de Meta de posséder sa propre plateforme
+- **Vis-à-vis des régulateurs et des tribunaux** : **faible**, et c'est le point noir : 18,6 Md$ d'accord avec 52 procureurs généraux, 25 Md$ de pénalité au Nouveau-Mexique, procès en série sur la santé mentale des mineurs
+
+> **En résumé** : le fossé de Meta est l'un des plus larges de la tech mondiale — effets de réseau, données, échelle financière. Il protège très bien la publicité. La question de 2026-2028 est différente : ce fossé suffit-il à transformer **150 à 250 Md$ d'investissements annuels dans l'IA** en nouveaux revenus (agents, abonnements, entreprises) avant que les concurrents ne s'emparent de la nouvelle interface ?`,
   },
   {
     id: 5,
     title: "Compétition",
     category: "Comparaison sectorielle",
     icon: "🌍",
-    content: `## Tableau comparatif — Mega-cap technologiques (juin 2026)
+    content: `## Tableau comparatif — Publicité numérique et plateformes (octobre 2026)
 
-| Société | Code Bloomberg | Capitalisation (Mds$) | EV/CA | EV/EBITDA | P/E | Rendement div. | ROE |
+| Société | Code Bloomberg | Cap. boursière | VE / CA | VE / EBIT | P/E | Rdt div. | ROE moyen 5 ans |
 |---|---|---|---|---|---|---|---|
-| **Meta Platforms** | **META US** | **~1 390** | **~7x** | **~13x** | **~20x** | **~0,4%** | **~33%** |
-| Alphabet | GOOGL US | ~3 840 | ~7x | ~17x | ~25x | ~0,4% | ~30% |
-| Microsoft | MSFT US | ~3 500 | ~12x | ~22x | ~32x | ~0,7% | ~35% |
-| Amazon | AMZN US | ~2 200 | ~3x | ~18x | ~35x | 0% | ~22% |
-| Apple | AAPL US | ~3 200 | ~8x | ~24x | ~30x | ~0,5% | ~150%* |
+| **Meta Platforms** | **META US** | **~1 780 Md$** | **~7,5x** | **~22,8x** | **~23,8x publié · ~21,0x futur** | **0,30 %** | **~29 %** |
+| Alphabet | GOOGL US | ~4 090 Md$ | ~8,9x | ~26,9x | ~16,8x publié¹ · ~25,0x futur | 0,26 % | ~30 % |
+| Amazon | AMZN US | ~2 830 Md$ | ~3,8x | ~31,6x | ~21,1x publié¹ · ~27,9x futur | 0 % | ~17 % |
+| AppLovin | APP US | ~90 Md$ | ~13,2x | ~17,0x | ~20,6x publié · ~14,9x futur | 0 % | n.s.² |
+| Reddit | RDDT US | ~29 Md$ | ~9,6x | ~34,0x | ~35,7x publié · ~25,3x futur | 0 % | n.s. (pertes avant 2025) |
+| Pinterest | PINS US | ~13 Md$ | ~2,8x | ~45,4x | ~58,7x publié · ~10,5x futur | 0 % | ~10 % |
+| Snap | SNAP US | ~11 Md$ | ~2,0x | n.s. (perte) | n.s. · ~8,8x futur | 0 % | négatif |
 
-*Données estimatives sur la base des cours et publications disponibles à juin 2026. *ROE Apple distordu par les rachats massifs réduisant les capitaux propres.*
+*Cours de clôture du 21 octobre 2026 ; ratios S&P Global Market Intelligence via StockAnalysis. Meta est valorisé à 697,52 $ (clôture précédant la réaction aux résultats ; −2,4 % en préouverture le 22 octobre). ¹ Les résultats publiés d'Alphabet et d'Amazon sont gonflés par des plus-values sur participations (notamment dans des laboratoires d'IA), d'où un P/E publié inférieur au P/E futur. ² ROE de plusieurs centaines de pour cent dû à des fonds propres très faibles. n.s. = non significatif. TikTok (ByteDance) et OpenAI ne sont pas cotés. À affiner avec un terminal de données avant toute décision.*
 
 ---
 
 ### Analyse comparative
 
-**Meta — La décote du sceptique**
-Meta se distingue par le **P/E parmi les plus bas du groupe mega-cap (~20,5x, forward ~17x)** alors que sa croissance de CA (+33% au T1) et sa marge opérationnelle (41%) figurent parmi les meilleures. Le marché applique une décote car (a) les revenus sont concentrés à ~98% sur la publicité, (b) le capex IA explose avec un ROI encore à prouver, (c) la gouvernance est verrouillée. Le consensus reste pourtant **"Strong Buy"** avec un objectif ~825 $ (vs ~613 $ à la clôture du 1er juillet 2026), soit un upside théorique de ~35%. Le rebond de +9,7% le 1er juillet, sur l'annonce d'un projet d'activité cloud, a commencé à résorber cette décote.
+**Meta — La qualité au prix du marché**
+Meta combine la **croissance la plus rapide des très grandes capitalisations** (+26 % au T3 2026, +24 % attendus au T4) avec une marge opérationnelle de 33 % publiée (environ 39 % hors charges juridiques). Pourtant, à environ 21 fois les bénéfices des douze prochains mois, il se paie **moins cher qu'Alphabet (25x) et Amazon (28x)** et au niveau de la médiane du panel (~20x). Son rendement des capitaux propres sur cinq ans (~29 %) est au niveau d'Alphabet, malgré l'accident de 2022 (18,5 %). La faiblesse est ailleurs : **un rendement du flux de trésorerie disponible de 1,6 %**, devenu négatif au T3, contre 1,3 % pour Alphabet et une valeur négative pour Amazon — les trois géants financent la même course au calcul.
 
 **Alphabet — Le rival le plus complet**
-Alphabet combine Search, YouTube et un cloud rentable. Ses initiatives IA (Gemini) montrent déjà un impact bottom-line que Meta n'a pas encore démontré — d'où une prime relative de valorisation. C'est le concurrent le plus dangereux car il attaque Meta sur la publicité ET l'IA.
+Search, YouTube, Google Cloud, puces TPU et modèles Gemini : Alphabet a ce que Meta n'a pas, **un métier de cloud** qui revend son calcul à des tiers et amortit ses investissements. C'est la raison pour laquelle le marché lui accorde une prime de valorisation alors que sa croissance est comparable. Meta tente de combler l'écart avec sa plateforme Meta Enterprise (API, Muse Code).
 
-**Microsoft / Amazon — Les diversifiés**
-MSFT (Azure) et AMZN (AWS) tirent une part majeure de leurs profits du cloud, ce que Meta n'a pas. Cette diversification justifie une partie de leur prime, mais leurs P/E (32-35x) supposent une exécution parfaite. Meta apparaît, par contraste, comme l'actif de qualité le moins cher.
+**Amazon — Le concurrent publicitaire discret**
+La publicité d'Amazon (environ 10 % de son chiffre d'affaires) capte les budgets de « bas de tunnel » (au moment de l'achat). Le blocage de l'agent Muse sur le site d'Amazon dès le 20 septembre 2026 montre que la bataille des agents de commerce a commencé.
+
+**AppLovin — La référence en efficacité publicitaire**
+Marge opérationnelle de 77 %, croissance supérieure à 30 % : AppLovin prouve qu'un moteur publicitaire piloté par l'IA peut être extraordinairement rentable. Mais il dépend des jeux mobiles et de l'e-commerce, et son titre a perdu 53 % en un an, rappel de la volatilité des valeurs publicitaires.
+
+**Reddit, Pinterest, Snap — Les acteurs de niche**
+Trois plateformes dont la capitalisation cumulée (~53 Md$) représente **3 % de celle de Meta**. Aucune ne peut financer de modèle d'IA de pointe ; leurs multiples bas (Pinterest, Snap) ou élevés (Reddit) reflètent leur dépendance au moteur de recherche de Google et aux budgets résiduels des annonceurs.
+
+**TikTok et OpenAI — Les deux menaces non cotées**
+TikTok reste le principal concurrent pour le temps d'écran des moins de 25 ans aux États-Unis et en Europe. OpenAI est le concurrent le plus direct sur la nouvelle interface (assistants et agents) : Dots, son agent lancé fin septembre, a fait reculer l'action Meta de près de 5 % le 28 septembre.
 
 ---
 
-### Le ratio qui compte : P/E rapporté à la croissance (PEG)
-Le **PEG de Meta (~0,81)** est le plus favorable du groupe — on paie moins de 1× la croissance. Si l'IA publicitaire continue de doper l'ARPU et que le capex finit par monétiser, le re-rating du multiple vers la médiane historique (~28x) représenterait un upside substantiel. C'est la thèse bull principale en 2026-2027.`,
+### Le ratio qui compte : intensité capitalistique
+
+| Société | Investissements / CA (12 mois) | Rendement FCF |
+|---|---|---|
+| Meta | ~45 % (55 % attendus sur 2026) | ~1,6 % |
+| Alphabet | ~30 % | ~1,3 % |
+| Amazon | ~22 % | négatif |
+
+En 2023, Meta investissait 21 % de son chiffre d'affaires. Il est passé du statut de société « légère en capital » à celui de **constructeur d'infrastructures** : c'est ce changement, plus que le niveau des multiples, qui explique pourquoi le marché refuse de lui accorder une prime.`,
   },
   {
     id: 6,
     title: "Résultats financiers",
     category: "Analyse financière",
     icon: "📈",
-    content: `## Résultats T1 2026 — Analyse complète
+    content: `## Résultats du T3 2026 (publiés le 21 octobre 2026)
 
-### Chiffre d'affaires vs consensus
+### Chiffre d'affaires et bénéfices face aux attentes
 
-| Indicateur | T1 2026 | Consensus | Écart |
-|---|---|---|---|
-| CA | 56,3 Mds$ | 55,5 Mds$ | **+0,8 Md$ ✓** |
-| Croissance a/a | +33% | — | Accélération |
-| BPA GAAP | 10,44 $ | 6,79 $ | **Dépassé (dont fiscal)** |
-| BPA ajusté (hors fiscal) | 7,31 $ | 6,79 $ | **+9,6% beat** |
-| Résultat net | 26,8 Mds$ | — | Dont 8,03 Mds$ de bénéfice fiscal |
-| Marge opérationnelle | 41% | — | Stable malgré +35% de coûts |
+| Indicateur | T3 2026 | Prévision Meta | Consensus | T3 2025 | Écart |
+|---|---|---|---|---|---|
+| Chiffre d'affaires | 64 601 M$ | 61 000 – 64 000 M$ | 63 340 M$ | 51 242 M$ | **+2,0 % vs consensus**, au-dessus de la fourchette (+26 % a/a) |
+| Publicité | 63 061 M$ | — | ~61 870 M$ | 50 082 M$ | +26 % a/a |
+| Résultat opérationnel | 12 988 M$ | — | — | 20 535 M$ | −37 % a/a (+11 % hors charge juridique) |
+| Marge opérationnelle | 20 % (35 % hors charge) | — | — | 40 % | −5 pts hors charge |
+| Résultat net | 9 860 M$ | — | — | 2 709 M$¹ | +264 % (base 2025 écrasée par la fiscalité) |
+| BPA dilué publié | 3,83 $ | — | 3,57 $ | 1,05 $¹ | **+7,3 % vs consensus** |
+| BPA hors charge juridique | 7,40 $ | — | — | 7,25 $¹ | **+2 % a/a seulement** |
+| Flux de trésorerie disponible | −2 120 M$ | — | — | 10 625 M$ | **Premier FCF négatif depuis 2012** |
 
-**Meta a dépassé le consensus** sur le CA et nettement sur le BPA. Mais attention : le BPA GAAP de 10,44 $ inclut un **bénéfice fiscal ponctuel de 8,03 Mds$** (lié à la fiscalité R&D US). Le vrai beat opérationnel est le BPA ajusté à 7,31 $ (+9,6% vs consensus).
+*¹ Le T3 2025 supportait une charge fiscale non monétaire de 15,93 Md$ ; hors cet élément, le BPA était de 7,25 $.*
+
+**Lecture** : un trimestre **excellent sur le chiffre d'affaires** (sept fois sur les dix derniers trimestres, Meta a dépassé le haut de sa propre fourchette) mais **décevant sur la conversion en bénéfice** : hors éléments exceptionnels des deux années, le BPA ne progresse que de 2 % quand les ventes gagnent 26 %. Les coûts hors charge juridique ont augmenté d'environ 36 %.
 
 ---
 
-### Facteurs clés par segment
+### Facteurs clés
 
-- **Family of Apps** : moteur, +33% — publicité dopée par l'IA, ARPU +27% à 15,66 $
-- **Reality Labs** : -4,03 Mds$ de perte opérationnelle au T1, sur seulement 402 M$ de CA
-- **Impressions pub** : +19% ; **prix par pub** : en hausse — combinaison vertueuse
-- **WhatsApp / Other** : +74% — monétisation du business messaging en plein décollage
+- **Publicité** : 63,1 Md$ (+26 %), impressions **+10 %** (croissance saine dans toutes les régions, optimisation de la charge publicitaire), prix moyen **+14 %** (gains de performance de l'IA et meilleure conjoncture qu'au T3 2025)
+- **Engagement** : temps passé par utilisateur sur Instagram au plus haut historique (+10 % et plus), temps passé sur les Reels de Facebook en hausse à deux chiffres, temps passé sur Threads +20 % ; **3,64 milliards** d'utilisateurs quotidiens (+3 %, légèrement sous les 3,65 milliards attendus)
+- **Autres revenus** : 1,1 Md$ (+59 %), portés par la messagerie WhatsApp payante et les abonnements
+- **Publicités en partenariat avec des créateurs** : plus de 15 Md$ de revenus annualisés (+97 %)
+- **Reality Labs** : 443 M$ de chiffre d'affaires (−6 %, baisse des casques Quest, forte hausse des lunettes) et 4,13 Md$ de perte, mieux qu'attendu (4,54 Md$)
+
+**Accélération ou ralentissement ?** La croissance a culminé au T1 2026 (+33 %, aidée par le change) puis s'est normalisée (+28 %, +26 %) ; la prévision du T4 (+24 % au milieu de la fourchette) reste **la plus forte des très grandes capitalisations**.
 
 ---
 
 ### Évolution des marges
 
-- Marge opérationnelle maintenue à **41%** malgré une hausse des coûts de +35% (infrastructure, amortissement, talents IA) — signe d'un fort levier opérationnel
-- La discipline de coûts (8 000 suppressions de postes en mai, coupe RL jusqu'à -30%) vise à protéger la marge
+- **Marge brute** : 79,3 % au T3 2026 contre 82,0 % un an plus tôt — l'infrastructure (amortissements, cloud tiers, jetons d'IA) pèse sur le coût des revenus (+45 %)
+- **Recherche et développement** : 20,1 Md$ (+32 %), soit 31 % du chiffre d'affaires
+- **Frais généraux** : 14,9 Md$, dont 9,89 Md$ de charge liée à l'accord avec 52 procureurs généraux sur la santé mentale des adolescents
+- **Taux d'imposition** : 24 % (part non déductible des charges juridiques), 17 % hors charge
+- **Effectifs** : 66 775 salariés (−15 % sur un an, −12 % sur un trimestre après le plan de mai 2026)
 
 ---
 
-### Perspectives et guidance
+### Prévisions et perspectives
 
-- **CA T2 2026** : 58-61 Mds$ (~+25% au point milieu), avec ~2% de vent favorable de change
-- **Dépenses totales 2026** : 162-169 Mds$ (inchangé)
-- **Résultat opérationnel 2026** attendu **supérieur à 2025**
-- **Capex 2026 relevé** : de 115-135 à **125-145 Mds$** — c'est cette hausse qui a fait chuter le titre
+| Élément | Nouvelle prévision | Prévision précédente | Commentaire |
+|---|---|---|---|
+| CA du T4 2026 | 73 – 76 Md$ (+22 à +27 %) | — | Consensus ~72-74 Md$ : **au-dessus** |
+| Charges totales 2026 | 175 – 179 Md$ | 165 – 169 Md$ | Relevées du seul montant de la charge juridique |
+| Résultat opé. 2026 | Supérieur à 2025 hors charge du T3 | Supérieur à 2025 | Maintenu |
+| Investissements 2026 | 135 – 145 Md$ | 130 – 145 Md$ | Plancher relevé ; 85,8 Md$ dépensés sur neuf mois |
+| Pertes Reality Labs | 18 – 19 Md$ en 2026, ~15 Md$ en 2027 | — | En baisse vs 19,2 Md$ en 2025 |
+| 2027 | « Forte croissance du chiffre d'affaires » et investissements « agressifs » | — | **Aucun chiffre** ; prévisions en janvier |
+
+**Changement de ton** : pour la première fois, la direction parle de **monétiser plus vite que d'habitude** (Muse) et crée un outil de financement par actions (catégorie C) — un signal que l'autofinancement ne suffit plus.
 
 ---
 
-### Signaux d'alerte bilan
+### Bilan et flux de trésorerie
 
-- **Capex explosif** : 19,8 Mds$ au seul T1 2026, guidance annuelle ~2× 2025 — FCF sous pression
-- **Engagements contractuels** : +107 Mds$ de "step-up" sur le trimestre, total ~238 Mds$ — engagements d'infrastructure massifs
-- **Bilan solide** : 81,2 Mds$ de cash vs 58,7 Mds$ de dette — trésorerie nette positive, aucun risque de solvabilité
-- **Risques juridiques** : litiges jeunesse, DSA européen, fiscalité — provisions potentielles en milliards
+- **Flux d'exploitation** : 32,8 Md$ (+9 %) ; **investissements** : 34,9 Md$ (+80 %) ; **FCF** : −2,1 Md$
+- **Trésorerie et placements** : 82,4 Md$ (90,3 Md$ fin juin) ; **dette à long terme** : 80,9 Md$ (58,7 Md$ fin 2025, après une émission obligataire de 24,9 Md$ en mai) ; trésorerie nette proche de zéro
+- **Rachats d'actions** : **aucun en 2026** (26,2 Md$ sur les neuf premiers mois de 2025) ; dividende maintenu (1,36 Md$ par trimestre)
+- **Créances clients** : 22,7 Md$ (+15 % depuis décembre, en ligne avec l'activité) ; **dettes fournisseurs** : 19,1 Md$ (multipliées par 2,1 depuis décembre, reflet des achats d'équipements)
+- **Hors bilan** : environ 349 Md$ d'engagements non résiliables et 347 Md$ de baux de centres de données non démarrés (au 30 juin et en juillet)
 
 ---
 
 ### Réaction du marché
 
-Paradoxalement, le titre a **chuté de ~6-7% après publication** malgré le beat, sanctionnant la **hausse du capex** et un léger manque sur les utilisateurs (3,56 Md vs 3,62 Md attendus, attribué aux coupures internet en Iran). Le marché a "puni le bon élève" : il craint que l'investissement IA dépasse la capacité du cœur publicitaire à le financer.
+Le titre a clôturé à **697,52 $** le 21 octobre, puis a gagné jusqu'à **3,8 %** après Bourse (723,93 $) avant de **reculer d'environ 2,4 à 3 % en préouverture le 22 octobre** (vers 680 $). Au moins 13 courtiers ont relevé leur objectif de cours (consensus : environ 815 $).
 
-**Suite (juin-juillet 2026)** : le titre a continué de sous-performer (creux ~520 $) jusqu'à un **retournement le 1er juillet 2026 : +9,7% à 612,91 $** sur l'annonce (Bloomberg) d'un projet d'activité cloud vendant la capacité de calcul IA excédentaire. Ce même jour, les valeurs neocloud (CoreWeave -11%, Nebius -12%) ont chuté, y voyant l'arrivée d'un concurrent hyperscaler bien capitalisé. Cet écart entre fondamentaux solides et sentiment de marché volatil est le cœur du débat sur la valeur.`,
+**Ce que cela indique** : le marché avait déjà intégré une forte croissance publicitaire et le succès de Muse (+27 % en septembre). Il juge désormais Meta sur **trois questions** : le montant des investissements 2027, le retour du flux de trésorerie en territoire positif et l'addition judiciaire — alourdie le jour même par la **pénalité de 25 Md$** prononcée au Nouveau-Mexique.
+
+**Éléments inhabituels** : premier FCF négatif depuis 2012, création d'une catégorie d'actions sans droit de vote, accord de « fidélisation » avec le fondateur lié à un projet d'impôt sur la fortune en Californie, aucun rachat d'actions depuis dix mois, 12,5 Md$ de trésorerie soumise à restriction (probablement liée aux paiements de l'accord avec les États).`,
   },
   {
     id: 7,
     title: "Earnings Calls",
     category: "Analyse financière",
     icon: "📞",
-    content: `## Analyse des conférences téléphoniques — Priorités du management
+    content: `## Analyse du discours de la direction
 
-### Ton général — Évolution 2023-2026
+Les conférences réunissent **Mark Zuckerberg** (fondateur, PDG) et **Susan Li** (directrice financière). Le premier fixe la vision (la « superintelligence personnelle »), la seconde traduit en chiffres et défend la discipline financière.
 
-**2023 — "Year of Efficiency"** : Ton de redressement. Après le krach de 2022 (métavers), Mark Zuckerberg a opéré un virage radical — 21 000 suppressions de postes, recentrage sur la publicité et l'IA de recommandation. Message : discipline et retour à la rentabilité.
+### Évolution du ton sur cinq publications
 
-**2024-2025 — Confiance retrouvée** : Ton offensif. L'IA publicitaire (Advantage+, Reels) prouve sa valeur. Zuckerberg pivote le discours vers l'**IA générale** et la "personal superintelligence".
+**Octobre 2025 (T3 2025) — L'avertissement** : charge fiscale de 15,9 Md$ et annonce que les charges de 2026 croîtront « nettement plus vite » qu'en 2025. Le titre perd **environ 11 %**. Le marché découvre l'ampleur du pari.
 
-**2026 — "Personal superintelligence"** : Ton visionnaire et ambitieux. Zuckerberg : *"Nous sommes en bonne voie pour offrir une superintelligence personnelle à des milliards de personnes."* Le lancement de Meta Superintelligence Labs et du modèle Muse Spark est présenté comme le développement le plus important de l'année.
+**Janvier 2026 (T4 2025) — L'offensive assumée** : Zuckerberg prédit une « accélération majeure de l'IA » en 2026 ; investissements prévus de **115 à 135 Md$**, mais promesse d'un **résultat opérationnel 2026 supérieur à celui de 2025**. Prévision du T1 au-dessus des attentes : **+10 %**.
+
+**Avril 2026 (T1 2026) — La facture monte** : premier modèle de Meta Superintelligence Labs (Muse Spark), croissance de 33 %, mais relèvement des investissements à **125-145 Md$** (prix des composants, Nvidia en tête). JPMorgan dégrade le titre : **−10 %**.
+
+**Juillet 2026 (T2 2026) — Le trou d'air** : 2,4 Md$ de charges juridiques, 1,2 Md$ d'indemnités (environ 8 000 départs annoncés en mai), BPA sous le consensus, FCF quasi nul (0,8 Md$). La direction lance Meta One et l'API des modèles, et évoque la vente de calcul à de grandes entreprises tout en jugeant que « vendre de l'intelligence » rapportera bien plus. **Environ −9 %**.
+
+**Octobre 2026 (T3 2026) — L'euphorie maîtrisée** : Zuckerberg parle d'un des **lancements les plus réussis de l'histoire** du groupe (Muse : plus de 10 millions d'utilisateurs en six semaines, 25 % d'utilisation quotidienne, numéro un de l'App Store) et de « vélocité » partout. Susan Li annonce les actions de catégorie C « par prudence », sans plan de financement. **+3,8 % après Bourse, puis −2 à −3 % le lendemain.**
 
 ---
 
-### Priorités répétées du management
+### Priorités répétées de la direction
 
-**1. L'IA comme priorité absolue du capital** — La CFO Susan Li l'a dit explicitement : "Meta considère l'investissement IA comme l'usage prioritaire de son capital" (pas de rachats au T4 2025 ni au T1 2026). Le capex 125-145 Mds$ matérialise ce choix.
+**1. La superintelligence personnelle** — Un agent capable pour chaque personne (Muse), servi à des milliards d'utilisateurs ; capacité de calcul dimensionnée pour **plus d'un milliard de personnes** d'ici quelques années.
 
-**2. Monétisation IA en quatre axes** — Zuckerberg détaille : (a) amélioration du cœur publicitaire, (b) agents personnels (gratuit + premium), (c) agents business (modèle de commission sur ventes), (d) ranking/recommandation.
+**2. La monétisation de l'IA** — Commissions sur les transactions facilitées par Muse (le shopping est l'usage numéro un, panier moyen supérieur à 200 $), abonnements pour les modèles avancés, offre pour les PME et les entreprises (API, Muse Code, agents commerciaux). Objectif : un revenu par utilisateur de Muse **supérieur** aux « plusieurs centaines de dollars par an » déjà générés par un utilisateur américain de la famille d'applications.
 
-**3. Discipline de coûts ciblée** — Coupe du budget Reality Labs jusqu'à -30%, ~8 000 suppressions de postes en mai 2026 pour "compenser" l'investissement IA. Le message : investir massivement sans laisser filer la marge.
+**3. L'efficacité du calcul** — Diviser par **plus de dix** le coût de service de Muse en un an (capacité creuse, modèles plus petits, optimisation de l'inférence).
 
-**4. Reality Labs comme option longue** — Le management assume les pertes (cumul &gt;70 Mds$) comme un pari sur l'informatique de demain, avec un succès tangible : les lunettes Ray-Ban Meta.
+**4. Le moteur publicitaire** — Gains continus de classement, de recherche générative et d'outils créatifs ; la direction insiste sur la « longue piste » de croissance du cœur de métier en 2027.
 
-**5. Retour au capital mesuré** — Dividende maintenu (1,3 Md$ au T1), 25 Mds$ d'autorisation de rachat restants, mais aucun rachat récent — l'IA prime.
+**5. La rentabilité de Reality Labs** — Pertes ramenées vers 15 Md$ en 2027, nouveaux casques uniquement en cas de rupture technologique, priorité aux lunettes avec Muse.
 
 ---
 
 ### Analyse du sentiment
 
-- **Confiance** : Très élevée, à la limite du visionnaire. Zuckerberg ne gère pas vers une marge cible précise — il pilote la croissance du profit opérationnel consolidé sur le long terme.
-- **Transparence** : Bonne sur la stratégie, plus floue sur le **calendrier de monétisation de l'IA** — le management parle d'opportunités sans engagement chiffré de ROI.
-- **Cohérence** : Le pivot IA est martelé depuis 2024 sans dévier. Mais la concentration du pouvoir sur une seule personne (Zuckerberg) signifie que la lisibilité repose sur **une seule vision**.
+| Publication | Ton | Thème dominant | Réaction du titre |
+|---|---|---|---|
+| T3 2025 | Prudent | Charge fiscale, charges 2026 en forte hausse | ≈ −11 % |
+| T4 2025 | Offensif | « Accélération majeure de l'IA » | ≈ +10 % |
+| T1 2026 | Confiant mais coûteux | Investissements relevés | ≈ −10 % |
+| T2 2026 | Défensif | Litiges, licenciements, FCF quasi nul | ≈ −9 % |
+| T3 2026 | Enthousiaste | Muse, actions de catégorie C | +3,8 % après Bourse, ≈ −2,5 % le lendemain |
 
-> **À lire entre les lignes** : le management vend une **trajectoire de superintelligence**, finançée par une machine publicitaire ultra-rentable. Tant que la pub finance le pari IA et que la marge tient, le discours est crédible. Le risque serait un dérapage simultané du capex et d'un ralentissement publicitaire.`,
+- **Confiance** : très élevée, voire militante (Zuckerberg affirme qu'il « doit exister une entreprise » qui porte la vision d'une IA au service de l'individu)
+- **Transparence** : **mitigée** — premiers indicateurs chiffrés sur Muse, mais **aucune prévision d'investissement ni de charges pour 2027**, aucun chiffre de coût unitaire de Muse
+- **Cohérence** : forte sur la stratégie (l'IA d'abord depuis 2023), plus faible sur l'enveloppe financière (le plan d'investissement 2026 a été relevé trois fois, de 115 à 135-145 Md$)
+
+> **À lire entre les lignes** : en quatre trimestres, le vocabulaire est passé de « discipline » à « vélocité », et du financement par les flux d'exploitation (« le pilier principal », disait Susan Li en juillet) à la préparation d'un financement par actions. La direction ne dit pas que Meta va émettre des actions ; elle s'est donné les moyens de le faire sans diluer le contrôle du fondateur.`,
   },
   {
     id: 8,
     title: "Management",
     category: "Gouvernance",
     icon: "👔",
-    content: `## Évaluation du management
+    content: `## Évaluation de la direction
 
-### Mark Zuckerberg — Fondateur, Président et Directeur Général
+### Mark Zuckerberg — Fondateur, président et directeur général (depuis 2004)
+**Bilan** : a créé Facebook en 2004 et en a fait un groupe de **1 780 Md$ de capitalisation**. Ses grandes décisions de capital ont été, pour la plupart, remarquables : **Instagram** (1 Md$ en 2012, aujourd'hui environ la moitié du chiffre d'affaires publicitaire américain selon des estimations de marché), **WhatsApp** (19 Md$ en 2014, 3 milliards d'utilisateurs), virage du mobile (2012-2013), riposte de **Reels** face à TikTok, « **année de l'efficacité** » de 2023 qui a fait passer la marge opérationnelle de 25 % à 41 %. Le contrepoint est massif : **plus de 80 Md$ de pertes cumulées dans Reality Labs** depuis 2020 pour un métavers qui n'a pas pris, et un pari sur l'IA de pointe dont le rendement reste à démontrer.
 
-**Track record** : Fondateur de Facebook en 2004, il a bâti l'une des entreprises les plus rentables de l'histoire. Bilan chiffrable :
-- Transformation d'un réseau étudiant en **plateforme de 3,56 Md d'utilisateurs quotidiens**
-- Acquisitions visionnaires : **Instagram** (2012, ~1 Md$ — aujourd'hui &gt;50% du CA pub US) et **WhatsApp** (2014, ~19 Mds$ — monétisation en plein décollage)
-- Pivot réussi de 2023 ("Year of Efficiency") : -21 000 postes, action passée de 88 $ à 485 $ en un an
-- Pari risqué et coûteux sur le métavers (Reality Labs, perte cumulée &gt;70 Mds$) — le revers de la médaille
+**Rémunération et participation** : salaire de 1 $ depuis 2013 ; sa rémunération déclarée correspond essentiellement à des frais de sécurité. Il détient environ 13 % du capital mais **la majorité des droits de vote** grâce aux actions de catégorie B (dix voix par action). Ventes régulières dans le cadre de plans programmés (10b5-1), dont 21,4 M$ le 24 septembre 2026.
 
-**Ancienneté et alignement** : Aux commandes depuis 2004 (20+ ans). Détient ~14% du capital économique mais **~61% des droits de vote** via les actions Class B (10 voix). Alignement financier réel, mais pouvoir disproportionné.
+### Susan Li — Directrice financière (depuis novembre 2022, dans le groupe depuis 2008)
+**Bilan** : a piloté l'« année de l'efficacité », l'introduction du premier dividende (2024), les rachats d'actions de 2023-2025, puis le financement de la vague d'investissements (émission obligataire de 24,9 Md$ en mai 2026, coentreprises de centres de données avec Blue Owl et BlackRock, notation Aa3/AA−).
+
+### Dina Powell McCormick — Présidente et vice-présidente du conseil (depuis janvier 2026)
+Ancienne associée de Goldman Sachs (16 ans), ancienne conseillère à la Maison-Blanche. Rôle créé pour **nouer des partenariats de financement avec des investisseurs et des États souverains** autour des centres de données. Son arrivée signale que le financement de l'IA est devenu un enjeu de direction générale.
+
+### Alexandr Wang — Directeur de l'IA (depuis juin 2025)
+Fondateur de **Scale AI**, recruté avec l'achat de 49 % de sa société (environ 14,3 Md$). Dirige Meta Superintelligence Labs, qui a livré en dix-huit mois les modèles Muse Spark puis **Muse Wonder** (premier modèle de « frontière » du groupe, octobre 2026). Profil jeune, coûteux, à fort enjeu de rétention des talents (départs ponctuels de chercheurs).
+
+### Les piliers historiques
+**Javier Olivan** (directeur des opérations depuis 2022, arrivé en 2007), **Chris Cox** (directeur des produits, 13e salarié, 2005), **Andrew Bosworth** (directeur technique, 2006), **C.J. Mahoney** (directeur juridique, ancien représentant adjoint au Commerce des États-Unis), **CJ Desai** (plateforme Meta Enterprise).
 
 ---
 
-### Équipe dirigeante
+### Ancienneté et alignement
 
-- **Susan Li — CFO** : architecte de la discipline financière, voix de la rigueur sur le capex et l'allocation
-- **Alexandr Wang — Chief AI Officer** : fondateur de Scale AI, recruté via un deal ~14,3 Mds$ pour diriger Superintelligence Labs — pari sur le talent IA frontière
-- Équipe construite pour la **bascule IA**, avec recrutements massifs de talents techniques
+| Dirigeant | Dans le groupe depuis | Dans la fonction depuis | Alignement |
+|---|---|---|---|
+| Mark Zuckerberg | 2004 | 2004 | ~13 % du capital, majorité des voix |
+| Susan Li | 2008 | 2022 | Rémunération en actions |
+| Javier Olivan | 2007 | 2022 | Ventes hebdomadaires régulières depuis janvier 2026 |
+| Chris Cox | 2005 | 2020 | 40 000 actions vendues le 21 septembre 2026 |
+| Alexandr Wang | 2025 | 2025 | Actions Meta + participation Scale AI |
+| Dina Powell McCormick | 2026 | 2026 | Rémunération en actions |
 
 ---
 
-### Allocation du capital — Historique
+### Historique de l'allocation du capital
 
-| Indicateur | 2022 | 2023 | 2024 | 2025 |
-|---|---|---|---|---|
-| ROE | ~18% | ~28% | ~35% | ~33% |
-| Capex | ~32 Mds$ | ~28 Mds$ | ~39 Mds$ | ~72 Mds$ |
-| Résultat net | ~23 Mds$ | ~39 Mds$ | ~62 Mds$ | ~60 Mds$ |
+| Indicateur | 2021 | 2022 | 2023 | 2024 | 2025 | 9 mois 2026 |
+|---|---|---|---|---|---|---|
+| ROE | 31 % | 18,5 % | 28 % | 37 % | 30 % | ~32 % (12 mois) |
+| ROIC (12 mois, S&P) | — | — | — | — | — | ~26 % |
+| Investissements / CA | 16 % | 27 % | 21 % | 24 % | 36 % | 47 % |
+| Rachats d'actions (Md$) | 44,5 | 27,9 | 19,8 | 29,8 | ≥ 26 | 0 |
+| Actions diluées (Md) | 2,86 | 2,70 | 2,63 | 2,61 | ~2,58 | 2,57 |
 
-**Tendance** : allocation **agressive et concentrée sur l'IA**. Le ROE reste élevé (~33%) malgré l'explosion du capex. La qualité de l'allocation IA (125-145 Mds$ en 2026) ne pourra être jugée qu'a posteriori — c'est le pari central.
+**Lecture** : entre 2021 et 2025, Meta a racheté environ **150 Md$ d'actions** (−10 % du nombre de titres) tout en doublant son chiffre d'affaires ; le rendement des capitaux propres est revenu au-dessus de 30 %. 2026 marque une rupture : **priorité absolue au calcul**, plus aucun rachat, endettement en hausse. Le jugement final sur cette équipe dépendra du rendement de ces 135 à 145 Md$.
 
 ---
 
 ### Signaux d'alerte
 
-- **Gouvernance verrouillée** : ~61% des votes pour ~14% du capital. À l'AG 2026, **les dix propositions d'actionnaires ont été rejetées** alors que plusieurs avaient la majorité des Class A. Aucun contre-pouvoir effectif.
-- **Comportement visionnaire** : objectifs spectaculaires ("superintelligence pour des milliards") — à pondérer, surtout après l'échec relatif du métavers.
-- **Risque clé homme** : Meta = la vision Zuckerberg. Pas de plan de succession clair.
-- **Risques réglementaires** : litiges jeunesse, DSA, retrait du fact-checking — exposition juridique et réputationnelle.
-- **Type** : **fondateur-visionnaire** au pouvoir absolu. Avantage de conviction long terme et de rapidité de décision — mais le revers est l'absence de garde-fou si la vision déraille.`,
+- **Gouvernance verrouillée** : structure à deux classes, création d'une troisième classe sans droit de vote (janvier 2027) approuvée par **consentement écrit** du fondateur, sans assemblée
+- **Accord de fidélisation du fondateur** : en contrepartie d'un engagement de résidence en Californie pendant huit ans (lié au projet d'impôt sur la fortune soumis au vote le 3 novembre 2026), Zuckerberg pourra vendre librement 20 % de ses nouvelles actions C ; de nouveaux dividendes en actions C sont prévus à chaque **doublement du cours** (à partir de 580,60 $) si le rendement annuel dépasse 10 %. Ces dividendes bénéficient à tous les actionnaires, mais l'ensemble ressemble à un dispositif de rémunération indirecte
+- **Litiges à répétition** : santé mentale des mineurs, données personnelles (affaire Cambridge Analytica), publicités frauduleuses — une culture longtemps tournée vers la croissance plutôt que vers la sécurité
+- **Changements de cap coûteux** : métavers (2021), puis IA de pointe (2025) avec une rotation importante des équipes d'IA
+- **Pas de transactions significatives avec des parties liées** identifiées, hormis la participation dans Scale AI, société d'origine du directeur de l'IA
+
+### Fondateur ou gestionnaire professionnel ?
+**Fondateur, sans contre-pouvoir réel.** C'est la force qui a permis à Meta de réussir des virages que peu de groupes de cette taille auraient tentés, et le risque qui l'expose à des paris de plusieurs centaines de milliards de dollars décidés par un seul homme. À ce stade du cycle — transition de la publicité vers les agents d'IA —, un fondateur offensif est probablement un atout ; la discipline viendra de la directrice financière et… du cours de Bourse.`,
   },
   {
     id: 9,
     title: "Analyse du cours",
     category: "Marché",
     icon: "📉",
-    content: `## Facteurs historiques ayant influencé le cours (2022-2026)
+    content: `## Les facteurs qui ont fait bouger le titre (2021-2026)
 
-### Hausses significatives (+5%)
+*Variations approximatives sur la séance suivant l'événement. Cours non ajustés de la future distribution d'actions de catégorie C (effet équivalent à une division par deux en janvier 2027).*
 
-**2023 — "Year of Efficiency"** : Le titre passe de **88 $ à 485 $ sur l'année** (+450%), l'un des plus grands redressements de l'histoire boursière. Les coupes de coûts (21 000 postes) et la preuve que l'IA de recommandation (Reels) retient les utilisateurs ET dope le rendement publicitaire ont retourné le sentiment.
+### Hausses significatives (plus de 5 %)
 
-**2024-2025 — Le re-rating IA** : La hausse se prolonge, le titre touche **796 $** (plus haut 52 sem.). Le marché price non plus le métavers mais l'IA — la capacité à convertir le graphe social en marges publicitaires.
+**2 février 2023 — +23 %** : lancement de « l'année de l'efficacité », plan de rachat de 40 Md$, prévisions supérieures aux attentes. Début d'un rebond de **+194 % sur l'année 2023**.
 
-**Trimestres de beat publicitaire** : Chaque publication montrant une accélération de l'ARPU et des impressions a soutenu le cours.
+**2 février 2024 — +20 %** : premier dividende de l'histoire, nouveau plan de rachat de 50 Md$ ; gain de capitalisation de près de 200 Md$ en une séance, un record à l'époque.
+
+**31 juillet 2025 — environ +11 %** : chiffre d'affaires du T2 2025 très au-dessus des attentes grâce aux gains de l'IA publicitaire ; le titre atteint son **plus haut historique (environ 796 $) en août 2025**.
+
+**29 janvier 2026 — environ +10 %** : résultats du T4 2025 et prévision du T1 au-dessus du consensus ; promesse d'un résultat opérationnel 2026 supérieur à 2025 malgré 115 à 135 Md$ d'investissements.
+
+**Mi-avril 2026 — rebond d'environ 30 % en deux semaines** : depuis le plus bas annuel du 27 mars (520,26 $), sur une valorisation jugée attractive et l'apaisement des marchés.
+
+**9 septembre 2026 — +6,6 %** et **21 septembre 2026 — +11,4 %** : lancement de l'agent Muse (8 septembre), puis Muse en tête de l'App Store américain. **Septembre 2026 : +27 %**, meilleur mois depuis novembre 2022 ; plus haut annuel de 779,82 $ le 24 septembre.
 
 ---
 
-### Baisses significatives (-5%)
+### Baisses significatives (plus de 5 %)
 
-**2022 — Krach métavers** : Le titre s'effondre de **378 $ à 88 $ (-77%)**. Le marché conclut que Meta est un réseau social en déclin brûlant des milliards sur une VR dont personne ne veut.
+**3 février 2022 — −26 %** : première baisse du nombre d'utilisateurs quotidiens de Facebook, impact des règles de confidentialité d'Apple ; environ 230 Md$ de capitalisation effacés en une séance.
 
-**Janvier 2026 — Selloff post-T4 sur le capex** : L'annonce d'un capex 2026 de 115-135 Mds$ (puis relevé) déclenche un repli marqué. Le titre baisse de ~28% depuis la publication de janvier, le marché doutant du ROI de l'investissement IA.
+**27 octobre 2022 — −25 %** : investissements dans le métavers jugés incontrôlés ; le titre touche environ 90 $ début novembre (−77 % depuis son sommet de 2021). **2022 : −64 %.**
 
-**Avril 2026 — Réaction post-T1** : Malgré un beat, le titre chute de ~6-7% après que Meta a **relevé son capex à 125-145 Mds$** et manqué légèrement sur les utilisateurs (coupures internet en Iran). "Le bon élève puni."
+**25 avril 2024 — −10,5 %** : relèvement des investissements et prévisions jugées prudentes.
 
-**2026 (S1) — Sous-performance puis rebond** : Le titre a touché un creux ~520 $ (52 sem.), traité comme une valeur "de marché baissier" malgré des fondamentaux solides. **Le 1er juillet 2026, il bondit de +9,7% pour clôturer à 612,91 $** après un rapport Bloomberg révélant un projet d'activité cloud (vente de capacité de calcul IA excédentaire) — le marché reframe le capex IA de coût subi en source de revenus potentielle. Sur 52 semaines, le titre reste néanmoins en repli d'environ -23% depuis son plus haut de 796 $.
+**30 octobre 2025 — environ −11 %** : charge fiscale de 15,9 Md$ et annonce d'une forte hausse des charges en 2026. Début d'une baisse de **30 %** jusqu'au 27 mars 2026.
 
-**Juin 2026 — Vent contraire Gemini** : Google a limité l'accès de Meta à ses modèles Gemini, soulignant la dépendance de Meta à des modèles tiers pour certains usages internes — un facteur de pression ponctuel avant le rebond de juillet.
+**Février-mars 2026 — environ −28 % depuis le sommet de janvier** : doutes sur le retour sur investissement de l'IA, hausse des taux d'intérêt, incertitudes géopolitiques ; plus bas de 520,26 $ le 27 mars.
+
+**30 avril 2026 — environ −10 %** : investissements relevés à 125-145 Md$, dégradation par JPMorgan (objectif ramené de 825 à 725 $).
+
+**30 juillet 2026 — environ −9 %** : BPA sous le consensus (charges juridiques et licenciements), FCF quasi nul, prévision du T3 légèrement inférieure aux attentes.
+
+**28 septembre 2026 — −4,8 %** : informations sur l'agent concurrent d'OpenAI (Dots), lancé le lendemain.
+
+**14 et 16 octobre 2026 — −3,3 % et −3,7 %** : repli des valeurs de l'IA sur fond d'inquiétudes sur la dette et la conjoncture ; environ −11 % depuis le plus haut de septembre.
+
+**22 octobre 2026 — environ −2,5 à −3 % en préouverture** : malgré des résultats supérieurs aux attentes, FCF négatif, absence de chiffre d'investissement pour 2027 et pénalité de 25 Md$ au Nouveau-Mexique.
+
+---
+
+### Performance annuelle
+
+| Année | Variation du cours | Moteur principal |
+|---|---|---|
+| 2021 | +23 % | Pandémie, publicité en ligne |
+| 2022 | −64 % | Apple, TikTok, métavers, récession publicitaire |
+| 2023 | +194 % | Efficacité, rachats, retour de la croissance |
+| 2024 | +65 % | Dividende, IA publicitaire |
+| 2025 | ≈ +12 % | Croissance de 22 %, puis choc des investissements |
+| 2026 (au 21 oct.) | ≈ +6 % | Montagnes russes : −28 % jusqu'en mars, puis +34 % (jusqu'à +50 %) depuis le plus bas |
 
 ---
 
 ### Facteurs structurels
 
-- **Sensibilité au sentiment IA** : le titre bouge au rythme des craintes sur la soutenabilité du capex IA sectoriel (~700 Mds$ pour les 4 hyperscalers en 2026)
-- **Décote de valorisation** : P/E ~20x, 27% sous la médiane 10 ans — le marché exige une preuve de ROI avant de re-rater
-- **Volatilité élevée** : beta ~1,23, titre événementiel piloté par les résultats et l'actualité réglementaire
-- **Concentration publicitaire** : toute crainte sur le cycle pub ou la réglementation (DSA, ATT) pèse directement`,
+- **L'arbitrage croissance contre investissements** : depuis 2022, le titre monte quand la croissance publicitaire surprend et baisse quand les investissements sont relevés. Les quatre dernières publications ont provoqué des mouvements de 9 à 11 % sur deux séances, dont trois à la baisse
+- **Le multiple plutôt que les bénéfices** : le BPA hors éléments exceptionnels est passé d'environ 15 $ en 2023 à environ 30 $ en 2026 ; le cours, lui, n'a progressé que de 6 % depuis le début de l'année. Le titre se paie environ 21 fois les bénéfices futurs, sous sa moyenne de cinq ans (~26x)
+- **Les catalyseurs produits** : Reels (2022-2023), Muse (2026) — le marché récompense les preuves d'usage massif
+- **Le risque juridique** : l'accord de 18,6 Md$ (26 août) a été bien accueilli car il réduisait l'incertitude ; la pénalité de 25 Md$ du 21 octobre la ravive
+- **Repères techniques** : support vers 680-686 $ (écart non comblé du 21 septembre), puis 620-630 $ (moyennes mobiles à 50 et 200 jours, 661 et 633 $) ; résistances à 722 $ puis 778-780 $`,
   },
   {
     id: 10,
     title: "Projections BPA",
     category: "Valorisation prospective",
     icon: "🔮",
-    content: `## Estimations BPA 2026-2028
+    content: `## Estimations du BPA 2026-2028
+
+*Tous les montants sont exprimés **avant** la distribution d'une action de catégorie C pour chaque action détenue (prévue fin janvier 2027), qui équivaut à une division par deux : il faudra alors diviser les BPA et les cours par deux pour comparer.*
+
+### Point de départ
+- **2025 (réalisé)** : BPA dilué publié de **23,50 $**, environ **29,70 $** hors charge fiscale de 15,9 Md$
+- **9 mois 2026 (réalisé)** : BPA publié de **20,44 $** ; hors produit fiscal du T1 (−3,13 $), charges juridiques et indemnités (environ +4,72 $) : environ **22,05 $**
+- **T4 2026** : chiffre d'affaires de 73 à 76 Md$ et charges annuelles de 175 à 179 Md$ impliquent un résultat opérationnel d'environ 24,5 Md$ et un BPA d'environ **7,90 $**
 
 ### Hypothèses de modélisation
 
-**Croissance du CA** :
-- Publicité : +15-25%/an, tirée par l'IA (Advantage+), l'ARPU (+27% au T1) et la monétisation WhatsApp
-- Effet prix par pub : +6-9%/an ; impressions : +12-19%/an
-- Reality Labs : croissance faible, reste marginal en CA
-- Effet devises : variable, ~+2-4% de vent favorable attendu en 2026
-- **Croissance CA consolidée estimée : +15-22%/an, en décélération graduelle**
+**Croissance du secteur** : le marché mondial de la publicité numérique progresse d'environ 10 à 12 % par an ; la part captée par les plateformes dotées d'IA de ciblage (Meta, Google, Amazon, AppLovin) augmente.
 
-**Marges** :
-- Marge opérationnelle ~41%, sous pression du capex (amortissement croissant) mais protégée par le levier opérationnel et la discipline de coûts
-- Reality Labs : perte ~19 Mds$/an, en réduction graduelle après 2026
+**Gains de parts de marché** : la croissance de Meta (+26 %) est plus de deux fois supérieure à celle du marché ; hypothèse d'un écart qui se réduit progressivement (+21 % en 2027, +17 % en 2028).
 
-**Coûts financiers** : trésorerie nette positive — charge financière nette faible, mais le capex pèse sur le FCF
+**Hausses de prix** : le prix moyen par publicité progresse de 12 à 14 % grâce aux gains de conversion ; hypothèse de +8 à +10 % par an, complétée par +8 à +10 % d'impressions.
 
-**Dilution** : SBC élevée mais rachats compensant partiellement (autorisation 25 Mds$ restante) — nombre d'actions globalement stable à légèrement décroissant
+**Nouveaux revenus** : abonnements (Meta One, Muse), commissions sur les transactions, API et Muse Code, messagerie WhatsApp payante : quelques milliards de dollars en 2027, 10 à 15 Md$ en 2028 dans le scénario central.
 
----
+**Pressions sur les coûts** : amortissements en très forte hausse (les 135 à 145 Md$ investis en 2026 s'amortissent sur cinq à cinq ans et demi pour les serveurs), coût du calcul de Muse, rémunération des chercheurs ; charges en hausse de 27 % en 2027 puis de 17 % en 2028.
 
-### Estimations BPA
+**Levier opérationnel** : marge opérationnelle d'environ 31 % en 2026 publiée (35 % hors charges juridiques), 33 % en 2027 et 2028 dans le scénario central.
 
-| Exercice | BPA estimé | Croissance | P/E au cours actuel (~613 $) |
-|---|---|---|---|
-| 2025 (réalisé) | **23,49 $** | — | ~26x |
-| 2026E | **27-30 $** | **+15-28%** | **~20-23x** |
-| 2027E | **31-36 $** | **+15-20%** | **~17-20x** |
-| 2028E | **36-43 $** | **+15-20%** | **~14-17x** |
+**Coûts de financement** : dette d'environ 81 Md$ à taux fixe (coupons récents de 4,55 à 6,45 %) ; charge nette d'environ 3 à 4 Md$ par an à partir de 2027. Taux d'imposition d'environ 17 %.
 
-*Note : le BPA 2026 sera distordu par le bénéfice fiscal ponctuel de 8 Mds$ du T1. La fourchette ajustée hors éléments exceptionnels est plus pertinente pour la valorisation.*
+**Dilution** : rachats suspendus ; rémunération en actions d'environ 28 Md$ par an ; hypothèse d'une légère hausse du nombre d'actions (+0,5 % par an), sans émission massive d'actions C.
 
 ---
+
+### Scénario central
+
+| Exercice | CA (Md$) | Croissance | Marge opé. | Résultat net (Md$) | Actions diluées (Md) | BPA | P/E à 697,52 $ |
+|---|---|---|---|---|---|---|---|
+| 2025 (réalisé) | 201,0 | +22 % | 41 % | 60,5 (76,4 hors fiscalité) | 2,58 | 23,50 $ (29,70 $ ajusté) | — |
+| **2026E** | **~256** | **+27 %** | **~31 % (35 % ajusté)** | **~73 (~77 ajusté)** | **~2,57** | **~28,3 $ (~30,0 $ ajusté)** | **~23,3x ajusté** |
+| **2027E** | **~310** | **~+21 %** | **~33 %** | **~82** | **~2,58** | **~31,9 $** | **~21,9x** |
+| **2028E** | **~363** | **~+17 %** | **~33 %** | **~96** | **~2,60** | **~37,0 $** | **~18,9x** |
+
+**Croissance annuelle moyenne du BPA ajusté 2026-2028 : environ +11 %** — deux fois moins que celle du chiffre d'affaires, car les amortissements de l'IA absorbent le levier opérationnel. Après la distribution des actions C, le BPA 2027 équivaudrait à environ **16 $** et le BPA 2028 à environ **18,50 $**.
 
 ### Sensibilité
 
-- **Scénario optimiste** (IA publicitaire forte, capex monétisé, marge tenue) : BPA 2028 ~43 $ → P/E 2028 ~13x — re-rating vers la médiane (~28x) impliquerait un upside majeur
-- **Scénario de base** : BPA 2028 ~39 $ → P/E 2028 ~14x — valorisation déjà attractive pour un actif de cette qualité
-- **Scénario pessimiste** (capex sans ROI, ralentissement pub, choc réglementaire) : BPA 2028 ~33 $, compression du multiple, FCF durablement comprimé
+| Scénario | Hypothèses 2027-2028 | BPA 2027E | BPA 2028E |
+|---|---|---|---|
+| **Pessimiste** | Croissance 16 % puis 12 %, marge 29 % puis 30 % (calcul, litiges) | ~26,7 $ | ~30,6 $ |
+| **Central** | Croissance 21 % puis 17 %, marge 33 % | ~31,9 $ | ~37,0 $ |
+| **Optimiste** | Croissance 25 % puis 20 % (Muse, entreprises), marge 35 % puis 37 % | ~35,0 $ | ~44,1 $ |
 
-**Conclusion** : à ~613 $ (clôture du 1er juillet 2026), Meta se paie ~17-20x ses bénéfices forward pour une croissance de 15-25%. Le PEG &lt;1 et la décote vs la médiane historique offrent une marge de sécurité rare. La thèse repose sur la **conversion du capex IA en croissance durable** — désormais renforcée par la perspective d'une activité cloud monétisant la capacité de calcul excédentaire, un relais de revenus qui atténue le principal risque du dossier.`,
+**Les juges de paix** : la prévision d'investissements et de charges pour 2027 (publication de fin janvier 2027), la croissance du chiffre d'affaires du T4 2026 et le premier chiffre de revenus de Muse. Un point de marge opérationnelle en 2027 représente environ 1,00 $ de BPA ; 10 Md$ de pénalités supplémentaires non déductibles représentent environ 3,90 $.
+
+**Conclusion** : à 697,52 $, Meta se paie environ **22 fois le BPA 2027** et **19 fois le BPA 2028** du scénario central — un multiple raisonnable pour une croissance du chiffre d'affaires supérieure à 15 %, mais pas une aubaine compte tenu d'une croissance du BPA ramenée à environ 11 % par an et d'un flux de trésorerie disponible proche de zéro. Le potentiel vient du scénario optimiste : si l'IA crée de nouveaux revenus, le BPA 2028 pourrait dépasser 44 $.`,
   },
   {
     id: 11,
     title: "Bull & Bear",
     category: "Valorisation & thèses",
     icon: "⚖️",
-    content: `## 🐂 Scénario Optimiste (Bull Case)
+    content: `## 🐂 Scénario optimiste (Bull Case)
 
 ### Leviers de création de valeur
 
-**1. La machine publicitaire IA en pleine puissance** : Advantage+ (run-rate ~60 Mds$) transforme le graphe social de 3,56 Md d'utilisateurs en rendement publicitaire mesurable. L'ARPU bondit (+27% au T1), les impressions (+19%) et les prix montent simultanément. L'IA ne fait que commencer à monétiser.
+**1. La meilleure machine publicitaire du monde accélère grâce à l'IA** : +26 % de croissance à plus de 240 Md$ de chiffre d'affaires annuel, prix moyen par publicité +14 %, conversions en hausse à chaque nouveau modèle (GEM, Andromeda, Generative Recommender). Aucune entreprise de cette taille ne croît aussi vite. Et la direction promet une « forte croissance » en 2027.
 
-**2. Une décote de valorisation rare** : P/E ~20x (forward ~17x), 27% sous la médiane 10 ans (~28x), PEG ~0,81. Pour une croissance de CA &gt;30% et une marge de 41%, c'est anormalement bon marché. Consensus "Strong Buy", objectif ~827 $ (+50%).
+**2. Muse, la nouvelle interface** : plus de 10 millions d'utilisateurs en six semaines dans deux pays seulement, 25 % d'utilisation quotidienne, numéro un de l'App Store, un usage dominé par le **shopping** (panier moyen supérieur à 200 $). Si Muse devient l'agent par défaut de 3,6 milliards de personnes, Meta passera du statut de vendeur d'attention à celui de **commissionnaire du commerce mondial**. La distribution (WhatsApp, Instagram, lunettes) est un avantage qu'OpenAI n'a pas.
 
-**3. Rentabilité et bilan exceptionnels** : marge opérationnelle 41%, ROE ~33%, ROIC ~30%, trésorerie nette positive (+22 Mds$), FCF encore ~48 Mds$ malgré le capex. Peu d'entreprises au monde combinent cette qualité.
+**3. L'IA rend les coûts plus légers qu'ils n'en ont l'air** : les modèles Muse réduisent déjà de plus de 80 % le coût de compréhension des contenus ; la direction vise une division par dix du coût de service de Muse en un an. Les effectifs ont baissé de 15 % pendant que la croissance restait supérieure à 25 %.
 
-**4. Optionnalité IA (Superintelligence Labs + cloud)** : modèle Muse Spark, silicium maison MTIA, talent Scale AI. Nouveauté du 1er juillet 2026 : un projet d'**activité cloud** vendant la capacité de calcul excédentaire (modèle AWS Bedrock ou neocloud à la CoreWeave). Ce relais transformerait le capex IA de coût subi en source de revenus — le titre a bondi de +9,7% sur la nouvelle. Si l'IA générale ou les agents business monétisent aussi, le potentiel de croissance au-delà de la pub est massif.
+**4. De nouveaux relais de revenus** : WhatsApp (messagerie payante, publicités), abonnements Meta One (15 millions), plateforme pour les entreprises (API, Muse Code, agents commerciaux), publicités avec les créateurs (15 Md$ de revenus annualisés). Les « autres revenus » progressent de 59 %.
 
-**5. Le pivot wearable réussi** : les lunettes Ray-Ban Meta sont un succès commercial inattendu — un produit que les consommateurs achètent réellement, validant une partie du pari Reality Labs.
+**5. Reality Labs devient un problème en voie de règlement** : pertes de 19 Md$ en 2025, 18-19 Md$ en 2026, ~15 Md$ en 2027. Chaque milliard de pertes en moins ajoute environ 0,32 $ au BPA.
 
-**6. Discipline de coûts** : 8 000 suppressions de postes, coupe RL -30% — le management protège la marge tout en investissant dans l'IA.
+**6. Une valorisation qui ne paie pas l'IA** : à 21 fois les bénéfices futurs, Meta est la moins chère des « Sept Magnifiques » rapportée à sa croissance. Le marché valorise le cœur publicitaire et accorde une valeur quasi nulle à Muse.
 
 ---
 
-## 🐻 Scénario Pessimiste (Bear Case)
+## 🐻 Scénario pessimiste (Bear Case)
 
-### Risques permanents
+### Risques susceptibles de nuire durablement à l'activité
 
-**1. Le capex IA peut détruire de la valeur** : 125-145 Mds$ en 2026 (~2× 2025), sans ROI prouvé. Si l'IA ne monétise pas à la hauteur, c'est du cash brûlé qui comprime durablement le FCF. Le marché a déjà sanctionné chaque hausse de capex.
+**1. Le gouffre des investissements** : 72 Md$ en 2025, 135-145 Md$ en 2026, peut-être 185 à 250 Md$ en 2027 selon les estimations de marché ; près de 700 Md$ d'engagements contractuels et de baux. Le FCF est devenu négatif. Si l'IA ne génère pas de revenus supplémentaires proportionnels, Meta aura transformé une entreprise légère en capital, avec un ROIC de 26 %, en constructeur de centres de données au rendement médiocre. Le précédent du métavers (plus de 80 Md$ de pertes) est dans tous les esprits.
 
-**2. Concentration publicitaire à ~98%** : quasi-mono-revenu. Tout choc (cycle pub, réglementation ATT/DSA, perte d'audience face à TikTok) frappe directement le cœur, sans diversification cloud comme Alphabet ou Amazon.
+**2. L'étau juridique et réglementaire sur les mineurs et les données** : 18,6 Md$ d'accord avec les États, 25 Md$ de pénalité au Nouveau-Mexique, 942 M$ dans une autre affaire du même État, procès en série à partir du 28 octobre 2026, procès des districts scolaires en février 2027, limites de temps imposées aux adolescents. Le risque n'est pas seulement financier : il touche au **produit** (moins de temps, moins de ciblage, moins d'impressions chez les jeunes).
 
-**3. Risque réglementaire matériel** : DSA européen (amende potentielle ~12 Mds$), procès sur l'impact des réseaux sur les mineurs, scrutin sur la publicité. Provisions et contraintes opérationnelles possibles.
+**3. La bataille des agents peut être perdue** : OpenAI (Dots), Google (agents Gemini), Amazon (qui bloque Muse sur son site) et Apple contrôlent chacun une partie de l'accès au commerce et aux systèmes d'exploitation. Muse n'est disponible qu'aux États-Unis et au Canada, coûte très cher à servir, et des failles de sécurité ont déjà été signalées.
 
 ### Analyse pré-mortem
-Que se passe-t-il si Meta vaut 350 $ dans 2 ans ? Scénario : le capex IA ne monétise pas, le FCF s'effondre, un ralentissement publicitaire (récession, perte de parts face à TikTok) frappe le cœur, et une décision réglementaire majeure (interdiction de pub personnalisée en UE) ampute les revenus. La décote actuelle se transforme en juste prix d'une croissance ralentie.
+**Hypothèse : Meta vaut 450 $ dans deux ans.** Scénario : les investissements 2027 atteignent 230 Md$ sans revenus significatifs de Muse ; la croissance publicitaire ralentit à 12 % en 2027 (récession, effet de base, limites sur les adolescents) ; les pénalités dépassent 40 Md$ en cumul ; Meta émet des actions C pour financer ses centres de données. Le BPA 2027 plafonne vers 26 $ et le marché applique un multiple de 17x, celui d'un groupe capitalistique à faible flux de trésorerie : 17 × 26 $ ≈ 450 $ (−35 %).
+
+### Les multiples actuels sont-ils trop élevés ?
+**Non sur les bénéfices, oui sur le cash.** À ~21-22 fois les bénéfices futurs et ~17 fois l'EBITDA, Meta n'est pas cher pour sa croissance. Mais à **62 fois le flux de trésorerie disponible** des douze derniers mois (rendement de 1,6 %) et avec un FCF négatif au T3, l'investisseur paie aujourd'hui des bénéfices comptables qui ne se transforment pas en trésorerie distribuable. Tout dépend du rendement futur des investissements.
+
+---
 
 ### Point de vue à contre-courant
-**Ce que le marché refuse de voir** : le marché traite Meta comme un hyperscaler qui brûle du cash sans retour, alors que c'est la seule mega-cap dont l'IA renforce DÉJÀ le cœur de métier rentable (la pub), et non un pari pur. La décote (P/E 20x) suppose un scepticisme extrême sur le capex — mais si même une fraction de cet investissement monétise via l'amélioration publicitaire continue, le re-rating vers la médiane historique serait mécanique. Le risque/rendement penche favorablement pour un investisseur patient, à condition d'accepter la volatilité et la gouvernance verrouillée.`,
+**Ce que le marché refuse de voir** : le débat se concentre sur le montant des investissements, alors que l'indicateur décisif est **la monétisation de l'engagement supplémentaire créé par l'IA**. Meta est la seule entreprise au monde qui peut déployer un agent d'IA auprès de 3,6 milliards de personnes **à l'intérieur de messageries qu'elles utilisent déjà**, et la seule dont le cœur de métier — la publicité de performance — bénéficie mécaniquement de chaque progrès des modèles. Le marché traite les dépenses d'IA de Meta comme un coût, à la manière du métavers ; il s'agit pour une large part d'un **investissement dans le cœur publicitaire lui-même**, déjà rentabilisé par la hausse de 14 % du prix des publicités. Si 2027 confirme une croissance supérieure à 20 % avec une marge stable, la décote actuelle face à Alphabet et Amazon n'aura plus de justification.`,
   },
   {
     id: 12,
@@ -527,118 +666,132 @@ Que se passe-t-il si Meta vaut 350 $ dans 2 ans ? Scénario : le capex IA ne mon
     icon: "🚩",
     content: `## Audit forensique — Signaux d'alerte comptables
 
-### Comptabilisation des revenus — RISQUE FAIBLE
-La publicité est reconnue à la livraison de l'impression/du clic — modèle transactionnel standard sous US GAAP (ASC 606). Peu de complexité ou de marge d'interprétation. Surveiller néanmoins les créances clients (annonceurs) en période de ralentissement.
+### Engagements hors bilan et coentreprises — RISQUE ÉLEVÉ (le point clé)
+Au 30 juin 2026, Meta déclarait **349 Md$ d'engagements contractuels non résiliables** (capacité cloud de tiers, infrastructure technique), dont 53,5 Md$ dus en 2026 et 81,7 Md$ en 2027, et **279 Md$ de baux non encore démarrés** (centres de données, hébergement, réseau), auxquels se sont ajoutés environ **68 Md$ en juillet**. Soit près de **700 Md$**, contre 80,9 Md$ de dette financière au bilan. S'y ajoutent les **coentreprises** Hyperion (Louisiane, avec Blue Owl, environ 27 Md$ de dette) et El Paso (avec BlackRock, environ 12,5 Md$ de dette), dans lesquelles Meta détient 20 % mais accorde des **garanties de valeur résiduelle** : la dette n'apparaît pas au bilan consolidé, le risque si. Au T3, Meta a encaissé 1,04 Md$ de « distribution d'une coentreprise de centres de données ».
 
-### Goodwill et immobilisations incorporelles — RISQUE FAIBLE À MODÉRÉ
-Les acquisitions historiques (Instagram, WhatsApp) et récentes (Scale AI ~14,3 Mds$) génèrent du goodwill. Jamais déprécié de façon majeure. **À surveiller** : l'intégration de Scale AI et la valorisation des actifs IA dans les tests de dépréciation annuels.
+**À surveiller** : la note sur les engagements du 10-Q du T3, le traitement comptable des garanties de valeur résiduelle, la part des baux qui démarreront en 2027-2028.
 
-### Capitalisation et amortissement de l'infrastructure — RISQUE MODÉRÉ
-C'est le point le plus important pour Meta. Le capex explosif (125-145 Mds$) est capitalisé puis amorti sur la durée de vie des serveurs/data centers. **À surveiller** : la **durée d'amortissement retenue** — l'allonger flatterait le résultat à court terme. Toute révision de la durée de vie utile des GPU (qui se déprécient vite) serait un signal.
+### Durée d'amortissement des serveurs — RISQUE MODÉRÉ
+Meta a porté en janvier 2025 la durée d'utilité de ses serveurs et équipements réseau à **cinq ans et demi**, ce qui réduit la charge d'amortissement annuelle de plusieurs milliards de dollars. Avec plus de 250 Md$ d'immobilisations corporelles et un rythme d'obsolescence des puces d'IA d'environ un an par génération (Blackwell, Rubin…), cette hypothèse est **favorable au résultat publié**. Une révision à la baisse ferait mécaniquement chuter la marge.
 
-### Engagements hors bilan et contractuels — RISQUE MODÉRÉ À ÉLEVÉ
-Le "step-up" de +107 Mds$ d'engagements contractuels au seul T1 2026 (total ~238 Mds$) et le deal Nebius (~27 Mds$) constituent des **engagements fermes massifs** d'infrastructure. Bien que divulgués, leur ampleur crée une rigidité de dépense. **À examiner** : les annexes sur les obligations d'achat et les contrats de location (IFRS 16 / leases finance).
+### Provisions juridiques et passifs éventuels — RISQUE ÉLEVÉ
+- **Accord avec 52 procureurs généraux** (août 2026) : jusqu'à **18,59 Md$**, dont 9,89 Md$ passés en charge au T3 ; le solde est en partie conditionnel (selon que YouTube et TikTok adoptent des protections similaires). Environ 12,5 Md$ de trésorerie soumise à restriction figurent dans les autres actifs
+- **Nouveau-Mexique** : **25 Md$** de pénalité prononcés le 21 octobre (données personnelles, affaire Cambridge Analytica), frappés d'appel ; 942 M$ dans l'affaire sur la protection des mineurs. Une provision n'est requise que si la perte est probable et estimable : **le traitement retenu dans le 10-Q du T3 sera décisif**
+- **Autres procédures** : procès individuels et des districts scolaires, procédure antitrust de la FTC (gagnée en première instance en novembre 2025, en appel), régulation européenne (DMA)
 
-### Rémunération en actions (SBC) — RISQUE MODÉRÉ
-La SBC est élevée (talents techniques IA, recrutements massifs). Elle dilue les actionnaires et gonfle les mesures "ajustées". **À surveiller** : l'écart entre résultat GAAP et "ajusté", et l'impact de la SBC sur le nombre d'actions dilué malgré les rachats.
+### Information sectorielle — RISQUE MODÉRÉ
+Les coûts de Meta Superintelligence Labs, de Muse et des modèles d'IA sont rattachés à la **famille d'applications**, alors que Reality Labs ne porte que le matériel et la réalité virtuelle. Il est impossible de mesurer séparément la rentabilité du cœur publicitaire et celle des nouveaux projets d'IA. Meta ne publie plus non plus le nombre d'utilisateurs mensuels de Facebook seul.
 
-### Parties liées — RISQUE FAIBLE À MODÉRÉ
-Structure de gouvernance **concentrée autour du fondateur** (Zuckerberg ~61% des votes). Pas de transaction avec parties liées significative identifiée, mais le pouvoir absolu du dirigeant est un point de vigilance de gouvernance à documenter.
+### Comptabilisation des produits — RISQUE MODÉRÉ
+La publicité est reconnue à l'affichage ou à l'action, un modèle simple. Le point de vigilance est **qualitatif** : en novembre 2025, une enquête de Reuters fondée sur des documents internes indiquait que Meta estimait qu'environ 10 % de son chiffre d'affaires 2024 (environ 16 Md$) provenait de publicités pour des escroqueries ou des produits interdits. Un durcissement de la modération ou de la réglementation pourrait retirer une partie de ce chiffre d'affaires.
 
-### Éléments fiscaux exceptionnels — RISQUE MODÉRÉ (lisibilité)
-Le résultat T1 2026 inclut un **bénéfice fiscal ponctuel de 8,03 Mds$** (et fait suite à une charge non-cash de 15,93 Mds$ au T3 2025). Ces éléments distordent fortement le BPA GAAP. **À surveiller** : toujours raisonner sur le BPA ajusté hors éléments fiscaux exceptionnels pour évaluer la performance réelle.
+### Fiscalité — RISQUE MODÉRÉ
+Charge non monétaire de 15,93 Md$ au T3 2025 (loi fiscale américaine), produit de 8,03 Md$ au T1 2026 (avis du Trésor sur l'impôt minimum des sociétés), 20,5 Md$ d'impôts à long terme au passif, taux effectif de 24 % au T3 2026. Ces éléments rendent le BPA publié **difficile à comparer** d'un trimestre à l'autre : il faut systématiquement utiliser les montants retraités.
 
-### Flux de trésorerie vs résultat net — RISQUE MODÉRÉ
-Le FCF (~48 Mds$ TTM) est désormais nettement inférieur au cash d'exploitation (~124 Mds$) à cause du capex. **À surveiller** : la **conversion résultat net → FCF** se dégrade mécaniquement avec l'investissement IA — à distinguer d'une dégradation de la qualité des bénéfices.
+### Rémunération en actions — RISQUE MODÉRÉ
+**21,1 Md$ sur neuf mois** (11,6 % du chiffre d'affaires), en hausse de 45 % avec le recrutement de chercheurs en IA. Meta paie en outre 12,8 Md$ d'impôts pour le compte de ses salariés lors du règlement net des actions. Sans rachats d'actions, la dilution n'est plus compensée ; la future classe C pourra servir à rémunérer les salariés.
+
+### Goodwill, incorporels et participations — RISQUE FAIBLE À MODÉRÉ
+Goodwill limité (23,4 Md$, 9 % des fonds propres). En revanche, **32,6 Md$ de participations non cotées**, dont la participation de 49 % dans Scale AI (environ 14,3 Md$ en 2025), sont valorisées selon des méthodes qui laissent une part de jugement ; des pertes latentes de 1,2 Md$ ont été constatées sur neuf mois.
+
+### Contrats de location — RISQUE MODÉRÉ
+31,2 Md$ de dettes locatives au bilan, en hausse de 24 % depuis décembre, et un volume de baux à démarrer **onze fois supérieur**. Leur entrée progressive au bilan à partir de 2027 alourdira la dette économique.
+
+### Parties liées — RISQUE FAIBLE
+Pas de transaction significative identifiée. Points d'attention : Scale AI (dirigée jusqu'en 2025 par l'actuel directeur de l'IA) et l'accord de fidélisation du fondateur.
+
+### Flux de trésorerie vs résultat
+- 9 mois 2026 : flux d'exploitation de 96,9 Md$ pour un résultat net de 52,5 Md$ (amortissements de 19,5 Md$ et rémunération en actions de 21,1 Md$ réintégrés)
+- **FCF de 11,0 Md$ sur neuf mois** (29,5 Md$ un an plus tôt), **négatif au T3** ; les dettes fournisseurs ont doublé depuis décembre, ce qui soutient temporairement les flux d'exploitation
 
 ---
 
 ### Verdict global
-**Risque comptable : FAIBLE À MODÉRÉ.** Meta n'a aucun signal de fraude, est auditée par Ernst & Young, et sa communication financière est transparente. Les zones de vigilance ne sont pas des manipulations mais des **conséquences mécaniques du pari IA** : amortissement de l'infrastructure, engagements contractuels massifs, distorsions fiscales ponctuelles et compression du FCF. L'investisseur doit raisonner sur les mesures ajustées hors exceptionnels et suivre de près la durée d'amortissement de l'infrastructure et l'évolution des engagements hors bilan.`,
+**Risque comptable : MODÉRÉ, risque de bilan ÉLEVÉ.** Les comptes sont audités par Ernst & Young sans réserve et la publicité se comptabilise simplement. Les vrais sujets sont **hors du compte de résultat** : près de 700 Md$ d'engagements, des coentreprises garanties, une durée d'amortissement favorable et des passifs juridiques encore mal chiffrés. Pour lire Meta en 2026, il faut retraiter la fiscalité, les charges juridiques et les indemnités, puis regarder le FCF plutôt que le BPA.`,
   },
   {
     id: 13,
     title: "Questions au Management",
     category: "Préparation d'entretien",
     icon: "❓",
-    content: `## 15 questions prioritaires pour Mark Zuckerberg et l'équipe Meta
+    content: `## 15 questions prioritaires pour Mark Zuckerberg
+
+*Classées par ordre d'importance décroissante.*
+
+### Allocation des capitaux
+
+**1.** Vos investissements sont passés de 39 Md$ en 2024 à 135-145 Md$ en 2026, et le flux de trésorerie disponible est devenu négatif au T3. **Quel rendement minimal sur le capital investi** exigez-vous d'un nouveau gigawatt de calcul, et à quelle date vous engagez-vous à revenir à un FCF positif chaque trimestre ?
+
+**2.** Vous avez créé une classe d'actions sans droit de vote « pour lever des capitaux ». **À partir de quel niveau d'investissement ou de dette** émettriez-vous des actions C, et quel plafond de dilution annuelle vous fixez-vous ?
+
+**3.** Près de 700 Md$ d'engagements contractuels et de baux s'ajoutent à 81 Md$ de dette. **Quelle part de ces engagements est réellement modulable** si la demande de calcul déçoit, et quelles garanties de valeur résiduelle avez-vous accordées dans les coentreprises Hyperion et El Paso ?
+
+**4.** Vous n'avez racheté aucune action depuis janvier. **Dans quelles conditions** les rachats reprendront-ils, et préférez-vous à l'avenir les rachats, le dividende ou le désendettement ?
 
 ### Stratégie et avantage concurrentiel
 
-**1.** Le capex IA atteint 125-145 Mds$ en 2026, soit ~2× 2025. Quels **jalons mesurables de retour sur investissement** (gain d'ARPU attribuable à l'IA, marge incrémentale, revenus d'agents) devons-nous suivre pour vérifier que cette dépense crée de la valeur plutôt qu'elle ne la détruit ?
+**5.** Muse compte plus de 10 millions d'utilisateurs. **Quel est son coût de service par utilisateur actif aujourd'hui**, et quel revenu par utilisateur faut-il atteindre pour que Muse soit rentable après la division par dix de ce coût que vous visez ?
 
-**2.** Alphabet montre déjà un impact bottom-line de Gemini que Meta n'a pas encore démontré. **Qu'est-ce qui vous distingue** structurellement dans la monétisation de l'IA, et pourquoi le marché devrait-il vous accorder la même confiance ?
+**6.** Amazon a bloqué Muse sur son site dès le 20 septembre. **Que se passe-t-il si les grandes plateformes marchandes, Apple et Google refusent l'accès à vos agents** ? Le protocole d'agents personnels suffit-il face à ces portiers ?
 
-**3.** ~98% de vos revenus viennent de la publicité. **Quel est votre plan de diversification crédible** (agents business, cloud, abonnements premium) et à quel horizon ces relais peuvent-ils peser &gt;10% du CA ?
+**7.** OpenAI a lancé Dots, Google déploie ses agents Gemini. **Pourquoi un utilisateur choisirait-il Muse** plutôt que l'agent intégré à son téléphone ou à son moteur de recherche ?
 
-### Allocation du capital
-
-**4.** Vous avez suspendu les rachats d'actions pour financer l'IA. À quel **niveau de FCF ou de ROI** prévoyez-vous de reprendre le retour au capital, et quel est votre seuil d'alerte sur la compression du FCF ?
-
-**5.** Reality Labs a cumulé &gt;70 Mds$ de pertes depuis 2021. **Quel est le calendrier précis** de réduction de ces pertes, et à quel moment ce segment deviendra-t-il contributif (ou sera-t-il redimensionné) ?
-
-**6.** La durée d'amortissement des GPU et de l'infrastructure IA est critique pour le résultat. **Quelle durée de vie utile retenez-vous**, et comment gérez-vous le risque d'obsolescence rapide du matériel ?
+**8.** Quelle part de la hausse de 14 % du prix moyen des publicités provient **des gains de performance de l'IA**, et quelle part de la conjoncture ou de la composition géographique ?
 
 ### Risques
 
-**7.** Le DSA européen pourrait entraîner une amende jusqu'à 6% du CA mondial (~12 Mds$). **Quelle est votre stratégie** face à la pression réglementaire UE, et quel impact sur votre modèle de pub personnalisée ?
+**9.** Entre l'accord de 18,6 Md$, la pénalité de 25 Md$ au Nouveau-Mexique et les procès à venir, **quelle enveloppe totale de risque juridique** jugez-vous raisonnable pour 2026-2028, et pourquoi la pénalité du Nouveau-Mexique n'a-t-elle pas été intégrée à l'accord d'août ?
 
-**8.** Les procès sur l'impact des réseaux sociaux sur les mineurs se multiplient aux États-Unis. **Quelle est votre exposition financière maximale**, et comment cela modifie-t-il la conception de vos produits ?
+**10.** La limite par défaut de deux heures par jour pour les adolescents et le blocage nocturne sont en cours d'application. **Quel impact estimez-vous sur les impressions et le chiffre d'affaires** aux États-Unis ?
 
-**9.** TikTok continue de capter l'audience jeune et les budgets vidéo courte. **Quelle est votre stratégie défensive** sur ce segment, et observez-vous une érosion de l'engagement des moins de 25 ans ?
+**11.** Vos serveurs sont amortis sur cinq ans et demi alors que chaque génération de puces d'IA rend la précédente moins compétitive en un à deux ans. **Cette durée reste-t-elle réaliste**, et quel serait l'impact d'un retour à quatre ans ?
 
-### Vision long terme
+**12.** Une enquête de presse a estimé à environ 10 % la part du chiffre d'affaires 2024 liée à des publicités frauduleuses ou interdites. **Quelle est la part réelle aujourd'hui**, et combien coûterait son élimination ?
 
-**10.** Vous parlez de "superintelligence personnelle pour des milliards de personnes". **Concrètement**, à quoi ressemble la monétisation de cette vision dans 5 ans, et quelle part du CA en attendez-vous ?
+### Gouvernance et vision
 
-**11.** Les lunettes Ray-Ban Meta sont un succès. **Le wearable IA est-il le vrai débouché** du pari Reality Labs, et comment arbitrez-vous entre VR (Quest) et lunettes intelligentes ?
+**13.** L'accord de fidélisation vous lie à la Californie pendant huit ans et prévoit de nouveaux dividendes en actions à chaque doublement du cours. **Pourquoi ce dispositif ne passe-t-il pas par un vote des actionnaires minoritaires**, et que se passera-t-il si l'impôt sur la fortune est adopté le 3 novembre ?
 
-**12.** Avez-vous l'intention d'ouvrir une **offre cloud** (vous avez dit que c'était "sur la table") ? À quelles conditions, et n'est-ce pas un aveu que votre capex dépasse vos besoins internes ?
+**14.** Reality Labs aura perdu plus de 80 Md$ depuis 2020. **À quelle date et à quel niveau de chiffre d'affaires** les lunettes deviendront-elles rentables, et quels critères vous feraient arrêter la réalité virtuelle ?
 
-### Gouvernance et culture
-
-**13.** Vous détenez ~61% des droits de vote pour ~14% du capital, et les dix propositions d'actionnaires de l'AG 2026 ont été rejetées malgré une majorité des Class A. **Comment garantissez-vous** que l'intérêt des actionnaires minoritaires est protégé ?
-
-**14.** Meta dépend largement de votre vision personnelle. **Quel est le plan de succession**, et comment l'entreprise survit-elle à votre éventuel retrait ?
-
-**15.** Quel est le **risque que vous sous-estimez le plus** aujourd'hui dans ce pari IA, et que le marché ne voit pas encore ?`,
+**15.** Quel est **le risque que vous sous-estimez le plus** aujourd'hui, et qui, au sein de la direction ou du conseil, a le pouvoir de vous dire non ?`,
   },
   {
     id: 14,
     title: "Avocat du Diable",
     category: "Analyse critique / Short",
     icon: "😈",
-    content: `## Thèse short — Démontage de l'argumentaire haussier
+    content: `## Thèse vendeuse — Démontage de l'argumentaire haussier
 
-### 1. Le capex IA est un puits sans fond non prouvé
+### 1. Le modèle économique change de nature
+Les optimistes décrivent Meta comme la meilleure machine publicitaire du monde. **C'était vrai jusqu'en 2025.** En 2026, Meta est devenu un constructeur d'infrastructures qui consacre plus de la moitié de son chiffre d'affaires aux investissements et dont le flux de trésorerie disponible est négatif. Une entreprise qui rachetait 30 Md$ d'actions par an s'endette, ne rachète plus rien et prépare une classe d'actions destinée à lever des capitaux. **Le marché paie 21 fois des bénéfices comptables qui ne produisent plus de trésorerie.**
 
-Les bulls achètent l'idée que 125-145 Mds$ de capex IA (~2× 2025) vont monétiser. **Problème** : Meta n'a fourni AUCUN jalon chiffré de ROI. Contrairement à Alphabet (Gemini montre un impact bottom-line) ou Amazon/Microsoft (le cloud vend la capacité à des tiers), Meta consomme son capex en interne sans revenu externe associé. Si la monétisation IA déçoit, c'est ~135 Mds$/an de cash brûlé qui comprime durablement le FCF — déjà tombé de ~73 à ~48 Mds$. **Le marché sanctionne chaque hausse de capex pour cette raison.**
+### 2. La concentration des revenus
+**97,7 % du chiffre d'affaires vient de la publicité**, environ 43 % des utilisateurs nord-américains, et une part significative d'annonceurs chinois exportateurs (Temu, Shein) exposés aux droits de douane. La publicité est le poste que les entreprises coupent en premier en récession : en 2022, la croissance est tombée à −1 % et le titre a perdu 64 %. Les taux d'intérêt américains à dix ans dépassent 5 % : une récession publicitaire en 2027, au moment où les amortissements explosent, serait dévastatrice pour la marge.
 
-### 2. Une concentration de revenus extrême — ~98% en publicité
+### 3. L'avantage concurrentiel est plus fragile que ne le pensent les optimistes
+Les effets de réseau protègent la **messagerie**, pas l'**interface d'accès à l'information et au commerce**. Si demain les consommateurs passent par un agent d'IA pour acheter, s'informer et se divertir, le fil d'actualité perd son rôle de vitrine. Meta le sait, d'où Muse. Mais dans cette nouvelle bataille, Meta part **sans système d'exploitation, sans moteur de recherche, sans cloud et sans site marchand** — et ses concurrents viennent de lui fermer leurs portes (Amazon).
 
-Meta est un **quasi-mono-revenu**. Tout choc sur le cœur publicitaire frappe sans amortisseur : récession (les budgets pub sont cycliques), réglementation (ATT d'Apple a déjà coûté des milliards ; le DSA menace la pub personnalisée en UE), ou perte d'audience face à TikTok. Alphabet et Amazon ont le cloud pour absorber ; Meta n'a rien. La diversification (agents, RL) est marginale et non prouvée.
+### 4. Le concurrent le plus dangereux : OpenAI (et non TikTok)
+Les optimistes surveillent TikTok. **Erreur de cible.** OpenAI compte plusieurs centaines de millions d'utilisateurs hebdomadaires, lance des agents (Dots), de la publicité et du commerce dans ses produits, et attire les meilleurs chercheurs. Chaque minute passée à converser avec un assistant est une minute retirée au fil d'Instagram, et chaque achat délégué à un agent tiers est une conversion que Meta ne facturera pas.
 
-### 3. Le concurrent que les bulls sous-estiment : TikTok ET Alphabet
+### 5. Les pires allocations de capital
+**Le métavers** : plus de 80 Md$ de pertes cumulées depuis 2020 pour des casques dont les ventes baissent. **La stratégie « open source » (Llama)**, largement mise de côté en 2025-2026 au profit de modèles propriétaires après l'accueil décevant de Llama 4. **Scale AI** : 14,3 Md$ pour 49 % d'une société et le recrutement de son fondateur. **2026** : plan d'investissement relevé trois fois en neuf mois. La même direction demande aujourd'hui un chèque en blanc de plusieurs centaines de milliards de dollars.
 
-Deux menaces, pas une. **TikTok** capte l'audience jeune et les budgets vidéo courte (~155 Mds$ de CA 2024), érodant l'engagement des moins de 25 ans — le futur de l'audience. **Alphabet** attaque sur la pub ET l'IA, avec une longueur d'avance sur la monétisation Gemini. Meta est pris en tenaille entre un rival qui lui prend l'audience et un autre qui prouve mieux son IA.
+### 6. Comptabilité, incitations et gouvernance
+Amortissement des serveurs allongé à cinq ans et demi, coentreprises garanties hors bilan, près de 700 Md$ d'engagements, passifs juridiques encore mal chiffrés. Côté incitations : un fondateur qui contrôle les votes, crée par simple consentement écrit une classe d'actions sans droit de vote, obtient la liberté de vendre 20 % de ses nouvelles actions et des dividendes en actions à chaque doublement du cours. **Les actionnaires minoritaires financent ; ils ne décident de rien.**
 
-### 4. La gouvernance verrouillée est un risque réel, pas théorique
+### 7. Les hypothèses que le cours actuel exige
+À 697,52 $, soit environ 22 fois le BPA 2027 estimé, le marché suppose : une croissance du chiffre d'affaires supérieure à 20 % en 2027 et à 15 % en 2028, une marge opérationnelle stabilisée autour de 33 % malgré l'explosion des amortissements, un FCF redevenu positif en 2027, **des pénalités juridiques contenues sous 20 Md$ supplémentaires** et aucune émission significative d'actions C.
 
-Zuckerberg détient ~61% des votes pour ~14% du capital. À l'AG 2026, **les dix propositions d'actionnaires ont été rejetées** alors que plusieurs avaient la majorité des Class A. Concrètement : l'actionnaire public finance un capex IA de 145 Mds$ décidé par un seul homme, sans aucun recours si la vision déraille. Le précédent du métavers (perte cumulée &gt;70 Mds$ décidée unilatéralement) montre que ce risque s'est DÉJÀ matérialisé une fois.
-
-### 5. Le risque réglementaire est sous-estimé
-
-DSA (amende potentielle ~12 Mds$), procès jeunesse (un jury a jugé pour la première fois en mars 2026 que les apps sociales peuvent être des "produits défectueux"), retrait du fact-checking exposant à la prolifération de contenus problématiques. Chacun de ces fronts peut entraîner des provisions, des contraintes produit ou une atteinte réputationnelle qui frappe l'engagement — donc la pub.
-
-### 6. La "décote" pourrait être un juste prix, pas une opportunité
-
-Les bulls voient un P/E de 20x comme bon marché vs une médiane de 28x. Mais peut-être que le marché a raison : un quasi-mono-revenu publicitaire qui brûle 145 Mds$/an dans un pari IA non prouvé, sous gouvernance verrouillée et pression réglementaire, MÉRITE une décote. Le re-rating vers 28x suppose que tout se passe bien — l'inverse du principe de prudence.
+### 8. Et si la croissance déçoit de 20 à 30 % ?
+Si la croissance du chiffre d'affaires 2027-2028 est inférieure de 25 % au scénario central (environ 16 % puis 13 %) avec des charges à peine ajustées, la marge tombe vers 28-30 % et le BPA 2028 vers **28 à 30 $** au lieu de 37 $. Avec un multiple ramené à 17 fois (celui d'un groupe capitalistique à faible FCF), le titre vaudrait **environ 480 à 510 $ (−27 à −31 %)**. En ajoutant 25 Md$ de pénalité confirmée en appel et une dilution de 3 % par les actions C, on s'approche de **450 $ (−35 %)**.
 
 ### Le scénario catastrophe unique
-**Capex IA sans ROI + ralentissement publicitaire + choc réglementaire UE, simultanément.** Dans ce cas : le FCF s'effondre, la marge se comprime, une décision UE ampute la pub personnalisée, et la prime "qualité" se dégonfle. La probabilité ? Non négligeable (20-30%) si la monétisation IA tarde au-delà de 2027. Le titre était tombé jusqu'à ~520 $ avant de rebondir à 613 $ le 1er juillet sur le projet cloud — mais attention : ce rebond repose sur un rapport *non confirmé* par Meta. Si le projet cloud ne se concrétise pas ou peine face à AWS/Azure/Google Cloud (incumbents entrenchés), l'euphorie retomberait aussi vite qu'elle est montée.
+**Un « moment 2022 » de l'IA** : une récession publicitaire en 2027 coïncide avec le pic des investissements et l'entrée au bilan de centaines de milliards de baux. Meta doit choisir entre couper ses investissements (et perdre la course à l'IA) ou émettre massivement des actions C (et diluer ses actionnaires). Le marché revalorise Meta comme un opérateur d'infrastructures, et le titre perd 40 à 50 %. **Plausibilité : 15 à 20 %** à l'horizon de deux ans — minoritaire tant que la publicité croît de plus de 20 %, mais nettement plus élevée qu'il y a deux ans.
 
-### Conclusion short
-Meta est une **excellente entreprise** — mais le titre suppose que le pari IA à 145 Mds$/an se transforme en croissance durable, dans un modèle dangereusement concentré sur la pub, sous une gouvernance sans contre-pouvoir et une pression réglementaire montante. La décote n'est pas forcément une aubaine : c'est peut-être le prix correct de l'incertitude sur le ROI du plus grand pari d'investissement de l'histoire de l'entreprise.`,
+### Conclusion vendeuse
+Meta reste une entreprise exceptionnelle, et le titre n'est pas cher sur les bénéfices. Mais **l'argument « 21 fois les bénéfices, c'est donné » ignore que ces bénéfices ne se transforment plus en trésorerie** et que la direction a déjà préparé les outils pour faire financer la suite par les actionnaires. La thèse vendeuse ne repose pas sur un effondrement de la publicité ; elle repose sur un **rendement décevant des investissements d'IA**, une hypothèse que personne, pas même Meta, ne peut encore réfuter.`,
   },
 ];
 
