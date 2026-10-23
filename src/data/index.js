@@ -25,6 +25,7 @@ import vrtx from "./vrtx.js";
 import tsm from "./tsm.js";
 import nflx from "./nflx.js";
 import isrg from "./isrg.js";
+import meta from "./meta.js";
 
 
 // L'ordre du tableau = l'ordre d'affichage sur la page d'accueil.
