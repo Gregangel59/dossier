@@ -46,6 +46,7 @@ export const COMPANIES = [
  tsm,
  nflx,
  isrg,
+ meta,
  
  
 
