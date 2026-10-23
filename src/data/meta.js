@@ -21,7 +21,7 @@ const meta = {
   // « Les points clés de l'investisseur patient » (HTML déposé dans public/rapports/, ou null si absent) :
   bhReport: "meta-buy-and-hold.html",
   updated: "2026-10",               // période des données
-  published: "2026-10-22",          // date exacte de publication
+  published: "2026-10-23",          // date exacte de publication
 };
 
 const modules = [
