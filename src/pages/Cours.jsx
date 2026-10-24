@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import SiteHeader from "../components/SiteHeader.jsx";
+import SiteFooter from "../components/SiteFooter.jsx";
 
 // ============================================================
 //  PAGES DES FORMATIONS — lecture et téléchargement des PDF.
@@ -86,14 +88,7 @@ export default function Cours({ data = COURS }) {
     <div className="co-root" lang="fr">
       <style>{CSS}</style>
 
-      <header className="co-header">
-        <Link to="/" className="co-back" aria-label="Retour à l'accueil">‹</Link>
-        <div className="co-logo" aria-hidden="true">221</div>
-        <div className="co-header-title">
-          <div className="co-header-name">{COURS.cardTitle}</div>
-          <div className="co-header-sub">221 Bourse — Formation gratuite</div>
-        </div>
-      </header>
+      <SiteHeader section="formations" title={COURS.cardTitle} subtitle="Formation gratuite" />
 
       <main className="co-main">
         <section className="co-hero">
@@ -141,7 +136,7 @@ export default function Cours({ data = COURS }) {
           <Link to={COURS.related.to} className="co-related">Voir aussi : {COURS.related.label} ›</Link>
         )}
 
-        <p className="co-sign">221 Bourse — Je documente, je ne conseille pas. Ce cours est un support d'éducation financière, pas un conseil en investissement.</p>
+        <SiteFooter note="221 Bourse — Je documente, je ne conseille pas. Ce cours est un support d'éducation financière, pas un conseil en investissement." />
       </main>
     </div>
   );
@@ -151,14 +146,6 @@ const CSS = `
 .co-root *,.co-root *::before,.co-root *::after{box-sizing:border-box}
 .co-root{min-height:100vh;color:#f3e9d8;font-family:'IBM Plex Sans',system-ui,sans-serif;
   background:radial-gradient(ellipse at 15% -5%, rgba(242,180,80,.14), transparent 50%), #120f0b}
-.co-header{position:sticky;top:0;z-index:50;height:52px;display:flex;align-items:center;gap:.75rem;padding:0 1.25rem;
-  background:linear-gradient(90deg,#17130e,#1f1912);border-bottom:1px solid #33291c}
-.co-back{flex:none;color:#f2b450;text-decoration:none;font-size:1.6rem;line-height:1;padding:0 .2rem}
-.co-logo{flex:none;min-width:40px;height:30px;padding:0 .4rem;border-radius:7px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#d98c2b,#f2b450);color:#1b1206;font-weight:900;font-size:.75rem;letter-spacing:.5px}
-.co-header-title{min-width:0}
-.co-header-name{color:#f3e9d8;font-weight:700;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.co-header-sub{color:#8c7c65;font-size:.68rem;white-space:nowrap}
 .co-main{max-width:1040px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
 .co-hero{display:flex;gap:2.2rem;align-items:center}
 .co-cover{flex:none;width:250px;display:block;border-radius:10px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.45);
@@ -179,7 +166,7 @@ const CSS = `
 .co-ghost{display:inline-block;font-size:.95rem;font-weight:600;color:#ffd23f;text-decoration:none;
   border:1px solid rgba(255,210,63,.35);background:rgba(255,210,63,.07);border-radius:999px;padding:.65rem 1.2rem}
 .co-ghost:hover{background:rgba(255,210,63,.15)}
-.co-cta:focus-visible,.co-ghost:focus-visible,.co-cover:focus-visible,.co-back:focus-visible{outline:2px solid #f2b450;outline-offset:3px}
+.co-cta:focus-visible,.co-ghost:focus-visible,.co-cover:focus-visible{outline:2px solid #f2b450;outline-offset:3px}
 .co-small{margin-top:.8rem;font-size:.8rem;color:#8c7c65}
 .co-modules{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.6rem}
 .co-module{background:#1b1610;border:1px solid #33291c;border-radius:16px;padding:1.2rem 1.3rem}

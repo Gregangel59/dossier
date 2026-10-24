@@ -7,6 +7,7 @@ import { COMPANY_BY_SLUG } from "../data/index.js";
 import MarkdownRenderer, { CATEGORY_COLORS } from "../components/MarkdownRenderer.jsx";
 import DossierAccueil, { groupByPhase } from "../components/DossierAccueil.jsx";
 import DossierMenu from "../components/DossierMenu.jsx";
+import SiteHeader from "../components/SiteHeader.jsx";
 
 export default function Dossier() {
   const { slug } = useParams();
@@ -102,138 +103,87 @@ export default function Dossier() {
       }}
     >
       <style>{HEADER_CSS}</style>
-      <header
-        className="dh-header"
-        style={{
-          background: "linear-gradient(90deg,#17130e,#1f1912)",
-          borderBottom: "1px solid #33291c",
-          padding: "0 1.25rem",
-          height: "52px",
-          display: "flex",
-          alignItems: "center",
-          gap: "0.75rem",
-          position: "sticky",
-          top: 0,
-          zIndex: 100,
-          flexShrink: 0,
-        }}
-      >
-        <button
-          onClick={() => setSidebarOpen((v) => !v)}
-          aria-label={sidebarOpen ? "Masquer la liste des analyses" : "Afficher la liste des analyses"}
-          style={{
-            flexShrink: 0,
-            background: "none",
-            border: "none",
-            color: "#8c7c65",
-            cursor: "pointer",
-            fontSize: "1.1rem",
-            padding: "4px",
-          }}
-        >
-          ☰
-        </button>
-        <Link to="/" className="dh-back" title="Revenir à la liste des enquêtes" aria-label="Revenir à la liste des enquêtes">
-          <span aria-hidden="true">←</span>
-          <span className="dh-long">Les enquêtes</span>
-          <span className="dh-short">Enquêtes</span>
-        </Link>
-        <div
-          style={{
-            minWidth: 40,
-            height: 30,
-            padding: "0 0.4rem",
-            borderRadius: "6px",
-            background: "linear-gradient(135deg,#d98c2b,#f2b450)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "0.7rem",
-            fontWeight: 900,
-            color: "#1b1206",
-            flexShrink: 0,
-            letterSpacing: "0.5px",
-          }}
-        >
-          {company.initials}
-        </div>
-        <div className="dh-title">
-          <div className="dh-name" style={{ color: "#f3e9d8", fontWeight: 700, fontSize: "0.9rem" }}>
-            {company.name}
-          </div>
-          <div
-            className="dh-sub"
+      <SiteHeader
+        section="enquetes"
+        title={company.name}
+        subtitle={`Le cabinet d'analyse fondamentale — ${modules.length} modules`}
+        leading={
+          <button
+            onClick={() => setSidebarOpen((v) => !v)}
+            aria-label={sidebarOpen ? "Masquer la liste des analyses" : "Afficher la liste des analyses"}
             style={{
-              color: "#7a6b56",
-              fontSize: "0.62rem",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
+              flexShrink: 0,
+              background: "none",
+              border: "none",
+              color: "#8c7c65",
+              cursor: "pointer",
+              fontSize: "1.1rem",
+              padding: "4px",
             }}
           >
-            Le cabinet d'analyse fondamentale — {modules.length} modules
-          </div>
-        </div>
-        <div style={{ marginLeft: "auto", display: "flex", gap: "0.5rem", alignItems: "center", flexShrink: 0 }}>
-          {reportHref && (
-            <a
-              href={reportHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                background: "rgba(255,210,63,.1)",
-                color: "#ffd23f",
-                fontSize: "0.65rem",
-                padding: "3px 9px",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,210,63,.3)",
-                fontWeight: 600,
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-              }}
-            >
-              <span className="dh-long">Rapport de risque ↗</span>
-              <span className="dh-short">Risque ↗</span>
-            </a>
-          )}
-          {keyHref && (
-            <a
-              href={keyHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Les points clés de l'investisseur patient"
-              style={{
-                background: "rgba(242,180,80,.1)",
-                color: "#f2b450",
-                fontSize: "0.65rem",
-                padding: "3px 9px",
-                borderRadius: "10px",
-                border: "1px solid rgba(242,180,80,.3)",
-                fontWeight: 600,
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-              }}
-            >
-              <span className="dh-long">Investisseur patient ↗</span>
-              <span className="dh-short">Patient ↗</span>
-            </a>
-          )}
-          <span
-            className="dh-count"
+            ☰
+          </button>
+        }
+      >
+        {reportHref && (
+          <a
+            href={reportHref}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
-              background: "#2a2116",
-              color: "#f2b450",
+              background: "rgba(255,210,63,.1)",
+              color: "#ffd23f",
               fontSize: "0.65rem",
-              padding: "2px 8px",
+              padding: "3px 9px",
               borderRadius: "10px",
-              border: "1px solid #4a3a24",
+              border: "1px solid rgba(255,210,63,.3)",
               fontWeight: 600,
+              textDecoration: "none",
               whiteSpace: "nowrap",
             }}
           >
-            {pos >= 0 ? `Analyse ${pos + 1}/${sequence.length}` : `${modules.length} analyses`}
-          </span>
-        </div>
-      </header>
+            <span className="dh-long">Rapport de risque ↗</span>
+            <span className="dh-short">Risque ↗</span>
+          </a>
+        )}
+        {keyHref && (
+          <a
+            href={keyHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Les points clés de l'investisseur patient"
+            style={{
+              background: "rgba(242,180,80,.1)",
+              color: "#f2b450",
+              fontSize: "0.65rem",
+              padding: "3px 9px",
+              borderRadius: "10px",
+              border: "1px solid rgba(242,180,80,.3)",
+              fontWeight: 600,
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <span className="dh-long">Investisseur patient ↗</span>
+            <span className="dh-short">Patient ↗</span>
+          </a>
+        )}
+        <span
+          className="dh-count"
+          style={{
+            background: "#2a2116",
+            color: "#f2b450",
+            fontSize: "0.65rem",
+            padding: "2px 8px",
+            borderRadius: "10px",
+            border: "1px solid #4a3a24",
+            fontWeight: 600,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {pos >= 0 ? `Analyse ${pos + 1}/${sequence.length}` : `${modules.length} analyses`}
+        </span>
+      </SiteHeader>
 
       <div
         style={{
@@ -382,23 +332,10 @@ const HEADER_CSS = `
 .dn-final .dn-title{color:#ffd23f}
 .dn-btn:focus-visible{outline:2px solid #f2b450;outline-offset:2px}
 @media (max-width:560px){.dn-btn{max-width:100%;width:100%}.dn-next{align-items:flex-end}}
-.dh-title{min-width:0;flex:1}
-.dh-back{flex:none;display:inline-flex;align-items:center;gap:.4rem;padding:.32rem .8rem;border-radius:999px;
-  font-size:.78rem;font-weight:600;color:#f2b450;text-decoration:none;border:1px solid #4a3a24;background:#2a2116}
-.dh-back:hover{border-color:#f2b450;background:#33281a}
-.dh-back:focus-visible{outline:2px solid #f2b450;outline-offset:2px}
-.dh-name,.dh-sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dh-short{display:none}
 @media (max-width:560px){
-  .dh-header{padding:0 0.6rem !important;gap:0.45rem !important}
-  .dh-sub{display:none}
   .dh-long{display:none}
   .dh-short{display:inline}
   .dh-count{display:none}
-}
-@media (max-width:420px){
-  /* Très petit écran : le bouton de retour garde sa pastille ambrée mais ne montre que la flèche */
-  .dh-back .dh-short{display:none}
-  .dh-back{padding:.32rem .7rem;font-size:.95rem}
 }
 `;

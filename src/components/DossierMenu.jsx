@@ -15,7 +15,7 @@ export default function DossierMenu({ phases, active, onOpen, onHome, reportHref
     <nav className="dm-root" aria-label="Parcours du dossier">
       <style>{CSS}</style>
 
-      <Link to="/" className="dm-portal">
+      <Link to="/#dossiers" className="dm-portal">
         <span aria-hidden="true">←</span> Toutes les enquêtes
       </Link>
 

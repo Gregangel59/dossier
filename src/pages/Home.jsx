@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import SiteHeader from "../components/SiteHeader.jsx";
+import SiteFooter from "../components/SiteFooter.jsx";
 import { COMPANIES } from "../data/index.js";
 import { FORMATIONS } from "./Cours.jsx";
 import { PORTEFEUILLES, CASH_PCT } from "../data/portefeuilles.js";
@@ -193,13 +195,7 @@ export default function Home() {
     <div className="hp-root" lang="fr">
       <style>{CSS}</style>
 
-      <header className="hp-header">
-        <div className="hp-logo" aria-hidden="true">221</div>
-        <div className="hp-header-title">
-          <div className="hp-header-name">Le cabinet d'analyse fondamentale</div>
-          <div className="hp-header-sub">221 Bourse — {n} {n > 1 ? "sociétés couvertes" : "société couverte"}</div>
-        </div>
-      </header>
+      <SiteHeader sectionNav tagline={`Le cabinet d'analyse fondamentale — ${n} ${n > 1 ? "sociétés couvertes" : "société couverte"}`} />
 
       <main className="hp-main">
         <section className="hp-intro">
@@ -217,6 +213,7 @@ export default function Home() {
         </section>
 
         <section className="hp-section hp-compact" aria-labelledby="hp-cours">
+          <span id="formations" className="hp-anchor" aria-hidden="true" />
           <h2 id="hp-cours" className="hp-label">Formation</h2>
           <div className="hp-mini-grid hp-formations">
             {FORMATIONS.map((f) => (
@@ -234,6 +231,7 @@ export default function Home() {
             ))}
           </div>
 
+          <span id="portefeuilles" className="hp-anchor" aria-hidden="true" />
           <h2 id="hp-pf" className="hp-label">Portefeuilles</h2>
           <div className="hp-mini-grid">
             {PORTEFEUILLES.map((pf) => (
@@ -263,7 +261,7 @@ export default function Home() {
           </section>
         )}
 
-        <section className="hp-section" aria-labelledby="hp-tous">
+        <section id="dossiers" className="hp-section hp-target" aria-labelledby="hp-tous">
           <div className="hp-list-head">
             <h2 id="hp-tous" className="hp-h2">Tous les dossiers</h2>
             <div className="hp-tools">
@@ -293,7 +291,7 @@ export default function Home() {
           )}
         </section>
 
-        <p className="hp-sign">221 Bourse — Élémentaire, mon cher Buffett. Ceci n'est pas un conseil en investissement.</p>
+        <SiteFooter note="221 Bourse — Élémentaire, mon cher Buffett. Ceci n'est pas un conseil en investissement." />
       </main>
     </div>
   );
@@ -304,13 +302,6 @@ const CSS = `
 .hp-root{min-height:100vh;color:#f3e9d8;font-family:'IBM Plex Sans',system-ui,sans-serif;
   background:radial-gradient(ellipse at 15% -5%, rgba(242,180,80,.14), transparent 50%),
              radial-gradient(ellipse at 100% 60%, rgba(217,140,43,.07), transparent 50%), #120f0b}
-.hp-header{position:sticky;top:0;z-index:50;height:52px;display:flex;align-items:center;gap:.75rem;padding:0 1.25rem;
-  background:linear-gradient(90deg,#17130e,#1f1912);border-bottom:1px solid #33291c}
-.hp-logo{flex:none;min-width:40px;height:30px;padding:0 .4rem;border-radius:7px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#d98c2b,#f2b450);color:#1b1206;font-weight:900;font-size:.75rem;letter-spacing:.5px}
-.hp-header-title{min-width:0}
-.hp-header-name{color:#f3e9d8;font-weight:700;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hp-header-sub{color:#8c7c65;font-size:.68rem;white-space:nowrap}
 .hp-main{max-width:1040px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
 .hp-title{margin:0;font-family:Georgia,serif;font-size:2.2rem;font-weight:800;color:#f8eedc}
 .hp-lead{margin:.7rem 0 0;max-width:62ch;font-size:1.05rem;line-height:1.7;color:#b9a98f}
@@ -355,6 +346,8 @@ const CSS = `
 
 /* Bloc compact « Formation » et « Portefeuilles » */
 .hp-compact{margin-top:2.2rem}
+.hp-anchor{display:block;height:0;scroll-margin-top:68px}
+.hp-target{scroll-margin-top:68px}
 .hp-label{margin:0 0 .55rem;font-size:.78rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:#f2b450}
 .hp-label + .hp-mini{margin-bottom:1.2rem}
 .hp-formations{margin-bottom:1.2rem}

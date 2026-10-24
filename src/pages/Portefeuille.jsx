@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { PORTEFEUILLES, CASH_PCT } from "../data/portefeuilles.js";
+import SiteHeader from "../components/SiteHeader.jsx";
+import SiteFooter from "../components/SiteFooter.jsx";
 
 // ============================================================
 //  PAGE D'UN PORTEFEUILLE — /portefeuille/:slug (historique, big-bang, epique).
@@ -135,14 +137,11 @@ export default function Portefeuille() {
     <div className="pf-root" lang="fr">
       <style>{CSS}</style>
 
-      <header className="pf-header">
-        <Link to="/" className="pf-back" aria-label="Retour à l'accueil">‹</Link>
-        <div className="pf-logo" aria-hidden="true">221</div>
-        <div className="pf-header-title">
-          <div className="pf-header-name">{P.name}</div>
-          <div className="pf-header-sub">221 Bourse — Suivi au {fmtDate(P.asOf, { day: "numeric", month: "long", year: "numeric" })}</div>
-        </div>
-      </header>
+      <SiteHeader
+        section="portefeuilles"
+        title={P.name}
+        subtitle={`Suivi au ${fmtDate(P.asOf, { day: "numeric", month: "long", year: "numeric" })}`}
+      />
 
       <main className="pf-main">
         <nav className="pf-switch" aria-label="Choisir un portefeuille">
@@ -298,7 +297,7 @@ export default function Portefeuille() {
           </ul>
         </section>
 
-        <p className="pf-sign">221 Bourse — Je documente ce que je fais, je ne conseille pas. Rien sur cette page n'est une recommandation d'achat ou de vente.</p>
+        <SiteFooter note="221 Bourse — Je documente ce que je fais, je ne conseille pas. Rien sur cette page n'est une recommandation d'achat ou de vente." />
       </main>
     </div>
   );
@@ -308,14 +307,6 @@ const CSS = `
 .pf-root *,.pf-root *::before,.pf-root *::after{box-sizing:border-box}
 .pf-root{min-height:100vh;color:#f3e9d8;font-family:'IBM Plex Sans',system-ui,sans-serif;
   background:radial-gradient(ellipse at 15% -5%, rgba(242,180,80,.14), transparent 50%), #120f0b}
-.pf-header{position:sticky;top:0;z-index:50;height:52px;display:flex;align-items:center;gap:.75rem;padding:0 1.25rem;
-  background:linear-gradient(90deg,#17130e,#1f1912);border-bottom:1px solid #33291c}
-.pf-back{flex:none;color:#f2b450;text-decoration:none;font-size:1.6rem;line-height:1;padding:0 .2rem}
-.pf-logo{flex:none;min-width:40px;height:30px;padding:0 .4rem;border-radius:7px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#d98c2b,#f2b450);color:#1b1206;font-weight:900;font-size:.75rem;letter-spacing:.5px}
-.pf-header-title{min-width:0}
-.pf-header-name{color:#f3e9d8;font-weight:700;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pf-header-sub{color:#8c7c65;font-size:.68rem;white-space:nowrap}
 .pf-main{max-width:1040px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
 
 .pf-kicker{font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f2b450}
